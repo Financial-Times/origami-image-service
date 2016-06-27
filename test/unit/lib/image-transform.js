@@ -40,21 +40,21 @@ describe('lib/image-transform', () => {
 				bgcolor: '00ff00'
 			};
 			instance = new ImageTransform(properties);
-			assert.strictEqual(instance.uri, properties.uri);
-			assert.strictEqual(instance.width, properties.width);
-			assert.strictEqual(instance.height, properties.height);
-			assert.strictEqual(instance.dpr, properties.dpr);
-			assert.strictEqual(instance.fit, properties.fit);
-			assert.strictEqual(instance.quality, ImageTransform.qualityValueMap[properties.quality]);
-			assert.strictEqual(instance.format, properties.format);
-			assert.strictEqual(instance.bgcolor, properties.bgcolor);
+			assert.strictEqual(instance.getUri(), properties.uri);
+			assert.strictEqual(instance.getWidth(), properties.width);
+			assert.strictEqual(instance.getHeight(), properties.height);
+			assert.strictEqual(instance.getDpr(), properties.dpr);
+			assert.strictEqual(instance.getFit(), properties.fit);
+			assert.strictEqual(instance.getQuality(), ImageTransform.qualityValueMap[properties.quality]);
+			assert.strictEqual(instance.getFormat(), properties.format);
+			assert.strictEqual(instance.getBgcolor(), properties.bgcolor);
 		});
 
-		describe('.uri', () => {
+		describe('.setUri() / .getUri()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeUriValue').returns('sanitized');
-				instance.uri = 'http://foo/';
+				instance.setUri('http://foo/');
 			});
 
 			it('[set] calls the `sanitizeUriValue` static method with `value`', () => {
@@ -63,16 +63,16 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.uri, 'sanitized');
+				assert.strictEqual(instance.getUri(), 'sanitized');
 			});
 
 		});
 
-		describe('.width', () => {
+		describe('.setWidth() / .getWidth()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeNumericValue').returns('sanitized');
-				instance.width = 123;
+				instance.setWidth(123);
 			});
 
 			it('[set] calls the `sanitizeNumericValue` static method with `value`', () => {
@@ -81,16 +81,16 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.width, 'sanitized');
+				assert.strictEqual(instance.getWidth(), 'sanitized');
 			});
 
 		});
 
-		describe('.height', () => {
+		describe('.setHeight() / .getHeight()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeNumericValue').returns('sanitized');
-				instance.height = 123;
+				instance.setHeight(123);
 			});
 
 			it('[set] calls the `sanitizeNumericValue` static method with `value`', () => {
@@ -99,16 +99,16 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.height, 'sanitized');
+				assert.strictEqual(instance.getHeight(), 'sanitized');
 			});
 
 		});
 
-		describe('.dpr', () => {
+		describe('.setDpr() / .getDpr()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeNumericValue').returns('sanitized');
-				instance.dpr = 2;
+				instance.setDpr(2);
 			});
 
 			it('[set] calls the `sanitizeNumericValue` static method with `value`', () => {
@@ -117,16 +117,16 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.dpr, 'sanitized');
+				assert.strictEqual(instance.getDpr(), 'sanitized');
 			});
 
 		});
 
-		describe('.fit', () => {
+		describe('.setFit() / .getFit()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeEnumerableValue').returns('sanitized');
-				instance.fit = 'foo';
+				instance.setFit('foo');
 			});
 
 			it('[set] calls the `sanitizeEnumerableValue` static method with `value`', () => {
@@ -140,21 +140,21 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[set] defaults `value` to "cover"', () => {
-				instance.fit = undefined;
+				instance.setFit();
 				assert.calledWith(ImageTransform.sanitizeEnumerableValue, 'cover');
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.fit, 'sanitized');
+				assert.strictEqual(instance.getFit(), 'sanitized');
 			});
 
 		});
 
-		describe('.format', () => {
+		describe('.setFormat() / .getFormat()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeEnumerableValue').returns('sanitized');
-				instance.format = 'foo';
+				instance.setFormat('foo');
 			});
 
 			it('[set] calls the `sanitizeEnumerableValue` static method with `value`', () => {
@@ -168,21 +168,21 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[set] defaults `value` to "auto"', () => {
-				instance.format = undefined;
+				instance.setFormat();
 				assert.calledWith(ImageTransform.sanitizeEnumerableValue, 'auto');
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.format, 'sanitized');
+				assert.strictEqual(instance.getFormat(), 'sanitized');
 			});
 
 			describe('when `value` is "auto"', () => {
 
 				it('[get] returns "jpg"', () => {
 					ImageTransform.sanitizeEnumerableValue.restore();
-					instance.quality = undefined;
-					instance.format = undefined;
-					assert.strictEqual(instance.format, 'jpg');
+					instance.setQuality();
+					instance.setFormat();
+					assert.strictEqual(instance.getFormat(), 'jpg');
 				});
 
 			});
@@ -191,20 +191,20 @@ describe('lib/image-transform', () => {
 
 				it('[get] returns "png"', () => {
 					ImageTransform.sanitizeEnumerableValue.restore();
-					instance.quality = 'lossless';
-					instance.format = undefined;
-					assert.strictEqual(instance.format, 'png');
+					instance.setQuality('lossless');
+					instance.setFormat();
+					assert.strictEqual(instance.getFormat(), 'png');
 				});
 
 			});
 
 		});
 
-		describe('.quality', () => {
+		describe('.setQuality() / .getQuality()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeEnumerableValue').returns('lossless');
-				instance.quality = 'lossless';
+				instance.setQuality('lossless');
 			});
 
 			it('[set] calls the `sanitizeEnumerableValue` static method with `value`', () => {
@@ -218,21 +218,21 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[set] defaults `value` to "medium"', () => {
-				instance.quality = undefined;
+				instance.setQuality();
 				assert.calledWith(ImageTransform.sanitizeEnumerableValue, 'medium');
 			});
 
 			it('[get] returns a numeric representation of the sanitized `value`', () => {
-				assert.strictEqual(instance.quality, 100);
+				assert.strictEqual(instance.getQuality(), 100);
 			});
 
 		});
 
-		describe('.bgcolor', () => {
+		describe('.setBgcolor() / .getBgcolor()', () => {
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeColorValue').returns('sanitized');
-				instance.bgcolor = 'foo';
+				instance.setBgcolor('foo');
 			});
 
 			it('[set] calls the `sanitizeColorValue` static method with `value`', () => {
@@ -245,50 +245,7 @@ describe('lib/image-transform', () => {
 			});
 
 			it('[get] returns the sanitized `value`', () => {
-				assert.strictEqual(instance.bgcolor, 'sanitized');
-			});
-
-		});
-
-		it('has a `toJSON` method', () => {
-			assert.isFunction(instance.toJSON);
-		});
-
-		describe('.toJSON()', () => {
-
-			it('returns a JSON representation of the object properties', () => {
-				const properties = {
-					uri: 'http://example.com/',
-					width: 123,
-					height: 456,
-					dpr: 2,
-					fit: 'scale-down',
-					quality: 'lossless',
-					format: 'png',
-					bgcolor: '00ff00'
-				};
-				instance = new ImageTransform(properties);
-				properties.quality = 100;
-				assert.deepEqual(instance.toJSON(), properties);
-			});
-
-		});
-
-		it('has an `inspect` method', () => {
-			assert.isFunction(instance.inspect);
-		});
-
-		describe('.inspect()', () => {
-
-			it('returns the result of `.toJSON()`', () => {
-				const json = {};
-				instance = new ImageTransform({
-					uri: 'http://example.com/'
-				});
-				sinon.stub(instance, 'toJSON').returns(json);
-				const returnValue = instance.inspect();
-				assert.calledOnce(instance.toJSON);
-				assert.strictEqual(returnValue, json);
+				assert.strictEqual(instance.getBgcolor(), 'sanitized');
 			});
 
 		});

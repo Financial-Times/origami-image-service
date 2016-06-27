@@ -37,7 +37,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `width` property', () => {
 
 			beforeEach(() => {
-				transform.width = 123;
+				transform.setWidth(123);
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -50,7 +50,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `height` property', () => {
 
 			beforeEach(() => {
-				transform.height = 123;
+				transform.setHeight(123);
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -63,7 +63,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `dpr` property', () => {
 
 			beforeEach(() => {
-				transform.dpr = 2;
+				transform.setDpr(2);
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -76,7 +76,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `fit` property set to `contain`', () => {
 
 			beforeEach(() => {
-				transform.fit = 'contain';
+				transform.setFit('contain');
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -89,7 +89,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `fit` property set to `cover`', () => {
 
 			beforeEach(() => {
-				transform.fit = 'cover';
+				transform.setFit('cover');
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -102,7 +102,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `fit` property set to `scale-down`', () => {
 
 			beforeEach(() => {
-				transform.fit = 'scale-down';
+				transform.setFit('scale-down');
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -115,7 +115,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `format` property', () => {
 
 			beforeEach(() => {
-				transform.format = 'png';
+				transform.setFormat('png');
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -128,7 +128,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `quality` property', () => {
 
 			beforeEach(() => {
-				transform.quality = 'lowest';
+				transform.setQuality('lowest');
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
@@ -141,7 +141,7 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `bgcolor` property', () => {
 
 			beforeEach(() => {
-				transform.bgcolor = 'ff0000';
+				transform.setBgcolor('ff0000');
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
