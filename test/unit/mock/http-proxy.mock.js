@@ -15,4 +15,8 @@ module.exports.mockProxyRequest = {
 	setHeader: sinon.spy()
 };
 
+module.exports.mockProxyResponse = {
+	headers: {}
+};
+
 httpProxy.createProxyServer.returns(mockProxyServer);

@@ -121,6 +121,40 @@ describe('lib/image-service', () => {
 
 		});
 
+		it('adds a listener on the HTTP proxy\'s `proxyRes` event', () => {
+			assert.calledWith(httpProxy.mockProxyServer.on, 'proxyRes');
+		});
+
+		describe('HTTP Proxy `proxyRes` handler', () => {
+			let proxyResponse;
+
+			beforeEach(() => {
+				const handler = httpProxy.mockProxyServer.on.withArgs('proxyRes').firstCall.args[1];
+				proxyResponse = httpProxy.mockProxyResponse;
+				proxyResponse.headers = {
+					'foo': 'bar',
+					'cache-control': 'public, max-age=123',
+					'content-type': 'image/jpeg',
+					'content-length': '1234'
+				};
+				handler(proxyResponse);
+			});
+
+			it('should set the headers of the proxy response to a subset of the original headers', () => {
+				assert.deepEqual(httpProxy.mockProxyResponse.headers, {
+					'Access-Control-Allow-Origin': '*',
+					'Cache-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
+					'Content-Disposition': undefined,
+					'Content-Encoding': undefined,
+					'Content-Type': 'image/jpeg',
+					'Content-Length': '1234',
+					'Connection': 'keep-alive',
+					'Vary': undefined
+				});
+			});
+
+		});
+
 		it('adds a listener on the HTTP proxy\'s `error` event', () => {
 			assert.calledWith(httpProxy.mockProxyServer.on, 'error');
 		});
