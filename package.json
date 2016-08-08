@@ -30,8 +30,10 @@
     "http-proxy": "^1",
     "imgix-core-js": "^1",
     "morgan": "^1",
+    "request": "^2",
     "require-all": "^2",
-    "statuses": "^1"
+    "statuses": "^1",
+    "svg-tint-stream": "^0.2"
   },
   "devDependencies": {
     "chai": "^3",
