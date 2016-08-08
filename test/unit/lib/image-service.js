@@ -11,6 +11,7 @@ describe('lib/image-service', () => {
 	let handleErrors;
 	let httpProxy;
 	let imageService;
+	let morgan;
 	let notFound;
 	let requireAll;
 
@@ -25,6 +26,9 @@ describe('lib/image-service', () => {
 
 		httpProxy = require('../mock/http-proxy.mock');
 		mockery.registerMock('http-proxy', httpProxy);
+
+		morgan = require('../mock/morgan.mock');
+		mockery.registerMock('morgan', morgan);
 
 		notFound = sinon.spy();
 		mockery.registerMock('./middleware/not-found', notFound);
@@ -157,6 +161,11 @@ describe('lib/image-service', () => {
 
 		it('sets the Express application `imageServiceConfig` property to `config`', () => {
 			assert.strictEqual(express.mockApp.imageServiceConfig, config);
+		});
+
+		it('mounts Morgan middleware to log requests', () => {
+			assert.calledWithExactly(morgan, 'combined');
+			assert.calledWithExactly(express.mockApp.use, morgan.mockMiddleware);
 		});
 
 		it('loads all of the routes', () => {

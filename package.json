@@ -23,12 +23,13 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@financial-times/n-express": "^16",
     "cloudinary": "^1",
     "colornames": "^1",
-    "@financial-times/n-express": "^16",
     "http-errors": "^1",
     "http-proxy": "^1",
     "imgix-core-js": "^1",
+    "morgan": "^1",
     "require-all": "^2",
     "statuses": "^1"
   },
