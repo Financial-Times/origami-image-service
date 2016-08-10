@@ -198,6 +198,17 @@ describe('lib/image-transform', () => {
 
 			});
 
+			describe('when `value` is "auto" and the `uri` property ends in ".svg"', () => {
+
+				it('[get] returns "svg"', () => {
+					ImageTransform.sanitizeEnumerableValue.restore();
+					instance.setUri('http://example.com/foo.svg');
+					instance.setFormat();
+					assert.strictEqual(instance.getFormat(), 'svg');
+				});
+
+			});
+
 		});
 
 		describe('.setQuality() / .getQuality()', () => {

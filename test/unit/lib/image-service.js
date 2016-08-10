@@ -123,7 +123,8 @@ describe('lib/image-service', () => {
 					'foo': 'bar',
 					'cache-control': 'public, max-age=123',
 					'content-type': 'image/jpeg',
-					'content-length': '1234'
+					'content-length': '1234',
+					'content-disposition': 'foo'
 				};
 				handler(proxyResponse);
 			});
@@ -132,7 +133,6 @@ describe('lib/image-service', () => {
 				assert.deepEqual(httpProxy.mockProxyResponse.headers, {
 					'Access-Control-Allow-Origin': '*',
 					'Cache-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
-					'Content-Disposition': undefined,
 					'Content-Encoding': undefined,
 					'Content-Type': 'image/jpeg',
 					'Content-Length': '1234',
