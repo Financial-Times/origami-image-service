@@ -2,18 +2,6 @@
 machine:
   node:
     version: 6
-  services:
-    - docker
-
-dependencies:
-  cache_directories:
-    - ~/docker
-  override:
-    - npm install
-    # Note: we have to repeat the deployment branch here. It's not great,
-    # but there's currently no way around it – to cache the docker image
-    # it has to be built during the "dependencies" step
-    - 'if [ "${CIRCLE_BRANCH}" == "master" ]; then make ci-docker-cache-load build ci-docker-cache-save; fi'
 
 test:
   override:
@@ -21,10 +9,7 @@ test:
     - make test
 
 deployment:
-  production:
+  staging:
     branch: master
     commands:
-      - 'echo "machine api.heroku.com login rowan.manning@ft.com password ${HEROKU_AUTH_TOKEN}" >> ${HOME}/.netrc; chmod 0600 ${HOME}/.netrc;'
-      - 'docker login --email=_ --username=_ --password=$(heroku auth:token) registry.heroku.com'
-      - 'make deploy'
-      # - 'make change-request-qa'
+      - make deploy-ci

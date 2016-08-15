@@ -6,15 +6,9 @@ include n.Makefile
 
 EXPECTED_COVERAGE = 90
 
-DOCKER_REGISTRY_ENDPOINT_QA = registry.heroku.com/origami-image-service-qa/web
-DOCKER_REGISTRY_ENDPOINT_PROD = registry.heroku.com/origami-image-service/web
-
 
 # Verify tasks
 # ------------
-
-hello:
-	@echo $(DOCKER_REGISTRY_ENDPOINT_QA)
 
 verify-coverage:
 	@istanbul check-coverage --statement $(EXPECTED_COVERAGE) --branch $(EXPECTED_COVERAGE) --function $(EXPECTED_COVERAGE)
@@ -43,39 +37,27 @@ test-integration:
 # Deploy tasks
 # ------------
 
-deploy: build
-	@docker push $(DOCKER_REGISTRY_ENDPOINT_QA)
+deploy:
+	@git push https://git.heroku.com/origami-image-service-qa.git
+	@make change-request-qa
 	@$(DONE)
 
-build:
-	@docker build -t $(DOCKER_REGISTRY_ENDPOINT_QA) .
-	@$(DONE)
-
-build-dev:
-	@docker-compose build
+deploy-ci:
+	@git push git@heroku.com:origami-image-service-qa.git
+	@make change-request-qa
 	@$(DONE)
 
 promote:
-	@docker pull $(DOCKER_REGISTRY_ENDPOINT_QA)
-	@docker tag $(DOCKER_REGISTRY_ENDPOINT_QA) $(DOCKER_REGISTRY_ENDPOINT_PROD)
-	@docker push $(DOCKER_REGISTRY_ENDPOINT_PROD)
+	@heroku pipelines:promote
 	@make change-request-prod
 	@$(DONE)
 
 change-request-qa:
-	@./scripts/change-request.js --environment Test --gateway konstructor || true
+	#@./scripts/change-request.js --environment Test --gateway konstructor || true
 	@$(DONE)
 
 change-request-prod:
-	@./scripts/change-request.js --environment Production --gateway internal || true
-	@$(DONE)
-
-ci-docker-cache-load:
-	@if [ -e ~/docker/ois-qa.tar ]; then docker load -i ~/docker/ois-qa.tar; fi
-	@$(DONE)
-
-ci-docker-cache-save:
-	@mkdir -p ~/docker; docker save $(DOCKER_REGISTRY_ENDPOINT_QA) > ~/docker/ois-qa.tar
+	#@./scripts/change-request.js --environment Production --gateway internal || true
 	@$(DONE)
 
 
@@ -83,10 +65,7 @@ ci-docker-cache-save:
 # ---------
 
 run:
-	@docker run -t $(DOCKER_REGISTRY_ENDPOINT_QA)
+	@npm start
 
 run-dev:
-	@docker-compose up
-
-attach-dev:
-	@docker exec -it origami-image-service-dev sh
+	@nodemon --ext html,js,json index.js
