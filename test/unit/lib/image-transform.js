@@ -644,8 +644,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images'),
-					'http://base/images/fthead/unversioned/example.png'
+					ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png'
 				);
 			});
 
@@ -655,8 +655,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon:example', 'http://base/images'),
-					'http://base/images/fticon/unversioned/example.svg'
+					ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images'),
+					'http://base/images/fticon/v1/example.svg'
 				);
 			});
 
@@ -666,8 +666,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftlogo:example', 'http://base/images'),
-					'http://base/images/ftlogo/unversioned/example.svg'
+					ImageTransform.resolveCustomSchemeUri('ftlogo-v1:example', 'http://base/images'),
+					'http://base/images/ftlogo/v1/example.svg'
 				);
 			});
 
@@ -677,8 +677,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftpodcast:example', 'http://base/images'),
-					'http://base/images/ftpodcast/unversioned/example.png'
+					ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:example', 'http://base/images'),
+					'http://base/images/ftpodcast/v1/example.png'
 				);
 			});
 
@@ -688,8 +688,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftsocial:example', 'http://base/images'),
-					'http://base/images/ftsocial/unversioned/example.svg'
+					ImageTransform.resolveCustomSchemeUri('ftsocial-v1:example', 'http://base/images'),
+					'http://base/images/ftsocial/v1/example.svg'
 				);
 			});
 
@@ -717,12 +717,23 @@ describe('lib/image-transform', () => {
 
 		});
 
-		describe('when `uri` has a versioned scheme', () => {
+		describe('when `uri` has an unversioned scheme', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images'),
-					'http://base/images/fticon/v1/example.svg'
+					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png'
+				);
+			});
+
+		});
+
+		describe('when `uri` has an unversioned scheme and the mapping contains a new scheme', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('fticon:example', 'http://base/images'),
+					'http://base/images/fticon-old/v4/example.svg'
 				);
 			});
 
@@ -732,12 +743,12 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('FTICON:example', 'http://base/images'),
-					'http://base/images/fticon/unversioned/example.svg'
+					ImageTransform.resolveCustomSchemeUri('FTHEAD:example', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('FTICON-V1:example', 'http://base/images'),
-					'http://base/images/fticon/v1/example.svg'
+					ImageTransform.resolveCustomSchemeUri('FTHEAD-V1:example', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png'
 				);
 			});
 
@@ -747,8 +758,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon:example/foo', 'http://base/images'),
-					'http://base/images/fticon/unversioned/example/foo.svg'
+					ImageTransform.resolveCustomSchemeUri('fthead:example/foo', 'http://base/images'),
+					'http://base/images/fthead/v1/example/foo.png'
 				);
 			});
 
@@ -758,8 +769,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon:example/foo/', 'http://base/images'),
-					'http://base/images/fticon/unversioned/example/foo.svg'
+					ImageTransform.resolveCustomSchemeUri('fthead:example/foo/', 'http://base/images'),
+					'http://base/images/fthead/v1/example/foo.png'
 				);
 			});
 
@@ -769,16 +780,16 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon:foo.svg', 'http://base/images'),
-					'http://base/images/fticon/unversioned/foo.svg'
+					ImageTransform.resolveCustomSchemeUri('fticon-v1:foo.svg', 'http://base/images'),
+					'http://base/images/fticon/v1/foo.svg'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:foo.png', 'http://base/images'),
-					'http://base/images/fthead/unversioned/foo.png'
+					'http://base/images/fthead/v1/foo.png'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:foo.jpg', 'http://base/images'),
-					'http://base/images/fthead/unversioned/foo.jpg'
+					'http://base/images/fthead/v1/foo.jpg'
 				);
 			});
 
@@ -788,8 +799,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon:example', 'http://base/images/'),
-					'http://base/images/fticon/unversioned/example.svg'
+					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images/'),
+					'http://base/images/fthead/v1/example.png'
 				);
 			});
 
@@ -869,6 +880,16 @@ describe('lib/image-transform', () => {
 			'http',
 			'https'
 		]);
+	});
+
+	it('has a `schemeVersionMap` static property', () => {
+		assert.deepEqual(ImageTransform.schemeVersionMap, {
+			fthead: 'v1',
+			fticon: 'fticon-old/v4',
+			ftlogo: 'v1',
+			ftpodcast: 'v1',
+			ftsocial: 'v1'
+		});
 	});
 
 	it('has a `qualityValueMap` static property', () => {
