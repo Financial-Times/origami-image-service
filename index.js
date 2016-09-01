@@ -1,5 +1,9 @@
 'use strict';
 
+require('dotenv').load({
+	silent: false
+});
+
 const config = require('./config');
 const imageService = require('./lib/image-service');
 
