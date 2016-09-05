@@ -10,6 +10,7 @@ describe('lib/image-service', () => {
 	let basePath;
 	let express;
 	let handleErrors;
+	let healthChecks;
 	let httpProxy;
 	let imageService;
 	let morgan;
@@ -24,6 +25,9 @@ describe('lib/image-service', () => {
 
 		handleErrors = sinon.stub().returns(sinon.spy());
 		mockery.registerMock('./middleware/handle-errors', handleErrors);
+
+		healthChecks = require('../mock/health-checks.mock');
+		mockery.registerMock('./health-checks', healthChecks);
 
 		httpProxy = require('../mock/http-proxy.mock');
 		mockery.registerMock('http-proxy', httpProxy);
@@ -68,6 +72,14 @@ describe('lib/image-service', () => {
 
 		it('creates an Express application', () => {
 			assert.calledOnce(express);
+		});
+
+		it('passes health-checks into the created application', () => {
+			const options = express.firstCall.args[0];
+			assert.isObject(options);
+			assert.isArray(options.healthChecks);
+			assert.strictEqual(options.healthChecks[0], healthChecks.cloudinary);
+			assert.strictEqual(options.healthChecks[1], healthChecks.customSchemeStore);
 		});
 
 		it('creates an error handling middleware', () => {
@@ -189,6 +201,11 @@ describe('lib/image-service', () => {
 
 		it('sets the Express application `imageServiceConfig` property to `config`', () => {
 			assert.strictEqual(express.mockApp.imageServiceConfig, config);
+		});
+
+		it('initialises the health-checks', () => {
+			assert.calledOnce(healthChecks.init);
+			assert.calledWithExactly(healthChecks.init, config);
 		});
 
 		it('mounts Morgan middleware to log requests', () => {

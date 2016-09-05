@@ -2,7 +2,7 @@
   "name": "origami-image-service",
   "version": "0.0.0",
   "private": true,
-  "description": "Origami image service",
+  "description": "Optimises and resize images.",
   "keywords": [
     "origami"
   ],
@@ -23,7 +23,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@financial-times/n-express": "^16",
+    "@financial-times/n-express": "^17",
     "cloudinary": "^1",
     "colornames": "^1",
     "dotenv": "^2",
