@@ -59,6 +59,7 @@ We configure Origami Image Service using environment variables. In development, 
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
   * `IMGIX_SECURE_URL_TOKEN`: The Imgix secure URL token to use in image transforms.
   * `IMGIX_SOURCE_NAME`: The Imgix source name to use in image transforms.
+  * `RAVEN_URL`: The Sentry URL to send error information to.
 
 
 Testing
