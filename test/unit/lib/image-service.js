@@ -82,6 +82,13 @@ describe('lib/image-service', () => {
 			assert.strictEqual(options.healthChecks[1], healthChecks.customSchemeStore);
 		});
 
+		it('configures handlebars', () => {
+			const options = express.firstCall.args[0];
+			assert.isObject(options);
+			assert.isTrue(options.withHandlebars);
+			assert.strictEqual(options.layoutsDir, path.resolve(__dirname, '../../../views'));
+		});
+
 		it('creates an error handling middleware', () => {
 			assert.calledOnce(handleErrors);
 			assert.calledWith(handleErrors, config);

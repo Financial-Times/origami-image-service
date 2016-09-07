@@ -1,0 +1,175 @@
+
+<div class="o-techdocs-container">
+	<div class="o-techdocs-layout">
+
+		<div class="o-techdocs-sidebar">
+			<ul class="o-techdocs-nav">&nbsp;</ul>
+		</div>
+
+		<div class="o-techdocs-main o-techdocs-content">
+
+			<h1>
+				Optimise and resize images.<br/>
+				The right and easy way.
+			</h1>
+
+			<p>
+				The Origami Image Service can be used to optimise and resize images.
+				You can crop, tint, and convert images in JPEG, PNG, and SVG formats quickly and easily.
+			</p>
+
+			<h2>Example</h2>
+
+			<h3>Source image</h3>
+
+			<a href="http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img"><img src="http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img" alt="Source image" width="400"/></a>
+
+			<h3>Optimised image</h3>
+
+			<a href="/v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?source=docs"><img src="/v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?source=docs" alt="Optimised image" width="400"/></a>
+			<br />
+			<a href="/v2/images/debug/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?source=docs">(debug image parameters)</a>
+
+
+			<h2 id="reference">API reference</h2>
+
+			<h3>Fetch and image, transform and serve it</h3>
+
+			<ul>
+				<li>GET /v2/images/<var>:mode</var>/<var>:uri</var></li>
+				<li><s>GET /v2/images/<var>:mode</var>/<var>:uri</var>,<var>:uri</var></s></li>
+				<li><s>GET /v2/images/<var>:mode</var>?imageset=<var>:imageset</var></s></li>
+			</ul>
+
+			<div class="o-techdocs-table-wrapper">
+				<table>
+					<tr>
+						<th>Param</th>
+						<th>Where</th>
+						<th>Description</th>
+					</tr>
+					<tr id="mode">
+						<td><code>mode</code></td>
+						<td>URL</td>
+						<td>
+							<p>How output should be packaged.</p>
+							<dl>
+								<dt>raw</dt>
+								<dd>Output raw image data.</dd>
+								<dt>debug</dt>
+								<dd>Output a JSON object which outlines the image transform found in the query string</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr id="uri">
+						<td><code>uri</code></td>
+						<td>URL</td>
+						<td>
+							<p>URI to use as the image source, which can be HTTP/HTTPS</p>
+							<p>Source URIs <strong>must</strong> be URL-encoded when they're embedded in the URL of the image service, e.g. <code>/v2/images/raw/http%3A%2F%2Fexample%2Ecom%2Fimage%2Ejpg</code>. If you build image service URLs without help of <a href="//php.net/rawurlencode"><code>rawurlencode</code></a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"><code>encodeURIComponent</code></a> (or similar) URLs with query strings or special characters (e.g. spaces) will break.</p>
+							<p>Supported source types (schemes):</p>
+							<dl>
+								<dt>http</dt>
+								<dd>HTTP URLs of source images anywhere on the public web, e.g. <code>http://example.com/image.jpg</code></dd>
+								<dt>https</dt>
+								<dd>HTTPS URLs of source images anywhere on the public web</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr id="width">
+						<td><code>width</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Width of desired output image in CSS pixels. When generating images for high-DPI displays <strong>avoid multiplying width</strong>, and use <code>dpr</code> argument instead.</p>
+							<p>Defaults to a width that maintains the aspect of the image, or the width of the source image if <code>height</code> is also not set.</p>
+						</td>
+					</tr>
+					<tr id="height">
+						<td><code>height</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Height of desired output image in CSS pixels (subject to `dpr` scaling). Defaults to a height that maintains the aspect of the image, or the height of the source image if <code>width</code> is also not set.</p>
+						</td>
+					</tr>
+					<tr id="dpr">
+						<td><code>dpr</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Device Pixel Ratio, i.e. number of image pixels per CSS pixel. The default is <code>1</code>, which gives the standard 1:1 ratio of image pixels to CSS pixels. Set to <code>2</code> for high-DPI ("Retina") displays. Request to the image service with <code>width=100<wbr>&amp;dpr=2</code> will output image 200 pixels wide, but optimized to be displayed with CSS <code>width:100px</code></p>
+							<p>Note that browsers don't automatically adjust intrinsic size of images with higher DPI, so you need'll need to use some "responsive image" solution, e.g. set explicit width or height, use <code>image-set()</code> or <code>srcset</code> attribute.</p>
+						</td>
+					</tr>
+					<tr id="fit">
+						<td><code>fit</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Type of transform to apply if the source aspect ratio does not perfectly match the target (subset of rules defined by CSS <a href="http://www.w3.org/TR/css3-images/#the-object-fit"><code>object-fit</code> property</a>):</p>
+							<dl>
+								<dt>cover (default)</dt>
+								<dd>The image should be scaled to be as small as possible while ensuring both its dimensions are greater than or equal to the corresponding dimensions of the frame, and any cropping should be taken equally from both ends of the overflowing dimension.</dd>
+								<dt>contain</dt>
+								<dd>The image should be scaled to be as large as possible while ensuring both its dimensions are less than or equal to the corresponding dimensions of the frame. The frame should then be collapsed to match the aspect ratio of the image.</dd>
+								<dt>scale-down</dt>
+								<dd>Similarly to <code>contain</code>, the image dimensions are scaled down to be less than or equal to the corresponding dimensions of the frame, but the image is never enlarged.</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr id="bgcolor">
+						<td><code>bgcolor</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Fallback background colour to apply when the output image format does not support transparency (i.e., JPEG). Ignored if the image supports transparency. Specified as three- or six-character RGB hex code, e.g. <code>00ff00</code></p>
+						</td>
+					</tr>
+					<tr id="tint">
+						<td><code>tint</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Replaces colours in the image. Tinting only works when the source image is an SVG, and colours can be either hex codes or named colours. Different numbers of colours (separated by commas) behave differently:</p>
+							<ol start="0">
+								<li>The <code>tint</code> parameter used with no value (no colours given) tints the image with FT's "pink" colour.</li>
+								<li>When given one colour, e.g. <code>fff1e0</code>, it tints the image with the given colour.</li>
+								<li>When given two or more colours, e.g. <code>fff1e0,ff0000</code>, it tints the image with the first colour. This behaviour is in place to reduce work when migrating between versions 1 and 2 of the image service, and should be considered deprecated.</li>
+							</ol>
+						</td>
+					</tr>
+					<tr id="format">
+						<td><code>format</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Desired output format. Conversion to <abbr>GIF</abbr> is not supported, but animated <abbr>GIF</abbr>s will be passed through as-is.</p>
+							<dl>
+								<dt>auto (default)</dt>
+								<dd>Use <code>Accept</code> header from request to determine the best output format</dd>
+								<dt>jpg</dt>
+								<dd>Format images as <abbr>JPEG</abbr></dd>
+								<dt>png</dt>
+								<dd>Format images as <abbr>PNG</abbr></dd>
+								<dt>svg</dt>
+								<dd>Format images as <abbr>SVG</abbr> (only available if source image is SVG and the requested transform does not include a resize)</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr id="quality">
+						<td><code>quality</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Compression level for lossy encoding. May be set to <code>lowest</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>highest</code>, or <code>lossless</code>. If lossless is not supported by chosen image format (JPG), the highest level will be used instead. Default is <code>medium</code>.</p>
+						</td>
+					</tr>
+					<tr id="source">
+						<td><code>source</code></td>
+						<td>Querystring</td>
+						<td>
+							<p>Name of the application making the request, used for audit purposes. Set to a descriptive name for the site or application in which the service is being used.</p>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<p>The service stores cached copies of images as retrieved from origin. Cached copies of transformed images are cached by CDN.</p>
+
+		</div>
+
+	</div>
+</div>
