@@ -34,7 +34,7 @@
     "request": "^2",
     "require-all": "^2",
     "statuses": "^1",
-    "svg-tint-stream": "^0.2"
+    "svg-tint-stream": "^0.3"
   },
   "devDependencies": {
     "chai": "^3",

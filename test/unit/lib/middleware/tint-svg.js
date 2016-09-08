@@ -53,7 +53,8 @@ describe('lib/middleware/tint-svg', () => {
 				assert.calledOnce(SvgTintStream);
 				assert.calledWithNew(SvgTintStream);
 				assert.calledWith(SvgTintStream, {
-					color: express.mockRequest.query.color
+					color: express.mockRequest.query.color,
+					stroke: false
 				});
 			});
 
@@ -172,7 +173,8 @@ describe('lib/middleware/tint-svg', () => {
 
 				it('creates an SVG tint stream with "#000"', () => {
 					assert.calledWith(SvgTintStream, {
-						color: '#000'
+						color: '#000',
+						stroke: false
 					});
 				});
 
