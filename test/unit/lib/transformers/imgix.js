@@ -63,14 +63,23 @@ describe('lib/transformers/imgix', () => {
 		describe('when `transform` has a `dpr` property', () => {
 
 			beforeEach(() => {
-				transform.setDpr(2);
+				transform.setWidth(200);
+				transform.setHeight(200);
+				transform.setDpr(2, transform.getWidth(), transform.getHeight());
 				imgixUrl = imgixTransform(transform, options);
 			});
 
 			it('returns the expected Imgix fetch URL', () => {
-				assert.strictEqual(imgixUrl, 'https://foo-source.imgix.net/http%3A%2F%2Fexample.com%2F?fm=jpg&quality=70&fit=crop&dpr=2');
+				assert.strictEqual(imgixUrl, `https://foo-source.imgix.net/http%3A%2F%2Fexample.com%2F?fm=jpg&quality=70&fit=crop&w=${transform.getWidth()}&h=${transform.getHeight()}&dpr=2`);
 			});
 
+			it('should not fail when a decimal width or height is set', () => {
+				transform.setWidth(201);
+				transform.setHeight(201);
+				transform.setDpr(2, transform.getWidth(), transform.getHeight());
+				imgixUrl = imgixTransform(transform, options);
+				assert.strictEqual(imgixUrl, `https://foo-source.imgix.net/http%3A%2F%2Fexample.com%2F?fm=jpg&quality=70&fit=crop&w=${transform.getWidth()}&h=${transform.getHeight()}&dpr=2`);
+			});
 		});
 
 		describe('when `transform` has a `fit` property set to `contain`', () => {

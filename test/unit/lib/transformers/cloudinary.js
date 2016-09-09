@@ -63,12 +63,22 @@ describe('lib/transformers/cloudinary', () => {
 		describe('when `transform` has a `dpr` property', () => {
 
 			beforeEach(() => {
-				transform.setDpr(2);
+				transform.setWidth(200);
+				transform.setHeight(200);
+				transform.setDpr(2, transform.getWidth(), transform.getHeight());
 				cloudinaryUrl = cloudinaryTransform(transform, options);
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,dpr_2,f_jpg,q_70/http://example.com/');
+				assert.strictEqual(cloudinaryUrl, `http://res.cloudinary.com/testaccount/image/fetch/c_fill,dpr_2,f_jpg,h_${transform.getHeight()},q_70,w_${transform.getWidth()}/http://example.com/`);
+			});
+
+			it('should not fail when a decimal width or height is set', () => {
+				transform.setWidth(201);
+				transform.setHeight(201);
+				transform.setDpr(2, transform.getWidth(), transform.getHeight());
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+				assert.strictEqual(cloudinaryUrl, `http://res.cloudinary.com/testaccount/image/fetch/c_fill,dpr_2,f_jpg,h_${transform.getHeight()},q_70,w_${transform.getWidth()}/http://example.com/`);
 			});
 
 		});
