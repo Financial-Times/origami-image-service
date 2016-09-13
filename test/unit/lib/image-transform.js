@@ -107,10 +107,14 @@ describe('lib/image-transform', () => {
 		});
 
 		describe('.setDpr() / .getDpr()', () => {
+			it('[set] should fail when no width or height is given', () => {
+				const dpr = instance.setDpr(2);
+				assert.ifError(dpr);
+			});
 
 			beforeEach(() => {
 				sinon.stub(ImageTransform, 'sanitizeNumericValue').returns('sanitized');
-				instance.setDpr(2);
+				instance.setDpr(2, 200, 200);
 			});
 
 			it('[set] calls the `sanitizeNumericValue` static method with `value`', () => {
@@ -121,7 +125,6 @@ describe('lib/image-transform', () => {
 			it('[get] returns the sanitized `value`', () => {
 				assert.strictEqual(instance.getDpr(), 'sanitized');
 			});
-
 		});
 
 		describe('.setFit() / .getFit()', () => {
