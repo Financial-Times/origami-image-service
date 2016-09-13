@@ -23,7 +23,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@financial-times/n-express": "^17",
+    "@financial-times/n-express": "^17.9.0",
     "cloudinary": "^1",
     "colornames": "^1",
     "dotenv": "^2",

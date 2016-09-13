@@ -89,6 +89,12 @@ describe('lib/image-service', () => {
 			assert.strictEqual(options.layoutsDir, path.resolve(__dirname, '../../../views'));
 		});
 
+		it('configures assets (turns them off)', () => {
+			const options = express.firstCall.args[0];
+			assert.isObject(options);
+			assert.isFalse(options.withAssets);
+		});
+
 		it('creates an error handling middleware', () => {
 			assert.calledOnce(handleErrors);
 			assert.calledWith(handleErrors, config);
