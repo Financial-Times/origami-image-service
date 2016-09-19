@@ -10,6 +10,7 @@ const mockApp = module.exports.mockApp = {
 	enable: sinon.stub(),
 	get: sinon.stub(),
 	listen: sinon.stub(),
+	locals: {},
 	set: sinon.stub(),
 	use: sinon.stub()
 };
@@ -22,6 +23,7 @@ module.exports.mockRequest = {
 };
 
 module.exports.mockResponse = {
+	app: mockApp,
 	render: sinon.stub().returnsThis(),
 	send: sinon.stub().returnsThis(),
 	set: sinon.stub().returnsThis(),

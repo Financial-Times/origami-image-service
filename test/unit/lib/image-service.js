@@ -55,6 +55,7 @@ describe('lib/image-service', () => {
 
 		beforeEach(() => {
 			config = {
+				baseUrl: 'http://foo.bar/image',
 				environment: 'test',
 				port: 1234
 			};
@@ -236,6 +237,14 @@ describe('lib/image-service', () => {
 			assert.strictEqual(express.mockApp.imageServiceConfig, config);
 		});
 
+		it('adds a trailing slash to `config.baseUrl`', () => {
+			assert.strictEqual(config.baseUrl, 'http://foo.bar/image/');
+		});
+
+		it('sets `app.locals.baseUrl` to `config.baseUrl`', () => {
+			assert.strictEqual(express.mockApp.locals.baseUrl, config.baseUrl);
+		});
+
 		it('initialises the health-checks', () => {
 			assert.calledOnce(healthChecks.init);
 			assert.calledWithExactly(healthChecks.init, config);
@@ -315,6 +324,32 @@ describe('lib/image-service', () => {
 					assert.strictEqual(caughtError, expressError);
 				});
 
+			});
+
+		});
+
+		describe('when `config.baseUrl` already has a trailing slash', () => {
+
+			beforeEach(() => {
+				config.baseUrl = 'http://foo.bar/';
+				returnedPromise = imageService(config);
+			});
+
+			it('does not add an extra slash to `config.baseUrl`', () => {
+				assert.strictEqual(config.baseUrl, 'http://foo.bar/');
+			});
+
+		});
+
+		describe('when `config.baseUrl` is not set', () => {
+
+			beforeEach(() => {
+				delete config.baseUrl;
+				returnedPromise = imageService(config);
+			});
+
+			it('sets `config.baseUrl` to a single slash', () => {
+				assert.strictEqual(config.baseUrl, '/');
 			});
 
 		});

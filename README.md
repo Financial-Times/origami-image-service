@@ -60,6 +60,7 @@ We configure Origami Image Service using environment variables. In development, 
   * `IMGIX_SECURE_URL_TOKEN`: The Imgix secure URL token to use in image transforms.
   * `IMGIX_SOURCE_NAME`: The Imgix source name to use in image transforms.
   * `RAVEN_URL`: The Sentry URL to send error information to.
+  * `BASE_URL`: The base URL the service should be accessed through. Used to output links correctly when the service is running on a sub-path.
 
 
 Testing

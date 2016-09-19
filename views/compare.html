@@ -24,16 +24,16 @@
 							<th>Image Service v1</th>
 							<th>Image Service v2</th>
 						</tr>
-						{{#each image}}
+						{{#each images}}
 							<tr>
 								<td style="width: 50%;">
-									<a href="https://image.webservices.ft.com/v1{{this}}">
-										<img src="https://image.webservices.ft.com/v1{{this}}" alt="" class="test-image" />
+									<a href="https://image.webservices.ft.com/v1{{.}}">
+										<img src="https://image.webservices.ft.com/v1{{.}}" alt="" class="test-image" />
 									</a>
 								</td>
 								<td style="width: 50%;">
-									<a href="/v2{{this}}">
-										<img src="/v2{{this}}" alt="" class="test-image" />
+									<a href="{{../baseUrl}}v2{{.}}">
+										<img src="{{../baseUrl}}v2{{.}}" alt="" class="test-image" />
 									</a>
 								</td>
 							</tr>
