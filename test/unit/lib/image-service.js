@@ -55,7 +55,7 @@ describe('lib/image-service', () => {
 
 		beforeEach(() => {
 			config = {
-				baseUrl: 'http://foo.bar/image',
+				basePath: '/my/base/path',
 				environment: 'test',
 				port: 1234
 			};
@@ -237,12 +237,8 @@ describe('lib/image-service', () => {
 			assert.strictEqual(express.mockApp.imageServiceConfig, config);
 		});
 
-		it('adds a trailing slash to `config.baseUrl`', () => {
-			assert.strictEqual(config.baseUrl, 'http://foo.bar/image/');
-		});
-
-		it('sets `app.locals.baseUrl` to `config.baseUrl`', () => {
-			assert.strictEqual(express.mockApp.locals.baseUrl, config.baseUrl);
+		it('sets `app.locals.basePath` to `config.basePath`', () => {
+			assert.strictEqual(express.mockApp.locals.basePath, config.basePath);
 		});
 
 		it('initialises the health-checks', () => {
@@ -262,9 +258,8 @@ describe('lib/image-service', () => {
 			assert.isFunction(requireAll.firstCall.args[0].resolve);
 		});
 
-		it('mounts an express router at root and as `/origami/service/image/`', () => {
-			assert.calledWithExactly(express.mockApp.use, express.mockRouter);
-			assert.calledWithExactly(express.mockApp.use, '/origami/service/image/', express.mockRouter);
+		it('mounts an express router at `config.basePath`', () => {
+			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockRouter);
 		});
 
 		it('calls each route with the Express application and Router', () => {
@@ -333,28 +328,15 @@ describe('lib/image-service', () => {
 
 		});
 
-		describe('when `config.baseUrl` already has a trailing slash', () => {
+		describe('when `config.basePath` is not set', () => {
 
 			beforeEach(() => {
-				config.baseUrl = 'http://foo.bar/';
+				delete config.basePath;
 				returnedPromise = imageService(config);
 			});
 
-			it('does not add an extra slash to `config.baseUrl`', () => {
-				assert.strictEqual(config.baseUrl, 'http://foo.bar/');
-			});
-
-		});
-
-		describe('when `config.baseUrl` is not set', () => {
-
-			beforeEach(() => {
-				delete config.baseUrl;
-				returnedPromise = imageService(config);
-			});
-
-			it('sets `config.baseUrl` to a single slash', () => {
-				assert.strictEqual(config.baseUrl, '/');
+			it('sets `config.basePath` to an empty string', () => {
+				assert.strictEqual(config.basePath, '');
 			});
 
 		});

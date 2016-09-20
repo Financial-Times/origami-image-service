@@ -134,21 +134,6 @@ describe('lib/middleware/process-image-request', () => {
 
 				});
 
-				describe('when `response.app.locals.baseUrl` is set', () => {
-
-					beforeEach(() => {
-						mockImageTransform.setUri.reset();
-						express.mockResponse.app.locals.baseUrl = 'http://foo.bar/baz/';
-						middleware(express.mockRequest, express.mockResponse, next);
-					});
-
-					it('sets the image transform `uri` property using the expected base URL', () => {
-						assert.calledOnce(mockImageTransform.setUri);
-						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'http://foo.bar/baz/v2/images/svgtint/transform-uri%3Ffoo?color=ff0000');
-					});
-
-				});
-
 			});
 
 			describe('when `request.query.transformer` is "imgix"', () => {
