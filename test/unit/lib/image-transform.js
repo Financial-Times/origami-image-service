@@ -894,10 +894,10 @@ describe('lib/image-transform', () => {
 
 	it('has a `qualityValueMap` static property', () => {
 		assert.deepEqual(ImageTransform.qualityValueMap, {
-			lowest: 30,
-			low: 50,
-			medium: 70,
-			high: 80,
+			lowest: 35,
+			low: 55,
+			medium: 72,
+			high: 81,
 			highest: 90,
 			lossless: 100
 		});
