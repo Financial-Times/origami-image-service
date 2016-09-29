@@ -211,6 +211,28 @@ describe('lib/image-transform', () => {
 
 			});
 
+			describe('when `value` is "auto" and the `uri` property ends in ".png"', () => {
+
+				it('[get] returns "png"', () => {
+					ImageTransform.sanitizeEnumerableValue.restore();
+					instance.setUri('http://example.com/foo.png?a=b');
+					instance.setFormat();
+					assert.strictEqual(instance.getFormat(), 'png');
+				});
+
+			});
+
+			describe('when `value` is "auto" and the `uri` property ends in an unknown extension', () => {
+
+				it('[get] returns "jpg"', () => {
+					ImageTransform.sanitizeEnumerableValue.restore();
+					instance.setUri('http://example.com/foo.img?a=b');
+					instance.setFormat();
+					assert.strictEqual(instance.getFormat(), 'jpg');
+				});
+
+			});
+
 		});
 
 		describe('.setQuality() / .getQuality()', () => {
