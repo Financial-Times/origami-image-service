@@ -36,7 +36,7 @@ describe('lib/image-transform', () => {
 				dpr: 2,
 				fit: 'scale-down',
 				quality: 'lossless',
-				format: 'png',
+				format: 'jpg',
 				bgcolor: '00ff00',
 				tint: 'f00,00f'
 			};
@@ -281,6 +281,26 @@ describe('lib/image-transform', () => {
 
 			it('[get] returns the sanitized `value`', () => {
 				assert.strictEqual(instance.getBgcolor(), 'sanitized');
+			});
+
+			describe('when `value` is valid and the `format` property is "png"', () => {
+
+				it('[get] returns `undefined`', () => {
+					instance.setFormat('png');
+					instance.setBgcolor('foo');
+					assert.isUndefined(instance.getBgcolor());
+				});
+
+			});
+
+			describe('when `value` is valid and the `format` property is "svg"', () => {
+
+				it('[get] returns `undefined`', () => {
+					instance.setFormat('svg');
+					instance.setBgcolor('foo');
+					assert.isUndefined(instance.getBgcolor());
+				});
+
 			});
 
 		});
