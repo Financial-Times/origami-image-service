@@ -190,7 +190,7 @@ describe('lib/image-service', () => {
 				};
 				request = {
 					headers: {
-						'x-image-format': 'foo'
+						'ft-image-format': 'foo'
 					}
 				};
 				handler(proxyResponse, request);
@@ -229,25 +229,25 @@ describe('lib/image-service', () => {
 
 			});
 
-			describe('when the request has an `X-Image-Format` header set to "webp"', () => {
+			describe('when the request has an `FT-Image-Format` header set to "webp"', () => {
 				beforeEach(() => {
-					request.headers['x-image-format'] = 'webp';
+					request.headers['ft-image-format'] = 'webp';
 					handler(proxyResponse, request);
 				});
 
-				it('should echo the `X-Image-Format` header in the response', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['X-Image-Format'], 'webp');
+				it('should echo the `FT-Image-Format` header in the response', () => {
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'webp');
 				});
 			});
 
-			describe('when the request has an `X-Image-Format` header set to "jpegxr"', () => {
+			describe('when the request has an `FT-Image-Format` header set to "jpegxr"', () => {
 				beforeEach(() => {
-					request.headers['x-image-format'] = 'jpegxr';
+					request.headers['ft-image-format'] = 'jpegxr';
 					handler(proxyResponse, request);
 				});
 
-				it('should echo the `X-Image-Format` header in the response', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['X-Image-Format'], 'jpegxr');
+				it('should echo the `FT-Image-Format` header in the response', () => {
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
 				});
 			});
 
