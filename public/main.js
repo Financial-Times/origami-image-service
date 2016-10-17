@@ -44,6 +44,7 @@
 
 		// Fetch the v2 image and fill out details
 		fetch(elements.v2Image.src, {
+			method: 'HEAD',
 			headers: {
 				Accept: (supportsWebP() ? 'image/webp,*/*' : '*/*')
 			}
