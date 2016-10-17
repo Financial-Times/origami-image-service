@@ -69,3 +69,7 @@ run:
 
 run-dev:
 	@nodemon --ext html,js,json index.js
+
+
+fetch-comparison-data:
+	@./scripts/fetch-comparison-data.js

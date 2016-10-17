@@ -35,7 +35,7 @@
 									</th>
 								</tr>
 							{{else}}
-								<tr>
+								<tr data-component="comparison">
 									<td class="comparison-result-column">
 										<p>
 											<b>{{name}}{{#description}}:{{/description}}</b>
@@ -51,13 +51,25 @@
 											{{/shouldMatch}}
 										</p>
 									</td>
-									<td class="comparison-result-column" data-component="comparison-image">
-										<img src="{{v1Url}}" alt="{{name}}" /><br/>
+									<td class="comparison-result-column">
+										<img src="{{v1Url}}" alt="{{name}}" data-component-role="v1-image"/><br/>
 										<a href="{{v1Url}}">Image served through v1</a>
+										<dl>
+											<dt>Image format</dt>
+											<dd data-component-role="v1-image-format">{{v1ImageFormat}}</dd>
+											<dt>Image size</dt>
+											<dd data-component-role="v1-image-size">{{v1ImageSize}}</dd>
+										</dl>
 									</td>
-									<td class="comparison-result-column" data-component="comparison-image">
-										<img src="{{v2Url}}" alt="{{name}}" /><br/>
+									<td class="comparison-result-column">
+										<img src="{{v2Url}}" alt="{{name}}" data-component-role="v2-image"/><br/>
 										<a href="{{v2Url}}">Image served through v2</a>
+										<dl>
+											<dt>Image format</dt>
+											<dd data-component-role="v2-image-format">-</dd>
+											<dt>Image size</dt>
+											<dd data-component-role="v2-image-size">-</dd>
+										</dl>
 									</td>
 								</tr>
 							{{/if}}

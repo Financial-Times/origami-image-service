@@ -4,7 +4,9 @@
 		"description": "An image with no transforms applied.",
 		"shouldMatch": true,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": ""
+		"transform": "",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "82674"
 	},
 	{
 		"name": "Sizing",
@@ -15,21 +17,27 @@
 		"description": "An image with just a width transform applied.",
 		"shouldMatch": true,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": "width=200"
+		"transform": "width=200",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "10042"
 	},
 	{
 		"name": "Height",
 		"description": "An image with just a height transform applied.",
 		"shouldMatch": true,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": "height=150"
+		"transform": "height=150",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "15783"
 	},
 	{
 		"name": "Width and height",
 		"description": "An image with width and height transforms applied.",
 		"shouldMatch": true,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": "width=200&height=200"
+		"transform": "width=200&height=200",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "15571"
 	},
 	{
 		"name": "Cropping strategies",
@@ -40,21 +48,27 @@
 		"description": "An image with width and height transforms applied, and a fit transform set to 'cover'.",
 		"shouldMatch": true,
 		"uri": "ftcms:b35b7a62-8fce-11e6-8df8-d3778b55a923",
-		"transform": "width=200&height=200&fit=cover"
+		"transform": "width=200&height=200&fit=cover",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "11544"
 	},
 	{
 		"name": "Width, height, and contain",
 		"description": "An image with width and height transforms applied, and a fit transform set to 'contain'.",
 		"shouldMatch": true,
 		"uri": "ftcms:b35b7a62-8fce-11e6-8df8-d3778b55a923",
-		"transform": "width=200&height=200&fit=contain"
+		"transform": "width=200&height=200&fit=contain",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "7118"
 	},
 	{
 		"name": "Width, height, and scale-down",
 		"description": "An image with width and height transforms applied, and a fit transform set to 'scale-down'.",
 		"shouldMatch": true,
 		"uri": "ftcms:b35b7a62-8fce-11e6-8df8-d3778b55a923",
-		"transform": "width=200&height=200&fit=scale-down"
+		"transform": "width=200&height=200&fit=scale-down",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "7118"
 	},
 	{
 		"name": "Device pixel ratio",
@@ -65,14 +79,18 @@
 		"description": "An image with a width transform applied, and dpr transform set to 1.",
 		"shouldMatch": true,
 		"uri": "ftcms:2dac88f0-b273-4e48-9c7d-9078db39db55",
-		"transform": "width=200&dpr=1"
+		"transform": "width=200&dpr=1",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "10488"
 	},
 	{
 		"name": "Width and DPR 2",
 		"description": "An image with a width transform applied, and dpr transform set to 2.",
 		"shouldMatch": true,
 		"uri": "ftcms:2dac88f0-b273-4e48-9c7d-9078db39db55",
-		"transform": "width=200&dpr=2"
+		"transform": "width=200&dpr=2",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "15808"
 	},
 	{
 		"name": "Quality",
@@ -83,42 +101,54 @@
 		"description": "An image with the quality transform set to 'lowest'.",
 		"shouldMatch": true,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "width=250&quality=lowest"
+		"transform": "width=250&quality=lowest",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "1956"
 	},
 	{
 		"name": "Low",
 		"description": "An image with the quality transform set to 'low'.",
 		"shouldMatch": true,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "width=250&quality=low"
+		"transform": "width=250&quality=low",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "2968"
 	},
 	{
 		"name": "Medium",
 		"description": "An image with the quality transform set to 'medium'.",
 		"shouldMatch": true,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "width=250&quality=medium"
+		"transform": "width=250&quality=medium",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "8572"
 	},
 	{
 		"name": "High",
 		"description": "An image with the quality transform set to 'high'.",
 		"shouldMatch": true,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "width=250&quality=high"
+		"transform": "width=250&quality=high",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "10183"
 	},
 	{
 		"name": "Highest",
 		"description": "An image with the quality transform set to 'highest'.",
 		"shouldMatch": true,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "width=250&quality=highest"
+		"transform": "width=250&quality=highest",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "20011"
 	},
 	{
 		"name": "Lossless",
 		"description": "An image with the quality transform set to 'lossless'.",
 		"shouldMatch": true,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "width=250&quality=lossless"
+		"transform": "width=250&quality=lossless",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "87296"
 	},
 	{
 		"name": "Format",
@@ -129,42 +159,54 @@
 		"description": "An image converted to a JPEG.",
 		"shouldMatch": true,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": "format=jpg"
+		"transform": "format=jpg",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "82674"
 	},
 	{
 		"name": "PNG",
 		"description": "An image converted to a PNG.",
 		"shouldMatch": true,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": "format=png"
+		"transform": "format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "1238752"
 	},
 	{
 		"name": "GIF",
 		"description": "An image converted to a GIF. Will not match because v1 does not support conversion to GIF.",
 		"shouldMatch": false,
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
-		"transform": "format=gif"
+		"transform": "format=gif",
+		"v1ImageFormat": "text/html;charset=UTF-8",
+		"v1ImageSize": "1712"
 	},
 	{
 		"name": "SVG",
 		"description": "An SVG image served as SVG.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg",
-		"transform": "format=svg"
+		"transform": "format=svg",
+		"v1ImageFormat": "image/svg+xml",
+		"v1ImageSize": "68630"
 	},
 	{
 		"name": "SVG to PNG",
 		"description": "A simple SVG converted to a PNG image.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
-		"transform": "format=png"
+		"transform": "format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "2355"
 	},
 	{
 		"name": "SVG to PNG",
 		"description": "A complex SVG converted to a PNG image. Will not match because v1 does not deal with compound paths in SVGs.",
 		"shouldMatch": false,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg",
-		"transform": "format=png"
+		"transform": "format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "61946"
 	},
 	{
 		"name": "Custom schemes",
@@ -175,42 +217,54 @@
 		"description": "A headshot image using the 'fthead' scheme.",
 		"shouldMatch": true,
 		"uri": "fthead:lionel-barber",
-		"transform": "width=200&format=png"
+		"transform": "width=200&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "14553"
 	},
 	{
 		"name": "FTICON",
 		"description": "An icon using the 'fticon' scheme.",
 		"shouldMatch": true,
 		"uri": "fticon:cross",
-		"transform": "width=100&format=png"
+		"transform": "width=100&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "2041"
 	},
 	{
 		"name": "FTICON-V1",
 		"description": "An icon using the 'fticon-v1' scheme.",
 		"shouldMatch": true,
 		"uri": "fticon-v1:cross",
-		"transform": "width=100&format=png"
+		"transform": "width=100&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "719"
 	},
 	{
 		"name": "FTLOGO",
 		"description": "An icon using the 'ftlogo' scheme.",
 		"shouldMatch": true,
 		"uri": "ftlogo:brand-ft-logo-square",
-		"transform": "width=100&format=png"
+		"transform": "width=100&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "1514"
 	},
 	{
 		"name": "FTPODCAST",
 		"description": "An icon using the 'ftpodcast' scheme.",
 		"shouldMatch": true,
 		"uri": "ftpodcast:arts",
-		"transform": "width=100&format=png"
+		"transform": "width=100&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "8834"
 	},
 	{
 		"name": "FTSOCIAL",
 		"description": "An icon using the 'ftsocial' scheme.",
 		"shouldMatch": true,
 		"uri": "ftsocial:twitter",
-		"transform": "format=svg"
+		"transform": "format=svg",
+		"v1ImageFormat": "image/svg+xml",
+		"v1ImageSize": "890"
 	},
 	{
 		"name": "Background colour",
@@ -221,28 +275,36 @@
 		"description": "A transparent PNG with a background set to '#ffff00'. The background should not appear as the image supports transparency.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
-		"transform": "bgcolor=ffff00&format=png"
+		"transform": "bgcolor=ffff00&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "218144"
 	},
 	{
 		"name": "PNG with background converted to JPEG",
 		"description": "A transparent PNG converted to a JPEG with a background set to '#ffff00'.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
-		"transform": "bgcolor=ffff00&format=jpg"
+		"transform": "bgcolor=ffff00&format=jpg",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "20419"
 	},
 	{
 		"name": "PNG with background converted to JPEG",
 		"description": "A transparent PNG converted to a JPEG with a background set to 'hotpink'.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
-		"transform": "bgcolor=hotpink&format=jpg"
+		"transform": "bgcolor=hotpink&format=jpg",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "19414"
 	},
 	{
 		"name": "SVG with background converted to JPEG",
 		"description": "An SVG with transparency converted to a JPEG with a background set to 'hotpink'.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
-		"transform": "bgcolor=hotpink&format=jpg&width=100"
+		"transform": "bgcolor=hotpink&format=jpg&width=100",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "2047"
 	},
 	{
 		"name": "Tinting",
@@ -253,34 +315,44 @@
 		"description": "A simple SVG image with the tint transform set.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
-		"transform": "tint=ff0000,ff0000&format=svg"
+		"transform": "tint=ff0000,ff0000&format=svg",
+		"v1ImageFormat": "image/svg+xml",
+		"v1ImageSize": "1270"
 	},
 	{
 		"name": "SVG with tint",
 		"description": "A complex SVG image with the tint transform set.",
 		"shouldMatch": true,
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg",
-		"transform": "tint=ff0000,ff0000&format=svg"
+		"transform": "tint=ff0000,ff0000&format=svg",
+		"v1ImageFormat": "image/svg+xml",
+		"v1ImageSize": "68671"
 	},
 	{
 		"name": "JPEG with tint",
 		"description": "A JPEG image with the tint transform set to the default value. Will not match because v2 does not support tinting of non-SVG images.",
 		"shouldMatch": false,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "tint"
+		"transform": "tint",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "331374"
 	},
 	{
 		"name": "JPEG with tint",
 		"description": "A JPEG image with the tint transform set to red. Will not match because v2 does not support tinting of non-SVG images.",
 		"shouldMatch": false,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "tint=ff0000"
+		"transform": "tint=ff0000",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "424110"
 	},
 	{
 		"name": "JPEG with tint",
 		"description": "A JPEG image with the tint transform set to red and green. Will not match because v2 does not support tinting of non-SVG images.",
 		"shouldMatch": false,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
-		"transform": "tint=ff0000,00ff00"
+		"transform": "tint=ff0000,00ff00",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "171304"
 	}
 ]
