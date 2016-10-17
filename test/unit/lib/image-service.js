@@ -318,6 +318,12 @@ describe('lib/image-service', () => {
 			assert.isFunction(requireAll.firstCall.args[0].resolve);
 		});
 
+		it('mounts a static middleware at `config.basePath`', () => {
+			assert.calledOnce(express.static);
+			assert.calledWithExactly(express.static, 'public');
+			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockStaticMiddleware);
+		});
+
 		it('mounts an express router at `config.basePath`', () => {
 			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockRouter);
 		});
