@@ -30,7 +30,7 @@
 		var elements = {
 			main: element
 		};
-		Object.keys(selectors.roles).map(function(key) {
+		Object.keys(selectors.roles).forEach(function(key) {
 			elements[key] = elements.main.querySelector(selectors.roles[key]);
 		});
 
