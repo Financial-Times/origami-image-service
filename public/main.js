@@ -68,6 +68,10 @@
 				elements.v1ImageSize.classList.add(selectors.classes.match);
 				elements.v2ImageSize.classList.add(selectors.classes.noMatch);
 			}
+			const percentageDifference = ((imageData.v2Size - imageData.v1Size) / imageData.v1Size) * 100;
+			const percentageDifferenceAbs = Math.abs(Math.round(percentageDifference));
+			const label = (percentageDifference < 0 ? 'smaller' : 'larger');
+			elements.v2ImageSize.innerHTML += ` (${percentageDifferenceAbs}% ${label})`
 		}
 
 		function supportsWebP() {
