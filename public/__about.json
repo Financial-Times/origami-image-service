@@ -3,26 +3,91 @@
 	"name": "origami-image-service",
 	"purpose": "Optimises and resizes images, and serves them to end users",
 	"audience": "public",
-	"primaryUrl": "https://image.webservices.ft.com/v1/",
+	"primaryUrl": "https://www.ft.com/origami/service/image/v2/",
 	"serviceTier": "bronze",
 	"apiVersion": 1,
 	"apiVersions": [
-		{ "path": "/v1", "supportStatus": "active" },
-		{ "path": "/v2", "supportStatus": "experimental" }
+		{
+			"path": "/v1",
+			"supportStatus": "active"
+		},
+		{
+			"path": "/v2",
+			"supportStatus": "experimental"
+		}
 	],
 	"dateCreated": "2016-05-18",
 	"contacts": [
-		{ "name": "Origami team", "email": "origami.support@ft.com", "rel": "owner", "domain": "All support enquiries" }
+		{
+			"name": "Origami team",
+			"email": "origami.support@ft.com",
+			"rel": "owner",
+			"domain": "All support enquiries"
+		}
 	],
 	"links": [
-		{"url": "https://github.com/Financial-Times/origami-image-service/issues", "category": "issues"},
-		{"url": "https://github.com/Financial-Times/origami-image-service", "category": "repo"},
-		{"url": "https://dashboard.heroku.com/pipelines/be91fac7-5b0e-40f5-abd1-b81b72ad1b97", "category": "deployment", "description": "Production Heroku app control panel"},
-		{"url": "https://dashboard.heroku.com/apps/origami-image-service-qa", "category": "deployment", "description": "QA Heroku app control panel"},
-		{"url": "http://grafana.ft.com/dashboard/db/origami-image-service", "category": "monitoring", "description": "Grafana dashboard"},
-		{"url": "https://my.pingdom.com/newchecks/checks#check=2301115", "category": "monitoring", "description": "Production Pingdom checks (EU)"},
-		{"url": "https://my.pingdom.com/newchecks/checks#check=2301117", "category": "monitoring", "description": "Production Pingdom checks (US)"},
-		{"url": "https://github.com/Financial-Times/origami-image-service#readme", "category": "documentation", "description": "README"},
-		{"url": "https://sentry.io/nextftcom/origami-image-service-producti/", "category": "monitoring", "description": "Production Sentry dashboard"}
+		{
+			"url": "https://github.com/Financial-Times/origami-image-service/issues",
+			"category": "issues"
+		},
+		{
+			"url": "https://github.com/Financial-Times/origami-image-service",
+			"category": "repo"
+		},
+		{
+			"url": "https://dashboard.heroku.com/apps/origami-image-service-eu",
+			"category": "deployment",
+			"description": "Heroku dashboard (Production EU)"
+		},
+		{
+			"url": "https://dashboard.heroku.com/apps/origami-image-service-us",
+			"category": "deployment",
+			"description": "Heroku dashboard (Production US)"
+		},
+		{
+			"url": "https://dashboard.heroku.com/apps/origami-image-service-qa",
+			"category": "deployment",
+			"description": "Heroku dashboard (QA)"
+		},
+		{
+			"url": "https://dashboard.heroku.com/pipelines/be91fac7-5b0e-40f5-abd1-b81b72ad1b97",
+			"category": "deployment",
+			"description": "Heroku dashboard (QA > Production pipeline)"
+		},
+		{
+			"url": "http://grafana.ft.com/dashboard/db/origami-image-service-v2",
+			"category": "monitoring",
+			"description": "Grafana dashboard"
+		},
+		{
+			"url": "https://my.pingdom.com/newchecks/checks#check=2301115",
+			"category": "monitoring",
+			"description": "Pingdom check (Production EU)"
+		},
+		{
+			"url": "https://my.pingdom.com/newchecks/checks#check=2301117",
+			"category": "monitoring",
+			"description": "Pingdom check (Production US)"
+		},
+		{
+			"url": "https://github.com/Financial-Times/origami-image-service#readme",
+			"category": "documentation",
+			"description": "README"
+		},
+		{
+			"url": "https://sentry.io/nextftcom/origami-image-service-producti/",
+			"category": "monitoring",
+			"description": "Sentry dashboard (Production)"
+		},
+		{
+			"url": "https://sentry.io/nextftcom/origami-image-service-qa/",
+			"category": "monitoring",
+			"description": "Sentry dashboard (QA)"
+		},
+		{
+			"url": "https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice",
+			"category": "monitoring",
+			"description": "Splunk dashboard (Production)"
+		}
 	]
 }
