@@ -38,6 +38,7 @@
     "svg-tint-stream": "^0.3"
   },
   "devDependencies": {
+    "@financial-times/change-request": "^1.0.0",
     "chai": "^3",
     "eslint": "^2",
     "istanbul": "^0.4",

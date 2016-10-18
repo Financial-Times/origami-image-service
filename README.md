@@ -105,10 +105,10 @@ Deployment
 
 The [production][heroku-production] and [QA][heroku-qa] applications run on [Heroku]. We deploy continuously to QA via [CircleCI][ci], you should never need to deploy to QA manually. We use a [Heroku pipeline][heroku-pipeline] to promote QA deployments to production.
 
-You'll need to provide your GitHub username for change request logging, ensure you've been [added to this spreadsheet][developer-spreadsheet]. Now deploy the last QA image by running the following:
+You'll need to provide an API key for change request logging. You can get this from the Origami LastPass folder in the note named `Change Request API Keys`. Now deploy the last QA image by running the following:
 
 ```sh
-GITHUB_USERNAME=yourgithubusername make promote
+CR_API_KEY=<API-KEY> make promote
 ```
 
 We use [Semantic Versioning][semver] to tag releases. Only tagged releases should hit production, this ensures that the `__about` endpoint is informative. To tag a new release, use one of the following (this is the only time we allow a commit directly to `master`):
@@ -131,7 +131,6 @@ The Financial Times has published this software under the [MIT license][license]
 
 [image-service]: https://image.webservices.ft.com/
 [ci]: https://circleci.com/gh/Financial-Times/origami-image-service
-[developer-spreadsheet]: https://docs.google.com/spreadsheets/d/1mbJQYJOgXAH2KfgKUM1Vgxq8FUIrahumb39wzsgStu0/edit#gid=0
 [heroku-pipeline]: https://dashboard.heroku.com/pipelines/9cd9033e-fa9d-42af-bfe9-b9d0aa6f4a50
 [heroku-production]: https://dashboard.heroku.com/apps/origami-image-service
 [heroku-qa]: https://dashboard.heroku.com/apps/origami-image-service-qa
