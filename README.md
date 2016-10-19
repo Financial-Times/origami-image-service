@@ -18,8 +18,8 @@ Table Of Contents
   * [Configuration](#configuration)
   * [Testing](#testing)
   * [Deployment](#deployment)
-  * Monitoring [TODO]
-  * Trouble-Shooting [TODO]
+  * [Monitoring](#monitoring)
+  * [Trouble-Shooting](#trouble-shooting)
   * [License](#license)
 
 
@@ -103,7 +103,7 @@ Then you should commit your changes.
 Deployment
 ----------
 
-The [production][heroku-production] and [QA][heroku-qa] applications run on [Heroku]. We deploy continuously to QA via [CircleCI][ci], you should never need to deploy to QA manually. We use a [Heroku pipeline][heroku-pipeline] to promote QA deployments to production.
+The production ([EU][heroku-production-eu]/[US][heroku-production-us]) and [QA][heroku-qa] applications run on [Heroku]. We deploy continuously to QA via [CircleCI][ci], you should never need to deploy to QA manually. We use a [Heroku pipeline][heroku-pipeline] to promote QA deployments to production.
 
 You'll need to provide an API key for change request logging. You can get this from the Origami LastPass folder in the note named `Change Request API Keys`. Now deploy the last QA image by running the following:
 
@@ -111,15 +111,43 @@ You'll need to provide an API key for change request logging. You can get this f
 CR_API_KEY=<API-KEY> make promote
 ```
 
-We use [Semantic Versioning][semver] to tag releases. Only tagged releases should hit production, this ensures that the `__about` endpoint is informative. To tag a new release, use one of the following (this is the only time we allow a commit directly to `master`):
+
+Monitoring
+----------
+
+  * [Grafana dashboard][grafana]: graph memory, load, and number of requests
+  * [Pingdom check (Production EU)][pingdom-eu]: checks that the EU production app is responding
+  * [Pingdom check (Production US)][pingdom-us]: checks that the US production app is responding
+  * [Sentry dashboard (Production)][sentry-production]: records application errors in the production app
+  * [Sentry dashboard (QA)][sentry-qa]: records application errors in the QA app
+  * [Splunk dashboard (Production)][splunk]: query application logs
+
+
+Trouble-Shooting
+----------------
+
+We've outlined some common issues that can occur in the running of the Image Service:
+
+### What do I do if memory usage is high?
+
+For now, restart the Heroku dynos:
 
 ```sh
-npm version major
-npm version minor
-npm version patch
+heroku restart --app origami-image-service-eu
+heroku restart --app origami-image-service-us
 ```
 
-Now you can push to GitHub (`git push && git push --tags`) which will trigger a QA deployment. Once QA has deployed with the newly tagged version, you can promote it to production.
+If this doesn't help, then a temporary measure could be to add more dynos to the production applications, or switch the existing ones to higher performance dynos.
+
+### What if I need to deploy manually?
+
+If you _really_ need to deploy manually, you should only do so to QA. Production deploys should always be a promotion from QA.
+
+You'll need to provide an API key for change request logging. You can get this from the Origami LastPass folder in the note named `Change Request API Keys`. Now deploy to QA using the following:
+
+```sh
+CR_API_KEY=<API-KEY> make deploy
+```
 
 
 License
@@ -129,13 +157,19 @@ The Financial Times has published this software under the [MIT license][license]
 
 
 
-[image-service]: https://image.webservices.ft.com/
 [ci]: https://circleci.com/gh/Financial-Times/origami-image-service
+[grafana]: http://grafana.ft.com/dashboard/db/origami-image-service-v2
 [heroku-pipeline]: https://dashboard.heroku.com/pipelines/9cd9033e-fa9d-42af-bfe9-b9d0aa6f4a50
-[heroku-production]: https://dashboard.heroku.com/apps/origami-image-service
+[heroku-production-eu]: https://dashboard.heroku.com/apps/origami-image-service-eu
+[heroku-production-us]: https://dashboard.heroku.com/apps/origami-image-service-us
 [heroku-qa]: https://dashboard.heroku.com/apps/origami-image-service-qa
 [heroku]: https://heroku.com/
+[image-service]: https://image.webservices.ft.com/
 [license]: http://opensource.org/licenses/MIT
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
-[semver]: http://semver.org/
+[pingdom-eu]: https://my.pingdom.com/newchecks/checks#check=2301115
+[pingdom-us]: https://my.pingdom.com/newchecks/checks#check=2301117
+[sentry-production]: https://sentry.io/nextftcom/origami-image-service-producti/
+[sentry-qa]: https://sentry.io/nextftcom/origami-image-service-qa/
+[splunk]: https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice
