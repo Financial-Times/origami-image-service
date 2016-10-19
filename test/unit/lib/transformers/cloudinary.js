@@ -133,7 +133,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,q_35/http://example.com/');
+				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,q_30/http://example.com/');
 			});
 
 		});

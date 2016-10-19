@@ -206,6 +206,20 @@ describe('lib/image-transform', () => {
 				assert.strictEqual(instance.getQuality(), 100);
 			});
 
+			describe('when `value` is valid and the `dpr` property is set', () => {
+
+				beforeEach(() => {
+					ImageTransform.sanitizeEnumerableValue.returns('medium');
+					instance.setDpr(2);
+					instance.setQuality('medium');
+				});
+
+				it('[get] returns a numeric representation of the sanitized `value` for images with higher DPRs', () => {
+					assert.strictEqual(instance.getQuality(), 35);
+				});
+
+			});
+
 		});
 
 		describe('.setBgcolor() / .getBgcolor()', () => {
@@ -882,11 +896,22 @@ describe('lib/image-transform', () => {
 
 	it('has a `qualityValueMap` static property', () => {
 		assert.deepEqual(ImageTransform.qualityValueMap, {
-			lowest: 35,
-			low: 55,
+			lowest: 30,
+			low: 50,
 			medium: 72,
 			high: 81,
 			highest: 90,
+			lossless: 100
+		});
+	});
+
+	it('has a `qualityValueMapDpr` static property', () => {
+		assert.deepEqual(ImageTransform.qualityValueMapDpr, {
+			lowest: 18,
+			low: 25,
+			medium: 35,
+			high: 45,
+			highest: 55,
 			lossless: 100
 		});
 	});

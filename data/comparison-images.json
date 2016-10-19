@@ -148,7 +148,61 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=lossless",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "87296"
+		"v1ImageSize": "79304"
+	},
+	{
+		"name": "Lowest and DPR 2",
+		"description": "An image with the quality transform set to 'lowest' and a DPR of 2.",
+		"shouldMatch": true,
+		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
+		"transform": "width=250&quality=lowest&dpr=2",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "6011"
+	},
+	{
+		"name": "Low and DPR 2",
+		"description": "An image with the quality transform set to 'low' and a DPR of 2.",
+		"shouldMatch": true,
+		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
+		"transform": "width=250&quality=low&dpr=2",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "11487"
+	},
+	{
+		"name": "Medium and DPR 2",
+		"description": "An image with the quality transform set to 'medium' and a DPR of 2.",
+		"shouldMatch": true,
+		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
+		"transform": "width=250&quality=medium&dpr=2",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "14435"
+	},
+	{
+		"name": "High and DPR 2",
+		"description": "An image with the quality transform set to 'high' and a DPR of 2.",
+		"shouldMatch": true,
+		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
+		"transform": "width=250&quality=high&dpr=2",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "10498"
+	},
+	{
+		"name": "Highest and DPR 2",
+		"description": "An image with the quality transform set to 'highest' and a DPR of 2.",
+		"shouldMatch": true,
+		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
+		"transform": "width=250&quality=highest&dpr=2",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "14153"
+	},
+	{
+		"name": "Lossless and DPR 2",
+		"description": "An image with the quality transform set to 'lossless' and a DPR of 2.",
+		"shouldMatch": true,
+		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
+		"transform": "width=250&quality=lossless&dpr=2",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "302592"
 	},
 	{
 		"name": "Format",
@@ -237,7 +291,7 @@
 		"uri": "fticon-v1:cross",
 		"transform": "width=100&format=png",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "719"
+		"v1ImageSize": "650"
 	},
 	{
 		"name": "FTLOGO",
