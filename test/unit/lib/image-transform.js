@@ -916,4 +916,14 @@ describe('lib/image-transform', () => {
 		});
 	});
 
+	describe('.qualityValueMapDpr', () => {
+
+		it('has values that are lower than or equal to their equivalent in `qualityValueMap`', () => {
+			ImageTransform.validQualities.forEach((quality) => {
+				assert.isAtMost(ImageTransform.qualityValueMapDpr[quality], ImageTransform.qualityValueMap[quality]);
+			});
+		});
+
+	});
+
 });
