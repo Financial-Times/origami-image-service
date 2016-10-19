@@ -8,7 +8,6 @@ describe('lib/middleware/process-image-request', () => {
 	let cloudinaryTransform;
 	let express;
 	let ImageTransform;
-	let imgixTransform;
 	let processImageRequest;
 
 	beforeEach(() => {
@@ -20,9 +19,6 @@ describe('lib/middleware/process-image-request', () => {
 
 		cloudinaryTransform = sinon.stub();
 		mockery.registerMock('../transformers/cloudinary', cloudinaryTransform);
-
-		imgixTransform = sinon.stub();
-		mockery.registerMock('../transformers/imgix', imgixTransform);
 
 		processImageRequest = require('../../../../lib/middleware/process-image-request');
 	});
@@ -37,8 +33,6 @@ describe('lib/middleware/process-image-request', () => {
 
 		beforeEach(() => {
 			config = {
-				imgixSecureUrlToken: 'foo',
-				imgixSourceName: 'bar',
 				cloudinaryAccountName: 'baz'
 			};
 			middleware = processImageRequest(config);
@@ -59,7 +53,6 @@ describe('lib/middleware/process-image-request', () => {
 				ImageTransform.returns(mockImageTransform);
 
 				cloudinaryTransform.returns('mock-cloudinary-url');
-				imgixTransform.returns('mock-imgix-url');
 
 				express.mockRequest.params[0] = 'mock-uri';
 				express.mockRequest.query.source = 'mock-source';
@@ -83,10 +76,6 @@ describe('lib/middleware/process-image-request', () => {
 				assert.deepEqual(cloudinaryTransform.firstCall.args[1], {
 					cloudinaryAccountName: config.cloudinaryAccountName
 				});
-			});
-
-			it('does not generate an Imgix tranform URL', () => {
-				assert.notCalled(imgixTransform);
 			});
 
 			it('sets the request `transform` property to the created image transform', () => {
@@ -132,34 +121,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'proto://config-hostname/v2/images/svgtint/transform-uri%3Ffoo?color=ff0000');
 					});
 
-				});
-
-			});
-
-			describe('when `request.query.transformer` is "imgix"', () => {
-
-				beforeEach(() => {
-					cloudinaryTransform.reset();
-					imgixTransform.reset();
-					express.mockRequest.query.transformer = 'imgix';
-					middleware(express.mockRequest, express.mockResponse, next);
-				});
-
-				it('generates an Imgix transform URL with the image transform', () => {
-					assert.calledOnce(imgixTransform);
-					assert.strictEqual(imgixTransform.firstCall.args[0], mockImageTransform);
-					assert.deepEqual(imgixTransform.firstCall.args[1], {
-						imgixSecureUrlToken: config.imgixSecureUrlToken,
-						imgixSourceName: config.imgixSourceName
-					});
-				});
-
-				it('does not generate a Cloudinary tranform URL', () => {
-					assert.notCalled(cloudinaryTransform);
-				});
-
-				it('sets the request `appliedTransform` property to the Imgix URL', () => {
-					assert.strictEqual(express.mockRequest.appliedTransform, 'mock-imgix-url');
 				});
 
 			});

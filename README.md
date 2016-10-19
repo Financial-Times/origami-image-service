@@ -57,8 +57,6 @@ We configure Origami Image Service using environment variables. In development, 
   * `LOG_LEVEL`: A Syslog-compatible level at which to emit log events to stdout. One of `trace`, `debug`, `info`, `warn`, `error`, or `crit`.
   * `PREFERRED_HOSTNAME`: The hostname to use in documentation and as a base URL in bundle requests. This defaults to `image.webservices.ft.com`.
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
-  * `IMGIX_SECURE_URL_TOKEN`: The Imgix secure URL token to use in image transforms.
-  * `IMGIX_SOURCE_NAME`: The Imgix source name to use in image transforms.
   * `RAVEN_URL`: The Sentry URL to send error information to.
 
 
