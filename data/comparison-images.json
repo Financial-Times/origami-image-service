@@ -148,7 +148,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=lossless",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "79304"
+		"v1ImageSize": "87296"
 	},
 	{
 		"name": "Lowest and DPR 2",
@@ -419,8 +419,17 @@
 		"v1ImageSize": "68671"
 	},
 	{
+		"name": "SVG with tint converted to PNG",
+		"description": "A complex SVG image with the tint transform set and converted to PNG.",
+		"shouldMatch": true,
+		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+		"transform": "tint=ff0000,00ff00&format=png",
+		"v1ImageFormat": "image/png",
+		"v1ImageSize": "2356"
+	},
+	{
 		"name": "JPEG with tint",
-		"description": "A JPEG image with the tint transform set to the default value. Will not match because v2 does not support tinting of non-SVG images.",
+		"description": "A JPEG image with the tint transform set to the default value. Will not match exactly because the v2 tinting process is different.",
 		"shouldMatch": false,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "tint",
@@ -429,7 +438,7 @@
 	},
 	{
 		"name": "JPEG with tint",
-		"description": "A JPEG image with the tint transform set to red. Will not match because v2 does not support tinting of non-SVG images.",
+		"description": "A JPEG image with the tint transform set to red. Will not match exactly because the v2 tinting process is different.",
 		"shouldMatch": false,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "tint=ff0000",
@@ -438,7 +447,7 @@
 	},
 	{
 		"name": "JPEG with tint",
-		"description": "A JPEG image with the tint transform set to red and green. Will not match because v2 does not support tinting of non-SVG images.",
+		"description": "A JPEG image with the tint transform set to red and green. Will not match exactly because the v2 tinting process is different.",
 		"shouldMatch": false,
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "tint=ff0000,00ff00",

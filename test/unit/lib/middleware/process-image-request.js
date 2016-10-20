@@ -98,6 +98,7 @@ describe('lib/middleware/process-image-request', () => {
 					mockImageTransform.tint = ['ff0000'];
 					mockImageTransform.uri = 'transform-uri?foo';
 					mockImageTransform.setUri = sinon.spy();
+					mockImageTransform.setTint = sinon.spy();
 					express.mockRequest.protocol = 'proto';
 					express.mockRequest.hostname = 'hostname';
 					middleware(express.mockRequest, express.mockResponse, next);
@@ -106,6 +107,11 @@ describe('lib/middleware/process-image-request', () => {
 				it('sets the image transform `uri` property to route through the SVG tinter', () => {
 					assert.calledOnce(mockImageTransform.setUri);
 					assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'proto://hostname/v2/images/svgtint/transform-uri%3Ffoo?color=ff0000');
+				});
+
+				it('removes the tint property from the image transform', () => {
+					assert.calledOnce(mockImageTransform.setTint);
+					assert.calledWithExactly(mockImageTransform.setTint);
 				});
 
 				describe('when `config.hostname` is set', () => {
