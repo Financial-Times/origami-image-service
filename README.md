@@ -55,7 +55,7 @@ We configure Origami Image Service using environment variables. In development, 
   * `PORT`: The port to run the application on.
   * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
   * `LOG_LEVEL`: A Syslog-compatible level at which to emit log events to stdout. One of `trace`, `debug`, `info`, `warn`, `error`, or `crit`.
-  * `PREFERRED_HOSTNAME`: The hostname to use in documentation and as a base URL in bundle requests. This defaults to `image.webservices.ft.com`.
+  * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
   * `RAVEN_URL`: The Sentry URL to send error information to.
 
@@ -147,6 +147,31 @@ You'll need to provide an API key for change request logging. You can get this f
 CR_API_KEY=<API-KEY> make deploy
 ```
 
+### SVGs don't tint locally
+
+SVG tinting is done in a way that makes it near-impossible to run locally. When an SVG image is requested and a `tint` query parameter is provided, then we rewrite the URL to go route back through the Image Service. It looks something like this:
+
+  * User requests:<br/>
+  `http://imageservice/v2/images/raw/http://mysite/example.svg?tint=red`
+  * Image service rewrites to:<br/>
+  `http://imageservice/v2/images/raw/http://imageservice/images/svgtint/http://mysite/example.svg%3Fcolor=red`
+  * Cloudinary receives the image URL:<br/>
+  `http://imageservice/images/svgtint/http://mysite/example.svg?color=red`
+
+When you're running locally this won't work because Cloudinary cannot access your `localhost`. The flow would look like this:
+
+  * User requests:<br/>
+  `http://localhost/v2/images/raw/http://mysite/example.svg?tint=red`
+  * Image service rewrites to:<br/>
+  `http://localhost/v2/images/raw/http://localhost/images/svgtint/http://mysite/example.svg%3Fcolor=red`
+  * Cloudinary receives the image URL:<br/>
+  `http://localhost/images/svgtint/http://mysite/example.svg?color=red`
+
+So Cloudinary responds with a `404`. You can get around this by manually specifying a hostname in your configuration. You'll need to tell the service to rely on the QA instance for SVG tinting. Add the following to your `.env` file:
+
+```
+HOSTNAME=origami-image-service-qa.herokuapp.com
+```
 
 License
 -------
