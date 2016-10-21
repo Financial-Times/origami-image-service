@@ -8,5 +8,5 @@ module.exports = {
 	hostname: process.env.PREFERRED_HOSTNAME || process.env.HOSTNAME,
 	log: console,
 	logLevel: process.env.LOG_LEVEL || 'info',
-	port: process.env.PORT || 8080
+	port: process.env.PORT || 3002
 };

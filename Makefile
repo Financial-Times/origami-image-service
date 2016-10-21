@@ -105,6 +105,9 @@ run:
 run-dev:
 	@nodemon --ext html,js,json index.js
 
+run-router:
+	@nht run
+
 
 fetch-comparison-data:
 	@./scripts/fetch-comparison-data.js

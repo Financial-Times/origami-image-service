@@ -18,7 +18,7 @@
   "engines": {
     "node": "^6"
   },
-  "main": "./lib/image-service.js",
+  "main": "./index.js",
   "scripts": {
     "start": "node index.js"
   },
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@financial-times/change-request": "^1.0.0",
+    "@financial-times/n-heroku-tools": "^6.14.4",
     "chai": "^3",
     "eslint": "^2",
     "istanbul": "^0.4",

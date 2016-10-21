@@ -20,6 +20,8 @@ describe('lib/image-service', () => {
 	beforeEach(() => {
 		basePath = path.resolve(`${__dirname}/../../..`);
 
+		const imageServicePath = path.resolve(`${basePath}/lib/image-service`);
+
 		express = require('../mock/n-express.mock');
 		mockery.registerMock('@financial-times/n-express', express);
 
@@ -41,7 +43,7 @@ describe('lib/image-service', () => {
 		requireAll = require('../mock/require-all.mock');
 		mockery.registerMock('require-all', requireAll);
 
-		imageService = require(basePath);
+		imageService = require(imageServicePath);
 	});
 
 	it('exports a function', () => {

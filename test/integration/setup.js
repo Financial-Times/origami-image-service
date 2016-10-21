@@ -1,6 +1,6 @@
 'use strict';
 
-const imageService = require('../..');
+const imageService = require('../../lib/image-service');
 const supertest = require('supertest');
 
 const noop = () => {};
