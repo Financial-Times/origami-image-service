@@ -24,7 +24,7 @@ describe('GET /v2/images/debug…', function() {
 				uri: testImageUris.http,
 				width: 123
 			},
-			appliedTransform: 'http://res.cloudinary.com/financial-times/image/fetch/c_fill,f_auto,h_456,q_72,w_123/http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
+			appliedTransform: 'http://res.cloudinary.com/financial-times/image/fetch/c_fill,f_auto,fl_any_format.force_strip.progressive,h_456,q_72,w_123/http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
 		}).end(done);
 	});
 
