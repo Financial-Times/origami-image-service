@@ -178,6 +178,20 @@ describe('lib/image-transform', () => {
 				assert.strictEqual(instance.getFormat(), 'sanitized');
 			});
 
+			describe('when `value` is "auto" and the `quality` property is `lossless`', () => {
+
+				beforeEach(() => {
+					ImageTransform.sanitizeEnumerableValue.restore();
+					instance.setQuality('lossless');
+					instance.setFormat();
+				});
+
+				it('[get] returns "png"', () => {
+					assert.strictEqual(instance.getFormat(), 'png');
+				});
+
+			});
+
 		});
 
 		describe('.setQuality() / .getQuality()', () => {
