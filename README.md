@@ -87,7 +87,7 @@ We run the tests and linter on CI, you can view [results on CircleCI][ci]. `make
 
 ### Comparison page
 
-The comparison page in the documentation (`/origami/service/image/v2/docs/compare`) is used to manually check images against their version 1 equivalent. This page is powered by [a JSON file](data/comparison-images.json) which is updated manually.
+The comparison page in the documentation (`/__origami/service/image/v2/docs/compare`) is used to manually check images against their version 1 equivalent. This page is powered by [a JSON file](data/comparison-images.json) which is updated manually.
 
 Once you've added a new comparison image to this file, you should run the following Make task to update the file sizes and formats:
 

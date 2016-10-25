@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	basePath: '/origami/service/image',
+	basePath: '/__origami/service/image',
 	cloudinaryAccountName: process.env.CLOUDINARY_ACCOUNT_NAME,
 	customSchemeStore: process.env.CUSTOM_SCHEME_STORE,
 	environment: process.env.NODE_ENV || 'development',
