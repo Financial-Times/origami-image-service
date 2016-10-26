@@ -212,8 +212,9 @@ describe('lib/image-service', () => {
 					'Connection': 'keep-alive',
 					'Etag': '123',
 					'Expires': 'Thu, 08 Jan 1970 00:00:10 GMT',
+					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
-					'Vary': undefined
+					'Vary': 'FT-image-format, Content-Dpr'
 				});
 			});
 
@@ -231,24 +232,68 @@ describe('lib/image-service', () => {
 
 			});
 
-			describe('when the request has an `FT-Image-Format` header set to "webp"', () => {
+			describe('when the request has an `accept` header which includes "image/webp"', () => {
 				beforeEach(() => {
-					request.headers['ft-image-format'] = 'webp';
+					request.headers['accept'] = 'image/webp';
 					handler(proxyResponse, request);
 				});
 
-				it('should echo the `FT-Image-Format` header in the response', () => {
+				it('should set the `FT-Image-Format` header in the response to "webp"', () => {
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'webp');
 				});
 			});
 
-			describe('when the request has an `FT-Image-Format` header set to "jpegxr"', () => {
+			describe('when the request has an `FT-Normalised-UA` header set to "edge"', () => {
 				beforeEach(() => {
-					request.headers['ft-image-format'] = 'jpegxr';
+					request.headers['ft-normalised-ua'] = 'edge';
 					handler(proxyResponse, request);
 				});
 
-				it('should echo the `FT-Image-Format` header in the response', () => {
+				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
+				});
+			});
+
+			describe('when the request has an `FT-Normalised-UA` header set to "iemobile"', () => {
+				beforeEach(() => {
+					request.headers['ft-normalised-ua'] = 'iemobile/10';
+					handler(proxyResponse, request);
+				});
+
+				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
+				});
+			});
+
+			describe('when the request has an `FT-Normalised-UA` header set to "ie/9"', () => {
+				beforeEach(() => {
+					request.headers['ft-normalised-ua'] = 'ie/9';
+					handler(proxyResponse, request);
+				});
+
+				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
+				});
+			});
+
+			describe('when the request has an `FT-Normalised-UA` header set to "ie/10"', () => {
+				beforeEach(() => {
+					request.headers['ft-normalised-ua'] = 'ie/10';
+					handler(proxyResponse, request);
+				});
+
+				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
+				});
+			});
+
+			describe('when the request has an `FT-Normalised-UA` header set to "ie/11"', () => {
+				beforeEach(() => {
+					request.headers['ft-normalised-ua'] = 'ie/11';
+					handler(proxyResponse, request);
+				});
+
+				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
 				});
 			});
