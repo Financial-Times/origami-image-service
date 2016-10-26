@@ -388,6 +388,7 @@ describe('lib/image-service', () => {
 		});
 
 		it('mounts a static middleware at `config.basePath`', () => {
+			assert.calledOnce(express.static);
 			assert.calledWithExactly(express.static, 'public');
 			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockStaticMiddleware);
 		});
