@@ -38,6 +38,21 @@
 				<li>GET /v1/images/<var>:mode</var>?imageset=<var>:imageset</var></li>
 			</ul>
 
+			<h2>Image Limits</h2>
+
+			<p>
+				In V2, some limits have been added to both transformed images and source images:
+			</p>
+
+			<dl>
+				<dt>MegaPixels</dt>
+				<dd>Transformed images must not exceed 25 MegaPixels (26,214,400 pixels)</dd>
+				<dt>Width/height</dt>
+				<dd>Transformed images must not exceed 65,000 pixels in either width or height</dd>
+				<dt>File size</dt>
+				<dd>Source images must not exceed 20MB in size</dd>
+			</dl>
+
 			<h2>Transforms/Querystrings</h2>
 
 			<h3>Scheme</h3>

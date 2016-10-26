@@ -41,6 +41,7 @@
 						<td>
 							<p>URI to use as the image source, which can be HTTP/HTTPS</p>
 							<p>Source URIs <strong>must</strong> be URL-encoded when they're embedded in the URL of the image service, e.g. <code>/v2/images/raw/http%3A%2F%2Fexample%2Ecom%2Fimage%2Ejpg</code>. If you build image service URLs without help of <a href="//php.net/rawurlencode"><code>rawurlencode</code></a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"><code>encodeURIComponent</code></a> (or similar) URLs with query strings or special characters (e.g. spaces) will break.</p>
+							<p>Source images may not exceed 20MB in size. Requests to larger images will result in <code>400</code> errors.</p>
 							<p>Supported source types (schemes):</p>
 							<dl>
 								<dt>http</dt>
@@ -83,12 +84,14 @@
 						<td>
 							<p>Width of desired output image in CSS pixels. When generating images for high-DPI displays <strong>avoid multiplying width</strong>, and use <code>dpr</code> argument instead.</p>
 							<p>Defaults to a width that maintains the aspect of the image, or the width of the source image if <code>height</code> is also not set.</p>
+							<p>The maximum allowed width is 65,500 pixels. In combination with <code>height</code>, the transformed image must not exceed 25 MegaPixels.</p>
 						</td>
 					</tr>
 					<tr id="height">
 						<td><code>height</code></td>
 						<td>
 							<p>Height of desired output image in CSS pixels (subject to `dpr` scaling). Defaults to a height that maintains the aspect of the image, or the height of the source image if <code>width</code> is also not set.</p>
+							<p>The maximum allowed height is 65,500 pixels.</p>
 						</td>
 					</tr>
 					<tr id="dpr">
