@@ -151,6 +151,32 @@ describe('lib/transformers/cloudinary', () => {
 
 		});
 
+		describe('when `transform` has a `tint` property with one color', () => {
+
+			beforeEach(() => {
+				transform.setTint('f00');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,e_tint:100:ff0000,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+			});
+
+		});
+
+		describe('when `transform` has a `tint` property with two colors', () => {
+
+			beforeEach(() => {
+				transform.setTint('f00,0f0');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,e_tint:100:ff0000:00ff00,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+			});
+
+		});
+
 		describe('when `transform` is not an instance of ImageTransform', () => {
 
 			it('throws an error', () => {
