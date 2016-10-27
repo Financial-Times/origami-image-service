@@ -20,13 +20,14 @@
   },
   "main": "./index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "heroku-node-settings index.js"
   },
   "dependencies": {
     "@financial-times/n-express": "^17.9.0",
     "cloudinary": "^1",
     "colornames": "^1",
     "dotenv": "^2",
+    "heroku-node-settings": "^1.0.2",
     "http-errors": "^1",
     "http-proxy": "^1",
     "isomorphic-fetch": "^2.2.1",
