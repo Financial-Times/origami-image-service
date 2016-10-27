@@ -15,7 +15,7 @@ throng({
 		const imageService = require('./lib/image-service');
 
 		imageService(config).catch(error => {
-			config.log.error(error.stack);
+			config.error(error.stack);
 			process.exit(1);
 		});
 	}
