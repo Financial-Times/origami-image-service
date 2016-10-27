@@ -53,6 +53,8 @@ ifndef CR_API_KEY
 endif
 	@heroku pipelines:promote --app origami-image-service-qa
 	@make change-request-prod
+	@echo "Purging all front-end endpoints, this will take 5 minutes, please don't cancel this command."
+	@sleep 300 && node ./scripts/purge.js
 	@$(DONE)
 
 
