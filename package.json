@@ -23,7 +23,7 @@
     "start": "heroku-node-settings index.js"
   },
   "dependencies": {
-    "@financial-times/n-express": "^17.15.5",
+    "@financial-times/n-express": "^17.16.0",
     "cloudinary": "^1",
     "colornames": "^1",
     "dotenv": "^2",

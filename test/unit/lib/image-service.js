@@ -99,6 +99,12 @@ describe('lib/image-service', () => {
 			assert.isFalse(options.withAssets);
 		});
 
+		it('disables service metrics', () => {
+			const options = express.firstCall.args[0];
+			assert.isObject(options);
+			assert.isFalse(options.withServiceMetrics);
+		});
+
 		it('creates an error handling middleware', () => {
 			assert.calledOnce(handleErrors);
 			assert.calledWith(handleErrors, config);
