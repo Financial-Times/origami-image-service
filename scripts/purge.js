@@ -14,9 +14,7 @@ if (!FASTLY_API_KEY) {
 	process.exit(1);
 }
 
-const production = process.env.NODE_ENV === 'production';
-
-const hostname = production ? 'https://www.ft.com/__origami/service/image' : 'https://falcon.ft.com/__origami/service/image';
+const hostname = 'https://www.ft.com/__origami/service/image';
 
 const paths = [
 	'/__about.json',
