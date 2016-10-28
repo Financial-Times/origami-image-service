@@ -9,5 +9,5 @@ module.exports = {
 	systemCode: 'origami-image-service-v2',
 	log: console,
 	logLevel: process.env.LOG_LEVEL || 'info',
-	port: process.env.PORT || 3002
+	port: process.env.PORT || 8080
 };
