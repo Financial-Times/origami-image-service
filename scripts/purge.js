@@ -29,7 +29,7 @@ const paths = [
 const endpoints = paths.map(path => hostname + path);
 
 if (!DRY_RUN) {
-	const fetch = require('node-fetch');
+	const fetch = require('isomorphic-fetch');
 	Promise.all(endpoints.map(endpoint => {
 			return fetch(endpoint, {
 					method: 'PURGE',
