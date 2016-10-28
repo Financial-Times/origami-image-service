@@ -6,6 +6,7 @@ module.exports = {
 	customSchemeStore: process.env.CUSTOM_SCHEME_STORE,
 	environment: process.env.NODE_ENV || 'development',
 	hostname: process.env.HOSTNAME,
+	systemCode: 'origami-image-service-v2',
 	log: console,
 	logLevel: process.env.LOG_LEVEL || 'info',
 	port: process.env.PORT || 3002

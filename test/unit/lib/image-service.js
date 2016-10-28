@@ -59,7 +59,8 @@ describe('lib/image-service', () => {
 			config = {
 				basePath: '/my/base/path',
 				environment: 'test',
-				port: 1234
+				port: 1234,
+				systemCode: 'example-system-code'
 			};
 			routes = {
 				foo: sinon.spy(),
@@ -97,6 +98,12 @@ describe('lib/image-service', () => {
 			const options = express.firstCall.args[0];
 			assert.isObject(options);
 			assert.isFalse(options.withAssets);
+		});
+
+		it('sets the application system code', () => {
+			const options = express.firstCall.args[0];
+			assert.isObject(options);
+			assert.strictEqual(options.systemCode, 'example-system-code');
 		});
 
 		it('disables service metrics', () => {
