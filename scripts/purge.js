@@ -18,6 +18,7 @@ const hostname = 'https://www.ft.com/__origami/service/image';
 
 const paths = [
 	'/__about.json',
+	'/main.css',
 	'/main.js',
 	'/v1',
 	'/v2',

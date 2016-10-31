@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+/* Typographic overrides */
+dt {
+	font-weight: bold;
+}
+
+/* Table overrides */
+td {
+	vertical-align: top;
+}
+td p:first-child {
+	margin-top: 0;
+}
+
+/* Header overrides */
+@media (min-width: 46.25em) {
+	.o-header__primary__left {
+		width: 303px;
+	}
+}
+
+/* Example table */
+.example-column {
+	width: 50% !important;
+}
+
+/* Comparison table */
+.compare-section {
+	background-color: #eee;
+	color: #555;
+}
+.comparison-result-column {
+	width: 33% !important;
+}
+.comparison-image-match {
+	font-style: italic;
+}
+.comparison-image-match--yes {
+	color: #458b00;
+}
+.comparison-image-match--no {
+	color: #c00;
+}
