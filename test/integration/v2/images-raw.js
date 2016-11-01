@@ -49,14 +49,32 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('image/jpeg');
 	});
 
+	describe('/ftcms:… (ftcms scheme with querystring)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}%3Ffoo%3Dbar?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
 	describe('/fticon:… (fticon scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
+	describe('/fticon:… (fticon scheme with querystring)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}%3Ffoo%3Dbar?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/svg+xml');
+	});
+
 	describe('/fthead:… (fthead scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/png');
+	});
+
+	describe('/fthead:… (fthead scheme with querystring)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/png');
 	});

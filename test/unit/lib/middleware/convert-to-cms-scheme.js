@@ -84,6 +84,19 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 			});
 
+			describe('when the request param (0) has a querystring', () => {
+
+				beforeEach(done => {
+					express.mockRequest.params[0] = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img?foo=bar';
+					middleware(express.mockRequest, express.mockResponse, done);
+				});
+
+				it('sets the request param (0) to an `ftcms` URL with the query intact', () => {
+					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef?foo=bar');
+				});
+
+			});
+
 		});
 
 	});

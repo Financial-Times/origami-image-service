@@ -134,6 +134,31 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 			});
 
+			describe('when the resolved URL has a querystring', () => {
+
+				beforeEach(() => {
+					next.reset();
+					express.mockRequest.params[0] = 'foo:bar';
+					delete express.mockRequest.query.format;
+					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.svg?foo=bar');
+					middleware(express.mockRequest, express.mockResponse, next);
+				});
+
+				it('sets the request param (0) to the returned URL', () => {
+					assert.strictEqual(express.mockRequest.params[0], 'http://mock-store/foo/bar.svg?foo=bar');
+				});
+
+				it('sets the `format` query parameter to the resolved URLs file extension', () => {
+					assert.strictEqual(express.mockRequest.query.format, 'svg');
+				});
+
+				it('calls `next` with no error', () => {
+					assert.calledOnce(next);
+					assert.calledWithExactly(next);
+				});
+
+			});
+
 			describe('when `ImageTransform.resolveCustomSchemeUri` throws', () => {
 				let resolutionError;
 

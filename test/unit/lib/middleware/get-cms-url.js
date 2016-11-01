@@ -49,7 +49,9 @@ describe('lib/middleware/get-cms-url', () => {
 				};
 				global.fetch = sinon.stub();
 				global.fetch.withArgs('http://im.ft-static.com/content/images/mock-id.img').resolves(mockFetchResponseV1);
+				global.fetch.withArgs('http://im.ft-static.com/content/images/mock-id.img?foo=bar').resolves(mockFetchResponseV1);
 				global.fetch.withArgs('http://com.ft.imagepublish.prod.s3.amazonaws.com/mock-id').resolves(mockFetchResponseV2);
+				global.fetch.withArgs('http://com.ft.imagepublish.prod.s3.amazonaws.com/mock-id?foo=bar').resolves(mockFetchResponseV2);
 				middleware(express.mockRequest, express.mockResponse, done);
 			});
 
@@ -106,6 +108,25 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.instanceOf(responseError, Error);
 					assert.strictEqual(responseError.message, 'Unable to get image mock-id from FT CMS v1 or v2');
 					assert.strictEqual(responseError.status, 404);
+				});
+
+			});
+
+			describe('when the ftcms URL has a querystring', () => {
+
+				beforeEach(done => {
+					global.fetch.reset();
+					express.mockRequest.params[0] = 'ftcms:mock-id?foo=bar';
+					mockFetchResponseV1.ok = false;
+					middleware(express.mockRequest, express.mockResponse, done);
+				});
+
+				it('attempts to fetch the API URLs with the querystring intact', () => {
+					assert.calledTwice(global.fetch);
+					assert.calledWith(global.fetch, 'http://im.ft-static.com/content/images/mock-id.img?foo=bar');
+					assert.deepEqual(global.fetch.secondCall.args[1], {
+						method: 'HEAD'
+					});
 				});
 
 			});

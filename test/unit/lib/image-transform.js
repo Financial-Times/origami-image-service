@@ -810,6 +810,25 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `uri` has a querystring', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('http://foo/bar?foo=bar', 'http://base/images'),
+					'http://foo/bar?foo=bar'
+				);
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('fthead-v1:example?foo=bar', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png?foo=bar'
+				);
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images'),
+					'http://base/images/fticon/v1/example.svg?foo=bar'
+				);
+			});
+
+		});
+
 		describe('when `baseUrl` has a trailing slash', () => {
 
 			it('returns the expected URI', () => {
