@@ -21,49 +21,60 @@
 
 			<form action="v2/docs/url-builder" method="get">
 
-				<div class="o-forms o-forms--wide">
-					<label for="builder-url" class="o-forms__label">Image URL</label>
-					<small class="o-forms__additional-info">
-						Try with
-						<a href="{{demo.url}}">a URL</a>,
-						<a href="{{demo.cms}}">a Content API asset</a>, or
-						<a href="{{demo.icon}}">an icon</a>
-					</small>
-					<input type="text" id="builder-url" name="url" placeholder="http://&hellip;" value="{{form.url}}" class="o-forms__text" />
-				</div>
+				<div class="o-grid-container o-grid-container--bleed">
+					<div class="o-grid-row">
+						<div data-o-grid-colspan="6">
 
-				<div class="url-builder-preview">
-					{{#if imagePreviewUrl}}
-						<a href="{{imagePreviewUrl}}">
-							<img src="{{imagePreviewUrl}}" alt="Optimised Image"/>
-						</a>
-						<div class="o-forms o-forms--wide">
-							<label for="builder-output" class="o-forms__label">URL for the optimised image</label>
-							<textarea id="builder-output" class="o-forms__textarea" readonly>https://www.ft.com{{basePath}}/{{imagePreviewUrl}}</textarea>
+							<div class="o-forms o-forms--wide">
+								<label for="builder-url" class="o-forms__label">Image URL</label>
+								<small class="o-forms__additional-info">
+									Try with
+									<a href="{{demo.url}}">a URL</a>,
+									<a href="{{demo.cms}}">a Content API asset</a>, or
+									<a href="{{demo.icon}}">an icon</a>
+								</small>
+								<input type="text" id="builder-url" name="url" placeholder="http://&hellip;" value="{{form.url}}" class="o-forms__text" />
+							</div>
+
+							<div class="o-forms o-forms--wide">
+								<label for="builder-source" class="o-forms__label">Source</label>
+								<small class="o-forms__additional-info">
+									Typically your product's system code
+								</small>
+								<input type="text" id="builder-source" name="source" placeholder="test" value="{{form.source}}" class="o-forms__text" />
+							</div>
+
+							<div class="o-forms o-forms--wide">
+								<label for="builder-width" class="o-forms__label">Width</label>
+								<input type="number" id="builder-width" name="width" value="{{form.width}}" class="o-forms__text" />
+							</div>
+
+							<div class="o-forms o-forms--wide">
+								<label for="builder-height" class="o-forms__label">Height</label>
+								<input type="number" id="builder-height" name="height" value="{{form.height}}" class="o-forms__text" />
+							</div>
+
+							<div class="o-forms o-forms--wide">
+								<button type="submit" class="o-buttons o-buttons--standout">Preview Image</button>
+							</div>
+
 						</div>
-					{{/if}}
-				</div>
+						<div data-o-grid-colspan="6">
 
-				<div class="o-forms">
-					<label for="builder-source" class="o-forms__label">Source</label>
-					<small class="o-forms__additional-info">
-						Typically your product's system code
-					</small>
-					<input type="text" id="builder-source" name="source" placeholder="test" value="{{form.source}}" class="o-forms__text" />
-				</div>
+							<div class="url-builder-preview">
+								{{#if imagePreviewUrl}}
+									<a href="{{imagePreviewUrl}}">
+										<img src="{{imagePreviewUrl}}" alt="Optimised Image"/>
+									</a>
+									<div class="o-forms o-forms--wide">
+										<label for="builder-output" class="o-forms__label">URL for the optimised image</label>
+										<textarea class="url-builder-output" id="builder-output" class="o-forms__textarea" readonly>https://www.ft.com{{basePath}}/{{imagePreviewUrl}}</textarea>
+									</div>
+								{{/if}}
+							</div>
 
-				<div class="o-forms">
-					<label for="builder-width" class="o-forms__label">Width</label>
-					<input type="number" id="builder-width" name="width" value="{{form.width}}" class="o-forms__text" />
-				</div>
-
-				<div class="o-forms">
-					<label for="builder-height" class="o-forms__label">Height</label>
-					<input type="number" id="builder-height" name="height" value="{{form.height}}" class="o-forms__text" />
-				</div>
-
-				<div class="o-forms">
-					<button type="submit" class="o-buttons o-buttons--standout">Preview Image</button>
+						</div>
+					</div>
 				</div>
 
 				<h2>Advanced Settings</h2>

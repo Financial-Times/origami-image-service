@@ -44,7 +44,7 @@ td p:first-child {
 }
 
 /* URL builder */
-.url-builder-preview {
-	float: right;
-	max-width: 50%;
+.url-builder-output {
+	min-width: 100%;
+	min-height: 100px;
 }
