@@ -42,3 +42,9 @@ td p:first-child {
 .comparison-image-match--no {
 	color: #c00;
 }
+
+/* URL builder */
+.url-builder-preview {
+	float: right;
+	max-width: 50%;
+}

@@ -29,7 +29,9 @@ const paths = [
 	'/v2/docs/compare',
 	'/v2/docs/compare/',
 	'/v2/docs/migration',
-	'/v2/docs/migration/'
+	'/v2/docs/migration/',
+	'/v2/docs/url-builder',
+	'/v2/docs/url-builder/'
 ];
 
 const endpoints = paths.map(path => hostname + path);
