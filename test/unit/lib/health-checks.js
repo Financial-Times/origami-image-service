@@ -3,15 +3,14 @@
 const assert = require('chai').assert;
 const mockery = require('mockery');
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 describe('lib/health-checks', () => {
 	let healthChecks;
-	let request;
+	let requestPromise;
 
 	beforeEach(() => {
-		request = require('../mock/request.mock');
-		mockery.registerMock('request', request);
+		requestPromise = require('../mock/request-promise.mock');
+		mockery.registerMock('./request-promise', requestPromise);
 
 		healthChecks = require('../../../lib/health-checks');
 	});
@@ -77,15 +76,15 @@ describe('lib/health-checks', () => {
 	describe('.pingService(name, url)', () => {
 
 		beforeEach(() => {
-			request.yieldsAsync(null, {
+			requestPromise.resolves({
 				statusCode: 200
 			});
 			return healthChecks.pingService('foo', 'bar');
 		});
 
 		it('requests the given URL', () => {
-			assert.calledOnce(request);
-			assert.calledWith(request, {
+			assert.calledOnce(requestPromise);
+			assert.calledWith(requestPromise, {
 				uri: 'bar',
 				method: 'HEAD'
 			});
@@ -98,7 +97,7 @@ describe('lib/health-checks', () => {
 		describe('when the response from the URL is not OK', () => {
 
 			beforeEach(() => {
-				request.yieldsAsync(null, {
+				requestPromise.resolves({
 					statusCode: 400
 				});
 				return healthChecks.pingService('foo', 'bar');
@@ -113,7 +112,7 @@ describe('lib/health-checks', () => {
 		describe('when the fetch errors', () => {
 
 			beforeEach(() => {
-				request.yieldsAsync(new Error('request-error'));
+				requestPromise.rejects(new Error('request-error'));
 				return healthChecks.pingService('foo', 'bar');
 			});
 

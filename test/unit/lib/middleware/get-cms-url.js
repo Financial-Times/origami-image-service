@@ -7,15 +7,15 @@ require('sinon-as-promised');
 describe('lib/middleware/get-cms-url', () => {
 	let express;
 	let getCmsUrl;
-	let request;
+	let requestPromise;
 
 	beforeEach(() => {
 
 		express = require('../../mock/n-express.mock');
 		mockery.registerMock('express', express);
 
-		request = require('../../mock/request.mock');
-		mockery.registerMock('request', request);
+		requestPromise = require('../../mock/request-promise.mock');
+		mockery.registerMock('../request-promise', requestPromise);
 
 		getCmsUrl = require('../../../../lib/middleware/get-cms-url');
 	});
@@ -43,10 +43,10 @@ describe('lib/middleware/get-cms-url', () => {
 				express.mockRequest.params[0] = 'ftcms:mock-id';
 
 				// V1 responds with success
-				request.withArgs({
+				requestPromise.withArgs({
 					uri: v1Uri,
 					method: 'HEAD'
-				}).yieldsAsync(null, {
+				}).resolves({
 					statusCode: 200
 				});
 
@@ -54,8 +54,8 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			it('attempts to fetch the v1 API URL corresponding to the CMS ID', () => {
-				assert.calledOnce(request);
-				assert.calledWith(request, {
+				assert.calledOnce(requestPromise);
+				assert.calledWith(requestPromise, {
 					uri: v1Uri,
 					method: 'HEAD'
 				});
@@ -68,22 +68,22 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the v1 API cannot find the image', () => {
 
 				beforeEach(done => {
-					request.reset();
+					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id';
 
 					// V1 responds with a 404
-					request.withArgs({
+					requestPromise.withArgs({
 						uri: v1Uri,
 						method: 'HEAD'
-					}).yieldsAsync(null, {
+					}).resolves({
 						statusCode: 404
 					});
 
 					// V2 responds with success
-					request.withArgs({
+					requestPromise.withArgs({
 						uri: v2Uri,
 						method: 'HEAD'
-					}).yieldsAsync(null, {
+					}).resolves({
 						statusCode: 200
 					});
 
@@ -91,8 +91,8 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('attempts to fetch the v2 API URL corresponding to the CMS ID', () => {
-					assert.calledTwice(request);
-					assert.calledWith(request, {
+					assert.calledTwice(requestPromise);
+					assert.calledWith(requestPromise, {
 						uri: v2Uri,
 						method: 'HEAD'
 					});
@@ -108,22 +108,22 @@ describe('lib/middleware/get-cms-url', () => {
 				let responseError;
 
 				beforeEach(done => {
-					request.reset();
+					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id';
 
 					// V1 responds with a 404
-					request.withArgs({
+					requestPromise.withArgs({
 						uri: v1Uri,
 						method: 'HEAD'
-					}).yieldsAsync(null, {
+					}).resolves({
 						statusCode: 404
 					});
 
 					// V2 responds with a 404
-					request.withArgs({
+					requestPromise.withArgs({
 						uri: v2Uri,
 						method: 'HEAD'
-					}).yieldsAsync(null, {
+					}).resolves({
 						statusCode: 404
 					});
 
@@ -144,14 +144,14 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the ftcms URL has a querystring', () => {
 
 				beforeEach(done => {
-					request.reset();
+					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id?foo=bar';
 
 					// V1 responds with success
-					request.withArgs({
+					requestPromise.withArgs({
 						uri: `${v1Uri}?foo=bar`,
 						method: 'HEAD'
-					}).yieldsAsync(null, {
+					}).resolves({
 						statusCode: 200
 					});
 
@@ -159,8 +159,8 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('attempts to fetch the API URLs with the querystring intact', () => {
-					assert.calledOnce(request);
-					assert.calledWith(request, {
+					assert.calledOnce(requestPromise);
+					assert.calledWith(requestPromise, {
 						uri: `${v1Uri}?foo=bar`,
 						method: 'HEAD'
 					});
@@ -172,14 +172,14 @@ describe('lib/middleware/get-cms-url', () => {
 				let responseError;
 
 				beforeEach(done => {
-					request.reset();
+					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id';
 
 					// V1 errors
-					request.withArgs({
+					requestPromise.withArgs({
 						uri: v1Uri,
 						method: 'HEAD'
-					}).yieldsAsync(new Error('mock error'));
+					}).rejects(new Error('mock error'));
 
 					middleware(express.mockRequest, express.mockResponse, error => {
 						responseError = error;
