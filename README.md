@@ -57,6 +57,8 @@ We configure Origami Image Service using environment variables. In development, 
   * `LOG_LEVEL`: A Syslog-compatible level at which to emit log events to stdout. One of `trace`, `debug`, `info`, `warn`, `error`, or `crit`.
   * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
+  * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
+  * `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
   * `RAVEN_URL`: The Sentry URL to send error information to.
 
 

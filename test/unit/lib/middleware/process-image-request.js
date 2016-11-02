@@ -33,7 +33,9 @@ describe('lib/middleware/process-image-request', () => {
 
 		beforeEach(() => {
 			config = {
-				cloudinaryAccountName: 'baz'
+				cloudinaryAccountName: 'baz',
+				cloudinaryApiKey: 'api-key',
+				cloudinaryApiSecret: 'api-secret'
 			};
 			middleware = processImageRequest(config);
 		});
@@ -74,7 +76,9 @@ describe('lib/middleware/process-image-request', () => {
 				assert.calledOnce(cloudinaryTransform);
 				assert.strictEqual(cloudinaryTransform.firstCall.args[0], mockImageTransform);
 				assert.deepEqual(cloudinaryTransform.firstCall.args[1], {
-					cloudinaryAccountName: config.cloudinaryAccountName
+					cloudinaryAccountName: config.cloudinaryAccountName,
+					cloudinaryApiKey: config.cloudinaryApiKey,
+					cloudinaryApiSecret: config.cloudinaryApiSecret
 				});
 			});
 
