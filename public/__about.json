@@ -3,17 +3,17 @@
 	"name": "origami-image-service",
 	"purpose": "Optimises and resizes images, and serves them to end users",
 	"audience": "public",
-	"primaryUrl": "https://www.ft.com/__origami/service/image/v2/",
-	"serviceTier": "bronze",
-	"apiVersion": 1,
+	"primaryUrl": "https://www.ft.com/__origami/service/image/v2",
+	"serviceTier": "platinum",
+	"apiVersion": 2,
 	"apiVersions": [
 		{
 			"path": "/v1",
-			"supportStatus": "active"
+			"supportStatus": "deprecated"
 		},
 		{
 			"path": "/v2",
-			"supportStatus": "experimental"
+			"supportStatus": "active"
 		}
 	],
 	"dateCreated": "2016-05-18",
