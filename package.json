@@ -39,13 +39,13 @@
   },
   "devDependencies": {
     "@financial-times/change-request": "^1.0.0",
-    "chai": "^3",
     "eslint": "^2",
     "istanbul": "^0.4",
     "konstructor-api-client": "1.0.0-alpha.3",
     "mocha": "^2",
     "mockery": "^1",
     "nodemon": "^1",
+    "proclaim": "^3",
     "sinon": "^1",
     "sinon-as-promised": "^4",
     "supertest": "^1"

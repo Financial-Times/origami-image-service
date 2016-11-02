@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 
 describe('lib/transformers/cloudinary', () => {
 	let cloudinaryTransform;
