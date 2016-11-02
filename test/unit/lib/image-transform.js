@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
 
@@ -953,7 +953,7 @@ describe('lib/image-transform', () => {
 
 		it('has values that are lower than or equal to their equivalent in `qualityValueMap`', () => {
 			ImageTransform.validQualities.forEach((quality) => {
-				assert.isAtMost(ImageTransform.qualityValueMapDpr[quality], ImageTransform.qualityValueMap[quality]);
+				assert.lessThanOrEqual(ImageTransform.qualityValueMapDpr[quality], ImageTransform.qualityValueMap[quality]);
 			});
 		});
 
