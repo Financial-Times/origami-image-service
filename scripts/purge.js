@@ -37,26 +37,25 @@ const paths = [
 const endpoints = paths.map(path => hostname + path);
 
 if (!DRY_RUN) {
-	require('isomorphic-fetch');
+	const requestPromise = require('../lib/request-promise');
 	Promise.all(endpoints.map(endpoint => {
-			return fetch(endpoint, {
-					method: 'PURGE',
-					headers: {
-						'Fastly-Key': process.env.FASTLY_API_KEY
-					},
-					mode: 'no-cors',
-					cache: 'default'
-				})
-				.then(function(res) {
-					if (res.ok) {
-						console.log(`Purged ${endpoint}`);
-					} else if (res.status === 401) {
-						throw Error('It seems you may not be authorised to purge the resources. Have you set the environment variable "FASTLY_API_KEY"?');
-					}
-				});
-		}))
-		.then(() => console.log('\nPurged all endpoints successfully.'))
-		.catch((e) => console.error(`Failed to purge endpoints. ${e}`));
+		return requestPromise({
+			uri: endpoint,
+			method: 'PURGE',
+			headers: {
+				'Fastly-Key': process.env.FASTLY_API_KEY
+			}
+		})
+		.then(function(response) {
+			if (response.statusCode <= 400) {
+				console.log(`Purged ${endpoint}`);
+			} else if (response.statusCode === 401) {
+				throw Error('It seems you may not be authorised to purge the resources. Have you set the environment variable "FASTLY_API_KEY"?');
+			}
+		});
+	}))
+	.then(() => console.log('\nPurged all endpoints successfully.'))
+	.catch((e) => console.error(`Failed to purge endpoints. ${e}`));
 } else {
 	console.log('\nThis is a dry run. No assets were purged from the cache.\n');
 	console.log('If this were not a dry run, these are the assets which would have been purged from the cache:\n');

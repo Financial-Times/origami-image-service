@@ -30,7 +30,6 @@
     "heroku-node-settings": "^1.0.2",
     "http-errors": "^1",
     "http-proxy": "^1",
-    "isomorphic-fetch": "^2.2.1",
     "morgan": "^1",
     "request": "^2",
     "require-all": "^2",
