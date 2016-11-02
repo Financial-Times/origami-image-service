@@ -19,7 +19,7 @@
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
 		"transform": "width=200",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "10042"
+		"v1ImageSize": "11325"
 	},
 	{
 		"name": "Height",
@@ -28,7 +28,7 @@
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
 		"transform": "height=150",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "15783"
+		"v1ImageSize": "17644"
 	},
 	{
 		"name": "Width and height",
@@ -37,7 +37,7 @@
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
 		"transform": "width=200&height=200",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "15571"
+		"v1ImageSize": "17535"
 	},
 	{
 		"name": "Cropping strategies",
@@ -50,7 +50,7 @@
 		"uri": "ftcms:b35b7a62-8fce-11e6-8df8-d3778b55a923",
 		"transform": "width=200&height=200&fit=cover",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "11544"
+		"v1ImageSize": "15012"
 	},
 	{
 		"name": "Width, height, and contain",
@@ -59,7 +59,7 @@
 		"uri": "ftcms:b35b7a62-8fce-11e6-8df8-d3778b55a923",
 		"transform": "width=200&height=200&fit=contain",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "7118"
+		"v1ImageSize": "10357"
 	},
 	{
 		"name": "Width, height, and scale-down",
@@ -68,7 +68,7 @@
 		"uri": "ftcms:b35b7a62-8fce-11e6-8df8-d3778b55a923",
 		"transform": "width=200&height=200&fit=scale-down",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "7118"
+		"v1ImageSize": "10357"
 	},
 	{
 		"name": "Device pixel ratio",
@@ -81,7 +81,7 @@
 		"uri": "ftcms:2dac88f0-b273-4e48-9c7d-9078db39db55",
 		"transform": "width=200&dpr=1",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "10488"
+		"v1ImageSize": "11241"
 	},
 	{
 		"name": "Width and DPR 2",
@@ -90,7 +90,7 @@
 		"uri": "ftcms:2dac88f0-b273-4e48-9c7d-9078db39db55",
 		"transform": "width=200&dpr=2",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "15808"
+		"v1ImageSize": "19877"
 	},
 	{
 		"name": "Quality",
@@ -103,7 +103,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=lowest",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "1956"
+		"v1ImageSize": "2844"
 	},
 	{
 		"name": "Low",
@@ -112,7 +112,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=low",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "2968"
+		"v1ImageSize": "4344"
 	},
 	{
 		"name": "Medium",
@@ -121,7 +121,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=medium",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "8572"
+		"v1ImageSize": "9122"
 	},
 	{
 		"name": "High",
@@ -130,7 +130,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=high",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "10183"
+		"v1ImageSize": "10797"
 	},
 	{
 		"name": "Highest",
@@ -139,7 +139,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "width=250&quality=highest",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "20011"
+		"v1ImageSize": "21750"
 	},
 	{
 		"name": "Lossless",
@@ -157,7 +157,7 @@
 		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
 		"transform": "width=250&quality=lowest&dpr=2",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "6011"
+		"v1ImageSize": "8585"
 	},
 	{
 		"name": "Low and DPR 2",
@@ -184,7 +184,7 @@
 		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
 		"transform": "width=250&quality=high&dpr=2",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "10498"
+		"v1ImageSize": "15162"
 	},
 	{
 		"name": "Highest and DPR 2",
@@ -193,7 +193,7 @@
 		"uri": "ftcms:03b32b22-91a0-11e6-a72e-b428cb934b78",
 		"transform": "width=250&quality=highest&dpr=2",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "14153"
+		"v1ImageSize": "14732"
 	},
 	{
 		"name": "Lossless and DPR 2",
@@ -215,7 +215,7 @@
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
 		"transform": "format=jpg",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "82674"
+		"v1ImageSize": "125329"
 	},
 	{
 		"name": "PNG",
@@ -224,7 +224,7 @@
 		"uri": "ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2",
 		"transform": "format=png",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "1238752"
+		"v1ImageSize": "1080273"
 	},
 	{
 		"name": "GIF",
@@ -251,7 +251,7 @@
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
 		"transform": "format=png",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "2355"
+		"v1ImageSize": "2569"
 	},
 	{
 		"name": "SVG to PNG",
@@ -260,7 +260,7 @@
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg",
 		"transform": "format=png",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "61946"
+		"v1ImageSize": "412582"
 	},
 	{
 		"name": "Custom schemes",
@@ -376,7 +376,7 @@
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
 		"transform": "bgcolor=ffff00&format=jpg",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "20419"
+		"v1ImageSize": "19445"
 	},
 	{
 		"name": "PNG with background converted to JPEG",
@@ -385,7 +385,7 @@
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
 		"transform": "bgcolor=hotpink&format=jpg",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "19414"
+		"v1ImageSize": "18404"
 	},
 	{
 		"name": "SVG with background converted to JPEG",
@@ -394,7 +394,7 @@
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
 		"transform": "bgcolor=hotpink&format=jpg&width=100",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "2047"
+		"v1ImageSize": "2110"
 	},
 	{
 		"name": "Tinting",
@@ -425,7 +425,7 @@
 		"uri": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
 		"transform": "tint=ff0000,00ff00&format=png",
 		"v1ImageFormat": "image/png",
-		"v1ImageSize": "2356"
+		"v1ImageSize": "3050"
 	},
 	{
 		"name": "JPEG with tint",
@@ -434,7 +434,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "tint",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "331374"
+		"v1ImageSize": "338329"
 	},
 	{
 		"name": "JPEG with tint",
@@ -443,7 +443,7 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "tint=ff0000",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "424110"
+		"v1ImageSize": "673939"
 	},
 	{
 		"name": "JPEG with tint",
@@ -452,6 +452,6 @@
 		"uri": "ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1",
 		"transform": "tint=ff0000,00ff00",
 		"v1ImageFormat": "image/jpeg",
-		"v1ImageSize": "171304"
+		"v1ImageSize": "442113"
 	}
 ]
