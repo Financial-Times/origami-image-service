@@ -122,6 +122,25 @@ describe('lib/health-checks', () => {
 
 		});
 
+		describe('when the `TEST_HEALTHCHECK_FAILURE` environment variable is set', () => {
+			let originalEnv;
+
+			beforeEach(() => {
+				originalEnv = process.env.TEST_HEALTHCHECK_FAILURE;
+				process.env.TEST_HEALTHCHECK_FAILURE = 'YESPLEASE';
+				return healthChecks.pingService('foo', 'bar');
+			});
+
+			afterEach(() => {
+				process.env.TEST_HEALTHCHECK_FAILURE = originalEnv;
+			});
+
+			it('sets the status of the check to `false`', () => {
+				assert.isFalse(healthChecks.statuses.foo);
+			});
+
+		});
+
 	});
 
 	it('has a `statuses` property', () => {
