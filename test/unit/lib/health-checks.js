@@ -85,7 +85,10 @@ describe('lib/health-checks', () => {
 
 		it('requests the given URL', () => {
 			assert.calledOnce(request);
-			assert.calledWith(request, 'bar');
+			assert.calledWith(request, {
+				uri: 'bar',
+				method: 'HEAD'
+			});
 		});
 
 		it('sets the status of the check to `true`', () => {
