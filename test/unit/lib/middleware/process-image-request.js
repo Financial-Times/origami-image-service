@@ -110,7 +110,7 @@ describe('lib/middleware/process-image-request', () => {
 
 				it('sets the image transform `uri` property to route through the SVG tinter', () => {
 					assert.calledOnce(mockImageTransform.setUri);
-					assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'proto://hostname/v2/images/svgtint/transform-uri%3Ffoo?color=ff0000');
+					assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'proto://hostname/v2/images/svgtint/transform-uri%3Ffoo&color=ff0000');
 				});
 
 				it('removes the tint property from the image transform', () => {
@@ -128,7 +128,7 @@ describe('lib/middleware/process-image-request', () => {
 
 					it('sets the image transform `uri` property to route through the SVG tinter', () => {
 						assert.calledOnce(mockImageTransform.setUri);
-						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'proto://config-hostname/v2/images/svgtint/transform-uri%3Ffoo?color=ff0000');
+						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'proto://config-hostname/v2/images/svgtint/transform-uri%3Ffoo&color=ff0000');
 					});
 
 				});

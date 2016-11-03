@@ -869,7 +869,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images/', 'busted'),
-						'http://base/images/fthead/v1/example.png?busted'
+						'http://base/images/fthead/v1/example.png?cacheBust=busted'
 					);
 				});
 
@@ -880,7 +880,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images/', 'busted'),
-						'http://base/images/fticon/v1/example.svg?busted'
+						'http://base/images/fticon/v1/example.svg?cacheBust=busted'
 					);
 				});
 
@@ -891,7 +891,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images/', 'busted'),
-						'http://base/images/fticon/v1/example.svg?foo=bar&busted'
+						'http://base/images/fticon/v1/example.svg?foo=bar&cacheBust=busted'
 					);
 				});
 
