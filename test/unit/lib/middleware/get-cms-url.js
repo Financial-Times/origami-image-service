@@ -37,7 +37,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 		describe('middleware(request, response, next)', () => {
 			const v1Uri = 'http://im.ft-static.com/content/images/mock-id.img';
-			const v2Uri = 'http://com.ft.imagepublish.prod.s3.amazonaws.com/mock-id';
+			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id';
 
 			beforeEach(done => {
 				express.mockRequest.params[0] = 'ftcms:mock-id';

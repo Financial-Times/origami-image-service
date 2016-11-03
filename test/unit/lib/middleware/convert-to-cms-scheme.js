@@ -45,6 +45,19 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 			});
 
+			describe('when the request param (0) points to an image in prod-upp-image-read.ft.com', () => {
+
+				beforeEach(done => {
+					express.mockRequest.params[0] = 'http://prod-upp-image-read.ft.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					middleware(express.mockRequest, express.mockResponse, done);
+				});
+
+				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				});
+
+			});
+
 			describe('when the request param (0) points to an image in the imagepublish S3 bucket', () => {
 
 				beforeEach(done => {
