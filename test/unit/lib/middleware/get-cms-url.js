@@ -42,9 +42,9 @@ describe('lib/middleware/get-cms-url', () => {
 			beforeEach(done => {
 				express.mockRequest.params[0] = 'ftcms:mock-id';
 
-				// V1 responds with success
+				// V2 responds with success
 				requestPromise.withArgs({
-					uri: v1Uri,
+					uri: v2Uri,
 					method: 'HEAD'
 				}).resolves({
 					statusCode: 200
@@ -53,35 +53,35 @@ describe('lib/middleware/get-cms-url', () => {
 				middleware(express.mockRequest, express.mockResponse, done);
 			});
 
-			it('attempts to fetch the v1 API URL corresponding to the CMS ID', () => {
+			it('attempts to fetch the v2 API URL corresponding to the CMS ID', () => {
 				assert.calledOnce(requestPromise);
 				assert.calledWith(requestPromise, {
-					uri: v1Uri,
+					uri: v2Uri,
 					method: 'HEAD'
 				});
 			});
 
-			it('sets the request param (0) to the v1 API URL corresponding to the CMS ID', () => {
-				assert.strictEqual(express.mockRequest.params[0], v1Uri);
+			it('sets the request param (0) to the v2 API URL corresponding to the CMS ID', () => {
+				assert.strictEqual(express.mockRequest.params[0], v2Uri);
 			});
 
-			describe('when the v1 API cannot find the image', () => {
+			describe('when the v2 API cannot find the image', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id';
 
-					// V1 responds with a 404
+					// V2 responds with a 404
 					requestPromise.withArgs({
-						uri: v1Uri,
+						uri: v2Uri,
 						method: 'HEAD'
 					}).resolves({
 						statusCode: 404
 					});
 
-					// V2 responds with success
+					// V1 responds with success
 					requestPromise.withArgs({
-						uri: v2Uri,
+						uri: v1Uri,
 						method: 'HEAD'
 					}).resolves({
 						statusCode: 200
@@ -90,16 +90,16 @@ describe('lib/middleware/get-cms-url', () => {
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('attempts to fetch the v2 API URL corresponding to the CMS ID', () => {
+				it('attempts to fetch the v1 API URL corresponding to the CMS ID', () => {
 					assert.calledTwice(requestPromise);
 					assert.calledWith(requestPromise, {
-						uri: v2Uri,
+						uri: v1Uri,
 						method: 'HEAD'
 					});
 				});
 
-				it('sets the request param (0) to the v2 API URL corresponding to the CMS ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], v2Uri);
+				it('sets the request param (0) to the v1 API URL corresponding to the CMS ID', () => {
+					assert.strictEqual(express.mockRequest.params[0], v1Uri);
 				});
 
 			});
@@ -111,17 +111,17 @@ describe('lib/middleware/get-cms-url', () => {
 					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id';
 
-					// V1 responds with a 404
+					// V2 responds with a 404
 					requestPromise.withArgs({
-						uri: v1Uri,
+						uri: v2Uri,
 						method: 'HEAD'
 					}).resolves({
 						statusCode: 404
 					});
 
-					// V2 responds with a 404
+					// V1 responds with a 404
 					requestPromise.withArgs({
-						uri: v2Uri,
+						uri: v1Uri,
 						method: 'HEAD'
 					}).resolves({
 						statusCode: 404
@@ -147,9 +147,9 @@ describe('lib/middleware/get-cms-url', () => {
 					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id?foo=bar';
 
-					// V1 responds with success
+					// V2 responds with success
 					requestPromise.withArgs({
-						uri: `${v1Uri}?foo=bar`,
+						uri: `${v2Uri}?foo=bar`,
 						method: 'HEAD'
 					}).resolves({
 						statusCode: 200
@@ -161,7 +161,7 @@ describe('lib/middleware/get-cms-url', () => {
 				it('attempts to fetch the API URLs with the querystring intact', () => {
 					assert.calledOnce(requestPromise);
 					assert.calledWith(requestPromise, {
-						uri: `${v1Uri}?foo=bar`,
+						uri: `${v2Uri}?foo=bar`,
 						method: 'HEAD'
 					});
 				});
@@ -175,9 +175,9 @@ describe('lib/middleware/get-cms-url', () => {
 					requestPromise.reset();
 					express.mockRequest.params[0] = 'ftcms:mock-id';
 
-					// V1 errors
+					// V2 errors
 					requestPromise.withArgs({
-						uri: v1Uri,
+						uri: v2Uri,
 						method: 'HEAD'
 					}).rejects(new Error('mock error'));
 
