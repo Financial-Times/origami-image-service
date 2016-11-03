@@ -5,6 +5,8 @@ const mockery = require('mockery');
 const sinon = require('sinon');
 
 describe('lib/middleware/map-custom-scheme', () => {
+	let clock;
+	let currentWeekNumber;
 	let express;
 	let ImageTransform;
 	let mapCustomScheme;
@@ -18,7 +20,16 @@ describe('lib/middleware/map-custom-scheme', () => {
 		};
 		mockery.registerMock('../image-transform', ImageTransform);
 
+		currentWeekNumber = sinon.stub().returns(1);
+		mockery.registerMock('current-week-number', currentWeekNumber);
+
+		clock = sinon.useFakeTimers();
+
 		mapCustomScheme = require('../../../../lib/middleware/map-custom-scheme');
+	});
+
+	afterEach(() => {
+		clock.restore();
 	});
 
 	it('exports a function', () => {
@@ -50,9 +61,9 @@ describe('lib/middleware/map-custom-scheme', () => {
 				middleware(express.mockRequest, express.mockResponse, next);
 			});
 
-			it('calls `ImageTransform.resolveCustomSchemeUri` with the request param (0) and the configured base URL', () => {
+			it('calls `ImageTransform.resolveCustomSchemeUri` with the request param (0), the configured base URL, and a cache-buster', () => {
 				assert.calledOnce(ImageTransform.resolveCustomSchemeUri);
-				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store');
+				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store', '1970-W1-1');
 			});
 
 			it('sets the request param (0) to the returned URL', () => {
