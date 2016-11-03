@@ -840,6 +840,65 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `cacheBust` is set', () => {
+
+			describe('when `uri` is an `http` URI', () => {
+
+				it('returns `uri` (not cache-busted)', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('http://foo/bar', 'http://base/images/', 'busted'),
+						'http://foo/bar'
+					);
+				});
+
+			});
+
+			describe('when `uri` is an `ftcms` URI', () => {
+
+				it('returns `uri` (not cache-busted)', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftcms:example', 'http://base/images', 'busted'),
+						'ftcms:example'
+					);
+				});
+
+			});
+
+			describe('when `uri` is an `fthead` URI', () => {
+
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images/', 'busted'),
+						'http://base/images/fthead/v1/example.png?busted'
+					);
+				});
+
+			});
+
+			describe('when `uri` is an `fticon` URI', () => {
+
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images/', 'busted'),
+						'http://base/images/fticon/v1/example.svg?busted'
+					);
+				});
+
+			});
+
+			describe('when `uri` has a querystring', () => {
+
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images/', 'busted'),
+						'http://base/images/fticon/v1/example.svg?foo=bar&busted'
+					);
+				});
+
+			});
+
+		});
+
 		describe('when `baseUrl` is not defined', () => {
 
 			it('throws an error', () => {
