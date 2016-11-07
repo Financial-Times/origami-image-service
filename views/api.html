@@ -159,13 +159,32 @@
 					<tr id="source">
 						<td><code>source</code></td>
 						<td>
-							<p>Name of the application making the request, used for audit purposes. Set to a descriptive name for the site or application in which the service is being used.</p>
+							<p>Name of the application making the request, used for audit purposes. This should be a valid FT System Code which relates to the application making the request.</p>
 						</td>
 					</tr>
 				</table>
 			</div>
 
 			<p>The service stores cached copies of images as retrieved from origin. Cached copies of transformed images are cached by CDN.</p>
+
+			<h2>Limitations</h2>
+
+			<p>
+				This service is meant for use in applications maintained by The Financial Times.
+				Use by third-parties is not permitted, and non-FT requests may be rate-limited or
+				blocked without notice.
+			</p>
+
+			<p>
+				If a request contains an HTTP <code>Referer</code> header, it must specify a known
+				Financial Times hostname. Requests without referers are accepted but may be rate
+				limited.
+			</p>
+
+			<p>
+				Requests which specify a <code>source</code> parameter that does not match an FT
+				System Code may be rate limited.
+			</p>
 
 		</div>
 
