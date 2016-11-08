@@ -22,6 +22,7 @@ const mockRouter = module.exports.mockRouter = {};
 const mockStaticMiddleware = module.exports.mockStaticMiddleware = {};
 
 module.exports.mockRequest = {
+	headers: {},
 	query: {},
 	params: {}
 };

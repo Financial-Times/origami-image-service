@@ -38,7 +38,7 @@
 			<h2>Image modes</h2>
 
 			<p>
-				The image modes <code>metadata</code>, <code>data</code>, and <code>data-utfhack</code>
+				The image modes <code>data</code> and <code>data-utfhack</code>
 				have been removed from the service. The <code>debug</code> mode has been added.
 			</p>
 
@@ -112,6 +112,12 @@
 				If the <code>format</code> query parameter is set to <code>auto</code>, it will now
 				use <a href="http://cloudinary.com/documentation/image_transformations#automatic_format_selection">Cloudinary's automatic format detection</a>.
 				This includes serving WebP or JPEG-XR images for browsers which support them.
+			</p>
+
+			<h2>Metadata</h2>
+
+			<p>
+				The <code>images/metadata</code> endpoint now doesn't include a <code>cache</code> property.
 			</p>
 
 		</div>
