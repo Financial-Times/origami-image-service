@@ -336,6 +336,14 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `value` is a protocol-relative URL', () => {
+
+			it('returns `value` with an HTTP protocol added', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('//foo/'), 'http://foo/');
+			});
+
+		});
+
 		describe('when `value` is a string with an invalid scheme', () => {
 
 			it('throws an error', () => {

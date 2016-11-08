@@ -14,7 +14,8 @@ const testImageUris = {
 	ftpodcast: 'ftpodcast:arts',
 	ftsocial: 'ftsocial:whatsapp',
 	http: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	https: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
+	https: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+	protocolRelative: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
 };
 
 describe('GET /v2/images/raw…', function() {
@@ -39,6 +40,18 @@ describe('GET /v2/images/raw…', function() {
 
 	describe('/https%3A%2F%2F… (HTTPS scheme encoded)', function() {
 		setupRequest('GET', `/v2/images/raw/${encodeURIComponent(testImageUris.https)}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('///… (protocol-relative unencoded)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelative}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('/2F%2F… (protocol-relative encoded)', function() {
+		setupRequest('GET', `/v2/images/raw/${encodeURIComponent(testImageUris.protocolRelative)}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
