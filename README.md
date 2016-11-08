@@ -4,8 +4,6 @@ Origami Image Service
 
 Optimises and resize images. See [the production service][image-service] for API information.
 
-**:warning: Note: this is a work in progress version of a proxy-based image service. It's not ready for production use, and we may not go in this direction anyway. Consider this prototypal.**
-
 [![Build status](https://img.shields.io/circleci/project/Financial-Times/origami-image-service.svg)][ci]
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)][license]
 
@@ -189,7 +187,7 @@ The Financial Times has published this software under the [MIT license][license]
 [heroku-production-us]: https://dashboard.heroku.com/apps/origami-image-service-us
 [heroku-qa]: https://dashboard.heroku.com/apps/origami-image-service-qa
 [heroku]: https://heroku.com/
-[image-service]: https://image.webservices.ft.com/
+[image-service]: https://www.ft.com/__origami/service/image/v2
 [license]: http://opensource.org/licenses/MIT
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
