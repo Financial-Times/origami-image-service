@@ -60,10 +60,9 @@ describe('lib/middleware/get-image-meta', () => {
 		it('sets cache headers to one week', () => {
 			assert.calledOnce(express.mockResponse.set);
 			assert.calledWith(express.mockResponse.set, {
-				'Content-Type': 'text/html; charset=utf-8',
 				'Cache-Control': `public, stale-while-revalidate=604800, max-age=604800`
 			});
-		})
+		});
 
 		it('responds with JSON containing the meta data', () => {
 			assert.calledOnce(express.mockResponse.send);
