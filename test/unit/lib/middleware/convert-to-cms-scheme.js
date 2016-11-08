@@ -32,80 +32,80 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 		describe('middleware(request, response, next)', () => {
 
-			describe('when the request param (0) does not point to a known CMS image store', () => {
+			describe('when the `imageUrl` request param does not point to a known CMS image store', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'http://foo.bar/image.jpg';
+					express.mockRequest.params.imageUrl = 'http://foo.bar/image.jpg';
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('does nothing to the request param (0)', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'http://foo.bar/image.jpg');
+				it('does nothing to the `imageUrl` request param', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'http://foo.bar/image.jpg');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image in prod-upp-image-read.ft.com', () => {
+			describe('when the `imageUrl` request param points to an image in prod-upp-image-read.ft.com', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'http://prod-upp-image-read.ft.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					express.mockRequest.params.imageUrl = 'http://prod-upp-image-read.ft.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image in the imagepublish S3 bucket', () => {
+			describe('when the `imageUrl` request param points to an image in the imagepublish S3 bucket', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://com.ft.imagepublish.prod.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					express.mockRequest.params.imageUrl = 'https://com.ft.imagepublish.prod.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image in the imagepublish US S3 bucket', () => {
+			describe('when the `imageUrl` request param points to an image in the imagepublish US S3 bucket', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://com.ft.imagepublish.prod-us.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					express.mockRequest.params.imageUrl = 'https://com.ft.imagepublish.prod-us.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image on im.ft-static.com', () => {
+			describe('when the `imageUrl` request param points to an image on im.ft-static.com', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img';
+					express.mockRequest.params.imageUrl = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img';
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
 				});
 
 			});
 
-			describe('when the request param (0) has a querystring', () => {
+			describe('when the `imageUrl` request param has a querystring', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img?foo=bar';
+					express.mockRequest.params.imageUrl = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img?foo=bar';
 					middleware(express.mockRequest, express.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the query intact', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef?foo=bar');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the query intact', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef?foo=bar');
 				});
 
 			});

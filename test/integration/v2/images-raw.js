@@ -97,12 +97,6 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('?imageset=… (image set)', function() {
-		setupRequest('GET', '/v2/images/raw?imageset=%5B%7B%22uri%22%3A%22http%3A%2F%2Fexample.com%2Fimage.jpg%22%2C%22width%22%3A100%7D%5D&source=test');
-		itRespondsWithStatus(501);
-		itRespondsWithContentType('text/html');
-	});
-
 	describe('without a `source` query parameter', function() {
 
 		setupRequest('GET', `/v2/images/raw/${testImageUris.http}`);

@@ -56,14 +56,14 @@ describe('lib/middleware/process-image-request', () => {
 
 				cloudinaryTransform.returns('mock-cloudinary-url');
 
-				express.mockRequest.params[0] = 'mock-uri';
+				express.mockRequest.params.imageUrl = 'mock-uri';
 				express.mockRequest.query.source = 'mock-source';
 
 				middleware(express.mockRequest, express.mockResponse, next);
 			});
 
-			it('sets the request query `uri` property to the first captured parameter', () => {
-				assert.strictEqual(express.mockRequest.query.uri, express.mockRequest.params[0]);
+			it('sets the request query `uri` property to the `imageUrl` request param', () => {
+				assert.strictEqual(express.mockRequest.query.uri, express.mockRequest.params.imageUrl);
 			});
 
 			it('creates an image transform using the query parameters', () => {

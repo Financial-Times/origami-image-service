@@ -40,7 +40,7 @@ describe('lib/middleware/get-cms-url', () => {
 			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id';
 
 			beforeEach(done => {
-				express.mockRequest.params[0] = 'ftcms:mock-id';
+				express.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 				// V2 responds with success
 				requestPromise.withArgs({
@@ -61,15 +61,15 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 			});
 
-			it('sets the request param (0) to the v2 API URL corresponding to the CMS ID', () => {
-				assert.strictEqual(express.mockRequest.params[0], v2Uri);
+			it('sets the `imageUrl` request param to the v2 API URL corresponding to the CMS ID', () => {
+				assert.strictEqual(express.mockRequest.params.imageUrl, v2Uri);
 			});
 
 			describe('when the v2 API cannot find the image', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params[0] = 'ftcms:mock-id';
+					express.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -98,8 +98,8 @@ describe('lib/middleware/get-cms-url', () => {
 					});
 				});
 
-				it('sets the request param (0) to the v1 API URL corresponding to the CMS ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], v1Uri);
+				it('sets the `imageUrl` request param to the v1 API URL corresponding to the CMS ID', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, v1Uri);
 				});
 
 			});
@@ -109,7 +109,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params[0] = 'ftcms:mock-id';
+					express.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -145,7 +145,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params[0] = 'ftcms:mock-id?foo=bar';
+					express.mockRequest.params.imageUrl = 'ftcms:mock-id?foo=bar';
 
 					// V2 responds with success
 					requestPromise.withArgs({
@@ -173,7 +173,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params[0] = 'ftcms:mock-id';
+					express.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 errors
 					requestPromise.withArgs({

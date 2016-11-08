@@ -56,18 +56,18 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 			beforeEach(() => {
 				next = sinon.spy();
-				express.mockRequest.params[0] = 'foo:bar';
+				express.mockRequest.params.imageUrl = 'foo:bar';
 				ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.svg');
 				middleware(express.mockRequest, express.mockResponse, next);
 			});
 
-			it('calls `ImageTransform.resolveCustomSchemeUri` with the request param (0), the configured base URL, and a cache-buster', () => {
+			it('calls `ImageTransform.resolveCustomSchemeUri` with the `imageUrl` request param, the configured base URL, and a cache-buster', () => {
 				assert.calledOnce(ImageTransform.resolveCustomSchemeUri);
 				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store', '1970-W1-1');
 			});
 
-			it('sets the request param (0) to the returned URL', () => {
-				assert.strictEqual(express.mockRequest.params[0], ImageTransform.resolveCustomSchemeUri.firstCall.returnValue);
+			it('sets the `imageUrl` request param to the returned URL', () => {
+				assert.strictEqual(express.mockRequest.params.imageUrl, ImageTransform.resolveCustomSchemeUri.firstCall.returnValue);
 			});
 
 			it('sets the `format` query parameter to the resolved URLs file extension', () => {
@@ -83,14 +83,14 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params[0] = 'foo:bar';
+					express.mockRequest.params.imageUrl = 'foo:bar';
 					delete express.mockRequest.query.format;
-					ImageTransform.resolveCustomSchemeUri.returns(express.mockRequest.params[0]);
+					ImageTransform.resolveCustomSchemeUri.returns(express.mockRequest.params.imageUrl);
 					middleware(express.mockRequest, express.mockResponse, next);
 				});
 
-				it('does not change the request param (0)', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'foo:bar');
+				it('does not change the `imageUrl` request param', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'foo:bar');
 				});
 
 				it('does not change the `format` query parameter', () => {
@@ -108,7 +108,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params[0] = 'foo:bar';
+					express.mockRequest.params.imageUrl = 'foo:bar';
 					express.mockRequest.query.format = 'foo';
 					middleware(express.mockRequest, express.mockResponse, next);
 				});
@@ -128,7 +128,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params[0] = 'foo:bar';
+					express.mockRequest.params.imageUrl = 'foo:bar';
 					delete express.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.img');
 					middleware(express.mockRequest, express.mockResponse, next);
@@ -149,14 +149,14 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params[0] = 'foo:bar';
+					express.mockRequest.params.imageUrl = 'foo:bar';
 					delete express.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.svg?foo=bar');
 					middleware(express.mockRequest, express.mockResponse, next);
 				});
 
-				it('sets the request param (0) to the returned URL', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'http://mock-store/foo/bar.svg?foo=bar');
+				it('sets the `imageUrl` request param to the returned URL', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'http://mock-store/foo/bar.svg?foo=bar');
 				});
 
 				it('sets the `format` query parameter to the resolved URLs file extension', () => {
