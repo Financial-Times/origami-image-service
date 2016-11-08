@@ -47,6 +47,13 @@ describe('lib/middleware/handle-errors', () => {
 				middleware(error, express.mockRequest, express.mockResponse, next);
 			});
 
+			it('sets `Cache-Control` headers to never cache the error page', () => {
+				assert.calledOnce(express.mockResponse.set);
+				assert.calledWith(express.mockResponse.set, {
+					'Cache-Control': 'no-cache, no-store, must-revalidate'
+				});
+			});
+
 			it('sets the response status to the error status', () => {
 				assert.calledOnce(express.mockResponse.status);
 				assert.calledWithExactly(express.mockResponse.status, 123);
