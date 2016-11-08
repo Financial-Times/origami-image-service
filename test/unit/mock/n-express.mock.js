@@ -29,6 +29,7 @@ module.exports.mockRequest = {
 
 module.exports.mockResponse = {
 	app: mockApp,
+	redirect: sinon.stub().returnsThis(),
 	render: sinon.stub().returnsThis(),
 	send: sinon.stub().returnsThis(),
 	set: sinon.stub().returnsThis(),

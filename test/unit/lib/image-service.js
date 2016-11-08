@@ -361,6 +361,25 @@ describe('lib/image-service', () => {
 			assert.calledWithExactly(express.mockApp.use, morgan.mockMiddleware);
 		});
 
+		it('registers a "/" route', () => {
+			assert.calledWith(express.mockApp.get, '/');
+		});
+
+		describe('"/" route', () => {
+			let baseRoute;
+
+			beforeEach(() => {
+				baseRoute = express.mockApp.get.withArgs('/').firstCall.args[1];
+				baseRoute(express.mockRequest, express.mockResponse);
+			});
+
+			it('redirects to the path specified in `config.basePath`', () => {
+				assert.calledOnce(express.mockResponse.redirect);
+				assert.calledWithExactly(express.mockResponse.redirect, config.basePath);
+			});
+
+		});
+
 		it('registers a "/__gtg" route', () => {
 			assert.calledWith(express.mockApp.get, '/__gtg');
 		});
