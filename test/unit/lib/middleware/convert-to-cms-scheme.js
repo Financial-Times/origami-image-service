@@ -110,6 +110,19 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 			});
 
+			describe('when the `imageUrl` request param is a protocol-relative URL', () => {
+
+				beforeEach(done => {
+					express.mockRequest.params.imageUrl = '//im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img?foo=bar';
+					middleware(express.mockRequest, express.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the query intact', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef?foo=bar');
+				});
+
+			});
+
 		});
 
 	});
