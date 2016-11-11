@@ -7,7 +7,7 @@
     "origami"
   ],
   "license": "MIT",
-  "homepage": "https://image.webservices.ft.com/",
+  "homepage": "https://www.ft.com/__origami/service/image",
   "bugs": {
     "url": "https://github.com/Financial-Times/origami-image-service/issues"
   },
