@@ -97,6 +97,19 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 			});
 
+			describe('when the `imageUrl` request param points to an image on im.ft-static.com with a "png" extension', () => {
+
+				beforeEach(done => {
+					express.mockRequest.params.imageUrl = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.png';
+					middleware(express.mockRequest, express.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				});
+
+			});
+
 			describe('when the `imageUrl` request param has a querystring', () => {
 
 				beforeEach(done => {
