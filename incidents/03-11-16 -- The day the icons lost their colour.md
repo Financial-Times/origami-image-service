@@ -33,4 +33,4 @@ Changes made to `origami-image-service` which enabled custom schemes to be cache
 ## What could be done to avoid this in future?
 
 - [Write tests](https://github.com/Financial-Times/origami-image-service/commit/bdcdd5f39a2c5c3e257e79e5fa9173dbbecaac83) to ensure that heavily used features such as tinting do not regress.
-- Manually test important features before promoting to production.
+- Automated integration testing for important features before promoting to production.
