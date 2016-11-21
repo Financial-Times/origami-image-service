@@ -16,7 +16,7 @@ verify-coverage:
 
 whitesource:
 ifndef WHITESOURCE_API_KEY
-	$(error WHITESOURCE_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
+	$(error WHITESOURCE_API_KEY is not set, cannot upload whitesource report. You can find the key in LastPass)
 endif
 	echo {\"apiKey\":\"$(WHITESOURCE_API_KEY)\"} > whitesource.config.json
 	@whitesource run
