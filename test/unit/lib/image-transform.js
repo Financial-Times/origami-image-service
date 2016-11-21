@@ -344,6 +344,23 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `value` contains a hash character', () => {
+
+			it('returns `value` without any of the content after the hash', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http://foo/#bar'), 'http://foo/');
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http%3A%2F%2Ffoo%2F%23bar'), 'http://foo/');
+			});
+
+		});
+
+		describe('when `value` contains a double-encoded hash character', () => {
+
+			it('returns `value` with the hash intact', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http://foo/%2523bar'), 'http://foo/%23bar');
+			});
+
+		});
+
 		describe('when `value` is a string with an invalid scheme', () => {
 
 			it('throws an error', () => {
