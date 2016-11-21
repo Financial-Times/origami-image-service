@@ -168,6 +168,20 @@ describe('lib/middleware/get-cms-url', () => {
 
 			});
 
+			describe('when the URL is not an ftcms URL', () => {
+
+				beforeEach(done => {
+					requestPromise.reset();
+					express.mockRequest.params.imageUrl = 'http://foo/bar';
+					middleware(express.mockRequest, express.mockResponse, done);
+				});
+
+				it('does not touch the `imageUrl` request param', () => {
+					assert.strictEqual(express.mockRequest.params.imageUrl, 'http://foo/bar');
+				});
+
+			});
+
 			describe('when the request errors', () => {
 				let responseError;
 
