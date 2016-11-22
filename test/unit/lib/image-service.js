@@ -196,9 +196,7 @@ describe('lib/image-service', () => {
 					'last-modified': 'some time'
 				};
 				request = {
-					headers: {
-						'ft-image-format': 'foo'
-					}
+					headers: {}
 				};
 				handler(proxyResponse, request);
 			});
@@ -248,53 +246,9 @@ describe('lib/image-service', () => {
 				});
 			});
 
-			describe('when the request has an `FT-Normalised-UA` header set to "edge"', () => {
+			describe('when the request has an `accept` header which includes "image/jxr"', () => {
 				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'edge';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "iemobile"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'iemobile/10';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "ie/9"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'ie/9';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "ie/10"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'ie/10';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "ie/11"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'ie/11';
+					request.headers['accept'] = 'image/jxr';
 					handler(proxyResponse, request);
 				});
 
