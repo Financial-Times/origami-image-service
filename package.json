@@ -41,7 +41,7 @@
     "throng": "^4.0.0"
   },
   "devDependencies": {
-    "@financial-times/release-log": "^1.0.0",
+    "@financial-times/change-request": "^1.0.0",
     "eslint": "^2",
     "istanbul": "^0.4",
     "konstructor-api-client": "1.0.0-alpha.3",
@@ -51,7 +51,6 @@
     "proclaim": "^3",
     "sinon": "^1",
     "sinon-as-promised": "^4",
-    "supertest": "^1",
-    "whitesource": "^0.3.3"
+    "supertest": "^1"
   }
 }
