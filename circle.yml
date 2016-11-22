@@ -2,6 +2,8 @@
 machine:
   node:
     version: 6
+  post:
+    - npm install -g npm@^4
 
 test:
   override:
