@@ -42,7 +42,8 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 		beforeEach(() => {
 			config = {
-				customSchemeStore: 'mock-store'
+				customSchemeStore: 'mock-store',
+				customSchemeCacheBust: 'mock-bust'
 			};
 			middleware = mapCustomScheme(config);
 		});
@@ -63,7 +64,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 			it('calls `ImageTransform.resolveCustomSchemeUri` with the `imageUrl` request param, the configured base URL, and a cache-buster', () => {
 				assert.calledOnce(ImageTransform.resolveCustomSchemeUri);
-				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store', '1970-W1-1');
+				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store', '1970-W1-1+mock-bust');
 			});
 
 			it('sets the `imageUrl` request param to the returned URL', () => {

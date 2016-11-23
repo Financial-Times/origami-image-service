@@ -58,6 +58,8 @@ We configure Origami Image Service using environment variables. In development, 
   * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
   * `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
   * `RAVEN_URL`: The Sentry URL to send error information to.
+  * `CUSTOM_SCHEME_STORE`: The location of the images used in custom schemes. This should be set to the base path under which images live.
+  * `CUSTOM_SCHEME_CACHE_BUST`: A key used to manually cache-bust custom scheme images.
 
 
 Testing
@@ -171,6 +173,15 @@ So Cloudinary responds with a `404`. You can get around this by manually specify
 
 ```
 HOSTNAME=origami-image-service-qa.herokuapp.com
+```
+
+### I need to cache-bust custom scheme URLs
+
+Because of the way custom schemes work, they're cached in both Cloudinary and Fastly. We have to manually cache-bust these images before purging Fastly for now. You can do this by running the following, setting the `CUSTOM_SCHEME_CACHE_BUST` environment variable in both production apps to something unique:
+
+```
+heroku config:set --app origami-image-service-eu CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
+heroku config:set --app origami-image-service-us CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
 ```
 
 License
