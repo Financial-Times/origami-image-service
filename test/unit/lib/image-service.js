@@ -145,7 +145,8 @@ describe('lib/image-service', () => {
 						'accept': 'foo',
 						'cookie': 'qux',
 						'host': 'www.example.com',
-						'x-identifying-information': 'oops'
+						'x-identifying-information': 'oops',
+						'user-agent': 'my-ua'
 					}
 				};
 				response = {};
@@ -156,17 +157,21 @@ describe('lib/image-service', () => {
 				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'cookie');
 				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'host');
 				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'x-identifying-information');
+				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'user-agent');
 			});
 
 			it('should leave all whitelisted headers from the proxy request intact', () => {
 				assert.neverCalledWith(httpProxy.mockProxyRequest.removeHeader, 'accept-encoding');
 				assert.neverCalledWith(httpProxy.mockProxyRequest.removeHeader, 'accept-language');
 				assert.neverCalledWith(httpProxy.mockProxyRequest.removeHeader, 'accept');
-				assert.neverCalledWith(httpProxy.mockProxyRequest.removeHeader, 'user-agent');
 			});
 
 			it('should set the `Host` header of the proxy request to the host in `proxyOptions.target`', () => {
 				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'Host', 'foo.bar');
+			});
+
+			it('should set the `User-Agent` header of the proxy request to identify the Image Service', () => {
+				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'User-Agent', 'Origami Image Service (https://github.com/Financial-Times/origami-image-service)');
 			});
 
 		});
