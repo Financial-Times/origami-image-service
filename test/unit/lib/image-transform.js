@@ -34,7 +34,8 @@ describe('lib/image-transform', () => {
 				width: 123,
 				height: 456,
 				dpr: 2,
-				fit: 'scale-down',
+				fit: 'cover',
+				gravity: 'poi',
 				quality: 'lossless',
 				format: 'jpg',
 				bgcolor: '00ff00',
@@ -46,6 +47,7 @@ describe('lib/image-transform', () => {
 			assert.strictEqual(instance.getHeight(), properties.height);
 			assert.strictEqual(instance.getDpr(), properties.dpr);
 			assert.strictEqual(instance.getFit(), properties.fit);
+			assert.strictEqual(instance.getGravity(), properties.gravity);
 			assert.strictEqual(instance.getQuality(), ImageTransform.qualityValueMap[properties.quality]);
 			assert.strictEqual(instance.getFormat(), properties.format);
 			assert.strictEqual(instance.getBgcolor(), properties.bgcolor);
@@ -148,6 +150,43 @@ describe('lib/image-transform', () => {
 
 			it('[get] returns the sanitized `value`', () => {
 				assert.strictEqual(instance.getFit(), 'sanitized');
+			});
+
+		});
+
+		describe('.setGravity() / .getGravity()', () => {
+
+			beforeEach(() => {
+				sinon.stub(ImageTransform, 'sanitizeEnumerableValue').returns('sanitized');
+				instance.setGravity('foo');
+			});
+
+			it('[set] calls the `sanitizeEnumerableValue` static method with `value`', () => {
+				assert.calledOnce(ImageTransform.sanitizeEnumerableValue);
+				assert.calledWithExactly(
+					ImageTransform.sanitizeEnumerableValue,
+					'foo',
+					ImageTransform.validGravities,
+					`Image gravity must be one of ${ImageTransform.validGravities.join(', ')}`
+				);
+			});
+
+			it('[set] defaults `value` to `undefined`', () => {
+				instance.setGravity();
+				assert.calledWith(ImageTransform.sanitizeEnumerableValue, undefined);
+			});
+
+			it('[get] returns the sanitized `value`', () => {
+				assert.strictEqual(instance.getGravity(), 'sanitized');
+			});
+
+			describe('when `value` is defined and the `fit` property is not `cover`', () => {
+
+				it('throws an error', () => {
+					instance.fit = 'contain';
+					assert.throws(() => instance.setGravity('foo'), 'Gravity can only be used when fit is set to "cover"');
+				});
+
 			});
 
 		});
@@ -964,6 +1003,13 @@ describe('lib/image-transform', () => {
 			'contain',
 			'cover',
 			'scale-down'
+		]);
+	});
+
+	it('has a `validGravities` static property', () => {
+		assert.deepEqual(ImageTransform.validGravities, [
+			'faces',
+			'poi'
 		]);
 	});
 

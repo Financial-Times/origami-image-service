@@ -114,6 +114,32 @@ describe('lib/transformers/cloudinary', () => {
 
 		});
 
+		describe('when `transform` has a `gravity` property set to `faces`', () => {
+
+			beforeEach(() => {
+				transform.setGravity('faces');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,g_auto:faces,q_72/http://example.com/$'));
+			});
+
+		});
+
+		describe('when `transform` has a `gravity` property set to `poi`', () => {
+
+			beforeEach(() => {
+				transform.setGravity('poi');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,g_auto:no_faces,q_72/http://example.com/$'));
+			});
+
+		});
+
 		describe('when `transform` has a `format` property', () => {
 
 			beforeEach(() => {

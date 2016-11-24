@@ -71,6 +71,28 @@
 		"v1ImageSize": "10357"
 	},
 	{
+		"name": "Cropping gravity",
+		"isSection": true
+	},
+	{
+		"name": "Width, height, and poi",
+		"description": "An image with width and height transforms applied, and a gravity set to 'poi' (point of interest).",
+		"shouldMatch": false,
+		"uri": "ftcms:a85ebfa4-b178-11e6-9c37-5787335499a0",
+		"transform": "width=200&height=200&gravity=poi",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "6107"
+	},
+	{
+		"name": "Width, height, and faces",
+		"description": "An image with width and height transforms applied, and a gravity set to 'faces'.",
+		"shouldMatch": false,
+		"uri": "ftcms:4efcb004-a1d0-11e6-aa83-bcb58d1d2193",
+		"transform": "width=200&height=200&gravity=faces",
+		"v1ImageFormat": "image/jpeg",
+		"v1ImageSize": "7058"
+	},
+	{
 		"name": "Device pixel ratio",
 		"isSection": true
 	},
