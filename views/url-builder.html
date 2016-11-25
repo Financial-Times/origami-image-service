@@ -93,6 +93,19 @@
 				</div>
 
 				<div class="o-forms o-forms--wide">
+					<label class="o-forms__label">Gravity</label>
+					<small class="o-forms__additional-info">
+						Whether image analysis should be used to provide a better crop. See the <a href="v2/docs/api">API Documentation</a> for more information.
+					</small>
+					<input type="radio" id="builder-gravity-none" name="gravity" value="" class="o-forms__radio" {{#if form.gravity.isNone}}checked{{/if}}/>
+					<label for="builder-gravity-none" class="o-forms__label">none (default)</label>
+					<input type="radio" id="builder-gravity-faces" name="gravity" value="faces" class="o-forms__radio" {{#if form.gravity.isFaces}}checked{{/if}}/>
+					<label for="builder-gravity-faces" class="o-forms__label">faces</label>
+					<input type="radio" id="builder-gravity-poi" name="gravity" value="poi" class="o-forms__radio" {{#if form.gravity.isGravity}}checked{{/if}}/>
+					<label for="builder-gravity-poi" class="o-forms__label">point of interest</label>
+				</div>
+
+				<div class="o-forms o-forms--wide">
 					<label class="o-forms__label">Format</label>
 					<input type="radio" id="builder-format-auto" name="format" value="auto" class="o-forms__radio" {{#if form.format.isAuto}}checked{{/if}}/>
 					<label for="builder-format-auto" class="o-forms__label">auto (default)</label>
