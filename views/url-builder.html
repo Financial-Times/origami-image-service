@@ -84,7 +84,7 @@
 					<small class="o-forms__additional-info">
 						The way the image should be cropped. See the <a href="v2/docs/api">API Documentation</a> for more information.
 					</small>
-					<input type="radio" id="builder-fit-cover" name="fit" value="cover" class="o-forms__radio" {{#if form.fit.isCover}}checked{{/if}}/>
+					<input type="radio" id="builder-fit-cover" name="fit" value="" class="o-forms__radio" {{#if form.fit.isCover}}checked{{/if}}/>
 					<label for="builder-fit-cover" class="o-forms__label">cover (default)</label>
 					<input type="radio" id="builder-fit-contain" name="fit" value="contain" class="o-forms__radio" {{#if form.fit.isContain}}checked{{/if}}/>
 					<label for="builder-fit-contain" class="o-forms__label">contain</label>
@@ -107,7 +107,7 @@
 
 				<div class="o-forms o-forms--wide">
 					<label class="o-forms__label">Format</label>
-					<input type="radio" id="builder-format-auto" name="format" value="auto" class="o-forms__radio" {{#if form.format.isAuto}}checked{{/if}}/>
+					<input type="radio" id="builder-format-auto" name="format" value="" class="o-forms__radio" {{#if form.format.isAuto}}checked{{/if}}/>
 					<label for="builder-format-auto" class="o-forms__label">auto (default)</label>
 					<input type="radio" id="builder-format-jpg" name="format" value="jpg" class="o-forms__radio" {{#if form.format.isJpg}}checked{{/if}}/>
 					<label for="builder-format-jpg" class="o-forms__label">jpg</label>
@@ -125,7 +125,7 @@
 					<label for="builder-quality-lowest" class="o-forms__label">lowest</label>
 					<input type="radio" id="builder-quality-low" name="quality" value="low" class="o-forms__radio" {{#if form.quality.isLow}}checked{{/if}}/>
 					<label for="builder-quality-low" class="o-forms__label">low</label>
-					<input type="radio" id="builder-quality-medium" name="quality" value="medium" class="o-forms__radio" {{#if form.quality.isMedium}}checked{{/if}}/>
+					<input type="radio" id="builder-quality-medium" name="quality" value="" class="o-forms__radio" {{#if form.quality.isMedium}}checked{{/if}}/>
 					<label for="builder-quality-medium" class="o-forms__label">medium (default)</label>
 					<input type="radio" id="builder-quality-high" name="quality" value="high" class="o-forms__radio" {{#if form.quality.isHigh}}checked{{/if}}/>
 					<label for="builder-quality-high" class="o-forms__label">high</label>
