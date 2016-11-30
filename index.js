@@ -1,7 +1,7 @@
 'use strict';
 
 require('dotenv').load({
-	silent: false
+	silent: true
 });
 
 const throng = require('throng');
