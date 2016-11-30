@@ -322,22 +322,7 @@ describe('lib/image-service', () => {
 		});
 
 		it('registers a "/" route', () => {
-			assert.calledWith(express.mockApp.get, '/');
-		});
-
-		describe('"/" route', () => {
-			let baseRoute;
-
-			beforeEach(() => {
-				baseRoute = express.mockApp.get.withArgs('/').firstCall.args[1];
-				baseRoute(express.mockRequest, express.mockResponse);
-			});
-
-			it('redirects to the path specified in `config.basePath`', () => {
-				assert.calledOnce(express.mockResponse.redirect);
-				assert.calledWithExactly(express.mockResponse.redirect, config.basePath);
-			});
-
+			assert.calledWith(express.mockApp.use, express.mockRouter);
 		});
 
 		it('registers a "/__gtg" route', () => {
@@ -371,8 +356,14 @@ describe('lib/image-service', () => {
 			assert.isFunction(requireAll.firstCall.args[0].resolve);
 		});
 
+		it('mounts a static middleware at /', () => {
+			assert.calledTwice(express.static);
+			assert.calledWithExactly(express.static, 'public');
+			assert.calledWithExactly(express.mockApp.use, express.mockStaticMiddleware);
+		});
+
 		it('mounts a static middleware at `config.basePath`', () => {
-			assert.calledOnce(express.static);
+			assert.calledTwice(express.static);
 			assert.calledWithExactly(express.static, 'public');
 			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockStaticMiddleware);
 		});
