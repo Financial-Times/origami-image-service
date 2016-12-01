@@ -54,7 +54,6 @@ describe('lib/image-service', () => {
 
 		beforeEach(() => {
 			config = {
-				basePath: '/my/base/path',
 				environment: 'test',
 				port: 1234,
 				systemCode: 'example-system-code'
@@ -307,10 +306,6 @@ describe('lib/image-service', () => {
 			assert.strictEqual(express.mockApp.imageServiceConfig, config);
 		});
 
-		it('sets `app.locals.basePath` to `config.basePath`', () => {
-			assert.strictEqual(express.mockApp.locals.basePath, config.basePath);
-		});
-
 		it('initialises the health-checks', () => {
 			assert.calledOnce(healthChecks.init);
 			assert.calledWithExactly(healthChecks.init, config);
@@ -319,10 +314,6 @@ describe('lib/image-service', () => {
 		it('mounts Morgan middleware to log requests', () => {
 			assert.calledWithExactly(morgan, 'combined');
 			assert.calledWithExactly(express.mockApp.use, morgan.mockMiddleware);
-		});
-
-		it('registers a "/" route', () => {
-			assert.calledWith(express.mockApp.use, express.mockRouter);
 		});
 
 		it('registers a "/__gtg" route', () => {
@@ -356,27 +347,17 @@ describe('lib/image-service', () => {
 			assert.isFunction(requireAll.firstCall.args[0].resolve);
 		});
 
-		it('mounts a static middleware at /', () => {
-			assert.calledTwice(express.static);
+		it('mounts a static middleware', () => {
+			assert.calledOnce(express.static);
 			assert.calledWithExactly(express.static, 'public');
 			assert.calledWithExactly(express.mockApp.use, express.mockStaticMiddleware);
 		});
 
-		it('mounts a static middleware at `config.basePath`', () => {
-			assert.calledTwice(express.static);
-			assert.calledWithExactly(express.static, 'public');
-			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockStaticMiddleware);
-		});
-
-		it('mounts an express router at `config.basePath`', () => {
-			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockRouter);
-		});
-
-		it('calls each route with the Express application and Router', () => {
+		it('calls each route with the Express application', () => {
 			const route = sinon.spy();
 			requireAll.firstCall.args[0].resolve(route);
 			assert.calledOnce(route);
-			assert.calledWithExactly(route, express.mockApp, express.mockRouter);
+			assert.calledWithExactly(route, express.mockApp);
 		});
 
 		it('mounts middleware to handle routes that are not found', () => {
@@ -434,19 +415,6 @@ describe('lib/image-service', () => {
 					assert.strictEqual(caughtError, expressError);
 				});
 
-			});
-
-		});
-
-		describe('when `config.basePath` is not set', () => {
-
-			beforeEach(() => {
-				delete config.basePath;
-				returnedPromise = imageService(config);
-			});
-
-			it('sets `config.basePath` to an empty string', () => {
-				assert.strictEqual(config.basePath, '');
 			});
 
 		});

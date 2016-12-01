@@ -155,7 +155,7 @@ describe('lib/middleware/process-image-request', () => {
 
 				beforeEach(() => {
 					next.reset();
-					imageTransformError = new Error('image tranform error');
+					imageTransformError = new Error('image transform error');
 					ImageTransform.throws(imageTransformError);
 					middleware(express.mockRequest, express.mockResponse, next);
 				});
