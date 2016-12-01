@@ -11,10 +11,27 @@ describe('GET /v2/', function() {
 	itRespondsWithStatus(200);
 	itRespondsWithContentType('text/html');
 
-	it('has a <base> element with the expected baseUrl', function(done) {
+	it('has a <base> element with the expected path', function(done) {
 		this.request.expect(response => {
 			assert.isString(response.text);
 			assert.match(response.text, /<base\s+href="\/"\s*\/>/);
+		}).end(done);
+	});
+
+});
+
+describe('GET /v2/ with an X-Service-Base-Path header', function() {
+
+	setupRequest('GET', '/v2/', {
+		'X-Service-Base-Path': '/foo/bar/'
+	});
+	itRespondsWithStatus(200);
+	itRespondsWithContentType('text/html');
+
+	it('has a <base> element with the expected path', function(done) {
+		this.request.expect(response => {
+			assert.isString(response.text);
+			assert.match(response.text, /<base\s+href="\/foo\/bar\/"\s*\/>/);
 		}).end(done);
 	});
 

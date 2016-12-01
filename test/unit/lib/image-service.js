@@ -8,6 +8,7 @@ const sinon = require('sinon');
 describe('lib/image-service', () => {
 	let basePath;
 	let express;
+	let getBasePath;
 	let handleErrors;
 	let healthChecks;
 	let httpProxy;
@@ -21,6 +22,9 @@ describe('lib/image-service', () => {
 
 		express = require('../mock/n-express.mock');
 		mockery.registerMock('@financial-times/n-express', express);
+
+		getBasePath = sinon.spy();
+		mockery.registerMock('./middleware/get-base-path', getBasePath);
 
 		handleErrors = sinon.stub().returns(sinon.spy());
 		mockery.registerMock('./middleware/handle-errors', handleErrors);
@@ -314,6 +318,10 @@ describe('lib/image-service', () => {
 		it('mounts Morgan middleware to log requests', () => {
 			assert.calledWithExactly(morgan, 'combined');
 			assert.calledWithExactly(express.mockApp.use, morgan.mockMiddleware);
+		});
+
+		it('mounts the getBasePath middleware', () => {
+			assert.calledWithExactly(express.mockApp.use, getBasePath);
 		});
 
 		it('registers a "/__gtg" route', () => {
