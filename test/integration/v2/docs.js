@@ -20,10 +20,10 @@ describe('GET /v2/', function() {
 
 });
 
-describe('GET /v2/ with an X-Service-Base-Path header', function() {
+describe('GET /v2/ with an FT-Origami-Service-Base-Path header', function() {
 
 	setupRequest('GET', '/v2/', {
-		'X-Service-Base-Path': '/foo/bar/'
+		'FT-Origami-Service-Base-Path': '/foo/bar/'
 	});
 	itRespondsWithStatus(200);
 	itRespondsWithContentType('text/html');

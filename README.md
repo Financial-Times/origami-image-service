@@ -63,7 +63,7 @@ We configure Origami Image Service using environment variables. In development, 
 
 The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
 
-  * `X-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
+  * `FT-Origami-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
 
 
 Testing

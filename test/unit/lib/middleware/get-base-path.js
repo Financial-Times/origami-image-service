@@ -39,11 +39,11 @@ describe('lib/middleware/get-base-path', () => {
 			assert.calledWithExactly(next);
 		});
 
-		describe('when the request has an `X-Service-Base-Url` header', () => {
+		describe('when the request has an `FT-Origami-Service-Base-Path` header', () => {
 
 			beforeEach(() => {
 				next.reset();
-				express.mockRequest.headers['x-service-base-path'] = '/foo/bar/';
+				express.mockRequest.headers['ft-origami-service-base-path'] = '/foo/bar/';
 				getBasePath(express.mockRequest, express.mockResponse, next);
 			});
 
@@ -62,11 +62,11 @@ describe('lib/middleware/get-base-path', () => {
 
 		});
 
-		describe('when the `X-Service-Base-Url` header does not begin or end with a slash', () => {
+		describe('when the `FT-Origami-Service-Base-Path` header does not begin or end with a slash', () => {
 
 			beforeEach(() => {
 				next.reset();
-				express.mockRequest.headers['x-service-base-path'] = 'foo/bar';
+				express.mockRequest.headers['ft-origami-service-base-path'] = 'foo/bar';
 				getBasePath(express.mockRequest, express.mockResponse, next);
 			});
 
