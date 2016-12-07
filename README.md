@@ -61,6 +61,10 @@ We configure Origami Image Service using environment variables. In development, 
   * `CUSTOM_SCHEME_STORE`: The location of the images used in custom schemes. This should be set to the base path under which images live.
   * `CUSTOM_SCHEME_CACHE_BUST`: A key used to manually cache-bust custom scheme images.
 
+The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
+
+  * `FT-Origami-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
+
 
 Testing
 -------

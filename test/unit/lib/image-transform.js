@@ -351,6 +351,7 @@ describe('lib/image-transform', () => {
 
 			it('returns `value`', () => {
 				const testSources = [
+					'ftbrand:foo',
 					'ftcms:foo',
 					'fthead:foo',
 					'fticon:foo',
@@ -358,7 +359,8 @@ describe('lib/image-transform', () => {
 					'ftpodcast:foo',
 					'ftsocial:foo',
 					'http://foo/',
-					'https://foo/'
+					'https://foo/',
+					'specialisttitle:foo'
 				];
 				testSources.forEach(source => {
 					assert.strictEqual(ImageTransform.sanitizeUriValue(source), source);
@@ -708,6 +710,17 @@ describe('lib/image-transform', () => {
 
 	describe('.resolveCustomSchemeUri(uri, baseUrl)', () => {
 
+		describe('when `uri` is an `ftbrand` URI', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:example', 'http://base/images'),
+					'http://base/images/ftbrand/v1/example.png'
+				);
+			});
+
+		});
+
 		describe('when `uri` is an `ftcms` URI', () => {
 
 			it('returns `uri`', () => {
@@ -791,6 +804,17 @@ describe('lib/image-transform', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('https://foo/bar', 'http://base/images'),
 					'https://foo/bar'
+				);
+			});
+
+		});
+
+		describe('when `uri` is a `specialisttitle` URI', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('specialisttitle-v1:example', 'http://base/images'),
+					'http://base/images/specialisttitle/v1/example.svg'
 				);
 			});
 
@@ -1036,6 +1060,7 @@ describe('lib/image-transform', () => {
 
 	it('has a `validUriSchemes` static property', () => {
 		assert.deepEqual(ImageTransform.validUriSchemes, [
+			'ftbrand',
 			'ftcms',
 			'fthead',
 			'fticon',
@@ -1043,17 +1068,20 @@ describe('lib/image-transform', () => {
 			'ftpodcast',
 			'ftsocial',
 			'http',
-			'https'
+			'https',
+			'specialisttitle'
 		]);
 	});
 
 	it('has a `schemeVersionMap` static property', () => {
 		assert.deepEqual(ImageTransform.schemeVersionMap, {
+			ftbrand: 'v1',
 			fthead: 'v1',
 			fticon: 'fticonold/v4',
 			ftlogo: 'v1',
 			ftpodcast: 'v1',
-			ftsocial: 'v1'
+			ftsocial: 'v1',
+			specialisttitle: 'v1'
 		});
 	});
 

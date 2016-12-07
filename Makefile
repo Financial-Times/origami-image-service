@@ -71,7 +71,7 @@ change-request-qa:
 ifndef CR_API_KEY
 	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
 endif
-	@change-request \
+	@release-log \
 		--environment "Test" \
 		--api-key "$(CR_API_KEY)" \
 		--summary "Releasing $(CR_APPNAME) to QA" \
@@ -86,7 +86,7 @@ change-request-prod:
 ifndef CR_API_KEY
 	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
 endif
-	@change-request \
+	@release-log \
 		--environment "Production" \
 		--api-key "$(CR_API_KEY)" \
 		--summary "Releasing $(CR_APPNAME) to production" \

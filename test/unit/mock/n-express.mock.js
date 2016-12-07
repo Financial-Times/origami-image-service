@@ -17,8 +17,6 @@ const mockApp = module.exports.mockApp = {
 
 const mockServer = module.exports.mockServer = {};
 
-const mockRouter = module.exports.mockRouter = {};
-
 const mockStaticMiddleware = module.exports.mockStaticMiddleware = {};
 
 module.exports.mockRequest = {
@@ -29,6 +27,7 @@ module.exports.mockRequest = {
 
 module.exports.mockResponse = {
 	app: mockApp,
+	locals: {},
 	redirect: sinon.stub().returnsThis(),
 	render: sinon.stub().returnsThis(),
 	send: sinon.stub().returnsThis(),
@@ -38,5 +37,4 @@ module.exports.mockResponse = {
 
 mockApp.listen.resolves(mockServer);
 express.returns(mockApp);
-express.Router = sinon.stub().returns(mockRouter);
 express.static = sinon.stub().returns(mockStaticMiddleware);

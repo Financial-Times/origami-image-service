@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = {
-	basePath: '/__origami/service/image',
 	cloudinaryAccountName: process.env.CLOUDINARY_ACCOUNT_NAME,
 	cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
 	cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,

@@ -18,8 +18,7 @@ before(function() {
 		log: mockLog,
 		logLevel: process.env.LOG_LEVEL || 'trace',
 		port: process.env.PORT || null,
-		suppressLogs: true,
-		basePath: ''
+		suppressLogs: true
 	})
 	.then(service => {
 		this.agent = supertest.agent(service);

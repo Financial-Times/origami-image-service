@@ -7,6 +7,7 @@ const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
 const testImageUris = {
+	ftbrand: 'ftbrand:brussels-blog',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
 	fthead: 'fthead:martin-wolf',
 	fticon: 'fticon:cross',
@@ -15,7 +16,8 @@ const testImageUris = {
 	ftsocial: 'ftsocial:whatsapp',
 	http: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	https: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	protocolRelative: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
+	protocolRelative: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+	specialisttitle: 'specialisttitle:ned-logo'
 };
 
 describe('GET /v2/images/raw…', function() {
@@ -54,6 +56,18 @@ describe('GET /v2/images/raw…', function() {
 		setupRequest('GET', `/v2/images/raw/${encodeURIComponent(testImageUris.protocolRelative)}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('/ftbrand:… (ftbrand scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/png');
+	});
+
+	describe('/ftbrand:… (ftbrand scheme with querystring)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}%3Ffoo%3Dbar?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/png');
 	});
 
 	describe('/ftcms:… (ftcms scheme)', function() {
@@ -106,6 +120,18 @@ describe('GET /v2/images/raw…', function() {
 
 	describe('/ftlogo:… (ftlogo scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/svg+xml');
+	});
+
+	describe('/specialisttitle:… (specialisttitle scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/svg+xml');
+	});
+
+	describe('/specialisttitle:… (specialisttitle scheme with querystring)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
