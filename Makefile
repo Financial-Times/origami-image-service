@@ -75,7 +75,7 @@ endif
 		--environment "Test" \
 		--api-key "$(CR_API_KEY)" \
 		--summary "Releasing $(CR_APPNAME) to QA" \
-		--description "$(CR_DESCRIPTION)" \
+		--description "Git tag: $(CIRCLE_TAG) \n Git repo: $(CIRCLE_REPOSITORY_URL) \n Commit hash: $(CIRCLE_SHA1) \n Released by github user: $(CIRCLE_USERNAME) \n $(CR_DESCRIPTION)" \
 		--owner-email "$(CR_EMAIL)" \
 		--service "$(CR_SERVICE_ID)" \
 		--notify-channel "$(CR_NOTIFY_CHANNEL)" \
