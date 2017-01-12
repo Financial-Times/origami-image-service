@@ -204,7 +204,10 @@ describe('lib/image-service', () => {
 					'last-modified': 'some time'
 				};
 				request = {
-					headers: {}
+					headers: {},
+					params: {
+						scheme: 'http'
+					}
 				};
 				handler(proxyResponse, request);
 			});
@@ -225,7 +228,7 @@ describe('lib/image-service', () => {
 					'Expires': 'Thu, 08 Jan 1970 00:00:10 GMT',
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
-					'Surrogate-Key': 'origami-image-service',
+					'Surrogate-Key': 'origami-image-service image/jpeg',
 					'Vary': 'FT-image-format, Content-Dpr'
 				});
 			});
