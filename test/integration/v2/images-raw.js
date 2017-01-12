@@ -288,5 +288,76 @@ describe('GET /v2/images/raw…', function() {
 			});
 		});
 
+		describe('adds specific keys for image schemes', function() {
+			describe('ftbrand', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftbrand/);
+			});
+
+			describe('ftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms/);
+			});
+
+			describe('fthead', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
+				itRespondsWithHeader('surrogate-key', /fthead/);
+			});
+
+			describe('fticon', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
+				itRespondsWithHeader('surrogate-key', /fticon/);
+			});
+
+			describe('ftlogo', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftlogo/);
+			});
+
+			describe('ftpodcast', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftpodcast/);
+			});
+
+			describe('ftsocial', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftsocial/);
+			});
+
+			describe('httpftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms/);
+			});
+
+			describe('httpsftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms/);
+			});
+
+			describe('http', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.http}?source=test`);
+				itRespondsWithHeader('surrogate-key', /http/);
+			});
+
+			describe('https', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
+				itRespondsWithHeader('surrogate-key', /https/);
+			});
+
+			describe('protocolRelativeftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelativeftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms/);
+			});
+
+			describe('protocolRelative', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelative}?source=test`);
+				itRespondsWithHeader('surrogate-key', /http/);
+			});
+
+			describe('specialisttitle', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
+				itRespondsWithHeader('surrogate-key', /specialisttitle/);
+			});
+		});
 	});
 });
