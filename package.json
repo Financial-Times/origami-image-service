@@ -24,7 +24,7 @@
     "start": "heroku-node-settings index.js"
   },
   "dependencies": {
-    "@financial-times/n-express": "^17.16.0",
+    "@financial-times/origami-service": "^1.0.0",
     "cloudinary": "^1",
     "colornames": "^1",
     "current-week-number": "^1.0.7",
@@ -32,7 +32,6 @@
     "heroku-node-settings": "^1.0.2",
     "http-errors": "^1",
     "http-proxy": "^1",
-    "morgan": "^1",
     "probe-image-size": "^2.2.0",
     "request": "^2",
     "require-all": "^2",

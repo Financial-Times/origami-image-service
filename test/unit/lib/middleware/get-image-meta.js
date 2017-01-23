@@ -5,13 +5,12 @@ const mockery = require('mockery');
 const sinon = require('sinon');
 
 describe('lib/middleware/get-image-meta', () => {
-	let express;
 	let getImageMeta;
+	let origamiService;
 	let probe;
 
 	beforeEach(() => {
-
-		express = require('../../mock/n-express.mock');
+		origamiService = require('../../mock/origami-service.mock');
 
 		probe = sinon.stub();
 		mockery.registerMock('probe-image-size', probe);
@@ -29,11 +28,11 @@ describe('lib/middleware/get-image-meta', () => {
 
 		beforeEach(() => {
 
-			express.mockRequest.appliedTransform = 'http://example.com/applied-transform';
-			express.mockRequest.transform = {
+			origamiService.mockRequest.appliedTransform = 'http://example.com/applied-transform';
+			origamiService.mockRequest.transform = {
 				getDpr: sinon.stub().returns(123)
 			};
-			express.mockRequest.headers.accept = 'mock-accept';
+			origamiService.mockRequest.headers.accept = 'mock-accept';
 
 			mockResult = {
 				mime: 'foo/bar',
@@ -44,29 +43,29 @@ describe('lib/middleware/get-image-meta', () => {
 			probe.yields(null, mockResult);
 
 			next = sinon.spy();
-			getImageMeta(express.mockRequest, express.mockResponse, next);
+			getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 		});
 
 		it('probes the transformed image to get meta data, passing through the Accept header', () => {
 			assert.calledOnce(probe);
 			assert.calledWith(probe, {
-				url: express.mockRequest.appliedTransform,
+				url: origamiService.mockRequest.appliedTransform,
 				headers: {
-					Accept: express.mockRequest.headers.accept
+					Accept: origamiService.mockRequest.headers.accept
 				}
 			});
 		});
 
 		it('sets cache headers to one week', () => {
-			assert.calledOnce(express.mockResponse.set);
-			assert.calledWith(express.mockResponse.set, {
+			assert.calledOnce(origamiService.mockResponse.set);
+			assert.calledWith(origamiService.mockResponse.set, {
 				'Cache-Control': `public, stale-while-revalidate=604800, max-age=604800`
 			});
 		});
 
 		it('responds with JSON containing the meta data', () => {
-			assert.calledOnce(express.mockResponse.send);
-			assert.calledWith(express.mockResponse.send, {
+			assert.calledOnce(origamiService.mockResponse.send);
+			assert.calledWith(origamiService.mockResponse.send, {
 				dpr: 123,
 				type: 'foo/bar',
 				filesize: 123456,
@@ -78,14 +77,14 @@ describe('lib/middleware/get-image-meta', () => {
 		describe('when the transformed image does not have a `dpr` set', () => {
 
 			beforeEach(() => {
-				express.mockResponse.send.reset();
-				express.mockRequest.transform.getDpr.returns(undefined);
-				getImageMeta(express.mockRequest, express.mockResponse, next);
+				origamiService.mockResponse.send.reset();
+				origamiService.mockRequest.transform.getDpr.returns(undefined);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('defaults to 1 in the response', () => {
-				assert.calledOnce(express.mockResponse.send);
-				assert.calledWith(express.mockResponse.send, {
+				assert.calledOnce(origamiService.mockResponse.send);
+				assert.calledWith(origamiService.mockResponse.send, {
 					dpr: 1,
 					type: 'foo/bar',
 					filesize: 123456,
@@ -100,11 +99,11 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				express.mockResponse.send.reset();
+				origamiService.mockResponse.send.reset();
 				probeError = new Error();
 				probeError.code = 'ECONTENT';
 				probe.yields(probeError);
-				getImageMeta(express.mockRequest, express.mockResponse, next);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new error', () => {
@@ -116,7 +115,7 @@ describe('lib/middleware/get-image-meta', () => {
 			});
 
 			it('does not respond', () => {
-				assert.notCalled(express.mockResponse.send);
+				assert.notCalled(origamiService.mockResponse.send);
 			});
 
 		});
@@ -125,11 +124,11 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				express.mockResponse.send.reset();
+				origamiService.mockResponse.send.reset();
 				probeError = new Error();
 				probeError.status = 404;
 				probe.yields(probeError);
-				getImageMeta(express.mockRequest, express.mockResponse, next);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new 404 error', () => {
@@ -140,7 +139,7 @@ describe('lib/middleware/get-image-meta', () => {
 			});
 
 			it('does not respond', () => {
-				assert.notCalled(express.mockResponse.send);
+				assert.notCalled(origamiService.mockResponse.send);
 			});
 
 		});
@@ -149,11 +148,11 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				express.mockResponse.send.reset();
+				origamiService.mockResponse.send.reset();
 				probeError = new Error();
 				probeError.status = 400;
 				probe.yields(probeError);
-				getImageMeta(express.mockRequest, express.mockResponse, next);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new 400 error', () => {
@@ -164,7 +163,7 @@ describe('lib/middleware/get-image-meta', () => {
 			});
 
 			it('does not respond', () => {
-				assert.notCalled(express.mockResponse.send);
+				assert.notCalled(origamiService.mockResponse.send);
 			});
 
 		});
@@ -173,11 +172,11 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				express.mockResponse.send.reset();
+				origamiService.mockResponse.send.reset();
 				probeError = new Error();
 				probeError.status = 500;
 				probe.yields(probeError);
-				getImageMeta(express.mockRequest, express.mockResponse, next);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with the probe error', () => {
@@ -186,7 +185,7 @@ describe('lib/middleware/get-image-meta', () => {
 			});
 
 			it('does not respond', () => {
-				assert.notCalled(express.mockResponse.send);
+				assert.notCalled(origamiService.mockResponse.send);
 			});
 
 		});
@@ -195,10 +194,10 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				express.mockResponse.send.reset();
+				origamiService.mockResponse.send.reset();
 				probeError = new Error();
 				probe.yields(probeError);
-				getImageMeta(express.mockRequest, express.mockResponse, next);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with the probe error', () => {
@@ -207,7 +206,7 @@ describe('lib/middleware/get-image-meta', () => {
 			});
 
 			it('does not respond', () => {
-				assert.notCalled(express.mockResponse.send);
+				assert.notCalled(origamiService.mockResponse.send);
 			});
 
 		});

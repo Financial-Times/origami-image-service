@@ -1,6 +1,7 @@
 {
 	"schemaVersion": 1,
 	"name": "origami-image-service",
+	"systemCode": "origami-image-service-v2",
 	"purpose": "Optimises and resizes images, and serves them to end users",
 	"audience": "public",
 	"primaryUrl": "https://www.ft.com/__origami/service/image/v2",

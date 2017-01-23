@@ -2,8 +2,16 @@
 
 const sinon = require('sinon');
 
-module.exports = {
-	init: sinon.stub(),
-	cloudinary: sinon.stub(),
-	customSchemeStore: sinon.stub()
+const HealthChecks = module.exports = sinon.stub();
+
+const mockHealthChecks = module.exports.mockHealthChecks = {
+	getFunction: sinon.stub(),
+	getGoodToGoFunction: sinon.stub()
 };
+
+const mockFunction = module.exports.mockFunction = sinon.spy();
+const mockGoodToGoFunction = module.exports.mockGoodToGoFunction = sinon.spy();
+
+HealthChecks.returns(mockHealthChecks);
+mockHealthChecks.getFunction.returns(mockFunction);
+mockHealthChecks.getGoodToGoFunction.returns(mockGoodToGoFunction);

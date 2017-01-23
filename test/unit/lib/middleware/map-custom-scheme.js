@@ -7,14 +7,11 @@ const sinon = require('sinon');
 describe('lib/middleware/map-custom-scheme', () => {
 	let clock;
 	let currentWeekNumber;
-	let express;
 	let ImageTransform;
 	let mapCustomScheme;
+	let origamiService;
 
 	beforeEach(() => {
-
-		express = require('../../mock/n-express.mock');
-
 		ImageTransform = {
 			resolveCustomSchemeUri: sinon.stub()
 		};
@@ -24,6 +21,8 @@ describe('lib/middleware/map-custom-scheme', () => {
 		mockery.registerMock('current-week-number', currentWeekNumber);
 
 		clock = sinon.useFakeTimers();
+
+		origamiService = require('../../mock/origami-service.mock');
 
 		mapCustomScheme = require('../../../../lib/middleware/map-custom-scheme');
 	});
@@ -57,9 +56,9 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 			beforeEach(() => {
 				next = sinon.spy();
-				express.mockRequest.params.imageUrl = 'foo:bar';
+				origamiService.mockRequest.params.imageUrl = 'foo:bar';
 				ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.svg');
-				middleware(express.mockRequest, express.mockResponse, next);
+				middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `ImageTransform.resolveCustomSchemeUri` with the `imageUrl` request param, the configured base URL, and a cache-buster', () => {
@@ -68,11 +67,11 @@ describe('lib/middleware/map-custom-scheme', () => {
 			});
 
 			it('sets the `imageUrl` request param to the returned URL', () => {
-				assert.strictEqual(express.mockRequest.params.imageUrl, ImageTransform.resolveCustomSchemeUri.firstCall.returnValue);
+				assert.strictEqual(origamiService.mockRequest.params.imageUrl, ImageTransform.resolveCustomSchemeUri.firstCall.returnValue);
 			});
 
 			it('sets the `format` query parameter to the resolved URLs file extension', () => {
-				assert.strictEqual(express.mockRequest.query.format, 'svg');
+				assert.strictEqual(origamiService.mockRequest.query.format, 'svg');
 			});
 
 			it('calls `next` with no error', () => {
@@ -84,18 +83,18 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params.imageUrl = 'foo:bar';
-					delete express.mockRequest.query.format;
-					ImageTransform.resolveCustomSchemeUri.returns(express.mockRequest.params.imageUrl);
-					middleware(express.mockRequest, express.mockResponse, next);
+					origamiService.mockRequest.params.imageUrl = 'foo:bar';
+					delete origamiService.mockRequest.query.format;
+					ImageTransform.resolveCustomSchemeUri.returns(origamiService.mockRequest.params.imageUrl);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('does not change the `imageUrl` request param', () => {
-					assert.strictEqual(express.mockRequest.params.imageUrl, 'foo:bar');
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'foo:bar');
 				});
 
 				it('does not change the `format` query parameter', () => {
-					assert.isUndefined(express.mockRequest.query.format);
+					assert.isUndefined(origamiService.mockRequest.query.format);
 				});
 
 				it('calls `next` with no error', () => {
@@ -109,13 +108,13 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params.imageUrl = 'foo:bar';
-					express.mockRequest.query.format = 'foo';
-					middleware(express.mockRequest, express.mockResponse, next);
+					origamiService.mockRequest.params.imageUrl = 'foo:bar';
+					origamiService.mockRequest.query.format = 'foo';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('does not change the `format` query parameter', () => {
-					assert.strictEqual(express.mockRequest.query.format, 'foo');
+					assert.strictEqual(origamiService.mockRequest.query.format, 'foo');
 				});
 
 				it('calls `next` with no error', () => {
@@ -129,14 +128,14 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params.imageUrl = 'foo:bar';
-					delete express.mockRequest.query.format;
+					origamiService.mockRequest.params.imageUrl = 'foo:bar';
+					delete origamiService.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.img');
-					middleware(express.mockRequest, express.mockResponse, next);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('does not set the `format` query parameter', () => {
-					assert.isUndefined(express.mockRequest.query.format);
+					assert.isUndefined(origamiService.mockRequest.query.format);
 				});
 
 				it('calls `next` with no error', () => {
@@ -150,18 +149,18 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 				beforeEach(() => {
 					next.reset();
-					express.mockRequest.params.imageUrl = 'foo:bar';
-					delete express.mockRequest.query.format;
+					origamiService.mockRequest.params.imageUrl = 'foo:bar';
+					delete origamiService.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.svg?foo=bar');
-					middleware(express.mockRequest, express.mockResponse, next);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('sets the `imageUrl` request param to the returned URL', () => {
-					assert.strictEqual(express.mockRequest.params.imageUrl, 'http://mock-store/foo/bar.svg?foo=bar');
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'http://mock-store/foo/bar.svg?foo=bar');
 				});
 
 				it('sets the `format` query parameter to the resolved URLs file extension', () => {
-					assert.strictEqual(express.mockRequest.query.format, 'svg');
+					assert.strictEqual(origamiService.mockRequest.query.format, 'svg');
 				});
 
 				it('calls `next` with no error', () => {
@@ -178,7 +177,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 					next.reset();
 					resolutionError = new Error('resolution error');
 					ImageTransform.resolveCustomSchemeUri.throws(resolutionError);
-					middleware(express.mockRequest, express.mockResponse, next);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('sets the error status to 400', () => {

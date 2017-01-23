@@ -48,18 +48,18 @@ Now you can access the app over HTTP on port `8080`: [http://localhost:8080/](ht
 Configuration
 -------------
 
-We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config.
+We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
 
-  * `PORT`: The port to run the application on.
-  * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
-  * `LOG_LEVEL`: A Syslog-compatible level at which to emit log events to stdout. One of `trace`, `debug`, `info`, `warn`, `error`, or `crit`.
-  * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
   * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
   * `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
-  * `RAVEN_URL`: The Sentry URL to send error information to.
   * `CUSTOM_SCHEME_STORE`: The location of the images used in custom schemes. This should be set to the base path under which images live.
   * `CUSTOM_SCHEME_CACHE_BUST`: A key used to manually cache-bust custom scheme images.
+  * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
+  * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
+  * `PORT`: The port to run the application on.
+  * `REGION`: The region the application is running in.
+  * `SENTRY_DSN`: The Sentry URL to send error information to.
 
 The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
 
@@ -188,6 +188,7 @@ heroku config:set --app origami-image-service-eu CUSTOM_SCHEME_CACHE_BUST=your-u
 heroku config:set --app origami-image-service-us CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
 ```
 
+
 License
 -------
 
@@ -210,4 +211,5 @@ The Financial Times has published this software under the [MIT license][license]
 [production-url]: https://www.ft.com/__origami/service/image/v2
 [sentry-production]: https://sentry.io/nextftcom/origami-image-service-producti/
 [sentry-qa]: https://sentry.io/nextftcom/origami-image-service-qa/
+[service-options]: https://github.com/Financial-Times/origami-service#options
 [splunk]: https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice

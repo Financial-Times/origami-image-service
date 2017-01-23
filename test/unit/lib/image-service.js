@@ -6,40 +6,28 @@ const path = require('path');
 const sinon = require('sinon');
 
 describe('lib/image-service', () => {
+	let about;
 	let basePath;
-	let express;
-	let getBasePath;
-	let handleErrors;
-	let healthChecks;
+	let HealthChecks;
 	let httpProxy;
 	let imageService;
-	let morgan;
-	let notFound;
+	let origamiService;
 	let requireAll;
 
 	beforeEach(() => {
 		basePath = path.resolve(`${__dirname}/../../..`);
 
-		express = require('../mock/n-express.mock');
-		mockery.registerMock('@financial-times/n-express', express);
+		about = {mockAboutInfo: true};
+		mockery.registerMock('../about.json', about);
 
-		getBasePath = sinon.spy();
-		mockery.registerMock('./middleware/get-base-path', getBasePath);
-
-		handleErrors = sinon.stub().returns(sinon.spy());
-		mockery.registerMock('./middleware/handle-errors', handleErrors);
-
-		healthChecks = require('../mock/health-checks.mock');
-		mockery.registerMock('./health-checks', healthChecks);
+		HealthChecks = require('../mock/health-checks.mock');
+		mockery.registerMock('./health-checks', HealthChecks);
 
 		httpProxy = require('../mock/http-proxy.mock');
 		mockery.registerMock('http-proxy', httpProxy);
 
-		morgan = require('../mock/morgan.mock');
-		mockery.registerMock('morgan', morgan);
-
-		notFound = sinon.spy();
-		mockery.registerMock('./middleware/not-found', notFound);
+		origamiService = require('../mock/origami-service.mock');
+		mockery.registerMock('@financial-times/origami-service', origamiService);
 
 		requireAll = require('../mock/require-all.mock');
 		mockery.registerMock('require-all', requireAll);
@@ -51,13 +39,13 @@ describe('lib/image-service', () => {
 		assert.isFunction(imageService);
 	});
 
-	describe('imageService(config)', () => {
-		let config;
-		let returnedPromise;
+	describe('imageService(options)', () => {
+		let options;
+		let returnValue;
 		let routes;
 
 		beforeEach(() => {
-			config = {
+			options = {
 				environment: 'test',
 				port: 1234,
 				systemCode: 'example-system-code'
@@ -67,54 +55,36 @@ describe('lib/image-service', () => {
 				bar: sinon.spy()
 			};
 			requireAll.returns(routes);
-			returnedPromise = imageService(config);
+			returnValue = imageService(options);
 		});
 
-		it('returns a promise', () => {
-			assert.instanceOf(returnedPromise, Promise);
+		it('creates an Origami Service application', () => {
+			assert.calledOnce(origamiService);
 		});
 
-		it('creates an Express application', () => {
-			assert.calledOnce(express);
+		it('enables case sensitive routing', () => {
+			assert.called(origamiService.mockApp.enable);
+			assert.calledWith(origamiService.mockApp.enable, 'case sensitive routing');
 		});
 
-		it('passes health-checks into the created application', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isArray(options.healthChecks);
-			assert.strictEqual(options.healthChecks[0], healthChecks.cloudinary);
-			assert.strictEqual(options.healthChecks[1], healthChecks.customSchemeStore);
+		it('creates a HealthChecks object', () => {
+			assert.calledOnce(HealthChecks);
+			assert.calledWithNew(HealthChecks);
+			assert.calledWithExactly(HealthChecks, options);
 		});
 
-		it('configures handlebars', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isTrue(options.withHandlebars);
-			assert.strictEqual(options.layoutsDir, path.resolve(__dirname, '../../../views/layouts'));
-			assert.deepEqual(options.partialsDir, [path.resolve(__dirname, '../../../views')]);
+		it('sets `options.healthCheck` to the created health check function', () => {
+			assert.calledOnce(HealthChecks.mockHealthChecks.getFunction);
+			assert.strictEqual(options.healthCheck, HealthChecks.mockFunction);
 		});
 
-		it('configures assets (turns them off)', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isFalse(options.withAssets);
+		it('sets `options.goodToGoTest` to the created health check gtg function', () => {
+			assert.calledOnce(HealthChecks.mockHealthChecks.getGoodToGoFunction);
+			assert.strictEqual(options.goodToGoTest, HealthChecks.mockGoodToGoFunction);
 		});
 
-		it('sets the application system code', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.strictEqual(options.systemCode, 'example-system-code');
-		});
-
-		it('disables service metrics', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isFalse(options.withServiceMetrics);
-		});
-
-		it('creates an error handling middleware', () => {
-			assert.calledOnce(handleErrors);
-			assert.calledWith(handleErrors, config);
+		it('sets `options.about` to the contents of about.json', () => {
+			assert.strictEqual(options.about, about);
 		});
 
 		it('creates an HTTP proxy', () => {
@@ -300,55 +270,19 @@ describe('lib/image-service', () => {
 		describe('HTTP Proxy `error` handler', () => {
 
 			it('should be the created error handling middleware', () => {
-				assert.calledWithExactly(httpProxy.mockProxyServer.on, 'error', handleErrors.firstCall.returnValue);
+				assert.calledWithExactly(httpProxy.mockProxyServer.on, 'error', origamiService.middleware.errorHandler.firstCall.returnValue);
 			});
 
 		});
 
-		it('sets the Express application `proxy` property to the created HTTP proxy', () => {
-			assert.strictEqual(express.mockApp.proxy, httpProxy.mockProxyServer);
+		it('sets the application `proxy` property to the created HTTP proxy', () => {
+			assert.strictEqual(origamiService.mockApp.proxy, httpProxy.mockProxyServer);
 		});
 
-		it('sets the Express application `imageServiceConfig` property to `config`', () => {
-			assert.strictEqual(express.mockApp.imageServiceConfig, config);
-		});
-
-		it('initialises the health-checks', () => {
-			assert.calledOnce(healthChecks.init);
-			assert.calledWithExactly(healthChecks.init, config);
-		});
-
-		it('mounts Morgan middleware to log requests', () => {
-			assert.calledWithExactly(morgan, 'combined');
-			assert.calledWithExactly(express.mockApp.use, morgan.mockMiddleware);
-		});
-
-		it('mounts the getBasePath middleware', () => {
-			assert.calledWithExactly(express.mockApp.use, getBasePath);
-		});
-
-		it('registers a "/__gtg" route', () => {
-			assert.calledWith(express.mockApp.get, '/__gtg');
-		});
-
-		describe('"/__gtg" route', () => {
-			let gtgRoute;
-
-			beforeEach(() => {
-				gtgRoute = express.mockApp.get.withArgs('/__gtg').firstCall.args[1];
-				gtgRoute(express.mockRequest, express.mockResponse);
-			});
-
-			it('sets the response status to 200', () => {
-				assert.calledOnce(express.mockResponse.status);
-				assert.calledWithExactly(express.mockResponse.status, 200);
-			});
-
-			it('sets the response body to "OK"', () => {
-				assert.calledOnce(express.mockResponse.send);
-				assert.calledWithExactly(express.mockResponse.send, 'OK');
-			});
-
+		it('creates and mounts getBasePath middleware', () => {
+			assert.calledOnce(origamiService.middleware.getBasePath);
+			assert.calledWithExactly(origamiService.middleware.getBasePath);
+			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.getBasePath.firstCall.returnValue);
 		});
 
 		it('loads all of the routes', () => {
@@ -358,92 +292,27 @@ describe('lib/image-service', () => {
 			assert.isFunction(requireAll.firstCall.args[0].resolve);
 		});
 
-		it('mounts a static middleware', () => {
-			assert.calledOnce(express.static);
-			assert.calledWithExactly(express.static, 'public');
-			assert.calledWithExactly(express.mockApp.use, express.mockStaticMiddleware);
-		});
-
-		it('calls each route with the Express application', () => {
+		it('calls each route with the Origami Service application', () => {
 			const route = sinon.spy();
 			requireAll.firstCall.args[0].resolve(route);
 			assert.calledOnce(route);
-			assert.calledWithExactly(route, express.mockApp);
+			assert.calledWithExactly(route, origamiService.mockApp);
 		});
 
-		it('mounts middleware to handle routes that are not found', () => {
-			assert.calledWith(express.mockApp.use, notFound);
+		it('creates and mounts not found middleware', () => {
+			assert.calledOnce(origamiService.middleware.notFound);
+			assert.calledWithExactly(origamiService.middleware.notFound);
+			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.notFound.firstCall.returnValue);
 		});
 
-		it('mounts middleware to handle errors', () => {
-			assert.calledWith(express.mockApp.use, handleErrors.firstCall.returnValue);
+		it('creates and mounts error handling middleware', () => {
+			assert.called(origamiService.middleware.errorHandler);
+			assert.calledWithExactly(origamiService.middleware.errorHandler);
+			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.errorHandler.firstCall.returnValue);
 		});
 
-		it('starts the Express application on the port in `config.port`', () => {
-			assert.calledOnce(express.mockApp.listen);
-			assert.calledWith(express.mockApp.listen, config.port);
-		});
-
-		describe('.then()', () => {
-			let service;
-
-			beforeEach(() => {
-				return returnedPromise.then(value => {
-					service = value;
-				});
-			});
-
-			it('resolves with the created Express application', () => {
-				assert.strictEqual(service, express.mockApp);
-			});
-
-			it('stores the created server in the Express application `server` property', () => {
-				assert.strictEqual(service.server, express.mockServer);
-			});
-
-		});
-
-		describe('when the Express application errors on startup', () => {
-			let expressError;
-
-			beforeEach(() => {
-				expressError = new Error('Express failed to start');
-				express.mockApp.listen.rejects(expressError);
-				returnedPromise = imageService(config);
-			});
-
-			describe('.catch()', () => {
-				let caughtError;
-
-				beforeEach(done => {
-					returnedPromise.then(done).catch(error => {
-						caughtError = error;
-						done();
-					});
-				});
-
-				it('fails with the Express error', () => {
-					assert.strictEqual(caughtError, expressError);
-				});
-
-			});
-
-		});
-
-		describe('when `config.suppressLogs` is `true`', () => {
-
-			beforeEach(() => {
-				morgan.reset();
-				express.mockApp.use.reset();
-				config.suppressLogs = true;
-				returnedPromise = imageService(config);
-			});
-
-			it('does not mount Morgan middleware', () => {
-				assert.notCalled(morgan);
-				assert.neverCalledWith(express.mockApp.use, morgan.mockMiddleware);
-			});
-
+		it('returns the created application', () => {
+			assert.strictEqual(returnValue, origamiService.mockApp);
 		});
 
 	});

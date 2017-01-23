@@ -5,14 +5,12 @@ const mockery = require('mockery');
 require('sinon-as-promised');
 
 describe('lib/middleware/get-cms-url', () => {
-	let express;
+	let origamiService;
 	let getCmsUrl;
 	let requestPromise;
 
 	beforeEach(() => {
-
-		express = require('../../mock/n-express.mock');
-		mockery.registerMock('express', express);
+		origamiService = require('../../mock/origami-service.mock');
 
 		requestPromise = require('../../mock/request-promise.mock');
 		mockery.registerMock('../request-promise', requestPromise);
@@ -40,7 +38,7 @@ describe('lib/middleware/get-cms-url', () => {
 			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id';
 
 			beforeEach(done => {
-				express.mockRequest.params.imageUrl = 'ftcms:mock-id';
+				origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 				// V2 responds with success
 				requestPromise.withArgs({
@@ -50,7 +48,7 @@ describe('lib/middleware/get-cms-url', () => {
 					statusCode: 200
 				});
 
-				middleware(express.mockRequest, express.mockResponse, done);
+				middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 			});
 
 			it('attempts to fetch the v2 API URL corresponding to the CMS ID', () => {
@@ -62,14 +60,14 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			it('sets the `imageUrl` request param to the v2 API URL corresponding to the CMS ID', () => {
-				assert.strictEqual(express.mockRequest.params.imageUrl, v2Uri);
+				assert.strictEqual(origamiService.mockRequest.params.imageUrl, v2Uri);
 			});
 
 			describe('when the v2 API cannot find the image', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -87,7 +85,7 @@ describe('lib/middleware/get-cms-url', () => {
 						statusCode: 200
 					});
 
-					middleware(express.mockRequest, express.mockResponse, done);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
 				it('attempts to fetch the v1 API URL corresponding to the CMS ID', () => {
@@ -99,7 +97,7 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('sets the `imageUrl` request param to the v1 API URL corresponding to the CMS ID', () => {
-					assert.strictEqual(express.mockRequest.params.imageUrl, v1Uri);
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, v1Uri);
 				});
 
 			});
@@ -109,7 +107,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -127,7 +125,7 @@ describe('lib/middleware/get-cms-url', () => {
 						statusCode: 404
 					});
 
-					middleware(express.mockRequest, express.mockResponse, error => {
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
 						done();
 					});
@@ -145,7 +143,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params.imageUrl = 'ftcms:mock-id?foo=bar';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id?foo=bar';
 
 					// V2 responds with success
 					requestPromise.withArgs({
@@ -155,7 +153,7 @@ describe('lib/middleware/get-cms-url', () => {
 						statusCode: 200
 					});
 
-					middleware(express.mockRequest, express.mockResponse, done);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
 				it('attempts to fetch the API URLs with the querystring intact', () => {
@@ -172,12 +170,12 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params.imageUrl = 'http://foo/bar';
-					middleware(express.mockRequest, express.mockResponse, done);
+					origamiService.mockRequest.params.imageUrl = 'http://foo/bar';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
 				it('does not touch the `imageUrl` request param', () => {
-					assert.strictEqual(express.mockRequest.params.imageUrl, 'http://foo/bar');
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'http://foo/bar');
 				});
 
 			});
@@ -187,7 +185,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
-					express.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 errors
 					requestPromise.withArgs({
@@ -195,7 +193,7 @@ describe('lib/middleware/get-cms-url', () => {
 						method: 'HEAD'
 					}).rejects(new Error('mock error'));
 
-					middleware(express.mockRequest, express.mockResponse, error => {
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
 						done();
 					});

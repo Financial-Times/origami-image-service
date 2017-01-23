@@ -14,18 +14,19 @@ before(function() {
 	return imageService({
 		cloudinaryAccountName: 'financial-times', // TODO set up a test account for this?
 		customSchemeStore: 'http://origami-imageset-uploader-s3.s3.amazonaws.com',
+		defaultLayout: 'main',
 		environment: 'test',
 		log: mockLog,
-		logLevel: process.env.LOG_LEVEL || 'trace',
 		port: process.env.PORT || null,
-		suppressLogs: true
+		requestLogFormat: null
 	})
-	.then(service => {
-		this.agent = supertest.agent(service);
-		this.service = service;
+	.listen()
+	.then(app => {
+		this.agent = supertest.agent(app);
+		this.app = app;
 	});
 });
 
 after(function() {
-	this.service.server.close();
+	this.app.origami.server.close();
 });

@@ -3,7 +3,7 @@
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const express = module.exports = sinon.stub();
+const origamiService = module.exports = sinon.stub();
 
 const mockApp = module.exports.mockApp = {
 	disable: sinon.stub(),
@@ -17,7 +17,14 @@ const mockApp = module.exports.mockApp = {
 
 const mockServer = module.exports.mockServer = {};
 
-const mockStaticMiddleware = module.exports.mockStaticMiddleware = {};
+const mockBasePathMiddleware = module.exports.mockBasePathMiddleware = sinon.spy();
+const mockErrorHandlerMiddleware = module.exports.mockErrorHandlerMiddleware = sinon.spy();
+const mockNotFoundMiddleware = module.exports.mockNotFoundMiddleware = sinon.spy();
+origamiService.middleware = {
+	getBasePath: sinon.stub().returns(mockBasePathMiddleware),
+	errorHandler: sinon.stub().returns(mockErrorHandlerMiddleware),
+	notFound: sinon.stub().returns(mockNotFoundMiddleware)
+};
 
 module.exports.mockRequest = {
 	headers: {},
@@ -36,5 +43,4 @@ module.exports.mockResponse = {
 };
 
 mockApp.listen.resolves(mockServer);
-express.returns(mockApp);
-express.static = sinon.stub().returns(mockStaticMiddleware);
+origamiService.returns(mockApp);
