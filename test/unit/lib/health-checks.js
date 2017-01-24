@@ -42,7 +42,7 @@ describe('lib/health-checks', () => {
 		});
 
 		it('has a `cloudinaryCheckUrl` property', () => {
-			assert.strictEqual(instance.cloudinaryCheckUrl, 'http://res.cloudinary.com/financial-times/image/fetch/http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img');
+			assert.strictEqual(instance.cloudinaryCheckUrl, 'http://res.cloudinary.com/financial-times/image/fetch/https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img');
 		});
 
 		it('has a `customSchemeCheckUrl` property', () => {
