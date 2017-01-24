@@ -103,6 +103,7 @@ describe('lib/middleware/tint-svg', () => {
 						assert.calledWith(request.mockStream.emit, 'error');
 						assert.instanceOf(request.mockStream.emit.firstCall.args[1], Error);
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].status, 400);
+						assert.strictEqual(request.mockStream.emit.firstCall.args[1].cacheMaxAge, '30s');
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].message, 'Bad Request');
 					});
 
@@ -125,6 +126,7 @@ describe('lib/middleware/tint-svg', () => {
 						assert.calledWith(request.mockStream.emit, 'error');
 						assert.instanceOf(request.mockStream.emit.firstCall.args[1], Error);
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].status, 400);
+						assert.strictEqual(request.mockStream.emit.firstCall.args[1].cacheMaxAge, '5m');
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].message, 'URI must point to an SVG image');
 					});
 

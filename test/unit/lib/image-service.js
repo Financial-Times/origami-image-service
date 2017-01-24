@@ -62,11 +62,6 @@ describe('lib/image-service', () => {
 			assert.calledOnce(origamiService);
 		});
 
-		it('enables case sensitive routing', () => {
-			assert.called(origamiService.mockApp.enable);
-			assert.calledWith(origamiService.mockApp.enable, 'case sensitive routing');
-		});
-
 		it('creates a HealthChecks object', () => {
 			assert.calledOnce(HealthChecks);
 			assert.calledWithNew(HealthChecks);

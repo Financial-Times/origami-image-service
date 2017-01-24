@@ -135,6 +135,7 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.instanceOf(responseError, Error);
 					assert.strictEqual(responseError.message, 'Unable to get image mock-id from FT CMS v1 or v2');
 					assert.strictEqual(responseError.status, 404);
+					assert.strictEqual(responseError.cacheMaxAge, '30s');
 				});
 
 			});

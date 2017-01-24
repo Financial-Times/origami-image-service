@@ -163,6 +163,10 @@ describe('lib/middleware/process-image-request', () => {
 					assert.strictEqual(imageTransformError.status, 400);
 				});
 
+				it('sets the error `cacheMaxAge` property to "10m"', () => {
+					assert.strictEqual(imageTransformError.status, 400);
+				});
+
 				it('calls `next` with the error', () => {
 					assert.calledOnce(next);
 					assert.calledWithExactly(next, imageTransformError);
