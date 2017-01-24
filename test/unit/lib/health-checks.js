@@ -152,17 +152,15 @@ describe('lib/health-checks', () => {
 
 			});
 
-			describe('when the `TEST_HEALTHCHECK_FAILURE` environment variable is set', () => {
-				let originalEnv;
+			describe('when the `testHealthcheckFailure` option is `true`', () => {
 
 				beforeEach(() => {
-					originalEnv = process.env.TEST_HEALTHCHECK_FAILURE;
-					process.env.TEST_HEALTHCHECK_FAILURE = 'YESPLEASE';
+					options.testHealthcheckFailure = 'YESPLEASE';
+					instance = new HealthChecks(options);
+					instance.statuses = {
+						foo: {}
+					};
 					return instance.pingService('foo', 'bar');
-				});
-
-				afterEach(() => {
-					process.env.TEST_HEALTHCHECK_FAILURE = originalEnv;
 				});
 
 				it('sets the status of the check to `false`', () => {

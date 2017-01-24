@@ -17,6 +17,7 @@ const options = {
 	hostname: process.env.HOSTNAME,
 	name: 'Origami Image Service',
 	port: process.env.PORT || 8080,
+	testHealthcheckFailure: process.env.TEST_HEALTHCHECK_FAILURE || false,
 	workers: process.env.WEB_CONCURRENCY || 1
 };
 
