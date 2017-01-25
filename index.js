@@ -15,6 +15,7 @@ const options = {
 	customSchemeStore: process.env.CUSTOM_SCHEME_STORE,
 	defaultLayout: 'main',
 	hostname: process.env.HOSTNAME,
+	metricsAppName: 'origami-image-service',
 	name: 'Origami Image Service',
 	port: process.env.PORT || 8080,
 	testHealthcheckFailure: process.env.TEST_HEALTHCHECK_FAILURE || false,

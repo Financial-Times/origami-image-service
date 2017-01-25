@@ -24,7 +24,7 @@
     "start": "heroku-node-settings index.js"
   },
   "dependencies": {
-    "@financial-times/origami-service": "^1.1.0",
+    "@financial-times/origami-service": "^1.2.0",
     "cloudinary": "^1",
     "colornames": "^1",
     "current-week-number": "^1.0.7",
