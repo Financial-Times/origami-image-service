@@ -469,6 +469,14 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `value` is an empty string', () => {
+
+			it('returns `undefined`', () => {
+				assert.isUndefined(ImageTransform.sanitizeNumericValue(''));
+			});
+
+		});
+
 		describe('when `value` is smaller than `1`', () => {
 
 			it('throws an error', () => {
@@ -524,6 +532,14 @@ describe('lib/image-transform', () => {
 
 			it('returns `undefined`', () => {
 				assert.isUndefined(ImageTransform.sanitizeEnumerableValue());
+			});
+
+		});
+
+		describe('when `value` is an empty string', () => {
+
+			it('returns `undefined`', () => {
+				assert.isUndefined(ImageTransform.sanitizeEnumerableValue(''));
 			});
 
 		});
@@ -597,6 +613,14 @@ describe('lib/image-transform', () => {
 
 			it('returns `undefined`', () => {
 				assert.isUndefined(ImageTransform.sanitizeColorValue());
+			});
+
+		});
+
+		describe('when `value` is an empty string', () => {
+
+			it('returns `undefined`', () => {
+				assert.isUndefined(ImageTransform.sanitizeColorValue(''));
 			});
 
 		});
