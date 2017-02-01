@@ -207,6 +207,37 @@ describe('lib/middleware/get-cms-url', () => {
 
 			});
 
+			describe('when the request fails a DNS lookup', () => {
+				let dnsError;
+				let responseError;
+
+				beforeEach(done => {
+					requestPromise.reset();
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+
+					// V2 errors
+					dnsError = new Error('mock error');
+					dnsError.code = 'ENOTFOUND';
+					dnsError.syscall = 'getaddrinfo';
+					dnsError.hostname = 'mock-hostname';
+					requestPromise.withArgs({
+						uri: v2Uri,
+						method: 'HEAD'
+					}).rejects(dnsError);
+
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						responseError = error;
+						done();
+					});
+				});
+
+				it('calls `next` with a descriptive error', () => {
+					assert.instanceOf(responseError, Error);
+					assert.strictEqual(responseError.message, 'DNS lookup failed for "mock-hostname"');
+				});
+
+			});
+
 		});
 
 	});
