@@ -8,9 +8,9 @@
       "resolved": "https://registry.npmjs.org/@financial-times/express-web-service/-/express-web-service-3.3.1.tgz"
     },
     "@financial-times/origami-service": {
-      "version": "1.5.0",
-      "from": "@financial-times/origami-service@1.5.0",
-      "resolved": "https://registry.npmjs.org/@financial-times/origami-service/-/origami-service-1.5.0.tgz"
+      "version": "1.6.0",
+      "from": "@financial-times/origami-service@1.6.0",
+      "resolved": "https://registry.npmjs.org/@financial-times/origami-service/-/origami-service-1.6.0.tgz"
     },
     "accepts": {
       "version": "1.3.3",
@@ -613,9 +613,9 @@
       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.1.tgz"
     },
     "next-metrics": {
-      "version": "1.45.3",
+      "version": "1.45.6",
       "from": "next-metrics@>=1.45.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/next-metrics/-/next-metrics-1.45.3.tgz",
+      "resolved": "https://registry.npmjs.org/next-metrics/-/next-metrics-1.45.6.tgz",
       "dependencies": {
         "debug": {
           "version": "1.0.4",
