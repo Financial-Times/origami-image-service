@@ -219,7 +219,6 @@ describe('lib/middleware/get-cms-url', () => {
 					dnsError = new Error('mock error');
 					dnsError.code = 'ENOTFOUND';
 					dnsError.syscall = 'getaddrinfo';
-					dnsError.hostname = 'mock-hostname';
 					requestPromise.withArgs({
 						uri: v2Uri,
 						method: 'HEAD'
@@ -233,7 +232,38 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'DNS lookup failed for "mock-hostname"');
+					assert.strictEqual(responseError.message, 'DNS lookup failed for "http://prod-upp-image-read.ft.com/mock-id"');
+				});
+
+			});
+
+			describe('when the request connection resets', () => {
+				let resetError;
+				let responseError;
+
+				beforeEach(done => {
+					requestPromise.reset();
+					origamiService.mockRequest.url = 'mock-url';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+
+					// V2 errors
+					resetError = new Error('mock error');
+					resetError.code = 'ECONNRESET';
+					resetError.syscall = 'mock-syscall';
+					requestPromise.withArgs({
+						uri: v2Uri,
+						method: 'HEAD'
+					}).rejects(resetError);
+
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						responseError = error;
+						done();
+					});
+				});
+
+				it('calls `next` with a descriptive error', () => {
+					assert.instanceOf(responseError, Error);
+					assert.strictEqual(responseError.message, 'Connection reset when requesting "http://prod-upp-image-read.ft.com/mock-id" (mock-syscall)');
 				});
 
 			});
