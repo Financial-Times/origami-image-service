@@ -74,6 +74,26 @@ describe('lib/middleware/get-image-meta', () => {
 			});
 		});
 
+		describe('when the request Accept header indicates JPEG-XR support', () => {
+
+			beforeEach(() => {
+				probe.reset();
+				origamiService.mockRequest.headers.accept = 'image/jxr';
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+			});
+
+			it('alters the Accept header before passing it on to probe', () => {
+				assert.calledOnce(probe);
+				assert.calledWith(probe, {
+					url: origamiService.mockRequest.appliedTransform,
+					headers: {
+						Accept: '*/*'
+					}
+				});
+			});
+
+		});
+
 		describe('when the transformed image does not have a `dpr` set', () => {
 
 			beforeEach(() => {
