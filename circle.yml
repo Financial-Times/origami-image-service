@@ -10,6 +10,7 @@ test:
   override:
     - make verify
     - make test
+    - make whitesource
 
 deployment:
   staging:
