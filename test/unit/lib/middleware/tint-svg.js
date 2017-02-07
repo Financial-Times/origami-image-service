@@ -143,7 +143,7 @@ describe('lib/middleware/tint-svg', () => {
 				let streamError;
 
 				beforeEach(() => {
-					streamError = new Error('stream error');
+					streamError = new Error('mock error');
 					handler = request.mockStream.on.withArgs('error').firstCall.args[1];
 					handler(streamError);
 				});
@@ -151,6 +151,44 @@ describe('lib/middleware/tint-svg', () => {
 				it('calls `next` with the error', () => {
 					assert.calledOnce(next);
 					assert.calledWithExactly(next, streamError);
+				});
+
+				describe('when the error represents a failed DNS lookup', () => {
+					let dnsError;
+
+					beforeEach(() => {
+						next.reset();
+						dnsError = new Error('mock error');
+						dnsError.code = 'ENOTFOUND';
+						dnsError.syscall = 'getaddrinfo';
+						handler(dnsError);
+					});
+
+					it('calls `next` with a descriptive error', () => {
+						assert.calledOnce(next);
+						assert.instanceOf(next.firstCall.args[0], Error);
+						assert.strictEqual(next.firstCall.args[0].message, 'DNS lookup failed for "mock-uri"');
+					});
+
+				});
+
+				describe('when the error represents a connection reset', () => {
+					let resetError;
+
+					beforeEach(() => {
+						next.reset();
+						resetError = new Error('mock error');
+						resetError.code = 'ECONNRESET';
+						resetError.syscall = 'mock-syscall';
+						handler(resetError);
+					});
+
+					it('calls `next` with a descriptive error', () => {
+						assert.calledOnce(next);
+						assert.instanceOf(next.firstCall.args[0], Error);
+						assert.strictEqual(next.firstCall.args[0].message, 'Connection reset when requesting "mock-uri" (mock-syscall)');
+					});
+
 				});
 
 			});
