@@ -173,6 +173,30 @@ describe('GET /v2/images/raw…', function() {
 		itDoesNotRespondWithHeader('content-Dpr');
 	});
 
+	describe('when a custom scheme image is not found', function() {
+		setupRequest('GET', `/v2/images/raw/fthead-v1:notahead?source=test`);
+		itRespondsWithStatus(404);
+		itRespondsWithContentType('text/html');
+	});
+
+	describe('when a CMS image is not found', function() {
+		setupRequest('GET', `/v2/images/raw/ftcms:notanid?source=test`);
+		itRespondsWithStatus(404);
+		itRespondsWithContentType('text/html');
+	});
+
+	describe('when an HTTP image is not found', function() {
+		setupRequest('GET', `/v2/images/raw/https://www.ft.com/notapage?source=test`);
+		itRespondsWithStatus(404);
+		itRespondsWithContentType('text/html');
+	});
+
+	describe('when an image responds with HTML', function() {
+		setupRequest('GET', `/v2/images/raw/https://www.ft.com/?source=test`);
+		itRespondsWithStatus(400);
+		itRespondsWithContentType('text/html');
+	});
+
 	context('when an image is returned, surrogate keys are added', function() {
 		describe('adds generic key for all image requests:', function() {
 			describe('ftbrand', function() {

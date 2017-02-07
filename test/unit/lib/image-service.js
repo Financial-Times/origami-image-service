@@ -254,6 +254,60 @@ describe('lib/image-service', () => {
 					assert.strictEqual(response.cloudinaryError.status, 123);
 				});
 
+				describe('when the `X-Cld-Error` header is caused by the image being an HTML page', () => {
+					let response;
+
+					beforeEach(() => {
+						proxyResponse.headers['x-cld-error'] = 'Resource not found http://foo/bar - HTML response';
+						proxyResponse.statusCode = 123;
+						response = {};
+						handler(proxyResponse, request, response);
+					});
+
+					it('sets the response `cloudinaryError` property to a 400 error', () => {
+						assert.instanceOf(response.cloudinaryError, Error);
+						assert.strictEqual(response.cloudinaryError.message, 'The requested resource is not an image');
+						assert.strictEqual(response.cloudinaryError.status, 400);
+					});
+
+				});
+
+				describe('when the `X-Cld-Error` header is a 400/403 caused by a missing image in the S3 bucket', () => {
+					let response;
+
+					beforeEach(() => {
+						proxyResponse.headers['x-cld-error'] = 'Error in loading http://foo/bar - 403 forbidden';
+						proxyResponse.statusCode = 400;
+						response = {};
+						handler(proxyResponse, request, response);
+					});
+
+					it('sets the response `cloudinaryError` property to a 404 error', () => {
+						assert.instanceOf(response.cloudinaryError, Error);
+						assert.strictEqual(response.cloudinaryError.message, 'The requested image could not be found');
+						assert.strictEqual(response.cloudinaryError.status, 404);
+					});
+
+				});
+
+				describe('when the `X-Cld-Error` header is a not found error', () => {
+					let response;
+
+					beforeEach(() => {
+						proxyResponse.headers['x-cld-error'] = 'Resource not found http://foo/bar';
+						proxyResponse.statusCode = 404;
+						response = {};
+						handler(proxyResponse, request, response);
+					});
+
+					it('sets the response `cloudinaryError` property to a 404 error', () => {
+						assert.instanceOf(response.cloudinaryError, Error);
+						assert.strictEqual(response.cloudinaryError.message, 'The requested image could not be found');
+						assert.strictEqual(response.cloudinaryError.status, 404);
+					});
+
+				});
+
 			});
 
 		});
