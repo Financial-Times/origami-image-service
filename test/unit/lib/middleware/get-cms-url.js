@@ -268,6 +268,37 @@ describe('lib/middleware/get-cms-url', () => {
 
 			});
 
+			describe('when the request times out', () => {
+				let responseError;
+				let timeoutError;
+
+				beforeEach(done => {
+					requestPromise.reset();
+					origamiService.mockRequest.url = 'mock-url';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+
+					// V2 errors
+					timeoutError = new Error('mock error');
+					timeoutError.code = 'ETIMEDOUT';
+					timeoutError.syscall = 'mock-syscall';
+					requestPromise.withArgs({
+						uri: v2Uri,
+						method: 'HEAD'
+					}).rejects(timeoutError);
+
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						responseError = error;
+						done();
+					});
+				});
+
+				it('calls `next` with a descriptive error', () => {
+					assert.instanceOf(responseError, Error);
+					assert.strictEqual(responseError.message, 'Request timed out when requesting "http://prod-upp-image-read.ft.com/mock-id" (mock-syscall)');
+				});
+
+			});
+
 		});
 
 	});

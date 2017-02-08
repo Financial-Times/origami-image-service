@@ -191,6 +191,25 @@ describe('lib/middleware/tint-svg', () => {
 
 				});
 
+				describe('when the error represents a request timeout', () => {
+					let resetError;
+
+					beforeEach(() => {
+						next.reset();
+						resetError = new Error('mock error');
+						resetError.code = 'ETIMEDOUT';
+						resetError.syscall = 'mock-syscall';
+						handler(resetError);
+					});
+
+					it('calls `next` with a descriptive error', () => {
+						assert.calledOnce(next);
+						assert.instanceOf(next.firstCall.args[0], Error);
+						assert.strictEqual(next.firstCall.args[0].message, 'Request timed out when requesting "mock-uri" (mock-syscall)');
+					});
+
+				});
+
 			});
 
 			it('pipes the HTTP request stream through the tint stream and into the response', () => {
