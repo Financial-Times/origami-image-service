@@ -16,3 +16,4 @@ deployment:
     branch: master
     commands:
       - make deploy-ci
+      - make whitesource
