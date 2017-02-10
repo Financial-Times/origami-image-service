@@ -317,9 +317,68 @@ describe('lib/image-service', () => {
 		});
 
 		describe('HTTP Proxy `error` handler', () => {
+			let handler;
+			let proxyError;
+			let serviceErrorHandler;
 
-			it('should be the created error handling middleware', () => {
-				assert.calledWithExactly(httpProxy.mockProxyServer.on, 'error', origamiService.middleware.errorHandler.firstCall.returnValue);
+			beforeEach(() => {
+				serviceErrorHandler = origamiService.middleware.errorHandler.firstCall.returnValue;
+				proxyError = new Error('mock error');
+				handler = httpProxy.mockProxyServer.on.withArgs('error').firstCall.args[1];
+				origamiService.mockRequest.url = 'mock-url';
+				handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+			});
+
+			it('calls the error handling middleware', () => {
+				assert.calledWithExactly(serviceErrorHandler, proxyError, origamiService.mockRequest, origamiService.mockResponse);
+			});
+
+			describe('when the error represents a failed DNS lookup', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ENOTFOUND';
+					proxyError.syscall = 'getaddrinfo';
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy DNS lookup failed for "mock-url"');
+				});
+
+			});
+
+			describe('when the error represents a connection reset', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ECONNRESET';
+					proxyError.syscall = 'mock-syscall';
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy connection reset when requesting "mock-url" (mock-syscall)');
+				});
+
+			});
+
+			describe('when the error represents a request timeout', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ETIMEDOUT';
+					proxyError.syscall = 'mock-syscall';
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy request timed out when requesting "mock-url" (mock-syscall)');
+				});
+
 			});
 
 		});
