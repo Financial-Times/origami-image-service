@@ -43,7 +43,8 @@ if (!DRY_RUN) {
 			uri: endpoint,
 			method: 'PURGE',
 			headers: {
-				'Fastly-Key': process.env.FASTLY_API_KEY
+				'Fastly-Key': process.env.FASTLY_API_KEY,
+				'Fastly-Soft-Purge': 1
 			}
 		})
 		.then(function(response) {
