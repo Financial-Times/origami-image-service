@@ -16,4 +16,6 @@ deployment:
     branch: master
     commands:
       - make deploy-ci
+      # Removing the development dependencies so that whitesource only tracks the productions dependencies
+      - rm -rf node_modules && npm i --production
       - make whitesource
