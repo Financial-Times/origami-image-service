@@ -140,6 +140,30 @@ describe('lib/middleware/get-image-meta', () => {
 
 		});
 
+		describe('when the probe errors with a message of "Parse Error"', () => {
+			let probeError;
+
+			beforeEach(() => {
+				origamiService.mockResponse.send.reset();
+				probeError = new Error('Parse Error');
+				probe.yields(probeError);
+				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+			});
+
+			it('calls `next` with a new error', () => {
+				assert.calledOnce(next);
+				assert.instanceOf(next.firstCall.args[0], Error);
+				assert.strictEqual(next.firstCall.args[0].status, 500);
+				assert.strictEqual(next.firstCall.args[0].message, 'Metadata could not be extracted from the requested image due to a parse error');
+				assert.notStrictEqual(next.firstCall.args[0], probeError);
+			});
+
+			it('does not respond', () => {
+				assert.notCalled(origamiService.mockResponse.send);
+			});
+
+		});
+
 		describe('when the probe errors with a 404 status', () => {
 			let probeError;
 
