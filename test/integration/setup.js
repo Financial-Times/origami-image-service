@@ -13,7 +13,7 @@ const mockLog = {
 before(function() {
 	return imageService({
 		cloudinaryAccountName: 'financial-times', // TODO set up a test account for this?
-		customSchemeStore: 'http://origami-imageset-uploader-s3.s3.amazonaws.com',
+		customSchemeStore: 'https://www.ft.com/__origami/service/imageset-data',
 		defaultLayout: 'main',
 		environment: 'test',
 		log: mockLog,
