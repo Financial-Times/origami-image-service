@@ -5,6 +5,7 @@ machine:
 # Use npm > 4 to fix https://github.com/npm/npm/issues/14042
   post:
   - npm install -g npm@latest
+  - npm install -g whitesource
 
 test:
   override:
