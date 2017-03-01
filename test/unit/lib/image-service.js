@@ -312,6 +312,27 @@ describe('lib/image-service', () => {
 
 			});
 
+			describe('when the proxy response has no `X-Cld-Error` header but has a non-200 status', () => {
+				let response;
+
+				beforeEach(() => {
+					proxyResponse.statusCode = 503;
+					response = {};
+					handler(proxyResponse, request, response);
+				});
+
+				it('sets the headers of the proxy response to an empty object', () => {
+					assert.deepEqual(httpProxy.mockProxyResponse.headers, {});
+				});
+
+				it('sets the response `cloudinaryError` property to an error object representing the error', () => {
+					assert.instanceOf(response.cloudinaryError, Error);
+					assert.strictEqual(response.cloudinaryError.message, 'Service Unavailable');
+					assert.strictEqual(response.cloudinaryError.status, 503);
+				});
+
+			});
+
 		});
 
 		it('adds a listener on the HTTP proxy\'s `error` event', () => {
