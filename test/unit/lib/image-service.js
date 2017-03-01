@@ -107,6 +107,7 @@ describe('lib/image-service', () => {
 				};
 				proxyRequest = httpProxy.mockProxyRequest;
 				request = {
+					app: origamiService.mockApp,
 					headers: {
 						'accept-encoding': 'bar',
 						'accept-language': 'baz',
@@ -169,6 +170,7 @@ describe('lib/image-service', () => {
 					'last-modified': 'some time'
 				};
 				request = {
+					app: origamiService.mockApp,
 					headers: {},
 					params: {
 						scheme: 'http'

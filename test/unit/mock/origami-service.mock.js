@@ -1,5 +1,6 @@
 'use strict';
 
+const log = require('./log.mock');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
@@ -11,6 +12,7 @@ const mockApp = module.exports.mockApp = {
 	get: sinon.stub(),
 	listen: sinon.stub(),
 	locals: {},
+	origami: {log},
 	set: sinon.stub(),
 	use: sinon.stub()
 };
@@ -27,6 +29,7 @@ origamiService.middleware = {
 };
 
 module.exports.mockRequest = {
+	app: mockApp,
 	headers: {},
 	query: {},
 	params: {}
