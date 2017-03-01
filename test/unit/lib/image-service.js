@@ -339,7 +339,6 @@ describe('lib/image-service', () => {
 				beforeEach(() => {
 					proxyResponse.statusCode = 302;
 					proxyResponse.headers.location = 'https://redirect/';
-					console.log(proxyResponse.headers);
 					response = {};
 					handler(proxyResponse, request, response);
 				});

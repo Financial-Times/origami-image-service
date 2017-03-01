@@ -385,6 +385,24 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `value` has a malformed http/https scheme with only one slash', () => {
+
+			it('returns `value` with the additional slash added', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http:/foo/'), 'http://foo/');
+				assert.strictEqual(ImageTransform.sanitizeUriValue('https:/foo/'), 'https://foo/');
+			});
+
+		});
+
+		describe('when `value` has a malformed http/https scheme with no slashes', () => {
+
+			it('returns `value` with the additional slash added', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http:foo/'), 'http://foo/');
+				assert.strictEqual(ImageTransform.sanitizeUriValue('https:foo/'), 'https://foo/');
+			});
+
+		});
+
 		describe('when `value` contains a hash character', () => {
 
 			it('returns `value` without any of the content after the hash', () => {
