@@ -107,6 +107,7 @@ describe('lib/image-service', () => {
 				};
 				proxyRequest = httpProxy.mockProxyRequest;
 				request = {
+					app: origamiService.mockApp,
 					headers: {
 						'accept-encoding': 'bar',
 						'accept-language': 'baz',
@@ -169,6 +170,7 @@ describe('lib/image-service', () => {
 					'last-modified': 'some time'
 				};
 				request = {
+					app: origamiService.mockApp,
 					headers: {},
 					params: {
 						scheme: 'http'
@@ -306,6 +308,50 @@ describe('lib/image-service', () => {
 						assert.strictEqual(response.cloudinaryError.status, 404);
 					});
 
+				});
+
+			});
+
+			describe('when the proxy response has no `X-Cld-Error` header but has a non-200 status', () => {
+				let response;
+
+				beforeEach(() => {
+					proxyResponse.statusCode = 503;
+					response = {};
+					handler(proxyResponse, request, response);
+				});
+
+				it('sets the headers of the proxy response to an empty object', () => {
+					assert.deepEqual(httpProxy.mockProxyResponse.headers, {});
+				});
+
+				it('sets the response `cloudinaryError` property to an error object representing the error', () => {
+					assert.instanceOf(response.cloudinaryError, Error);
+					assert.strictEqual(response.cloudinaryError.message, 'Service Unavailable');
+					assert.strictEqual(response.cloudinaryError.status, 503);
+				});
+
+			});
+
+			describe('when the proxy response has a 30x status', () => {
+				let response;
+
+				beforeEach(() => {
+					proxyResponse.statusCode = 302;
+					proxyResponse.headers.location = 'https://redirect/';
+					console.log(proxyResponse.headers);
+					response = {};
+					handler(proxyResponse, request, response);
+				});
+
+				it('sets the headers of the proxy response to an empty object', () => {
+					assert.deepEqual(httpProxy.mockProxyResponse.headers, {});
+				});
+
+				it('sets the response `cloudinaryError` property to an error object representing the error', () => {
+					assert.instanceOf(response.cloudinaryError, Error);
+					assert.strictEqual(response.cloudinaryError.message, 'Internal Server Error');
+					assert.strictEqual(response.cloudinaryError.status, 500);
 				});
 
 			});
