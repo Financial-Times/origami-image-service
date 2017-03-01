@@ -333,6 +333,29 @@ describe('lib/image-service', () => {
 
 			});
 
+			describe('when the proxy response has a 30x status', () => {
+				let response;
+
+				beforeEach(() => {
+					proxyResponse.statusCode = 302;
+					proxyResponse.headers.location = 'https://redirect/';
+					console.log(proxyResponse.headers);
+					response = {};
+					handler(proxyResponse, request, response);
+				});
+
+				it('sets the headers of the proxy response to an empty object', () => {
+					assert.deepEqual(httpProxy.mockProxyResponse.headers, {});
+				});
+
+				it('sets the response `cloudinaryError` property to an error object representing the error', () => {
+					assert.instanceOf(response.cloudinaryError, Error);
+					assert.strictEqual(response.cloudinaryError.message, 'Internal Server Error');
+					assert.strictEqual(response.cloudinaryError.status, 500);
+				});
+
+			});
+
 		});
 
 		it('adds a listener on the HTTP proxy\'s `error` event', () => {
