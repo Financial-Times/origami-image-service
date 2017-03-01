@@ -6,11 +6,14 @@ const sinon = require('sinon');
 
 describe('lib/health-checks', () => {
 	let HealthChecks;
+	let log;
 	let requestPromise;
 
 	beforeEach(() => {
 		requestPromise = require('../mock/request-promise.mock');
 		mockery.registerMock('./request-promise', requestPromise);
+
+		log = require('../mock/log.mock');
 
 		HealthChecks = require('../../../lib/health-checks');
 	});
@@ -28,7 +31,8 @@ describe('lib/health-checks', () => {
 		beforeEach(() => {
 			options = {
 				cloudinaryAccountName: 'financial-times',
-				customSchemeStore: 'http://customschemestore/'
+				customSchemeStore: 'http://customschemestore/',
+				log: log
 			};
 			sinon.stub(global, 'setInterval');
 			retrieveData = sinon.stub(HealthChecks.prototype, 'retrieveData');
@@ -137,6 +141,10 @@ describe('lib/health-checks', () => {
 					assert.isFalse(instance.statuses.foo.ok);
 				});
 
+				it('logs the failure', () => {
+					assert.calledWith(log.error, 'Healthcheck Failure (foo): pinging "bar" responded with 400');
+				});
+
 			});
 
 			describe('when the fetch errors', () => {
@@ -148,6 +156,10 @@ describe('lib/health-checks', () => {
 
 				it('sets the status of the check to `false`', () => {
 					assert.isFalse(instance.statuses.foo.ok);
+				});
+
+				it('logs the failure', () => {
+					assert.calledWith(log.error, 'Healthcheck Failure (foo): pinging "bar" errored: request-error');
 				});
 
 			});
