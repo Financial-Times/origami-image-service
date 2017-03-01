@@ -284,57 +284,57 @@ describe('GET /v2/images/raw…', function() {
 		describe('adds specific keys for image content types', function() {
 			describe('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/png/);
+				itRespondsWithHeader('surrogate-key', /imagepng/);
 			});
 
 			describe('ftcms', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/jpeg/);
+				itRespondsWithHeader('surrogate-key', /imagejpeg/);
 			});
 
 			describe('fthead', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/png/);
+				itRespondsWithHeader('surrogate-key', /imagepng/);
 			});
 
 			describe('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/svg\+xml/);
+				itRespondsWithHeader('surrogate-key', /imagesvgxml/);
 			});
 
 			describe('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/svg\+xml/);
+				itRespondsWithHeader('surrogate-key', /imagesvgxml/);
 			});
 
 			describe('ftpodcast', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/png/);
+				itRespondsWithHeader('surrogate-key', /imagepng/);
 			});
 
 			describe('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/svg\+xml/);
+				itRespondsWithHeader('surrogate-key', /imagesvgxml/);
 			});
 
 			describe('http', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcms}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/jpeg/);
+				itRespondsWithHeader('surrogate-key', /imagejpeg/);
 			});
 
 			describe('https', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcms}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/jpeg/);
+				itRespondsWithHeader('surrogate-key', /imagejpeg/);
 			});
 
 			describe('protocolRelative', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelativeftcms}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/jpeg/);
+				itRespondsWithHeader('surrogate-key', /imagejpeg/);
 			});
 
 			describe('specialisttitle', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
-				itRespondsWithHeader('surrogate-key', /image\/svg\+xml/);
+				itRespondsWithHeader('surrogate-key', /imagesvgxml/);
 			});
 		});
 

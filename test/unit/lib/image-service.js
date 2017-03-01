@@ -195,7 +195,7 @@ describe('lib/image-service', () => {
 					'Expires': 'Thu, 08 Jan 1970 00:00:10 GMT',
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
-					'Surrogate-Key': 'origami-image-service image/jpeg http',
+					'Surrogate-Key': 'origami-image-service imagejpeg http',
 					'Vary': 'FT-image-format, Content-Dpr'
 				});
 			});
