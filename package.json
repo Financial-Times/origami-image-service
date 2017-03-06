@@ -42,7 +42,9 @@
   },
   "devDependencies": {
     "@financial-times/release-log": "^1.0.0",
+    "denodeify": "^1.2.1",
     "eslint": "^2",
+    "fastly-purge": "^1.0.1",
     "istanbul": "^0.4",
     "konstructor-api-client": "1.0.0-alpha.3",
     "mocha": "^2",
