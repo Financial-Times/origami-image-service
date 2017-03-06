@@ -35,6 +35,8 @@ AWS S3 went offline in US-East region, CLoudinary's CDN, "fetch" API, and "image
 
 [2027](https://financialtimes.slack.com/archives/ft-tech-incidents/p1488313657434355): Changes to CDN were manually deployed to production and looked to be working.
 
+2030: Manual purging of broken images on homepage and main stories on ft.com by Jake Champion
+
 [2046](https://financialtimes.slack.com/archives/ft-next-support/p1488314781416315): Ben Fletcher noticed the login/logout application is not working on ft.com
 
 [2055](https://financialtimes.slack.com/archives/ft-next-support/p1488315313456663): Jake Champion rolled back the CDN changes as the deployment to production wasn't correct and included changes to the code that it shouldn't had.
@@ -49,4 +51,8 @@ AWS S3 went offline in the US-East region which triggered a series of issues for
 
 ## What could be done to avoid this in future?
 
--
+- Cloudinary going fully multi-region.
+- Improving Fastly-tools to mitigate the issue where a deployment contains changes it shouldn't.
+- Have a healthcheck on the Origami Image Service which fails when new transformations by Cloudinary are not working.
+- Catch all errors from Cloudinary and ensure we do not cache them for a long period of time.
+- Simplify the purging process for Origami Image Service.
