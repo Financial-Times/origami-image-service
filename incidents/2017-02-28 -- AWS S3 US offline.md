@@ -11,7 +11,6 @@ AWS S3 went offline in US-East region, CLoudinary's CDN, "fetch" API, and "image
 [Slack: ft-next-support conversation](https://financialtimes.slack.com/archives/ft-next-support/p1488304703557575)
 [Cloudinary incident report](https://status.cloudinary.com/incidents/n1b1868fk0d6)
 
-https://financialtimes.slack.com/conversation/ft-tech-incidents/p1488310192148718
 ## How was it fixed
 
 ### 28 Feb 2017
