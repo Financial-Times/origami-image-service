@@ -5,11 +5,15 @@ const mockery = require('mockery');
 const sinon = require('sinon');
 
 describe('lib/health-checks', () => {
+	let cloudinary;
 	let HealthChecks;
 	let log;
 	let requestPromise;
 
 	beforeEach(() => {
+		cloudinary = require('../mock/cloudinary.mock');
+		mockery.registerMock('cloudinary', cloudinary);
+
 		requestPromise = require('../mock/request-promise.mock');
 		mockery.registerMock('./request-promise', requestPromise);
 
@@ -45,10 +49,6 @@ describe('lib/health-checks', () => {
 			global.setInterval.restore();
 		});
 
-		it('has a `cloudinaryCheckUrl` property', () => {
-			assert.strictEqual(instance.cloudinaryCheckUrl, 'http://res.cloudinary.com/financial-times/image/fetch/https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img');
-		});
-
 		it('has a `customSchemeCheckUrl` property', () => {
 			assert.strictEqual(instance.customSchemeCheckUrl, 'http://customschemestore/fticon/v1/cross.svg');
 		});
@@ -82,15 +82,30 @@ describe('lib/health-checks', () => {
 		});
 
 		describe('.retrieveData()', () => {
+			let clock;
 
 			beforeEach(() => {
+				clock = sinon.useFakeTimers();
+				clock.tick(1488792604947); // sets to 2017-03-06 09:30:04
+				cloudinary.url.returns('mock-cloudinary-url');
 				sinon.stub(instance, 'pingService');
 				instance.retrieveData();
 			});
 
-			it('calls `pingService` with the Cloudinary transform URL', () => {
+			afterEach(() => {
+				clock.restore();
+			});
+
+			it('creates a cache-busted Cloudinary transform URL', () => {
+				assert.calledOnce(cloudinary.url);
+				assert.calledWith(cloudinary.url, 'https://www.ft.com/__origami/service/imageset-data/1x1.gif?cachebust=2017-03-06T09:30:00.000Z', {
+					type: 'fetch'
+				});
+			});
+
+			it('calls `pingService` with the created Cloudinary URL', () => {
 				assert.called(instance.pingService);
-				assert.calledWithExactly(instance.pingService, 'cloudinary', instance.cloudinaryCheckUrl);
+				assert.calledWithExactly(instance.pingService, 'cloudinary', 'mock-cloudinary-url');
 			});
 
 			it('calls `pingService` with the navigation data store URL', () => {
