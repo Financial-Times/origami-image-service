@@ -78,13 +78,14 @@ describe('lib/middleware/api-key', () => {
 
 				describe('when FT-Origami-Api-Key header is set with correct key', () => {
 					it('calls `next`', () => {
+						origamiService.mockRequest.get.withArgs('FT-Origami-Api-Key').returns(config.apiKey);
 						origamiService.mockRequest.headers['FT-Origami-Api-Key'] = config.apiKey;
 						middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext);
 						assert.calledWith(origamiService.mockNext);
 					});
 				});
 
-				describe('when FT-Origami-Api-Key header is set with correct key', () => {
+				describe('when FT-Origami-Api-Key header is set with incorrect key', () => {
 					it('calls `next` with a 401 status', () => {
 						origamiService.mockRequest.headers['FT-Origami-Api-Key'] = 'abc';
 						middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext);
