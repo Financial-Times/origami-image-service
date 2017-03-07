@@ -6,7 +6,6 @@ require('sinon-as-promised');
 describe.only('lib/middleware/api-key', () => {
 	let origamiService;
 	let apiKey;
-	let FastlyPurge;
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');

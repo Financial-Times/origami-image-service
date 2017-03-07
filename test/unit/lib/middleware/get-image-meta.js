@@ -59,7 +59,7 @@ describe('lib/middleware/get-image-meta', () => {
 		it('sets cache headers to one week', () => {
 			assert.calledOnce(origamiService.mockResponse.set);
 			assert.calledWith(origamiService.mockResponse.set, {
-				'Cache-Control': `public, stale-while-revalidate=604800, max-age=604800`
+				'Cache-Control': 'public, stale-while-revalidate=604800, max-age=604800'
 			});
 		});
 
