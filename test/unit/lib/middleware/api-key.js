@@ -3,7 +3,7 @@
 const assert = require('proclaim');
 require('sinon-as-promised');
 
-describe.only('lib/middleware/api-key', () => {
+describe('lib/middleware/api-key', () => {
 	let origamiService;
 	let apiKey;
 
