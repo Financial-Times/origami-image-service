@@ -20,7 +20,10 @@ const options = {
 	name: 'Origami Image Service',
 	port: process.env.PORT || 8080,
 	testHealthcheckFailure: process.env.TEST_HEALTHCHECK_FAILURE || false,
-	workers: process.env.WEB_CONCURRENCY || 1
+	workers: process.env.WEB_CONCURRENCY || 1,
+	apiKey: process.env.API_KEY,
+	fastlyApiKey: process.env.FASTLY_API_KEY,
+	fastlyServiceId: process.env.FASTLY_SERVICE_ID
 };
 
 throng({
