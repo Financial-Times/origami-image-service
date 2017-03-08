@@ -332,6 +332,11 @@
       "from": "extsprintf@1.0.2",
       "resolved": "https://registry.npmjs.org/extsprintf/-/extsprintf-1.0.2.tgz"
     },
+    "fastly-purge": {
+      "version": "1.0.1",
+      "from": "fastly-purge@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/fastly-purge/-/fastly-purge-1.0.1.tgz"
+    },
     "finalhandler": {
       "version": "0.5.1",
       "from": "finalhandler@0.5.1",
