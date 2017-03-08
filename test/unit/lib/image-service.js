@@ -196,6 +196,7 @@ describe('lib/image-service', () => {
 					'Expires': 'Thu, 08 Jan 1970 00:00:10 GMT',
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
+					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
 					'Surrogate-Key': 'origami-image-service imagejpeg http http://example.com/picture.png',
 					'Vary': 'FT-image-format, Content-Dpr'
 				});
@@ -354,6 +355,22 @@ describe('lib/image-service', () => {
 					assert.strictEqual(response.cloudinaryError.status, 500);
 				});
 
+			});
+
+			describe('when the request is for an FTCMS image', () => {
+				it('Sets the Surrogate-Control header to a year', () => {
+					request.params.scheme = 'ftcms';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+			});
+
+			describe('when the request is not for an FTCMS image', () => {
+				it('Sets the Surrogate-Control header to a year', () => {
+					request.params.scheme = 'https';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800');
+				});
 			});
 
 		});
