@@ -33,7 +33,7 @@ module.exports.mockRequest = {
 	get: sinon.stub(),
 	headers: {},
 	query: {},
-	params: {},
+	params: {}
 };
 
 module.exports.mockResponse = {
