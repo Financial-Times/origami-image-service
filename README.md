@@ -63,7 +63,7 @@ We configure Origami Image Service using environment variables. In development, 
   * `TEST_HEALTHCHECK_FAILURE`: Set to `true` to fake failing health-checks.
   * `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered.
   * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from.
-  * `API_KEY`: The API key to use when purging assets. If not set, no API will be required when hitting the purge endpoint.
+  * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered.
 
 The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
 
