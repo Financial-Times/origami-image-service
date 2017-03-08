@@ -200,25 +200,25 @@ describe('GET /v2/images/raw…', function() {
 	});
 
 	describe('when a custom scheme image is not found', function() {
-		setupRequest('GET', `/v2/images/raw/fthead-v1:notahead?source=test`);
+		setupRequest('GET', '/v2/images/raw/fthead-v1:notahead?source=test');
 		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
 	});
 
 	describe('when a CMS image is not found', function() {
-		setupRequest('GET', `/v2/images/raw/ftcms:notanid?source=test`);
+		setupRequest('GET', '/v2/images/raw/ftcms:notanid?source=test');
 		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
 	});
 
 	describe('when an HTTP image is not found', function() {
-		setupRequest('GET', `/v2/images/raw/https://www.ft.com/notapage?source=test`);
+		setupRequest('GET', '/v2/images/raw/https://www.ft.com/notapage?source=test');
 		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
 	});
 
 	describe('when an image responds with HTML', function() {
-		setupRequest('GET', `/v2/images/raw/https://www.ft.com/?source=test`);
+		setupRequest('GET', '/v2/images/raw/https://www.ft.com/?source=test');
 		itRespondsWithStatus(400);
 		itRespondsWithContentType('text/html');
 	});

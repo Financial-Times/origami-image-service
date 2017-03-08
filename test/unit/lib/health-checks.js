@@ -217,7 +217,7 @@ describe('lib/health-checks', () => {
 			describe('returned function', () => {
 
 				beforeEach(() => {
-					let returnedFunction = returnValue;
+					const returnedFunction = returnValue;
 					returnValue = returnedFunction();
 				});
 
@@ -253,7 +253,7 @@ describe('lib/health-checks', () => {
 			describe('returned function', () => {
 
 				beforeEach(() => {
-					let returnedFunction = returnValue;
+					const returnedFunction = returnValue;
 					returnValue = returnedFunction();
 				});
 

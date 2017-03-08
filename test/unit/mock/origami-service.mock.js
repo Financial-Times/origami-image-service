@@ -30,6 +30,7 @@ origamiService.middleware = {
 
 module.exports.mockRequest = {
 	app: mockApp,
+	get: sinon.stub(),
 	headers: {},
 	query: {},
 	params: {}
@@ -44,6 +45,8 @@ module.exports.mockResponse = {
 	set: sinon.stub().returnsThis(),
 	status: sinon.stub().returnsThis()
 };
+
+module.exports.mockNext = sinon.stub();
 
 mockApp.listen.resolves(mockServer);
 origamiService.returns(mockApp);
