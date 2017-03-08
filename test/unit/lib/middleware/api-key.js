@@ -42,7 +42,12 @@ describe('lib/middleware/api-key', () => {
 				describe('when FT-Origami-Api-Key header is not set', () => {
 					it('calls `next`', () => {
 						middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext);
-						assert.calledWith(origamiService.mockNext);
+						assert.called(origamiService.mockNext);
+
+						const error = origamiService.mockNext.firstCall.args[0];
+						assert.instanceOf(error, Error);
+						assert.strictEqual(error.status, 500);
+						assert.strictEqual(error.message, 'Application has no registered API keys.');
 					});
 				});
 
@@ -50,7 +55,12 @@ describe('lib/middleware/api-key', () => {
 					it('calls `next`', () => {
 						origamiService.mockRequest.headers['FT-Origami-Api-Key'] = 'abc';
 						middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext);
-						assert.calledWith(origamiService.mockNext);
+						assert.called(origamiService.mockNext);
+
+						const error = origamiService.mockNext.firstCall.args[0];
+						assert.instanceOf(error, Error);
+						assert.strictEqual(error.status, 500);
+						assert.strictEqual(error.message, 'Application has no registered API keys.');
 					});
 				});
 			});
