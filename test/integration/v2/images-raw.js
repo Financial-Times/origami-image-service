@@ -409,5 +409,77 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /specialisttitle/);
 			});
 		});
+
+		describe('adds key for specific image requested', function() {
+			describe('ftbrand', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftbrand\:brussels\-blog/);
+			});
+
+			describe('ftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms\:6c5a2f8c\-18ca\-4afa\-80ff\-7d56e41172b1/);
+			});
+
+			describe('fthead', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
+				itRespondsWithHeader('surrogate-key', /fthead\:martin\-wolf/);
+			});
+
+			describe('fticon', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
+				itRespondsWithHeader('surrogate-key', /fticon\:cross/);
+			});
+
+			describe('ftlogo', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftlogo\:brand\-ft/);
+			});
+
+			describe('ftpodcast', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftpodcast\:arts/);
+			});
+
+			describe('ftsocial', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftsocial\:whatsapp/);
+			});
+
+			describe('httpftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms\:a60ae24b\-b87f\-439c\-bf1b\-6e54946b4cf2/);
+			});
+
+			describe('httpsftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms\:a60ae24b\-b87f\-439c\-bf1b\-6e54946b4cf2/);
+			});
+
+			describe('http', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.http}?source=test`);
+				itRespondsWithHeader('surrogate-key', /http\:\/\/assets1\.howtospendit\.ft\-static\.com\/images\/06\/cf\/71\/06cf7131\-fd60\-43b8\-813a\-a296acd81561\_main\_crop\.jpg/);
+			});
+
+			describe('https', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
+				itRespondsWithHeader('surrogate-key', /https\:\/\/assets1\.howtospendit\.ft\-static\.com\/images\/06\/cf\/71\/06cf7131\-fd60\-43b8\-813a\-a296acd81561\_main\_crop\.jpg/);
+			});
+
+			describe('protocolRelativeftcms', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelativeftcms}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ftcms\:a60ae24b\-b87f\-439c\-bf1b\-6e54946b4cf2/);
+			});
+
+			describe('protocolRelative', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelative}?source=test`);
+				itRespondsWithHeader('surrogate-key', /\/\/assets1\.howtospendit\.ft\-static\.com\/images\/06\/cf\/71\/06cf7131\-fd60\-43b8\-813a\-a296acd81561\_main\_crop\.jpg/);
+			});
+
+			describe('specialisttitle', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
+				itRespondsWithHeader('surrogate-key', /specialisttitle\:ned\-logo/);
+			});
+		});
 	});
 });
