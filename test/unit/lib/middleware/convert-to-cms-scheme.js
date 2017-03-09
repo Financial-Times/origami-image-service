@@ -1,17 +1,13 @@
 'use strict';
 
-const assert = require('chai').assert;
-const mockery = require('mockery');
+const assert = require('proclaim');
 
 describe('lib/middleware/convert-to-cms-scheme', () => {
 	let convertToCmsScheme;
-	let express;
+	let origamiService;
 
 	beforeEach(() => {
-
-		express = require('../../mock/n-express.mock');
-		mockery.registerMock('express', express);
-
+		origamiService = require('../../mock/origami-service.mock');
 		convertToCmsScheme = require('../../../../lib/middleware/convert-to-cms-scheme');
 	});
 
@@ -32,54 +28,106 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 		describe('middleware(request, response, next)', () => {
 
-			describe('when the request param (0) does not point to a known CMS image store', () => {
+			describe('when the `imageUrl` request param does not point to a known CMS image store', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'http://foo.bar/image.jpg';
-					middleware(express.mockRequest, express.mockResponse, done);
+					origamiService.mockRequest.params.imageUrl = 'http://foo.bar/image.jpg';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
-				it('does nothing to the request param (0)', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'http://foo.bar/image.jpg');
+				it('does nothing to the `imageUrl` request param', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'http://foo.bar/image.jpg');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image in the imagepublish S3 bucket', () => {
+			describe('when the `imageUrl` request param points to an image in prod-upp-image-read.ft.com', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://com.ft.imagepublish.prod.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
-					middleware(express.mockRequest, express.mockResponse, done);
+					origamiService.mockRequest.params.imageUrl = 'http://prod-upp-image-read.ft.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image in the imagepublish US S3 bucket', () => {
+			describe('when the `imageUrl` request param points to an image in the imagepublish S3 bucket', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://com.ft.imagepublish.prod-us.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
-					middleware(express.mockRequest, express.mockResponse, done);
+					origamiService.mockRequest.params.imageUrl = 'https://com.ft.imagepublish.prod.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
 				});
 
 			});
 
-			describe('when the request param (0) points to an image on im.ft-static.com', () => {
+			describe('when the `imageUrl` request param points to an image in the imagepublish US S3 bucket', () => {
 
 				beforeEach(done => {
-					express.mockRequest.params[0] = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img';
-					middleware(express.mockRequest, express.mockResponse, done);
+					origamiService.mockRequest.params.imageUrl = 'https://com.ft.imagepublish.prod-us.s3.amazonaws.com/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
 
-				it('sets the request param (0) to an `ftcms` URL with the image ID', () => {
-					assert.strictEqual(express.mockRequest.params[0], 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				});
+
+			});
+
+			describe('when the `imageUrl` request param points to an image on im.ft-static.com', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				});
+
+			});
+
+			describe('when the `imageUrl` request param points to an image on im.ft-static.com with a "png" extension', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.png';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef');
+				});
+
+			});
+
+			describe('when the `imageUrl` request param has a querystring', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'https://im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img?foo=bar';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the query intact', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef?foo=bar');
+				});
+
+			});
+
+			describe('when the `imageUrl` request param is a protocol-relative URL', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = '//im.ft-static.com/content/images/d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef.img?foo=bar';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the query intact', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:d4e0c8c7-adb0-4171-bc98-e01a7d07d7ef?foo=bar');
 				});
 
 			});

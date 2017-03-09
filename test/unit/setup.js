@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
 require('sinon-as-promised');

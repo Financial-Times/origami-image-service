@@ -2,9 +2,7 @@
 Origami Image Service
 =====================
 
-Optimises and resize images. See [the production service][image-service] for API information.
-
-**:warning: Note: this is a work in progress version of a proxy-based image service. It's not ready for production use, and we may not go in this direction anyway. Consider this prototypal.**
+Optimises and resize images. See [the production service][production-url] for API information.
 
 [![Build status](https://img.shields.io/circleci/project/Financial-Times/origami-image-service.svg)][ci]
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)][license]
@@ -44,20 +42,33 @@ Run the application in development mode with
 make run-dev
 ```
 
-Now you can access the app over HTTP on port `3002`: [http://localhost:3002/](http://localhost:3002/)
+Now you can access the app over HTTP on port `8080`: [http://localhost:8080/](http://localhost:8080/)
 
 
 Configuration
 -------------
 
-We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config.
+We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
 
-  * `PORT`: The port to run the application on.
-  * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
-  * `LOG_LEVEL`: A Syslog-compatible level at which to emit log events to stdout. One of `trace`, `debug`, `info`, `warn`, `error`, or `crit`.
-  * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
-  * `RAVEN_URL`: The Sentry URL to send error information to.
+  * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
+  * `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
+  * `CUSTOM_SCHEME_STORE`: The location of the images used in custom schemes. This should be set to the base path under which images live.
+  * `CUSTOM_SCHEME_CACHE_BUST`: A key used to manually cache-bust custom scheme images.
+  * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
+  * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
+  * `PORT`: The port to run the application on.
+  * `REGION`: The region the application is running in.
+  * `SENTRY_DSN`: The Sentry URL to send error information to.
+  * `TEST_HEALTHCHECK_FAILURE`: Set to `true` to fake failing health-checks.
+  * `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered.
+  * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from.
+  * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered.
+
+The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
+
+  * `FT-Origami-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
+  * `FT-Origami-Api-Key`: The API key for the service, this is used when calling API endpoints which are restricted to FT Origami developers.
 
 
 Testing
@@ -173,6 +184,16 @@ So Cloudinary responds with a `404`. You can get around this by manually specify
 HOSTNAME=origami-image-service-qa.herokuapp.com
 ```
 
+### I need to cache-bust custom scheme URLs
+
+Because of the way custom schemes work, they're cached in both Cloudinary and Fastly. We have to manually cache-bust these images before purging Fastly for now. You can do this by running the following, setting the `CUSTOM_SCHEME_CACHE_BUST` environment variable in both production apps to something unique:
+
+```
+heroku config:set --app origami-image-service-eu CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
+heroku config:set --app origami-image-service-us CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
+```
+
+
 License
 -------
 
@@ -187,12 +208,13 @@ The Financial Times has published this software under the [MIT license][license]
 [heroku-production-us]: https://dashboard.heroku.com/apps/origami-image-service-us
 [heroku-qa]: https://dashboard.heroku.com/apps/origami-image-service-qa
 [heroku]: https://heroku.com/
-[image-service]: https://image.webservices.ft.com/
 [license]: http://opensource.org/licenses/MIT
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
 [pingdom-eu]: https://my.pingdom.com/newchecks/checks#check=2301115
 [pingdom-us]: https://my.pingdom.com/newchecks/checks#check=2301117
+[production-url]: https://www.ft.com/__origami/service/image/v2
 [sentry-production]: https://sentry.io/nextftcom/origami-image-service-producti/
 [sentry-qa]: https://sentry.io/nextftcom/origami-image-service-qa/
+[service-options]: https://github.com/Financial-Times/origami-service#options
 [splunk]: https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice

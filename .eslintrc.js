@@ -36,6 +36,7 @@ module.exports = {
 		"afterEach": true,
 		"before": true,
 		"beforeEach": true,
+		"context": true,
 		"describe": true,
 		"fetch": true,
 		"it": true,

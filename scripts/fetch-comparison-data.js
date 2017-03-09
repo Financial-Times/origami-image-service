@@ -4,7 +4,7 @@
 const comparisonImagesPath = `${__dirname}/../data/comparison-images.json`;
 const comparisonImages = require(comparisonImagesPath);
 const fs = require('fs');
-require('isomorphic-fetch');
+const requestPromise = require('../lib/request-promise');
 
 fetchImages(comparisonImages).then(results => {
 	console.log(`Saving image info to "${comparisonImagesPath}"`);
@@ -19,10 +19,11 @@ function fetchImage(image) {
 	if (image.isSection) {
 		return image;
 	}
-	return fetch(getImageUrl(image)).then(response => {
-		console.log(`Loaded image "${response.url}"`);
-		image.v1ImageFormat = response.headers.get('Content-Type');
-		image.v1ImageSize = response.headers.get('Content-Length');
+	const imageUrl = getImageUrl(image);
+	return requestPromise(imageUrl).then(response => {
+		console.log(`Loaded image "${imageUrl}"`);
+		image.v1ImageFormat = response.headers['content-type'];
+		image.v1ImageSize = response.headers['content-length'];
 		return image;
 	});
 }

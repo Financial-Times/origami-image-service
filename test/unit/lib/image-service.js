@@ -1,113 +1,85 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 const mockery = require('mockery');
 const path = require('path');
-const pkg = require('../../../package.json');
 const sinon = require('sinon');
 
 describe('lib/image-service', () => {
+	let about;
 	let basePath;
-	let express;
-	let handleErrors;
-	let healthChecks;
+	let HealthChecks;
 	let httpProxy;
 	let imageService;
-	let morgan;
-	let notFound;
+	let origamiService;
 	let requireAll;
 
 	beforeEach(() => {
 		basePath = path.resolve(`${__dirname}/../../..`);
 
-		const imageServicePath = path.resolve(`${basePath}/lib/image-service`);
+		about = {mockAboutInfo: true};
+		mockery.registerMock('../about.json', about);
 
-		express = require('../mock/n-express.mock');
-		mockery.registerMock('@financial-times/n-express', express);
-
-		handleErrors = sinon.stub().returns(sinon.spy());
-		mockery.registerMock('./middleware/handle-errors', handleErrors);
-
-		healthChecks = require('../mock/health-checks.mock');
-		mockery.registerMock('./health-checks', healthChecks);
+		HealthChecks = require('../mock/health-checks.mock');
+		mockery.registerMock('./health-checks', HealthChecks);
 
 		httpProxy = require('../mock/http-proxy.mock');
 		mockery.registerMock('http-proxy', httpProxy);
 
-		morgan = require('../mock/morgan.mock');
-		mockery.registerMock('morgan', morgan);
-
-		notFound = sinon.spy();
-		mockery.registerMock('./middleware/not-found', notFound);
+		origamiService = require('../mock/origami-service.mock');
+		mockery.registerMock('@financial-times/origami-service', origamiService);
 
 		requireAll = require('../mock/require-all.mock');
 		mockery.registerMock('require-all', requireAll);
 
-		imageService = require(imageServicePath);
+		imageService = require(basePath);
 	});
 
 	it('exports a function', () => {
 		assert.isFunction(imageService);
 	});
 
-	describe('imageService(config)', () => {
-		let config;
-		let returnedPromise;
+	describe('imageService(options)', () => {
+		let options;
+		let returnValue;
 		let routes;
 
 		beforeEach(() => {
-			config = {
-				basePath: '/my/base/path',
+			options = {
 				environment: 'test',
-				port: 1234
+				port: 1234,
+				systemCode: 'example-system-code'
 			};
 			routes = {
 				foo: sinon.spy(),
 				bar: sinon.spy()
 			};
 			requireAll.returns(routes);
-			returnedPromise = imageService(config);
+			returnValue = imageService(options);
 		});
 
-		it('returns a promise', () => {
-			assert.instanceOf(returnedPromise, Promise);
+		it('creates an Origami Service application', () => {
+			assert.calledOnce(origamiService);
 		});
 
-		it('creates an Express application', () => {
-			assert.calledOnce(express);
+		it('creates a HealthChecks object', () => {
+			assert.calledOnce(HealthChecks);
+			assert.calledWithNew(HealthChecks);
+			assert.calledWithExactly(HealthChecks, options);
 		});
 
-		it('passes health-checks into the created application', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isArray(options.healthChecks);
-			assert.strictEqual(options.healthChecks[0], healthChecks.cloudinary);
-			assert.strictEqual(options.healthChecks[1], healthChecks.customSchemeStore);
+		it('sets `options.healthCheck` to the created health check function', () => {
+			assert.calledOnce(HealthChecks.mockHealthChecks.getFunction);
+			assert.strictEqual(options.healthCheck, HealthChecks.mockFunction);
 		});
 
-		it('configures handlebars', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isTrue(options.withHandlebars);
-			assert.strictEqual(options.layoutsDir, path.resolve(__dirname, '../../../views/layouts'));
-			assert.deepEqual(options.partialsDir, [path.resolve(__dirname, '../../../views')]);
+		it('sets `options.goodToGoTest` to the created health check gtg function', () => {
+			assert.calledOnce(HealthChecks.mockHealthChecks.getGoodToGoFunction);
+			assert.strictEqual(options.goodToGoTest, HealthChecks.mockGoodToGoFunction);
 		});
 
-		it('configures assets (turns them off)', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isFalse(options.withAssets);
-		});
-
-		it('disables service metrics', () => {
-			const options = express.firstCall.args[0];
-			assert.isObject(options);
-			assert.isFalse(options.withServiceMetrics);
-		});
-
-		it('creates an error handling middleware', () => {
-			assert.calledOnce(handleErrors);
-			assert.calledWith(handleErrors, config);
+		it('sets `options.about` to the contents of about.json', () => {
+			assert.strictEqual(options.about, about);
 		});
 
 		it('creates an HTTP proxy', () => {
@@ -135,14 +107,15 @@ describe('lib/image-service', () => {
 				};
 				proxyRequest = httpProxy.mockProxyRequest;
 				request = {
+					app: origamiService.mockApp,
 					headers: {
 						'accept-encoding': 'bar',
 						'accept-language': 'baz',
 						'accept': 'foo',
 						'cookie': 'qux',
 						'host': 'www.example.com',
-						'user-agent': 'test',
-						'x-identifying-information': 'oops'
+						'x-identifying-information': 'oops',
+						'user-agent': 'my-ua'
 					}
 				};
 				response = {};
@@ -152,8 +125,8 @@ describe('lib/image-service', () => {
 			it('should remove all non-whitelisted headers from the proxy request', () => {
 				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'cookie');
 				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'host');
-				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'user-agent');
 				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'x-identifying-information');
+				assert.calledWithExactly(httpProxy.mockProxyRequest.removeHeader, 'user-agent');
 			});
 
 			it('should leave all whitelisted headers from the proxy request intact', () => {
@@ -166,8 +139,8 @@ describe('lib/image-service', () => {
 				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'Host', 'foo.bar');
 			});
 
-			it('should set the `User-Agent` header of the proxy request to the image service name/version', () => {
-				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'User-Agent', `${pkg.name}/${pkg.version}`);
+			it('should set the `User-Agent` header of the proxy request to identify the Image Service', () => {
+				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'User-Agent', 'Origami Image Service (https://github.com/Financial-Times/origami-image-service)');
 			});
 
 		});
@@ -197,8 +170,11 @@ describe('lib/image-service', () => {
 					'last-modified': 'some time'
 				};
 				request = {
-					headers: {
-						'ft-image-format': 'foo'
+					app: origamiService.mockApp,
+					headers: {},
+					params: {
+						scheme: 'http',
+						schemeUrl: 'http://example.com/picture.png'
 					}
 				};
 				handler(proxyResponse, request);
@@ -220,6 +196,8 @@ describe('lib/image-service', () => {
 					'Expires': 'Thu, 08 Jan 1970 00:00:10 GMT',
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
+					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
+					'Surrogate-Key': 'origami-image-service imagejpeg http http://example.com/picture.png',
 					'Vary': 'FT-image-format, Content-Dpr'
 				});
 			});
@@ -249,53 +227,9 @@ describe('lib/image-service', () => {
 				});
 			});
 
-			describe('when the request has an `FT-Normalised-UA` header set to "edge"', () => {
+			describe('when the request has an `accept` header which includes "image/jxr"', () => {
 				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'edge';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "iemobile"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'iemobile/10';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "ie/9"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'ie/9';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "ie/10"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'ie/10';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
-			});
-
-			describe('when the request has an `FT-Normalised-UA` header set to "ie/11"', () => {
-				beforeEach(() => {
-					request.headers['ft-normalised-ua'] = 'ie/11';
+					request.headers['accept'] = 'image/jxr';
 					handler(proxyResponse, request);
 				});
 
@@ -324,6 +258,119 @@ describe('lib/image-service', () => {
 					assert.strictEqual(response.cloudinaryError.status, 123);
 				});
 
+				describe('when the `X-Cld-Error` header is caused by the image being an HTML page', () => {
+					let response;
+
+					beforeEach(() => {
+						proxyResponse.headers['x-cld-error'] = 'Resource not found http://foo/bar - HTML response';
+						proxyResponse.statusCode = 123;
+						response = {};
+						handler(proxyResponse, request, response);
+					});
+
+					it('sets the response `cloudinaryError` property to a 400 error', () => {
+						assert.instanceOf(response.cloudinaryError, Error);
+						assert.strictEqual(response.cloudinaryError.message, 'The requested resource is not an image');
+						assert.strictEqual(response.cloudinaryError.status, 400);
+					});
+
+				});
+
+				describe('when the `X-Cld-Error` header is a 400/403 caused by a missing image in the S3 bucket', () => {
+					let response;
+
+					beforeEach(() => {
+						proxyResponse.headers['x-cld-error'] = 'Error in loading http://foo/bar - 403 forbidden';
+						proxyResponse.statusCode = 400;
+						response = {};
+						handler(proxyResponse, request, response);
+					});
+
+					it('sets the response `cloudinaryError` property to a 404 error', () => {
+						assert.instanceOf(response.cloudinaryError, Error);
+						assert.strictEqual(response.cloudinaryError.message, 'The requested image could not be found');
+						assert.strictEqual(response.cloudinaryError.status, 404);
+					});
+
+				});
+
+				describe('when the `X-Cld-Error` header is a not found error', () => {
+					let response;
+
+					beforeEach(() => {
+						proxyResponse.headers['x-cld-error'] = 'Resource not found http://foo/bar';
+						proxyResponse.statusCode = 404;
+						response = {};
+						handler(proxyResponse, request, response);
+					});
+
+					it('sets the response `cloudinaryError` property to a 404 error', () => {
+						assert.instanceOf(response.cloudinaryError, Error);
+						assert.strictEqual(response.cloudinaryError.message, 'The requested image could not be found');
+						assert.strictEqual(response.cloudinaryError.status, 404);
+					});
+
+				});
+
+			});
+
+			describe('when the proxy response has no `X-Cld-Error` header but has a non-200 status', () => {
+				let response;
+
+				beforeEach(() => {
+					proxyResponse.statusCode = 503;
+					response = {};
+					handler(proxyResponse, request, response);
+				});
+
+				it('sets the headers of the proxy response to an empty object', () => {
+					assert.deepEqual(httpProxy.mockProxyResponse.headers, {});
+				});
+
+				it('sets the response `cloudinaryError` property to an error object representing the error', () => {
+					assert.instanceOf(response.cloudinaryError, Error);
+					assert.strictEqual(response.cloudinaryError.message, 'Service Unavailable');
+					assert.strictEqual(response.cloudinaryError.status, 503);
+				});
+
+			});
+
+			describe('when the proxy response has a 30x status', () => {
+				let response;
+
+				beforeEach(() => {
+					proxyResponse.statusCode = 302;
+					proxyResponse.headers.location = 'https://redirect/';
+					response = {};
+					handler(proxyResponse, request, response);
+				});
+
+				it('sets the headers of the proxy response to an empty object', () => {
+					assert.deepEqual(httpProxy.mockProxyResponse.headers, {});
+				});
+
+				it('sets the response `cloudinaryError` property to an error object representing the error', () => {
+					assert.instanceOf(response.cloudinaryError, Error);
+					assert.strictEqual(response.cloudinaryError.message, 'Internal Server Error');
+					assert.strictEqual(response.cloudinaryError.status, 500);
+				});
+
+			});
+
+			describe('when the request is for an FTCMS image', () => {
+				it('Sets the Surrogate-Control header to a year', () => {
+					request.params.scheme = 'ftcms';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+			});
+
+			describe('when the request is not for an FTCMS image', () => {
+				it('Sets the Surrogate-Control header to a year', () => {
+					request.params.scheme = 'https';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800');
+				});
 			});
 
 		});
@@ -333,57 +380,80 @@ describe('lib/image-service', () => {
 		});
 
 		describe('HTTP Proxy `error` handler', () => {
-
-			it('should be the created error handling middleware', () => {
-				assert.calledWithExactly(httpProxy.mockProxyServer.on, 'error', handleErrors.firstCall.returnValue);
-			});
-
-		});
-
-		it('sets the Express application `proxy` property to the created HTTP proxy', () => {
-			assert.strictEqual(express.mockApp.proxy, httpProxy.mockProxyServer);
-		});
-
-		it('sets the Express application `imageServiceConfig` property to `config`', () => {
-			assert.strictEqual(express.mockApp.imageServiceConfig, config);
-		});
-
-		it('sets `app.locals.basePath` to `config.basePath`', () => {
-			assert.strictEqual(express.mockApp.locals.basePath, config.basePath);
-		});
-
-		it('initialises the health-checks', () => {
-			assert.calledOnce(healthChecks.init);
-			assert.calledWithExactly(healthChecks.init, config);
-		});
-
-		it('mounts Morgan middleware to log requests', () => {
-			assert.calledWithExactly(morgan, 'combined');
-			assert.calledWithExactly(express.mockApp.use, morgan.mockMiddleware);
-		});
-
-		it('registers a "/__gtg" route', () => {
-			assert.calledWith(express.mockApp.get, '/__gtg');
-		});
-
-		describe('"/__gtg" route', () => {
-			let gtgRoute;
+			let handler;
+			let proxyError;
+			let serviceErrorHandler;
 
 			beforeEach(() => {
-				gtgRoute = express.mockApp.get.withArgs('/__gtg').firstCall.args[1];
-				gtgRoute(express.mockRequest, express.mockResponse);
+				serviceErrorHandler = origamiService.middleware.errorHandler.firstCall.returnValue;
+				proxyError = new Error('mock error');
+				handler = httpProxy.mockProxyServer.on.withArgs('error').firstCall.args[1];
+				origamiService.mockRequest.url = 'mock-url';
+				handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
 			});
 
-			it('sets the response status to 200', () => {
-				assert.calledOnce(express.mockResponse.status);
-				assert.calledWithExactly(express.mockResponse.status, 200);
+			it('calls the error handling middleware', () => {
+				assert.calledWithExactly(serviceErrorHandler, proxyError, origamiService.mockRequest, origamiService.mockResponse);
 			});
 
-			it('sets the response body to "OK"', () => {
-				assert.calledOnce(express.mockResponse.send);
-				assert.calledWithExactly(express.mockResponse.send, 'OK');
+			describe('when the error represents a failed DNS lookup', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ENOTFOUND';
+					proxyError.syscall = 'getaddrinfo';
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy DNS lookup failed for "mock-url"');
+				});
+
 			});
 
+			describe('when the error represents a connection reset', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ECONNRESET';
+					proxyError.syscall = 'mock-syscall';
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy connection reset when requesting "mock-url" (mock-syscall)');
+				});
+
+			});
+
+			describe('when the error represents a request timeout', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ETIMEDOUT';
+					proxyError.syscall = 'mock-syscall';
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy request timed out when requesting "mock-url" (mock-syscall)');
+				});
+
+			});
+
+		});
+
+		it('sets the application `proxy` property to the created HTTP proxy', () => {
+			assert.strictEqual(origamiService.mockApp.proxy, httpProxy.mockProxyServer);
+		});
+
+		it('creates and mounts getBasePath middleware', () => {
+			assert.calledOnce(origamiService.middleware.getBasePath);
+			assert.calledWithExactly(origamiService.middleware.getBasePath);
+			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.getBasePath.firstCall.returnValue);
 		});
 
 		it('loads all of the routes', () => {
@@ -393,109 +463,27 @@ describe('lib/image-service', () => {
 			assert.isFunction(requireAll.firstCall.args[0].resolve);
 		});
 
-		it('mounts a static middleware at `config.basePath`', () => {
-			assert.calledOnce(express.static);
-			assert.calledWithExactly(express.static, 'public');
-			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockStaticMiddleware);
-		});
-
-		it('mounts an express router at `config.basePath`', () => {
-			assert.calledWithExactly(express.mockApp.use, config.basePath, express.mockRouter);
-		});
-
-		it('calls each route with the Express application and Router', () => {
+		it('calls each route with the Origami Service application', () => {
 			const route = sinon.spy();
 			requireAll.firstCall.args[0].resolve(route);
 			assert.calledOnce(route);
-			assert.calledWithExactly(route, express.mockApp, express.mockRouter);
+			assert.calledWithExactly(route, origamiService.mockApp);
 		});
 
-		it('mounts middleware to handle routes that are not found', () => {
-			assert.calledWith(express.mockApp.use, notFound);
+		it('creates and mounts not found middleware', () => {
+			assert.calledOnce(origamiService.middleware.notFound);
+			assert.calledWithExactly(origamiService.middleware.notFound);
+			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.notFound.firstCall.returnValue);
 		});
 
-		it('mounts middleware to handle errors', () => {
-			assert.calledWith(express.mockApp.use, handleErrors.firstCall.returnValue);
+		it('creates and mounts error handling middleware', () => {
+			assert.called(origamiService.middleware.errorHandler);
+			assert.calledWithExactly(origamiService.middleware.errorHandler);
+			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.errorHandler.firstCall.returnValue);
 		});
 
-		it('starts the Express application on the port in `config.port`', () => {
-			assert.calledOnce(express.mockApp.listen);
-			assert.calledWith(express.mockApp.listen, config.port);
-		});
-
-		describe('.then()', () => {
-			let service;
-
-			beforeEach(() => {
-				return returnedPromise.then(value => {
-					service = value;
-				});
-			});
-
-			it('resolves with the created Express application', () => {
-				assert.strictEqual(service, express.mockApp);
-			});
-
-			it('stores the created server in the Express application `server` property', () => {
-				assert.strictEqual(service.server, express.mockServer);
-			});
-
-		});
-
-		describe('when the Express application errors on startup', () => {
-			let expressError;
-
-			beforeEach(() => {
-				expressError = new Error('Express failed to start');
-				express.mockApp.listen.rejects(expressError);
-				returnedPromise = imageService(config);
-			});
-
-			describe('.catch()', () => {
-				let caughtError;
-
-				beforeEach(done => {
-					returnedPromise.then(done).catch(error => {
-						caughtError = error;
-						done();
-					});
-				});
-
-				it('fails with the Express error', () => {
-					assert.strictEqual(caughtError, expressError);
-				});
-
-			});
-
-		});
-
-		describe('when `config.basePath` is not set', () => {
-
-			beforeEach(() => {
-				delete config.basePath;
-				returnedPromise = imageService(config);
-			});
-
-			it('sets `config.basePath` to an empty string', () => {
-				assert.strictEqual(config.basePath, '');
-			});
-
-		});
-
-		describe('when `config.suppressLogs` is `true`', () => {
-
-			beforeEach(() => {
-				morgan.reset();
-				express.mockApp.use.reset();
-				config.suppressLogs = true;
-				returnedPromise = imageService(config);
-			});
-
-			it('does not mount Morgan middleware', () => {
-				assert.notCalled(morgan);
-				assert.neverCalledWith(express.mockApp.use, morgan.mockMiddleware);
-			});
-
+		it('returns the created application', () => {
+			assert.strictEqual(returnValue, origamiService.mockApp);
 		});
 
 	});

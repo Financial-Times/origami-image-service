@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 
 describe('lib/transformers/cloudinary', () => {
 	let cloudinaryTransform;
@@ -25,13 +25,15 @@ describe('lib/transformers/cloudinary', () => {
 				uri: 'http://example.com/'
 			});
 			options = {
-				cloudinaryAccountName: 'testaccount'
+				cloudinaryAccountName: 'testaccount',
+				cloudinaryApiKey: 'api-key',
+				cloudinaryApiSecret: 'api-secret'
 			};
 			cloudinaryUrl = cloudinaryTransform(transform, options);
 		});
 
 		it('returns a Cloudinary fetch URL', () => {
-			assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+			assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 		});
 
 		describe('when `transform` has a `width` property', () => {
@@ -42,7 +44,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,fl_any_format.force_strip.progressive,q_72,w_123/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,q_72,w_123/http://example.com/$'));
 			});
 
 		});
@@ -55,7 +57,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,fl_any_format.force_strip.progressive,h_123,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,h_123,q_72/http://example.com/$'));
 			});
 
 		});
@@ -68,7 +70,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,dpr_2,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,dpr_2,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});
@@ -81,7 +83,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fit,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fit,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});
@@ -94,7 +96,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});
@@ -107,7 +109,33 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_limit,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_limit,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
+			});
+
+		});
+
+		describe('when `transform` has a `gravity` property set to `faces`', () => {
+
+			beforeEach(() => {
+				transform.setGravity('faces');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,g_auto:faces,q_72/http://example.com/$'));
+			});
+
+		});
+
+		describe('when `transform` has a `gravity` property set to `poi`', () => {
+
+			beforeEach(() => {
+				transform.setGravity('poi');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,g_auto:no_faces,q_72/http://example.com/$'));
 			});
 
 		});
@@ -120,7 +148,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_png,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_png,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});
@@ -133,7 +161,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,f_auto,fl_any_format.force_strip.progressive,q_30/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,f_auto,fl_any_format.force_strip.progressive,q_30/http://example.com/$'));
 			});
 
 		});
@@ -146,7 +174,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/b_rgb:ff0000,c_fill,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/b_rgb:ff0000,c_fill,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});
@@ -159,7 +187,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,e_tint:100:ff0000,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,e_tint:100:ff0000,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});
@@ -172,7 +200,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary fetch URL', () => {
-				assert.strictEqual(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/fetch/c_fill,e_tint:100:ff0000:00ff00,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/');
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_fill,e_tint:100:ff0000:00ff00,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
 			});
 
 		});

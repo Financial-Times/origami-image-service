@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>{{title}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<base href="{{basePath}}/"/>
+	<base href="{{basePath}}"/>
 
 	<script>
 		var cutsTheMustard = (
@@ -41,42 +41,10 @@
 			vertical-align: top;
 			margin-right: 10px;
 		}
-		a {
-			color: #2e6e9e;
-		}
-		td {
-			vertical-align: top;
-		}
-		td p:first-child {
-			margin-top: 0;
-		}
-		.compare-section {
-			background-color: #eee;
-			color: #555;
-		}
-		.comparison-result-column {
-			width: 33% !important;
-		}
-		.comparison-image-match {
-			font-style: italic;
-		}
-		.comparison-image-match--yes {
-			color: #458b00;
-		}
-		.comparison-image-match--no {
-			color: #c00;
-		}
-		dt {
-			font-weight: bold;
-		}
-		@media (min-width: 46.25em) {
-			.o-header__primary__left {
-				width: 303px;
-			}
-		}
 	</style>
 
-	<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-techdocs@^5.0.0,o-fonts@^1.4.0,o-grid@^4.0.0,o-icons@^4.2.0" />
+	<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-techdocs@^5.0.0,o-fonts@^1.4.0,o-grid@^4.0.0,o-icons@^4.2.0,o-forms@^3.2.0,o-buttons@^4.4.1" />
+	<link rel="stylesheet" href="main.css" />
 	<script src="https://polyfill.io/v2/polyfill.min.js?features=fetch,default"></script>
 	<script>
 		(function(src) {
@@ -87,7 +55,7 @@
 				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(o, s);
 			}
-		}('https://origami-build.ft.com/v2/bundles/js?modules=o-techdocs@^5.0.0,o-fonts@^1.4.0,o-grid@^4.0.0,o-icons@^4.2.0'));
+		}('https://origami-build.ft.com/v2/bundles/js?modules=o-techdocs@^5.0.0,o-fonts@^1.4.0,o-grid@^4.0.0,o-icons@^4.2.0,o-forms@^3.2.0,o-buttons@^4.4.1'));
 	</script>
 	<script src="main.js"></script>
 
@@ -110,6 +78,12 @@
 	</header>
 
 	{{{body}}}
+
+	<footer class="o-techdocs-footer">
+		<div class="o-techdocs-footer__inner">
+			<p>&copy; THE FINANCIAL TIMES LTD. FT and 'Financial Times' are trademarks of The Financial Times Ltd.</p>
+		</div>
+	</footer>
 
 </body>
 </html>

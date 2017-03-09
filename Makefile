@@ -14,6 +14,13 @@ verify-coverage:
 	@istanbul check-coverage --statement $(EXPECTED_COVERAGE) --branch $(EXPECTED_COVERAGE) --function $(EXPECTED_COVERAGE)
 	@$(DONE)
 
+whitesource:
+ifndef WHITESOURCE_API_KEY
+	$(error WHITESOURCE_API_KEY is not set, cannot upload whitesource report. You can find the key in LastPass)
+endif
+	@echo {\"apiKey\":\"$(WHITESOURCE_API_KEY)\"} > whitesource.config.json
+	@whitesource run
+
 
 # Test tasks
 # ----------
@@ -71,11 +78,11 @@ change-request-qa:
 ifndef CR_API_KEY
 	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
 endif
-	@change-request \
+	@release-log \
 		--environment "Test" \
 		--api-key "$(CR_API_KEY)" \
 		--summary "Releasing $(CR_APPNAME) to QA" \
-		--description "$(CR_DESCRIPTION)" \
+		--description "Git tag: $(CIRCLE_TAG) \n Git repo: $(CIRCLE_REPOSITORY_URL) \n Commit hash: $(CIRCLE_SHA1) \n Released by github user: $(CIRCLE_USERNAME) \n $(CR_DESCRIPTION)" \
 		--owner-email "$(CR_EMAIL)" \
 		--service "$(CR_SERVICE_ID)" \
 		--notify-channel "$(CR_NOTIFY_CHANNEL)" \
@@ -86,7 +93,7 @@ change-request-prod:
 ifndef CR_API_KEY
 	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
 endif
-	@change-request \
+	@release-log \
 		--environment "Production" \
 		--api-key "$(CR_API_KEY)" \
 		--summary "Releasing $(CR_APPNAME) to production" \
@@ -106,9 +113,6 @@ run:
 
 run-dev:
 	@nodemon --ext html,js,json index.js
-
-run-router:
-	@nht run
 
 
 fetch-comparison-data:

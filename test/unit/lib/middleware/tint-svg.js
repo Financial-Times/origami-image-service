@@ -1,19 +1,18 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
 describe('lib/middleware/tint-svg', () => {
-	let express;
+	let origamiService;
 	let request;
 	let svgTint;
 	let SvgTintStream;
 
 	beforeEach(() => {
-
-		express = require('../../mock/n-express.mock');
+		origamiService = require('../../mock/origami-service.mock');
 
 		request = require('../../mock/request.mock');
 		mockery.registerMock('request', request);
@@ -44,23 +43,23 @@ describe('lib/middleware/tint-svg', () => {
 
 			beforeEach(() => {
 				next = sinon.spy();
-				express.mockRequest.params[0] = 'mock-uri';
-				express.mockRequest.query.color = 'f00';
-				middleware(express.mockRequest, express.mockResponse, next);
+				origamiService.mockRequest.params[0] = 'mock-uri';
+				origamiService.mockRequest.query.color = 'f00';
+				middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('creates an SVG tint stream with `request.query.color`', () => {
 				assert.calledOnce(SvgTintStream);
 				assert.calledWithNew(SvgTintStream);
 				assert.calledWith(SvgTintStream, {
-					color: express.mockRequest.query.color,
+					color: origamiService.mockRequest.query.color,
 					stroke: false
 				});
 			});
 
 			it('creates an HTTP request stream with `request.params[0]`', () => {
 				assert.calledOnce(request);
-				assert.calledWith(request, express.mockRequest.params[0]);
+				assert.calledWith(request, origamiService.mockRequest.params[0]);
 			});
 
 			it('binds a handler to the HTTP request stream "response" event', () => {
@@ -83,20 +82,20 @@ describe('lib/middleware/tint-svg', () => {
 				});
 
 				it('sets the Content-Type header to the SVG content type', () => {
-					assert.calledOnce(express.mockResponse.set);
-					assert.calledWithExactly(express.mockResponse.set, 'Content-Type', 'image/svg+xml; charset=utf-8');
+					assert.calledOnce(origamiService.mockResponse.set);
+					assert.calledWithExactly(origamiService.mockResponse.set, 'Content-Type', 'image/svg+xml; charset=utf-8');
 				});
 
 				describe('when the image response status is an error code', () => {
 
 					beforeEach(() => {
-						express.mockResponse.set.reset();
+						origamiService.mockResponse.set.reset();
 						mockImageResponse.statusCode = 400;
 						handler(mockImageResponse);
 					});
 
 					it('does not set the Content-Type header', () => {
-						assert.notCalled(express.mockResponse.set);
+						assert.notCalled(origamiService.mockResponse.set);
 					});
 
 					it('emits an error on the HTTP request stream', () => {
@@ -104,6 +103,7 @@ describe('lib/middleware/tint-svg', () => {
 						assert.calledWith(request.mockStream.emit, 'error');
 						assert.instanceOf(request.mockStream.emit.firstCall.args[1], Error);
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].status, 400);
+						assert.strictEqual(request.mockStream.emit.firstCall.args[1].cacheMaxAge, '30s');
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].message, 'Bad Request');
 					});
 
@@ -112,13 +112,13 @@ describe('lib/middleware/tint-svg', () => {
 				describe('when the image response is not an SVG', () => {
 
 					beforeEach(() => {
-						express.mockResponse.set.reset();
+						origamiService.mockResponse.set.reset();
 						mockImageResponse.headers['content-type'] = 'text/html';
 						handler(mockImageResponse);
 					});
 
 					it('does not set the Content-Type header', () => {
-						assert.notCalled(express.mockResponse.set);
+						assert.notCalled(origamiService.mockResponse.set);
 					});
 
 					it('emits an error on the HTTP request stream', () => {
@@ -126,6 +126,7 @@ describe('lib/middleware/tint-svg', () => {
 						assert.calledWith(request.mockStream.emit, 'error');
 						assert.instanceOf(request.mockStream.emit.firstCall.args[1], Error);
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].status, 400);
+						assert.strictEqual(request.mockStream.emit.firstCall.args[1].cacheMaxAge, '5m');
 						assert.strictEqual(request.mockStream.emit.firstCall.args[1].message, 'URI must point to an SVG image');
 					});
 
@@ -142,7 +143,7 @@ describe('lib/middleware/tint-svg', () => {
 				let streamError;
 
 				beforeEach(() => {
-					streamError = new Error('stream error');
+					streamError = new Error('mock error');
 					handler = request.mockStream.on.withArgs('error').firstCall.args[1];
 					handler(streamError);
 				});
@@ -152,14 +153,71 @@ describe('lib/middleware/tint-svg', () => {
 					assert.calledWithExactly(next, streamError);
 				});
 
+				describe('when the error represents a failed DNS lookup', () => {
+					let dnsError;
+
+					beforeEach(() => {
+						next.reset();
+						dnsError = new Error('mock error');
+						dnsError.code = 'ENOTFOUND';
+						dnsError.syscall = 'getaddrinfo';
+						handler(dnsError);
+					});
+
+					it('calls `next` with a descriptive error', () => {
+						assert.calledOnce(next);
+						assert.instanceOf(next.firstCall.args[0], Error);
+						assert.strictEqual(next.firstCall.args[0].message, 'DNS lookup failed for "mock-uri"');
+					});
+
+				});
+
+				describe('when the error represents a connection reset', () => {
+					let resetError;
+
+					beforeEach(() => {
+						next.reset();
+						resetError = new Error('mock error');
+						resetError.code = 'ECONNRESET';
+						resetError.syscall = 'mock-syscall';
+						handler(resetError);
+					});
+
+					it('calls `next` with a descriptive error', () => {
+						assert.calledOnce(next);
+						assert.instanceOf(next.firstCall.args[0], Error);
+						assert.strictEqual(next.firstCall.args[0].message, 'Connection reset when requesting "mock-uri" (mock-syscall)');
+					});
+
+				});
+
+				describe('when the error represents a request timeout', () => {
+					let resetError;
+
+					beforeEach(() => {
+						next.reset();
+						resetError = new Error('mock error');
+						resetError.code = 'ETIMEDOUT';
+						resetError.syscall = 'mock-syscall';
+						handler(resetError);
+					});
+
+					it('calls `next` with a descriptive error', () => {
+						assert.calledOnce(next);
+						assert.instanceOf(next.firstCall.args[0], Error);
+						assert.strictEqual(next.firstCall.args[0].message, 'Request timed out when requesting "mock-uri" (mock-syscall)');
+					});
+
+				});
+
 			});
 
 			it('pipes the HTTP request stream through the tint stream and into the response', () => {
 				assert.calledWithExactly(request.mockStream.pipe, SvgTintStream.mockStream);
-				assert.calledWithExactly(request.mockStream.pipe, express.mockResponse);
+				assert.calledWithExactly(request.mockStream.pipe, origamiService.mockResponse);
 				assert.callOrder(
 					request.mockStream.pipe.withArgs(SvgTintStream.mockStream),
-					request.mockStream.pipe.withArgs(express.mockResponse)
+					request.mockStream.pipe.withArgs(origamiService.mockResponse)
 				);
 			});
 
@@ -167,8 +225,8 @@ describe('lib/middleware/tint-svg', () => {
 
 				beforeEach(() => {
 					SvgTintStream.reset();
-					delete express.mockRequest.query.color;
-					middleware(express.mockRequest, express.mockResponse, next);
+					delete origamiService.mockRequest.query.color;
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('creates an SVG tint stream with "#000"', () => {
@@ -187,7 +245,7 @@ describe('lib/middleware/tint-svg', () => {
 					next.reset();
 					tintError = new Error('stream error');
 					SvgTintStream.throws(tintError);
-					middleware(express.mockRequest, express.mockResponse, next);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
 
 				it('sets the error `status` property to 400', () => {

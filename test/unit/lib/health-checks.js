@@ -1,165 +1,411 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
+const mockery = require('mockery');
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 describe('lib/health-checks', () => {
-	let healthChecks;
+	let cloudinary;
+	let HealthChecks;
+	let log;
+	let requestPromise;
 
 	beforeEach(() => {
-		global.fetch = sinon.stub();
-		healthChecks = require('../../../lib/health-checks');
+		cloudinary = require('../mock/cloudinary.mock');
+		mockery.registerMock('cloudinary', cloudinary);
+
+		requestPromise = require('../mock/request-promise.mock');
+		mockery.registerMock('./request-promise', requestPromise);
+
+		log = require('../mock/log.mock');
+
+		HealthChecks = require('../../../lib/health-checks');
 	});
 
-	it('exports an object', () => {
-		assert.isObject(healthChecks);
+	it('exports a function', () => {
+		assert.isFunction(HealthChecks);
 	});
 
-	it('has an `init` method', () => {
-		assert.isFunction(healthChecks.init);
-	});
-
-	describe('.init(config)', () => {
+	describe('new HealthChecks(options)', () => {
+		let instance;
+		let options;
+		let retrieveData;
+		let bindRetrieveData;
 
 		beforeEach(() => {
-			healthChecks.pingService = sinon.stub();
+			options = {
+				cloudinaryAccountName: 'financial-times',
+				customSchemeStore: 'http://customschemestore/',
+				log: log
+			};
 			sinon.stub(global, 'setInterval');
-			healthChecks.init({
-				cloudinaryAccountName: 'testaccount',
-				customSchemeStore: 'http://foo/'
-			});
+			retrieveData = sinon.stub(HealthChecks.prototype, 'retrieveData');
+			bindRetrieveData = sinon.spy(retrieveData, 'bind');
+			instance = new HealthChecks(options);
+			HealthChecks.prototype.retrieveData.restore();
 		});
 
 		afterEach(() => {
 			global.setInterval.restore();
 		});
 
-		it('calls `pingService` with a Cloudinary URL', () => {
-			assert.calledWithExactly(healthChecks.pingService, 'cloudinary', 'http://res.cloudinary.com/testaccount/image/fetch/http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img');
+		it('has a `customSchemeCheckUrl` property', () => {
+			assert.strictEqual(instance.customSchemeCheckUrl, 'http://customschemestore/fticon/v1/cross.svg');
 		});
 
-		it('calls `pingService` with a custom scheme URL', () => {
-			assert.calledWithExactly(healthChecks.pingService, 'customSchemeStore', 'http://foo/fticon/v1/cross.svg');
+		it('has a `statuses` property', () => {
+			assert.isObject(instance.statuses);
 		});
 
-		it('sets an interval to ping the services again', () => {
+		it('has a `statuses.cloudinary` property', () => {
+			assert.isObject(instance.statuses.cloudinary);
+		});
+
+		it('has a `statuses.customSchemeStore` property', () => {
+			assert.isObject(instance.statuses.customSchemeStore);
+		});
+
+		it('calls `retrieveData`', () => {
+			assert.calledOnce(retrieveData);
+			assert.calledWithExactly(retrieveData);
+		});
+
+		it('sets an interval to retrieve data again', () => {
 			assert.calledOnce(global.setInterval);
-			assert.isFunction(global.setInterval.firstCall.args[0]);
-			assert.strictEqual(global.setInterval.firstCall.args[1], 60 * 1000);
+			assert.calledOnce(bindRetrieveData);
+			assert.calledWithExactly(bindRetrieveData, instance);
+			assert.calledWithExactly(global.setInterval, bindRetrieveData.firstCall.returnValue, 60 * 1000);
 		});
 
-		describe('when no custom scheme store is specified in the config', () => {
+		it('has a `retrieveData` method', () => {
+			assert.isFunction(instance.retrieveData);
+		});
+
+		describe('.retrieveData()', () => {
+			let clock;
 
 			beforeEach(() => {
-				healthChecks.pingService.reset();
-				healthChecks.init({
-					cloudinaryAccountName: 'testaccount'
+				clock = sinon.useFakeTimers();
+				clock.tick(1488792604947); // sets to 2017-03-06 09:30:04
+				cloudinary.url.returns('mock-cloudinary-url');
+				sinon.stub(instance, 'pingService');
+				instance.retrieveData();
+			});
+
+			afterEach(() => {
+				clock.restore();
+			});
+
+			it('creates a cache-busted Cloudinary transform URL', () => {
+				assert.calledOnce(cloudinary.url);
+				assert.calledWith(cloudinary.url, 'https://www.ft.com/__origami/service/imageset-data/1x1.gif?cachebust=2017-03-06T09:30:00.000Z', {
+					type: 'fetch'
 				});
 			});
 
-			it('calls `pingService` with the expected default store', () => {
-				assert.calledWithExactly(healthChecks.pingService, 'customSchemeStore', '/fticon/v1/cross.svg');
+			it('calls `pingService` with the created Cloudinary URL', () => {
+				assert.called(instance.pingService);
+				assert.calledWithExactly(instance.pingService, 'cloudinary', 'mock-cloudinary-url');
+			});
+
+			it('calls `pingService` with the navigation data store URL', () => {
+				assert.called(instance.pingService);
+				assert.calledWithExactly(instance.pingService, 'customSchemeStore', instance.customSchemeCheckUrl);
 			});
 
 		});
 
-	});
-
-	it('has a `pingService` method', () => {
-		assert.isFunction(healthChecks.pingService);
-	});
-
-	describe('.pingService(name, url)', () => {
-
-		beforeEach(() => {
-			global.fetch.resolves({
-				ok: true
-			});
-			return healthChecks.pingService('foo', 'bar');
+		it('has a `pingService` method', () => {
+			assert.isFunction(instance.pingService);
 		});
 
-		it('fetches the given URL', () => {
-			assert.calledOnce(global.fetch);
-			assert.calledWithExactly(global.fetch, 'bar');
-		});
-
-		it('sets the status of the check to `true`', () => {
-			assert.isTrue(healthChecks.statuses.foo);
-		});
-
-		describe('when the response from the URL is not OK', () => {
+		describe('.pingService(name, url)', () => {
 
 			beforeEach(() => {
-				global.fetch.resolves({
-					ok: false
+				requestPromise.resolves({
+					statusCode: 200
 				});
-				return healthChecks.pingService('foo', 'bar');
+				instance.statuses = {
+					foo: {}
+				};
+				return instance.pingService('foo', 'bar');
 			});
 
-			it('sets the status of the check to `false`', () => {
-				assert.isFalse(healthChecks.statuses.foo);
+			it('requests the given URL', () => {
+				assert.calledOnce(requestPromise);
+				assert.calledWith(requestPromise, {
+					uri: 'bar',
+					method: 'HEAD'
+				});
+			});
+
+			it('sets the status of the check to `true`', () => {
+				assert.isTrue(instance.statuses.foo.ok);
+			});
+
+			describe('when the response from the URL is not OK', () => {
+
+				beforeEach(() => {
+					requestPromise.resolves({
+						statusCode: 400
+					});
+					return instance.pingService('foo', 'bar');
+				});
+
+				it('sets the status of the check to `false`', () => {
+					assert.isFalse(instance.statuses.foo.ok);
+				});
+
+				it('logs the failure', () => {
+					assert.calledWith(log.error, 'Healthcheck Failure (foo): pinging "bar" responded with 400');
+				});
+
+			});
+
+			describe('when the fetch errors', () => {
+
+				beforeEach(() => {
+					requestPromise.rejects(new Error('request-error'));
+					return instance.pingService('foo', 'bar');
+				});
+
+				it('sets the status of the check to `false`', () => {
+					assert.isFalse(instance.statuses.foo.ok);
+				});
+
+				it('logs the failure', () => {
+					assert.calledWith(log.error, 'Healthcheck Failure (foo): pinging "bar" errored: request-error');
+				});
+
+			});
+
+			describe('when the `testHealthcheckFailure` option is `true`', () => {
+
+				beforeEach(() => {
+					options.testHealthcheckFailure = 'YESPLEASE';
+					instance = new HealthChecks(options);
+					instance.statuses = {
+						foo: {}
+					};
+					return instance.pingService('foo', 'bar');
+				});
+
+				it('sets the status of the check to `false`', () => {
+					assert.isFalse(instance.statuses.foo.ok);
+				});
+
 			});
 
 		});
 
-		describe('when the fetch errors', () => {
+		it('has a `getFunction` method', () => {
+			assert.isFunction(instance.getFunction);
+		});
+
+		describe('.getFunction()', () => {
+			let returnValue;
 
 			beforeEach(() => {
-				global.fetch.rejects('error');
-				return healthChecks.pingService('foo', 'bar');
+				sinon.stub(instance, 'getPromise').returns(Promise.resolve());
+				returnValue = instance.getFunction();
 			});
 
-			it('sets the status of the check to `false`', () => {
-				assert.isFalse(healthChecks.statuses.foo);
+			it('returns a function', () => {
+				assert.isFunction(returnValue);
 			});
 
-		});
+			describe('returned function', () => {
 
-	});
+				beforeEach(() => {
+					const returnedFunction = returnValue;
+					returnValue = returnedFunction();
+				});
 
-	it('has a `statuses` property', () => {
-		assert.isObject(healthChecks.statuses);
-		assert.deepEqual(healthChecks.statuses, {});
-	});
+				it('calls `getPromise`', () => {
+					assert.calledOnce(instance.getPromise);
+					assert.calledWithExactly(instance.getPromise);
+				});
 
-	it('has a `cloudinary` property', () => {
-		assert.isObject(healthChecks.cloudinary);
-	});
+				it('returns the return value of `getPromise`', () => {
+					assert.strictEqual(returnValue, instance.getPromise.firstCall.returnValue);
+				});
 
-	describe('.cloudinary', () => {
-
-		it('has a `getStatus` method', () => {
-			assert.isFunction(healthChecks.cloudinary.getStatus);
-		});
-
-		describe('.getStatus()', () => {
-
-			it('returns an object', () => {
-				assert.isObject(healthChecks.cloudinary.getStatus());
 			});
 
 		});
 
-	});
-
-	it('has a `customSchemeStore` property', () => {
-		assert.isObject(healthChecks.customSchemeStore);
-	});
-
-	describe('.customSchemeStore', () => {
-
-		it('has a `getStatus` method', () => {
-			assert.isFunction(healthChecks.customSchemeStore.getStatus);
+		it('has a `getGoodToGoFunction` method', () => {
+			assert.isFunction(instance.getGoodToGoFunction);
 		});
 
-		describe('.getStatus()', () => {
+		describe('.getGoodToGoFunction()', () => {
+			let returnValue;
 
-			it('returns an object', () => {
-				assert.isObject(healthChecks.customSchemeStore.getStatus());
+			beforeEach(() => {
+				sinon.stub(instance, 'getGoodToGoPromise').returns(Promise.resolve());
+				returnValue = instance.getGoodToGoFunction();
+			});
+
+			it('returns a function', () => {
+				assert.isFunction(returnValue);
+			});
+
+			describe('returned function', () => {
+
+				beforeEach(() => {
+					const returnedFunction = returnValue;
+					returnValue = returnedFunction();
+				});
+
+				it('calls `getGoodToGoPromise`', () => {
+					assert.calledOnce(instance.getGoodToGoPromise);
+					assert.calledWithExactly(instance.getGoodToGoPromise);
+				});
+
+				it('returns the return value of `getGoodToGoPromise`', () => {
+					assert.strictEqual(returnValue, instance.getGoodToGoPromise.firstCall.returnValue);
+				});
+
 			});
 
 		});
+
+		it('has a `getPromise` method', () => {
+			assert.isFunction(instance.getPromise);
+		});
+
+		describe('.getPromise()', () => {
+			let returnValue;
+			let status1;
+			let status2;
+			let statuses;
+
+			beforeEach(() => {
+				status1 = {id: 'status-1'};
+				status2 = {id: 'status-2'};
+				statuses = [status1, status2];
+				sinon.stub(instance, 'getStatusArray').returns(statuses);
+				returnValue = instance.getPromise();
+			});
+
+			it('calls `getStatusArray`', () => {
+				assert.calledOnce(instance.getStatusArray);
+				assert.calledWithExactly(instance.getStatusArray);
+			});
+
+			it('returns a promise', () => {
+				assert.instanceOf(returnValue, Promise);
+			});
+
+			describe('returned promise', () => {
+				let resolvedValue;
+
+				beforeEach(() => {
+					return returnValue.then(value => {
+						resolvedValue = value;
+					});
+				});
+
+				it('resolves with the return value of `getStatusArray`', () => {
+					assert.strictEqual(resolvedValue, statuses);
+				});
+
+			});
+
+		});
+
+		it('has a `getGoodToGoPromise` method', () => {
+			assert.isFunction(instance.getGoodToGoPromise);
+		});
+
+		describe('.getGoodToGoPromise()', () => {
+			let returnValue;
+			let status1;
+			let status2;
+			let statuses;
+
+			beforeEach(() => {
+				status1 = {id: 'status-1', ok: true};
+				status2 = {id: 'status-2', ok: true};
+				statuses = [status1, status2];
+				sinon.stub(instance, 'getStatusArray').returns(statuses);
+				returnValue = instance.getGoodToGoPromise();
+			});
+
+			it('calls `getStatusArray`', () => {
+				assert.calledOnce(instance.getStatusArray);
+				assert.calledWithExactly(instance.getStatusArray);
+			});
+
+			it('returns a promise', () => {
+				assert.instanceOf(returnValue, Promise);
+			});
+
+			describe('returned promise', () => {
+				let resolvedValue;
+
+				beforeEach(() => {
+					return returnValue.then(value => {
+						resolvedValue = value;
+					});
+				});
+
+				it('resolves with `true`', () => {
+					assert.isTrue(resolvedValue);
+				});
+
+			});
+
+			describe('when the return value of `getStatusArray` contains a status that\'s not OK', () => {
+
+				beforeEach(() => {
+					status1.ok = false;
+					returnValue = instance.getGoodToGoPromise();
+				});
+
+				describe('returned promise', () => {
+					let resolvedValue;
+
+					beforeEach(() => {
+						return returnValue.then(value => {
+							resolvedValue = value;
+						});
+					});
+
+					it('resolves with `false`', () => {
+						assert.isFalse(resolvedValue);
+					});
+
+				});
+
+			});
+
+		});
+
+		it('has a `getStatusArray` method', () => {
+			assert.isFunction(instance.getStatusArray);
+		});
+
+		describe('.getStatusArray()', () => {
+			let returnValue;
+
+			beforeEach(() => {
+				instance.statuses = {
+					foo: {id: 'foo'},
+					bar: {id: 'bar'}
+				};
+				returnValue = instance.getStatusArray();
+			});
+
+			it('returns an array of the values in the `statuses` property', () => {
+				assert.deepEqual(returnValue, [
+					{id: 'foo'},
+					{id: 'bar'}
+				]);
+			});
+
+		});
+
 
 	});
 

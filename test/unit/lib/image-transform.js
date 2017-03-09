@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
 
@@ -34,7 +34,8 @@ describe('lib/image-transform', () => {
 				width: 123,
 				height: 456,
 				dpr: 2,
-				fit: 'scale-down',
+				fit: 'cover',
+				gravity: 'poi',
 				quality: 'lossless',
 				format: 'jpg',
 				bgcolor: '00ff00',
@@ -46,6 +47,7 @@ describe('lib/image-transform', () => {
 			assert.strictEqual(instance.getHeight(), properties.height);
 			assert.strictEqual(instance.getDpr(), properties.dpr);
 			assert.strictEqual(instance.getFit(), properties.fit);
+			assert.strictEqual(instance.getGravity(), properties.gravity);
 			assert.strictEqual(instance.getQuality(), ImageTransform.qualityValueMap[properties.quality]);
 			assert.strictEqual(instance.getFormat(), properties.format);
 			assert.strictEqual(instance.getBgcolor(), properties.bgcolor);
@@ -148,6 +150,43 @@ describe('lib/image-transform', () => {
 
 			it('[get] returns the sanitized `value`', () => {
 				assert.strictEqual(instance.getFit(), 'sanitized');
+			});
+
+		});
+
+		describe('.setGravity() / .getGravity()', () => {
+
+			beforeEach(() => {
+				sinon.stub(ImageTransform, 'sanitizeEnumerableValue').returns('sanitized');
+				instance.setGravity('foo');
+			});
+
+			it('[set] calls the `sanitizeEnumerableValue` static method with `value`', () => {
+				assert.calledOnce(ImageTransform.sanitizeEnumerableValue);
+				assert.calledWithExactly(
+					ImageTransform.sanitizeEnumerableValue,
+					'foo',
+					ImageTransform.validGravities,
+					`Image gravity must be one of ${ImageTransform.validGravities.join(', ')}`
+				);
+			});
+
+			it('[set] defaults `value` to `undefined`', () => {
+				instance.setGravity();
+				assert.calledWith(ImageTransform.sanitizeEnumerableValue, undefined);
+			});
+
+			it('[get] returns the sanitized `value`', () => {
+				assert.strictEqual(instance.getGravity(), 'sanitized');
+			});
+
+			describe('when `value` is defined and the `fit` property is not `cover`', () => {
+
+				it('throws an error', () => {
+					instance.fit = 'contain';
+					assert.throws(() => instance.setGravity('foo'), 'Gravity can only be used when fit is set to "cover"');
+				});
+
 			});
 
 		});
@@ -312,6 +351,7 @@ describe('lib/image-transform', () => {
 
 			it('returns `value`', () => {
 				const testSources = [
+					'ftbrand:foo',
 					'ftcms:foo',
 					'fthead:foo',
 					'fticon:foo',
@@ -319,7 +359,8 @@ describe('lib/image-transform', () => {
 					'ftpodcast:foo',
 					'ftsocial:foo',
 					'http://foo/',
-					'https://foo/'
+					'https://foo/',
+					'specialisttitle:foo'
 				];
 				testSources.forEach(source => {
 					assert.strictEqual(ImageTransform.sanitizeUriValue(source), source);
@@ -332,6 +373,49 @@ describe('lib/image-transform', () => {
 
 			it('returns `value` decoded', () => {
 				assert.strictEqual(ImageTransform.sanitizeUriValue('http%3A%2F%2Ffoo%2F'), 'http://foo/');
+			});
+
+		});
+
+		describe('when `value` is a protocol-relative URL', () => {
+
+			it('returns `value` with an HTTP protocol added', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('//foo/'), 'http://foo/');
+			});
+
+		});
+
+		describe('when `value` has a malformed http/https scheme with only one slash', () => {
+
+			it('returns `value` with the additional slash added', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http:/foo/'), 'http://foo/');
+				assert.strictEqual(ImageTransform.sanitizeUriValue('https:/foo/'), 'https://foo/');
+			});
+
+		});
+
+		describe('when `value` has a malformed http/https scheme with no slashes', () => {
+
+			it('returns `value` with the additional slash added', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http:foo/'), 'http://foo/');
+				assert.strictEqual(ImageTransform.sanitizeUriValue('https:foo/'), 'https://foo/');
+			});
+
+		});
+
+		describe('when `value` contains a hash character', () => {
+
+			it('returns `value` without any of the content after the hash', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http://foo/#bar'), 'http://foo/');
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http%3A%2F%2Ffoo%2F%23bar'), 'http://foo/');
+			});
+
+		});
+
+		describe('when `value` contains a double-encoded hash character', () => {
+
+			it('returns `value` with the hash intact', () => {
+				assert.strictEqual(ImageTransform.sanitizeUriValue('http://foo/%2523bar'), 'http://foo/%23bar');
 			});
 
 		});
@@ -403,6 +487,14 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `value` is an empty string', () => {
+
+			it('returns `undefined`', () => {
+				assert.isUndefined(ImageTransform.sanitizeNumericValue(''));
+			});
+
+		});
+
 		describe('when `value` is smaller than `1`', () => {
 
 			it('throws an error', () => {
@@ -458,6 +550,14 @@ describe('lib/image-transform', () => {
 
 			it('returns `undefined`', () => {
 				assert.isUndefined(ImageTransform.sanitizeEnumerableValue());
+			});
+
+		});
+
+		describe('when `value` is an empty string', () => {
+
+			it('returns `undefined`', () => {
+				assert.isUndefined(ImageTransform.sanitizeEnumerableValue(''));
 			});
 
 		});
@@ -531,6 +631,14 @@ describe('lib/image-transform', () => {
 
 			it('returns `undefined`', () => {
 				assert.isUndefined(ImageTransform.sanitizeColorValue());
+			});
+
+		});
+
+		describe('when `value` is an empty string', () => {
+
+			it('returns `undefined`', () => {
+				assert.isUndefined(ImageTransform.sanitizeColorValue(''));
 			});
 
 		});
@@ -644,6 +752,17 @@ describe('lib/image-transform', () => {
 
 	describe('.resolveCustomSchemeUri(uri, baseUrl)', () => {
 
+		describe('when `uri` is an `ftbrand` URI', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:example', 'http://base/images'),
+					'http://base/images/ftbrand/v1/example.png'
+				);
+			});
+
+		});
+
 		describe('when `uri` is an `ftcms` URI', () => {
 
 			it('returns `uri`', () => {
@@ -732,6 +851,17 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `uri` is a `specialisttitle` URI', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('specialisttitle-v1:example', 'http://base/images'),
+					'http://base/images/specialisttitle/v1/example.svg'
+				);
+			});
+
+		});
+
 		describe('when `uri` has an unversioned scheme', () => {
 
 			it('returns the expected URI', () => {
@@ -810,6 +940,25 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `uri` has a querystring', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('http://foo/bar?foo=bar', 'http://base/images'),
+					'http://foo/bar?foo=bar'
+				);
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('fthead-v1:example?foo=bar', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png?foo=bar'
+				);
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images'),
+					'http://base/images/fticon/v1/example.svg?foo=bar'
+				);
+			});
+
+		});
+
 		describe('when `baseUrl` has a trailing slash', () => {
 
 			it('returns the expected URI', () => {
@@ -817,6 +966,65 @@ describe('lib/image-transform', () => {
 					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images/'),
 					'http://base/images/fthead/v1/example.png'
 				);
+			});
+
+		});
+
+		describe('when `cacheBust` is set', () => {
+
+			describe('when `uri` is an `http` URI', () => {
+
+				it('returns `uri` (not cache-busted)', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('http://foo/bar', 'http://base/images/', 'busted'),
+						'http://foo/bar'
+					);
+				});
+
+			});
+
+			describe('when `uri` is an `ftcms` URI', () => {
+
+				it('returns `uri` (not cache-busted)', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftcms:example', 'http://base/images', 'busted'),
+						'ftcms:example'
+					);
+				});
+
+			});
+
+			describe('when `uri` is an `fthead` URI', () => {
+
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images/', 'busted'),
+						'http://base/images/fthead/v1/example.png?cacheBust=busted'
+					);
+				});
+
+			});
+
+			describe('when `uri` is an `fticon` URI', () => {
+
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images/', 'busted'),
+						'http://base/images/fticon/v1/example.svg?cacheBust=busted'
+					);
+				});
+
+			});
+
+			describe('when `uri` has a querystring', () => {
+
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images/', 'busted'),
+						'http://base/images/fticon/v1/example.svg?foo=bar&cacheBust=busted'
+					);
+				});
+
 			});
 
 		});
@@ -864,6 +1072,13 @@ describe('lib/image-transform', () => {
 		]);
 	});
 
+	it('has a `validGravities` static property', () => {
+		assert.deepEqual(ImageTransform.validGravities, [
+			'faces',
+			'poi'
+		]);
+	});
+
 	it('has a `validFormats` static property', () => {
 		assert.deepEqual(ImageTransform.validFormats, [
 			'auto',
@@ -887,6 +1102,7 @@ describe('lib/image-transform', () => {
 
 	it('has a `validUriSchemes` static property', () => {
 		assert.deepEqual(ImageTransform.validUriSchemes, [
+			'ftbrand',
 			'ftcms',
 			'fthead',
 			'fticon',
@@ -894,17 +1110,20 @@ describe('lib/image-transform', () => {
 			'ftpodcast',
 			'ftsocial',
 			'http',
-			'https'
+			'https',
+			'specialisttitle'
 		]);
 	});
 
 	it('has a `schemeVersionMap` static property', () => {
 		assert.deepEqual(ImageTransform.schemeVersionMap, {
+			ftbrand: 'v1',
 			fthead: 'v1',
 			fticon: 'fticonold/v4',
 			ftlogo: 'v1',
 			ftpodcast: 'v1',
-			ftsocial: 'v1'
+			ftsocial: 'v1',
+			specialisttitle: 'v1'
 		});
 	});
 
@@ -934,7 +1153,7 @@ describe('lib/image-transform', () => {
 
 		it('has values that are lower than or equal to their equivalent in `qualityValueMap`', () => {
 			ImageTransform.validQualities.forEach((quality) => {
-				assert.isAtMost(ImageTransform.qualityValueMapDpr[quality], ImageTransform.qualityValueMap[quality]);
+				assert.lessThanOrEqual(ImageTransform.qualityValueMapDpr[quality], ImageTransform.qualityValueMap[quality]);
 			});
 		});
 
