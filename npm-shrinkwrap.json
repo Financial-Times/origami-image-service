@@ -233,6 +233,11 @@
         }
       }
     },
+    "date-fns": {
+      "version": "1.28.0",
+      "from": "date-fns@latest",
+      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-1.28.0.tgz"
+    },
     "debug": {
       "version": "2.2.0",
       "from": "debug@>=2.2.0 <2.3.0",
