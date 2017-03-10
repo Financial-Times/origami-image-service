@@ -18,9 +18,9 @@ const testImageUris = {
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	http: 'http://assets1.howtospendit.ft-static.com/images/06/cf/71/06cf7131-fd60-43b8-813a-a296acd81561_main_crop.jpg',
-	https: 'https://assets1.howtospendit.ft-static.com/images/06/cf/71/06cf7131-fd60-43b8-813a-a296acd81561_main_crop.jpg',
-	protocolRelative: '//assets1.howtospendit.ft-static.com/images/06/cf/71/06cf7131-fd60-43b8-813a-a296acd81561_main_crop.jpg',
+	http: 'http://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
+	https: 'https://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
+	protocolRelative: '//www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo'
 };
@@ -458,12 +458,12 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('http', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.http}?source=test`);
-				itRespondsWithHeader('surrogate-key', /http\:\/\/assets1\.howtospendit\.ft\-static\.com\/images\/06\/cf\/71\/06cf7131\-fd60\-43b8\-813a\-a296acd81561\_main\_crop\.jpg/);
+				itRespondsWithHeader('surrogate-key', /http:\/\/www.ft.com\/__origami\/service\/imageset-data\/ftsocial\/v1\/twitter.svg/);
 			});
 
 			describe('https', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
-				itRespondsWithHeader('surrogate-key', /https\:\/\/assets1\.howtospendit\.ft\-static\.com\/images\/06\/cf\/71\/06cf7131\-fd60\-43b8\-813a\-a296acd81561\_main\_crop\.jpg/);
+				itRespondsWithHeader('surrogate-key', /https:\/\/www.ft.com\/__origami\/service\/imageset-data\/ftsocial\/v1\/twitter.svg/);
 			});
 
 			describe('protocolRelativeftcms', function() {
@@ -473,7 +473,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('protocolRelative', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelative}?source=test`);
-				itRespondsWithHeader('surrogate-key', /\/\/assets1\.howtospendit\.ft\-static\.com\/images\/06\/cf\/71\/06cf7131\-fd60\-43b8\-813a\-a296acd81561\_main\_crop\.jpg/);
+				itRespondsWithHeader('surrogate-key', /\/\/www.ft.com\/__origami\/service\/imageset-data\/ftsocial\/v1\/twitter.svg/);
 			});
 
 			describe('specialisttitle', function() {
