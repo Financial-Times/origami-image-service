@@ -757,7 +757,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:example', 'http://base/images'),
-					'http://base/images/ftbrand/v1/example.png'
+					'http://base/images/ftbrand/v1/example'
 				);
 			});
 
@@ -779,7 +779,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example.png'
+					'http://base/images/fthead/v1/example'
 				);
 			});
 
@@ -812,7 +812,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:example', 'http://base/images'),
-					'http://base/images/ftpodcast/v1/example.png'
+					'http://base/images/ftpodcast/v1/example'
 				);
 			});
 
@@ -867,7 +867,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example.png'
+					'http://base/images/fthead/v1/example'
 				);
 			});
 
@@ -889,11 +889,11 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('FTHEAD:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example.png'
+					'http://base/images/fthead/v1/example'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('FTHEAD-V1:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example.png'
+					'http://base/images/fthead/v1/example'
 				);
 			});
 
@@ -904,7 +904,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:example/foo', 'http://base/images'),
-					'http://base/images/fthead/v1/example/foo.png'
+					'http://base/images/fthead/v1/example/foo'
 				);
 			});
 
@@ -915,7 +915,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:example/foo/', 'http://base/images'),
-					'http://base/images/fthead/v1/example/foo.png'
+					'http://base/images/fthead/v1/example/foo'
 				);
 			});
 
@@ -949,7 +949,7 @@ describe('lib/image-transform', () => {
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead-v1:example?foo=bar', 'http://base/images'),
-					'http://base/images/fthead/v1/example.png?foo=bar'
+					'http://base/images/fthead/v1/example?foo=bar'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images'),
@@ -964,7 +964,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images/'),
-					'http://base/images/fthead/v1/example.png'
+					'http://base/images/fthead/v1/example'
 				);
 			});
 
@@ -999,7 +999,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images/', 'busted'),
-						'http://base/images/fthead/v1/example.png?cacheBust=busted'
+						'http://base/images/fthead/v1/example?cacheBust=busted'
 					);
 				});
 
