@@ -13,6 +13,7 @@ describe('lib/image-service', () => {
 	let imageService;
 	let origamiService;
 	let requireAll;
+	let base64;
 
 	beforeEach(() => {
 		basePath = path.resolve(`${__dirname}/../../..`);
@@ -31,6 +32,11 @@ describe('lib/image-service', () => {
 
 		requireAll = require('../mock/require-all.mock');
 		mockery.registerMock('require-all', requireAll);
+
+		base64 = {
+			encode: sinon.stub().returnsArg(0)
+		};
+		mockery.registerMock('base-64', base64);
 
 		imageService = require(basePath);
 	});
@@ -197,7 +203,7 @@ describe('lib/image-service', () => {
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
 					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
-					'Surrogate-Key': 'origami-image-service imagejpeg http http://example.com/picture.png',
+					'Surrogate-Key': 'origami-image-service image/jpeg http http://example.com/picture.png',
 					'Vary': 'FT-image-format, Content-Dpr'
 				});
 			});
