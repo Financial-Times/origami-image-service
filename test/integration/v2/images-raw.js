@@ -18,9 +18,9 @@ const testImageUris = {
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	http: 'http://assets1.howtospendit.ft-static.com/images/06/cf/71/06cf7131-fd60-43b8-813a-a296acd81561_main_crop.jpg',
-	https: 'https://assets1.howtospendit.ft-static.com/images/06/cf/71/06cf7131-fd60-43b8-813a-a296acd81561_main_crop.jpg',
-	protocolRelative: '//assets1.howtospendit.ft-static.com/images/06/cf/71/06cf7131-fd60-43b8-813a-a296acd81561_main_crop.jpg',
+	http: 'http://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
+	https: 'https://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
+	protocolRelative: '//www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo'
 };
@@ -391,7 +391,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('https', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
-				itRespondsWithHeader('surrogate-key', /https/);
+				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly93d3cuZnQuY29tL19fb3JpZ2FtaS9zZXJ2aWNlL2ltYWdlc2V0LWRhdGEvZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
 			describe('protocolRelativeftcms', function() {
@@ -458,12 +458,12 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('http', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.http}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aHR0cDovL2Fzc2V0czEuaG93dG9zcGVuZGl0LmZ0LXN0YXRpYy5jb20vaW1hZ2VzLzA2L2NmLzcxLzA2Y2Y3MTMxLWZkNjAtNDNiOC04MTNhLWEyOTZhY2Q4MTU2MV9tYWluX2Nyb3AuanBn/);
+				itRespondsWithHeader('surrogate-key', /aHR0cDovL3d3dy5mdC5jb20vX19vcmlnYW1pL3NlcnZpY2UvaW1hZ2VzZXQtZGF0YS9mdHNvY2lhbC92MS90d2l0dGVyLnN2Zw==/);
 			});
 
-			describe.only('https', function() {
+			describe('https', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRjbXM6YTYwYWUyNGItYjg3Zi00MzljLWJmMWItNmU1NDk0NmI0Y2Yy/);
+				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly93d3cuZnQuY29tL19fb3JpZ2FtaS9zZXJ2aWNlL2ltYWdlc2V0LWRhdGEvZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
 			describe('protocolRelativeftcms', function() {
@@ -473,7 +473,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('protocolRelative', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelative}?source=test`);
-				itRespondsWithHeader('surrogate-key', /Ly9hc3NldHMxLmhvd3Rvc3BlbmRpdC5mdC1zdGF0aWMuY29tL2ltYWdlcy8wNi9jZi83MS8wNmNmNzEzMS1mZDYwLTQzYjgtODEzYS1hMjk2YWNkODE1NjFfbWFpbl9jcm9wLmpwZw==/);
+				itRespondsWithHeader('surrogate-key', /Ly93d3cuZnQuY29tL19fb3JpZ2FtaS9zZXJ2aWNlL2ltYWdlc2V0LWRhdGEvZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
 			describe('specialisttitle', function() {
