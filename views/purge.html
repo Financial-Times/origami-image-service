@@ -21,6 +21,10 @@
 				The types of surrogate-keys available are as follows:
 			</p>
 
+			<aside>
+				<h5>Purging keys will not purge from Cloudinary</h5>
+				<p>Currently the Origami Image Service can only purge keys from Fastly. The original image will still be stored by Cloudinary's CDN unless the image URL can be modified to cache-bust their CDN layer.</p>
+			</aside>
 			<div class="o-techdocs-table-wrapper">
 				<table>
 					<tr>
