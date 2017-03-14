@@ -22,7 +22,8 @@ const testImageUris = {
 	https: 'https://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
 	protocolRelative: '//www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	specialisttitle: 'specialisttitle:ned-logo'
+	specialisttitle: 'specialisttitle:ned-logo',
+	nonUtf8Characters: 'http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/0/9/3/2/1212390-1-eng-GB/Y+et+Beaute%CC%81+Tranquille.jpg'
 };
 
 describe('GET /v2/images/raw…', function() {
@@ -479,6 +480,11 @@ describe('GET /v2/images/raw…', function() {
 			describe('specialisttitle', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
 				itRespondsWithHeader('surrogate-key', /c3BlY2lhbGlzdHRpdGxlOm5lZC1sb2dv/);
+			});
+
+			describe('nonUtf8Characters', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.nonUtf8Characters}?source=test`);
+				itRespondsWithHeader('surrogate-key', /aHR0cDovL3MzLWV1LXdlc3QtMS5hbWF6b25hd3MuY29tL2Z0aHRzaS1hc3NldHMtcHJvZHVjdGlvbi9lei9pbWFnZXMvMC85LzMvMi8xMjEyMzkwLTEtZW5nLUdCL1krZXQrQmVhdXRlzIErVHJhbnF1aWxsZS5qcGc=/);
 			});
 		});
 	});

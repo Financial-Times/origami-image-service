@@ -14,6 +14,7 @@ describe('lib/image-service', () => {
 	let origamiService;
 	let requireAll;
 	let base64;
+	let utf8;
 
 	beforeEach(() => {
 		basePath = path.resolve(`${__dirname}/../../..`);
@@ -37,6 +38,11 @@ describe('lib/image-service', () => {
 			encode: sinon.stub().returnsArg(0)
 		};
 		mockery.registerMock('base-64', base64);
+
+		utf8 = {
+			encode: sinon.stub().returnsArg(0)
+		};
+		mockery.registerMock('utf8', utf8);
 
 		imageService = require(basePath);
 	});
@@ -169,7 +175,7 @@ describe('lib/image-service', () => {
 				proxyResponse.headers = {
 					'foo': 'bar',
 					'cache-control': 'public, max-age=123',
-					'content-type': 'image/jpeg',
+					'content-type': 'IMAGE/JPEG', // uppercase to test normalisation
 					'content-length': '1234',
 					'content-disposition': 'foo',
 					'etag': '123',
@@ -179,10 +185,12 @@ describe('lib/image-service', () => {
 					app: origamiService.mockApp,
 					headers: {},
 					params: {
-						scheme: 'http',
-						schemeUrl: 'http://example.com/picture.png'
+						scheme: 'HTTP',
+						schemeUrl: 'http://example.com/PICTURE.png' // uppercase to test normalisation
 					}
 				};
+				base64.encode = sinon.spy(value => `${value}-mock-base64`);
+				utf8.encode = sinon.spy(value => `${value}-mock-utf8`);
 				handler(proxyResponse, request);
 			});
 
@@ -190,12 +198,27 @@ describe('lib/image-service', () => {
 				clock.restore();
 			});
 
+			it('should utf8 and base64 encode a normalised key for image type', () => {
+				assert.calledWithExactly(utf8.encode, 'image/jpeg');
+				assert.calledWithExactly(base64.encode, 'image/jpeg-mock-utf8');
+			});
+
+			it('should utf8 and base64 encode a normalised key for scheme', () => {
+				assert.calledWithExactly(utf8.encode, 'http');
+				assert.calledWithExactly(base64.encode, 'http-mock-utf8');
+			});
+
+			it('should utf8 and base64 encode a key for the URL', () => {
+				assert.calledWithExactly(utf8.encode, 'http://example.com/PICTURE.png');
+				assert.calledWithExactly(base64.encode, 'http://example.com/PICTURE.png-mock-utf8');
+			});
+
 			it('should set the headers of the proxy response to a subset of the original headers', () => {
 				assert.deepEqual(httpProxy.mockProxyResponse.headers, {
 					'Access-Control-Allow-Origin': '*',
 					'Cache-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
 					'Content-Encoding': undefined,
-					'Content-Type': 'image/jpeg',
+					'Content-Type': 'IMAGE/JPEG',
 					'Content-Length': '1234',
 					'Connection': 'keep-alive',
 					'Etag': '123',
@@ -203,7 +226,7 @@ describe('lib/image-service', () => {
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
 					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
-					'Surrogate-Key': 'origami-image-service image/jpeg http http://example.com/picture.png',
+					'Surrogate-Key': 'origami-image-service image/jpeg-mock-utf8-mock-base64 http-mock-utf8-mock-base64 http://example.com/PICTURE.png-mock-utf8-mock-base64',
 					'Vary': 'FT-image-format, Content-Dpr'
 				});
 			});

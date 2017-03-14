@@ -41,7 +41,8 @@
     "require-all": "^2",
     "statuses": "^1",
     "svg-tint-stream": "^0.3",
-    "throng": "^4.0.0"
+    "throng": "^4.0.0",
+    "utf8": "^2.1.2"
   },
   "devDependencies": {
     "@financial-times/release-log": "^1.0.0",

@@ -938,6 +938,11 @@
       "from": "unpipe@>=1.0.0 <1.1.0",
       "resolved": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz"
     },
+    "utf8": {
+      "version": "2.1.2",
+      "from": "utf8@latest",
+      "resolved": "https://registry.npmjs.org/utf8/-/utf8-2.1.2.tgz"
+    },
     "util-deprecate": {
       "version": "1.0.2",
       "from": "util-deprecate@>=1.0.1 <1.1.0",
