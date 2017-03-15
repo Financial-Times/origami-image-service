@@ -43,7 +43,8 @@ describe('lib/middleware/get-cms-url', () => {
 				// V2 responds with success
 				requestPromise.withArgs({
 					uri: v2Uri,
-					method: 'HEAD'
+					method: 'HEAD',
+					timeout: 10000
 				}).resolves({
 					statusCode: 200
 				});
@@ -55,7 +56,8 @@ describe('lib/middleware/get-cms-url', () => {
 				assert.calledOnce(requestPromise);
 				assert.calledWith(requestPromise, {
 					uri: v2Uri,
-					method: 'HEAD'
+					method: 'HEAD',
+					timeout: 10000
 				});
 			});
 
@@ -72,7 +74,8 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 responds with a 404
 					requestPromise.withArgs({
 						uri: v2Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).resolves({
 						statusCode: 404
 					});
@@ -80,7 +83,8 @@ describe('lib/middleware/get-cms-url', () => {
 					// V1 responds with success
 					requestPromise.withArgs({
 						uri: v1Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).resolves({
 						statusCode: 200
 					});
@@ -92,7 +96,8 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.calledTwice(requestPromise);
 					assert.calledWith(requestPromise, {
 						uri: v1Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					});
 				});
 
@@ -112,7 +117,8 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 responds with a 404
 					requestPromise.withArgs({
 						uri: v2Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).resolves({
 						statusCode: 404
 					});
@@ -120,7 +126,8 @@ describe('lib/middleware/get-cms-url', () => {
 					// V1 responds with a 404
 					requestPromise.withArgs({
 						uri: v1Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).resolves({
 						statusCode: 404
 					});
@@ -149,7 +156,8 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 responds with success
 					requestPromise.withArgs({
 						uri: `${v2Uri}?foo=bar`,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).resolves({
 						statusCode: 200
 					});
@@ -161,7 +169,8 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.calledOnce(requestPromise);
 					assert.calledWith(requestPromise, {
 						uri: `${v2Uri}?foo=bar`,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					});
 				});
 
@@ -191,7 +200,8 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 errors
 					requestPromise.withArgs({
 						uri: v2Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).rejects(new Error('mock error'));
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -221,7 +231,8 @@ describe('lib/middleware/get-cms-url', () => {
 					dnsError.syscall = 'getaddrinfo';
 					requestPromise.withArgs({
 						uri: v2Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).rejects(dnsError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -252,7 +263,8 @@ describe('lib/middleware/get-cms-url', () => {
 					resetError.syscall = 'mock-syscall';
 					requestPromise.withArgs({
 						uri: v2Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).rejects(resetError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -283,7 +295,8 @@ describe('lib/middleware/get-cms-url', () => {
 					timeoutError.syscall = 'mock-syscall';
 					requestPromise.withArgs({
 						uri: v2Uri,
-						method: 'HEAD'
+						method: 'HEAD',
+						timeout: 10000
 					}).rejects(timeoutError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
