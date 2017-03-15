@@ -98,6 +98,7 @@ describe('lib/image-service', () => {
 			assert.calledOnce(httpProxy.createProxyServer);
 			assert.calledWithExactly(httpProxy.createProxyServer, {
 				ignorePath: true,
+				proxyTimeout: 25000,
 				secure: false
 			});
 		});
@@ -469,6 +470,22 @@ describe('lib/image-service', () => {
 				it('calls the error handling middleware with a descriptive error', () => {
 					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
 					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy request timed out when requesting "mock-url" (mock-syscall)');
+				});
+
+			});
+
+			describe('when the error is possibly a proxy timeout', () => {
+
+				beforeEach(() => {
+					serviceErrorHandler.reset();
+					proxyError.code = 'ECONNRESET';
+					proxyError.syscall = undefined;
+					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
+				});
+
+				it('calls the error handling middleware with a descriptive error', () => {
+					assert.instanceOf(serviceErrorHandler.firstCall.args[0], Error);
+					assert.strictEqual(serviceErrorHandler.firstCall.args[0].message, 'Proxy connection reset when requesting "mock-url" (possible timeout)');
 				});
 
 			});
