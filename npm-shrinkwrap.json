@@ -281,6 +281,11 @@
       "from": "destroy@>=1.0.4 <1.1.0",
       "resolved": "https://registry.npmjs.org/destroy/-/destroy-1.0.4.tgz"
     },
+    "dnscache": {
+      "version": "1.0.1",
+      "from": "dnscache@latest",
+      "resolved": "https://registry.npmjs.org/dnscache/-/dnscache-1.0.1.tgz"
+    },
     "dotenv": {
       "version": "2.0.0",
       "from": "dotenv@>=2.0.0 <3.0.0",
@@ -556,6 +561,16 @@
       "version": "4.17.4",
       "from": "lodash@>=4.17.2 <5.0.0",
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz"
+    },
+    "lodash._baseclone": {
+      "version": "4.5.7",
+      "from": "lodash._baseclone@>=4.5.0 <4.6.0",
+      "resolved": "https://registry.npmjs.org/lodash._baseclone/-/lodash._baseclone-4.5.7.tgz"
+    },
+    "lodash.clone": {
+      "version": "4.3.2",
+      "from": "lodash.clone@>=4.3.2 <4.4.0",
+      "resolved": "https://registry.npmjs.org/lodash.clone/-/lodash.clone-4.3.2.tgz"
     },
     "lodash.defaults": {
       "version": "4.2.0",

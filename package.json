@@ -31,6 +31,7 @@
     "colornames": "^1",
     "current-week-number": "^1.0.7",
     "date-fns": "^1.28.0",
+    "dnscache": "^1.0.1",
     "dotenv": "^2",
     "fastly-purge": "^1.0.1",
     "heroku-node-settings": "^1.0.2",
