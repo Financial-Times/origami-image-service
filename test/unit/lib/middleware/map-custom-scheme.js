@@ -6,7 +6,6 @@ const sinon = require('sinon');
 
 describe('lib/middleware/map-custom-scheme', () => {
 	let clock;
-	let currentWeekNumber;
 	let ImageTransform;
 	let mapCustomScheme;
 	let origamiService;
@@ -16,9 +15,6 @@ describe('lib/middleware/map-custom-scheme', () => {
 			resolveCustomSchemeUri: sinon.stub()
 		};
 		mockery.registerMock('../image-transform', ImageTransform);
-
-		currentWeekNumber = sinon.stub().returns(1);
-		mockery.registerMock('current-week-number', currentWeekNumber);
 
 		clock = sinon.useFakeTimers();
 
@@ -63,7 +59,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 
 			it('calls `ImageTransform.resolveCustomSchemeUri` with the `imageUrl` request param, the configured base URL, and a cache-buster', () => {
 				assert.calledOnce(ImageTransform.resolveCustomSchemeUri);
-				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store', '1970-W1-1+mock-bust');
+				assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, 'foo:bar', 'mock-store', 'mock-bust');
 			});
 
 			it('sets the `imageUrl` request param to the returned URL', () => {

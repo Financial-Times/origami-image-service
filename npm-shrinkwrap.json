@@ -221,11 +221,6 @@
       "from": "cryptiles@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/cryptiles/-/cryptiles-2.0.5.tgz"
     },
-    "current-week-number": {
-      "version": "1.0.7",
-      "from": "current-week-number@>=1.0.7 <2.0.0",
-      "resolved": "https://registry.npmjs.org/current-week-number/-/current-week-number-1.0.7.tgz"
-    },
     "dashdash": {
       "version": "1.14.1",
       "from": "dashdash@>=1.12.0 <2.0.0",
