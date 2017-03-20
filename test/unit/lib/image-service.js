@@ -387,16 +387,51 @@ describe('lib/image-service', () => {
 
 			});
 
-			describe('when the request is for an FTCMS image', () => {
-				it('Sets the Surrogate-Control header to a year', () => {
+			describe('when the request is for a custom scheme image', () => {
+				it('Sets the Surrogate-Control header to a year for ftbrand images', () => {
+					request.params.scheme = 'ftbrand';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for ftcms images', () => {
 					request.params.scheme = 'ftcms';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for fthead images', () => {
+					request.params.scheme = 'fthead';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for fticon images', () => {
+					request.params.scheme = 'fticon';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for ftlogo images', () => {
+					request.params.scheme = 'ftlogo';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for ftpodcast images', () => {
+					request.params.scheme = 'ftpodcast';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for ftsocial images', () => {
+					request.params.scheme = 'ftsocial';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
+				it('Sets the Surrogate-Control header to a year for specialisttitle images', () => {
+					request.params.scheme = 'specialisttitle';
 					handler(proxyResponse, request);
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
 				});
 			});
 
-			describe('when the request is not for an FTCMS image', () => {
-				it('Sets the Surrogate-Control header to a year', () => {
+			describe('when the request is not for a custom scheme image', () => {
+				it('Sets the Surrogate-Control header to a week', () => {
 					request.params.scheme = 'https';
 					handler(proxyResponse, request);
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800');
