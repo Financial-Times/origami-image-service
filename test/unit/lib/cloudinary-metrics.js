@@ -135,6 +135,27 @@ describe('lib/cloudinary-metrics', () => {
 
 			});
 
+			describe('when `cloudinary.api.usage` throws', () => {
+				let cloudinaryError;
+
+				beforeEach(() => {
+					cloudinaryError = new Error('mock cloudinary error');
+					origamiService.mockApp.origami.metrics.count.reset();
+					cloudinary.api.usage.throws(cloudinaryError);
+					instance.pingUsage();
+				});
+
+				it('logs an error', () => {
+					assert.calledOnce(origamiService.mockApp.origami.log.error);
+					assert.calledWithExactly(origamiService.mockApp.origami.log.error, 'Cloudinary Metrics Failure (usage): mock cloudinary error');
+				});
+
+				it('does not increment metrics', () => {
+					assert.notCalled(origamiService.mockApp.origami.metrics.count);
+				});
+
+			});
+
 		});
 
 	});
