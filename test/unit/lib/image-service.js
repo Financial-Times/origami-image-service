@@ -8,7 +8,6 @@ const sinon = require('sinon');
 describe('lib/image-service', () => {
 	let about;
 	let basePath;
-	let CloudinaryMetrics;
 	let HealthChecks;
 	let httpProxy;
 	let imageService;
@@ -25,9 +24,6 @@ describe('lib/image-service', () => {
 
 		HealthChecks = require('../mock/health-checks.mock');
 		mockery.registerMock('./health-checks', HealthChecks);
-
-		CloudinaryMetrics = sinon.stub();
-		mockery.registerMock('./cloudinary-metrics', CloudinaryMetrics);
 
 		httpProxy = require('../mock/http-proxy.mock');
 		mockery.registerMock('http-proxy', httpProxy);
@@ -565,12 +561,6 @@ describe('lib/image-service', () => {
 			assert.called(origamiService.middleware.errorHandler);
 			assert.calledWithExactly(origamiService.middleware.errorHandler);
 			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.errorHandler.firstCall.returnValue);
-		});
-
-		it('creates a CloudinaryMetrics object', () => {
-			assert.calledOnce(CloudinaryMetrics);
-			assert.calledWithNew(CloudinaryMetrics);
-			assert.calledWithExactly(CloudinaryMetrics, origamiService.mockApp);
 		});
 
 		it('returns the created application', () => {

@@ -12,13 +12,7 @@ const mockApp = module.exports.mockApp = {
 	get: sinon.stub(),
 	listen: sinon.stub(),
 	locals: {},
-	origami: {
-		log,
-		metrics: {
-			count: sinon.stub()
-		},
-		options: {}
-	},
+	origami: {log},
 	set: sinon.stub(),
 	use: sinon.stub()
 };
