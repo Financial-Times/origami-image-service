@@ -7,10 +7,12 @@ require('sinon-as-promised');
 describe('lib/middleware/get-cms-url', () => {
 	let origamiService;
 	let getCmsUrl;
+	let log;
 	let requestPromise;
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
+		log = origamiService.mockApp.origami.log;
 
 		requestPromise = require('../../mock/request-promise.mock');
 		mockery.registerMock('../request-promise', requestPromise);
@@ -65,11 +67,18 @@ describe('lib/middleware/get-cms-url', () => {
 				assert.strictEqual(origamiService.mockRequest.params.imageUrl, v2Uri);
 			});
 
+			it('logs that the CMS ID was found in v2 of the API', () => {
+				assert.calledWithExactly(log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2');
+				assert.neverCalledWith(log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1');
+				assert.neverCalledWith(log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error');
+			});
+
 			describe('when the v2 API cannot find the image', () => {
 
 				beforeEach(done => {
 					requestPromise.reset();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					log.info.reset();
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -105,6 +114,12 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.strictEqual(origamiService.mockRequest.params.imageUrl, v1Uri);
 				});
 
+				it('logs that the CMS ID was found in v1 of the API', () => {
+					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2');
+					assert.calledWithExactly(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1');
+					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error');
+				});
+
 			});
 
 			describe('when neither the v1 or v2 API can find the image', () => {
@@ -113,6 +128,7 @@ describe('lib/middleware/get-cms-url', () => {
 				beforeEach(done => {
 					requestPromise.reset();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					log.info.reset();
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -143,6 +159,12 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.strictEqual(responseError.message, 'Unable to get image mock-id from FT CMS v1 or v2');
 					assert.strictEqual(responseError.status, 404);
 					assert.strictEqual(responseError.cacheMaxAge, '30s');
+				});
+
+				it('logs that the CMS ID was found in neither API', () => {
+					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2');
+					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1');
+					assert.calledWithExactly(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error');
 				});
 
 			});
