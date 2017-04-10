@@ -54,7 +54,7 @@ describe('lib/health-checks', () => {
 		});
 
 		it('has a `uppImagesUrl` property', () => {
-			assert.strictEqual(instance.uppImagesUrl, 'http://prod-upp-image-read.ft.com/');
+			assert.strictEqual(instance.uppImagesUrl, 'http://prod-upp-image-read.ft.com/__gtg');
 		});
 
 		it('has a `statuses` property', () => {
