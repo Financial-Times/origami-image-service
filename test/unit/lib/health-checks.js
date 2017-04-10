@@ -53,6 +53,10 @@ describe('lib/health-checks', () => {
 			assert.strictEqual(instance.customSchemeCheckUrl, 'http://customschemestore/fticon/v1/cross.svg');
 		});
 
+		it('has a `uppImagesUrl` property', () => {
+			assert.strictEqual(instance.uppImagesUrl, 'http://prod-upp-image-read.ft.com/');
+		});
+
 		it('has a `statuses` property', () => {
 			assert.isObject(instance.statuses);
 		});
@@ -63,6 +67,10 @@ describe('lib/health-checks', () => {
 
 		it('has a `statuses.customSchemeStore` property', () => {
 			assert.isObject(instance.statuses.customSchemeStore);
+		});
+
+		it('has a `statuses.uppImages` property', () => {
+			assert.isObject(instance.statuses.uppImages);
 		});
 
 		it('calls `retrieveData`', () => {
@@ -108,9 +116,14 @@ describe('lib/health-checks', () => {
 				assert.calledWithExactly(instance.pingService, 'cloudinary', 'mock-cloudinary-url');
 			});
 
-			it('calls `pingService` with the navigation data store URL', () => {
+			it('calls `pingService` with the custom scheme store URL', () => {
 				assert.called(instance.pingService);
 				assert.calledWithExactly(instance.pingService, 'customSchemeStore', instance.customSchemeCheckUrl);
+			});
+
+			it('calls `pingService` with the UPP image store URL', () => {
+				assert.called(instance.pingService);
+				assert.calledWithExactly(instance.pingService, 'uppImages', instance.uppImagesUrl);
 			});
 
 		});
