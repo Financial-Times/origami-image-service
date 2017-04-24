@@ -9,7 +9,7 @@ describe('lib/image-service', () => {
 	let about;
 	let basePath;
 	let CloudinaryMetrics;
-	let HealthChecks;
+	let healthChecks;
 	let httpProxy;
 	let imageService;
 	let origamiService;
@@ -23,8 +23,8 @@ describe('lib/image-service', () => {
 		about = {mockAboutInfo: true};
 		mockery.registerMock('../about.json', about);
 
-		HealthChecks = require('../mock/health-checks.mock');
-		mockery.registerMock('./health-checks', HealthChecks);
+		healthChecks = require('../mock/health-checks.mock');
+		mockery.registerMock('./health-checks', healthChecks);
 
 		CloudinaryMetrics = sinon.stub();
 		mockery.registerMock('./cloudinary-metrics', CloudinaryMetrics);
@@ -78,20 +78,19 @@ describe('lib/image-service', () => {
 			assert.calledOnce(origamiService);
 		});
 
-		it('creates a HealthChecks object', () => {
-			assert.calledOnce(HealthChecks);
-			assert.calledWithNew(HealthChecks);
-			assert.calledWithExactly(HealthChecks, options);
+		it('creates a healthChecks object', () => {
+			assert.calledOnce(healthChecks);
+			assert.calledWithExactly(healthChecks, options);
 		});
 
 		it('sets `options.healthCheck` to the created health check function', () => {
-			assert.calledOnce(HealthChecks.mockHealthChecks.getFunction);
-			assert.strictEqual(options.healthCheck, HealthChecks.mockFunction);
+			assert.calledOnce(healthChecks.mockHealthChecks.checks);
+			assert.strictEqual(options.healthCheck, healthChecks.mockChecksFunction);
 		});
 
 		it('sets `options.goodToGoTest` to the created health check gtg function', () => {
-			assert.calledOnce(HealthChecks.mockHealthChecks.getGoodToGoFunction);
-			assert.strictEqual(options.goodToGoTest, HealthChecks.mockGoodToGoFunction);
+			assert.calledOnce(healthChecks.mockHealthChecks.gtg);
+			assert.strictEqual(options.goodToGoTest, healthChecks.mockGtgFunction);
 		});
 
 		it('sets `options.about` to the contents of about.json', () => {

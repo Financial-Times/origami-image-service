@@ -5,13 +5,13 @@ const sinon = require('sinon');
 const HealthChecks = module.exports = sinon.stub();
 
 const mockHealthChecks = module.exports.mockHealthChecks = {
-	getFunction: sinon.stub(),
-	getGoodToGoFunction: sinon.stub()
+	checks: sinon.stub(),
+	gtg: sinon.stub()
 };
 
-const mockFunction = module.exports.mockFunction = sinon.spy();
-const mockGoodToGoFunction = module.exports.mockGoodToGoFunction = sinon.spy();
+const mockChecksFunction = module.exports.mockChecksFunction = sinon.spy();
+const mockGtgFunction = module.exports.mockGtgFunction = sinon.spy();
 
 HealthChecks.returns(mockHealthChecks);
-mockHealthChecks.getFunction.returns(mockFunction);
-mockHealthChecks.getGoodToGoFunction.returns(mockGoodToGoFunction);
+mockHealthChecks.checks.returns(mockChecksFunction);
+mockHealthChecks.gtg.returns(mockGtgFunction);
