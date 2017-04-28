@@ -59,7 +59,9 @@ describe('lib/middleware/tint-svg', () => {
 
 			it('creates an HTTP request stream with `request.params[0]`', () => {
 				assert.calledOnce(request);
-				assert.calledWith(request, origamiService.mockRequest.params[0]);
+				assert.calledWith(request, origamiService.mockRequest.params[0], {
+					timeout: 25000
+				});
 			});
 
 			it('binds a handler to the HTTP request stream "response" event', () => {
