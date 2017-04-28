@@ -8,9 +8,9 @@
       "resolved": "https://registry.npmjs.org/@financial-times/express-web-service/-/express-web-service-3.3.1.tgz"
     },
     "@financial-times/health-check": {
-      "version": "0.3.0",
-      "from": "@financial-times/health-check@0.3.0",
-      "resolved": "https://registry.npmjs.org/@financial-times/health-check/-/health-check-0.3.0.tgz",
+      "version": "1.0.0",
+      "from": "@financial-times/health-check@1.0.0",
+      "resolved": "https://registry.npmjs.org/@financial-times/health-check/-/health-check-1.0.0.tgz",
       "dependencies": {
         "caseless": {
           "version": "0.12.0",
@@ -21,11 +21,6 @@
           "version": "4.2.1",
           "from": "har-validator@>=4.2.1 <4.3.0",
           "resolved": "https://registry.npmjs.org/har-validator/-/har-validator-4.2.1.tgz"
-        },
-        "qs": {
-          "version": "6.4.0",
-          "from": "qs@>=6.4.0 <6.5.0",
-          "resolved": "https://registry.npmjs.org/qs/-/qs-6.4.0.tgz"
         },
         "request": {
           "version": "2.81.0",
@@ -1005,9 +1000,9 @@
       "resolved": "https://registry.npmjs.org/statuses/-/statuses-1.3.1.tgz"
     },
     "stealthy-require": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "from": "stealthy-require@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/stealthy-require/-/stealthy-require-1.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/stealthy-require/-/stealthy-require-1.1.0.tgz"
     },
     "stream-parser": {
       "version": "0.3.1",
