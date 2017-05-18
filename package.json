@@ -24,7 +24,7 @@
     "start": "heroku-node-settings index.js"
   },
   "dependencies": {
-    "@financial-times/health-check": "^1.0.0",
+    "@financial-times/health-check": "^1.1.0",
     "@financial-times/origami-service": "^2.0.2",
     "@financial-times/source-param-middleware": "^1.0.0",
     "base-64": "^0.1.0",
