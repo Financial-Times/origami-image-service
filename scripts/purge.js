@@ -28,8 +28,6 @@ const paths = [
 	'/v2/',
 	'/v2/docs/api',
 	'/v2/docs/api/',
-	'/v2/docs/compare',
-	'/v2/docs/compare/',
 	'/v2/docs/migration',
 	'/v2/docs/migration/',
 	'/v2/docs/url-builder',

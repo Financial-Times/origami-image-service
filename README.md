@@ -96,18 +96,6 @@ make verify
 
 We run the tests and linter on CI, you can view [results on CircleCI][ci]. `make test` and `make lint` must pass before we merge a pull request.
 
-### Comparison page
-
-The comparison page in the documentation (`/__origami/service/image/v2/docs/compare`) is used to manually check images against their version 1 equivalent. This page is powered by [a JSON file](data/comparison-images.json) which is updated manually.
-
-Once you've added a new comparison image to this file, you should run the following Make task to update the file sizes and formats:
-
-```sh
-make fetch-comparison-data
-```
-
-Then you should commit your changes.
-
 
 Deployment
 ----------

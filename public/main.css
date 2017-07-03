@@ -25,24 +25,6 @@ td p:first-child {
 	width: 50% !important;
 }
 
-/* Comparison table */
-.compare-section {
-	background-color: #eee;
-	color: #555;
-}
-.comparison-result-column {
-	width: 33% !important;
-}
-.comparison-image-match {
-	font-style: italic;
-}
-.comparison-image-match--yes {
-	color: #458b00;
-}
-.comparison-image-match--no {
-	color: #c00;
-}
-
 /* URL builder */
 .url-builder-output {
 	min-width: 100%;
