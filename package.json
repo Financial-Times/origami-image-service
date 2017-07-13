@@ -26,7 +26,7 @@
   "dependencies": {
     "@financial-times/health-check": "^1.1.0",
     "@financial-times/origami-service": "^2.1.2",
-    "@financial-times/origami-service-makefile": "^2.1.0",
+    "@financial-times/origami-service-makefile": "^2.1.1",
     "@financial-times/source-param-middleware": "^1.0.0",
     "base-64": "^0.1.0",
     "cloudinary": "^1",
@@ -59,6 +59,6 @@
     "sinon": "^1",
     "sinon-as-promised": "^4",
     "supertest": "^1",
-    "whitesource": "0.3.6"
+    "whitesource": "^1.0.6"
   }
 }

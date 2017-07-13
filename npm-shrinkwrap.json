@@ -62,9 +62,9 @@
       }
     },
     "@financial-times/origami-service-makefile": {
-      "version": "2.1.0",
-      "from": "@financial-times/origami-service-makefile@2.1.0",
-      "resolved": "https://registry.npmjs.org/@financial-times/origami-service-makefile/-/origami-service-makefile-2.1.0.tgz"
+      "version": "2.1.1",
+      "from": "@financial-times/origami-service-makefile@2.1.1",
+      "resolved": "https://registry.npmjs.org/@financial-times/origami-service-makefile/-/origami-service-makefile-2.1.1.tgz"
     },
     "@financial-times/source-param-middleware": {
       "version": "1.0.0",
