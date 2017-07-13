@@ -5,18 +5,8 @@ machine:
 # Use npm > 4 to fix https://github.com/npm/npm/issues/14042
   post:
   - npm install -g npm@^4
-  - npm install -g whitesource
 
 test:
   override:
     - make verify
     - make test
-
-deployment:
-  staging:
-    branch: master
-    commands:
-      - make deploy-ci
-      # Removing the development dependencies so that whitesource only tracks the productions dependencies
-      - rm -rf node_modules && npm i --production
-      - make whitesource

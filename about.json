@@ -56,7 +56,7 @@
 			"description": "Heroku dashboard (QA > Production pipeline)"
 		},
 		{
-			"url": "http://grafana.ft.com/dashboard/db/origami-image-service-v2",
+			"url": "http://grafana.ft.com/dashboard/db/origami-image-service",
 			"category": "monitoring",
 			"description": "Grafana dashboard"
 		},

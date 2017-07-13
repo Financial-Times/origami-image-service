@@ -1,115 +1,25 @@
-include n.Makefile
+# Origami Service Makefile
+# ------------------------
+# This section of the Makefile should not be modified, it includes
+# commands from the Origami service Makefile.
+# https://github.com/Financial-Times/origami-service-makefile
+node_modules/%/index.mk: package.json ; npm install $* ; touch $@
+-include node_modules/@financial-times/origami-service-makefile/index.mk
+# [edit below this line]
+# ------------------------
 
 
-# Environment variables
-# ---------------------
+# Configuration
+# -------------
 
-EXPECTED_COVERAGE = 90
+INTEGRATION_TIMEOUT = 10000
+INTEGRATION_SLOW = 2000
 
+SERVICE_NAME = Origami Image Service
+SERVICE_SYSTEM_CODE = origami-image-service-v2
+SERVICE_SALESFORCE_ID = Origami Image Service V2
 
-# Verify tasks
-# ------------
-
-verify-coverage:
-	@istanbul check-coverage --statement $(EXPECTED_COVERAGE) --branch $(EXPECTED_COVERAGE) --function $(EXPECTED_COVERAGE)
-	@$(DONE)
-
-whitesource:
-ifndef WHITESOURCE_API_KEY
-	$(error WHITESOURCE_API_KEY is not set, cannot upload whitesource report. You can find the key in LastPass)
-endif
-	@echo {\"apiKey\":\"$(WHITESOURCE_API_KEY)\"} > whitesource.config.json
-	@whitesource run
-
-
-# Test tasks
-# ----------
-
-test: test-unit-coverage verify-coverage test-integration
-	@$(DONE)
-
-test-unit:
-	@NODE_ENV=test mocha test/unit --recursive
-	@$(DONE)
-
-test-unit-coverage:
-	@NODE_ENV=test istanbul cover node_modules/.bin/_mocha -- test/unit --recursive
-	@$(DONE)
-
-test-integration:
-	@NODE_ENV=test mocha test/integration --recursive --timeout 10000 --slow 2000
-	@$(DONE)
-
-
-# Deploy tasks
-# ------------
-
-deploy:
-	@git push https://git.heroku.com/origami-image-service-qa.git
-	@make change-request-qa
-	@$(DONE)
-
-deploy-ci:
-	@git push git@heroku.com:origami-image-service-qa.git
-	@make change-request-qa
-	@$(DONE)
-
-promote:
-ifndef CR_API_KEY
-	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
-endif
-	@heroku pipelines:promote --app origami-image-service-qa
-	@make change-request-prod
-	@echo "Purging all front-end endpoints, this will take 5 minutes, please don't cancel this command."
-	@sleep 300 && node ./scripts/purge.js
-	@$(DONE)
-
-
-# Change Request tasks
-# --------------------
-
-CR_EMAIL=rowan.manning@ft.com
-CR_APPNAME=Origami Image Service
-CR_DESCRIPTION=Release triggered by CI
-CR_SERVICE_ID=Origami Image Service V2
-CR_NOTIFY_CHANNEL=origami-deploys
-
-change-request-qa:
-ifndef CR_API_KEY
-	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
-endif
-	@release-log \
-		--environment "Test" \
-		--api-key "$(CR_API_KEY)" \
-		--summary "Releasing $(CR_APPNAME) to QA" \
-		--description "Git tag: $(CIRCLE_TAG) \n Git repo: $(CIRCLE_REPOSITORY_URL) \n Commit hash: $(CIRCLE_SHA1) \n Released by github user: $(CIRCLE_USERNAME) \n $(CR_DESCRIPTION)" \
-		--owner-email "$(CR_EMAIL)" \
-		--service "$(CR_SERVICE_ID)" \
-		--notify-channel "$(CR_NOTIFY_CHANNEL)" \
-		|| true
-	@$(DONE)
-
-change-request-prod:
-ifndef CR_API_KEY
-	$(error CR_API_KEY is not set, change requests cannot be created. You can find the key in LastPass)
-endif
-	@release-log \
-		--environment "Production" \
-		--api-key "$(CR_API_KEY)" \
-		--summary "Releasing $(CR_APPNAME) to production" \
-		--description "$(CR_DESCRIPTION)" \
-		--owner-email "$(CR_EMAIL)" \
-		--service "$(CR_SERVICE_ID)" \
-		--notify-channel "$(CR_NOTIFY_CHANNEL)" \
-		|| true
-	@$(DONE)
-
-
-# Run tasks
-# ---------
-
-run:
-	@npm start
-
-run-dev:
-	@nodemon --ext html,js,json index.js
+HEROKU_APP_QA = origami-image-service-qa
+HEROKU_APP_EU = origami-image-service-eu
+HEROKU_APP_US = origami-image-service-us
+GRAFANA_DASHBOARD = origami-image-service

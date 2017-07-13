@@ -48,7 +48,9 @@ Now you can access the app over HTTP on port `8080`: [http://localhost:8080/](ht
 Configuration
 -------------
 
-We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
+We configure Origami Navigation Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
+
+### Required everywhere
 
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
   * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
@@ -58,12 +60,29 @@ We configure Origami Image Service using environment variables. In development, 
   * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
   * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
   * `PORT`: The port to run the application on.
-  * `REGION`: The region the application is running in.
-  * `SENTRY_DSN`: The Sentry URL to send error information to.
-  * `TEST_HEALTHCHECK_FAILURE`: Set to `true` to fake failing health-checks.
-  * `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered.
-  * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from.
-  * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered.
+
+### Required in Heroku
+
+  * `CMDB_API_KEY`: The API key to use when performing CMDB operations
+  * `FASTLY_PURGE_API_KEY`: A Fastly API key which is used to purge URLs (when somebody POSTs to the `/purge` endpoint)
+  * `GRAPHITE_API_KEY`: The FT's internal Graphite API key
+  * `PURGE_API_KEY`: The API key to require when somebody POSTs to the `/purge` endpoint. This should be a non-memorable string, for example a UUID
+  * `REGION`: The region the application is running in. One of `QA`, `EU`, or `US`
+  * `RELEASE_LOG_API_KEY`: The change request API key to use when creating and closing release logs
+  * `RELEASE_LOG_ENVIRONMENT`: The Salesforce environment to include in release logs. One of `Test` or `Production`
+  * `SENTRY_DSN`: The Sentry URL to send error information to
+
+**TODO:** The options below are required at the moment, but are duplicates of other options above. This will be addressed once all services are using Origami Makefile.
+
+  * `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered. This should be the same value as `FASTLY_PURGE_API_KEY`
+  * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from
+  * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered. This should be the same value as `PURGE_API_KEY`
+
+### Required locally
+
+  * `GRAFANA_API_KEY`: The API key to use when using Grafana push/pull
+
+### Headers
 
 The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
 
@@ -102,10 +121,10 @@ Deployment
 
 The production ([EU][heroku-production-eu]/[US][heroku-production-us]) and [QA][heroku-qa] applications run on [Heroku]. We deploy continuously to QA via [CircleCI][ci], you should never need to deploy to QA manually. We use a [Heroku pipeline][heroku-pipeline] to promote QA deployments to production.
 
-You'll need to provide an API key for change request logging. You can get this from the Origami LastPass folder in the note named `Change Request API Keys`. Now deploy the last QA image by running the following:
+You can promote either through the Heroku interface, or by running the following command locally:
 
 ```sh
-CR_API_KEY=<API-KEY> make promote
+make promote
 ```
 
 
@@ -143,7 +162,7 @@ If you _really_ need to deploy manually, you should only do so to QA. Production
 You'll need to provide an API key for change request logging. You can get this from the Origami LastPass folder in the note named `Change Request API Keys`. Now deploy to QA using the following:
 
 ```sh
-CR_API_KEY=<API-KEY> make deploy
+make deploy
 ```
 
 ### SVGs don't tint locally
@@ -190,7 +209,7 @@ The Financial Times has published this software under the [MIT license][license]
 
 
 [ci]: https://circleci.com/gh/Financial-Times/origami-image-service
-[grafana]: http://grafana.ft.com/dashboard/db/origami-image-service-v2
+[grafana]: http://grafana.ft.com/dashboard/db/origami-image-service
 [heroku-pipeline]: https://dashboard.heroku.com/pipelines/9cd9033e-fa9d-42af-bfe9-b9d0aa6f4a50
 [heroku-production-eu]: https://dashboard.heroku.com/apps/origami-image-service-eu
 [heroku-production-us]: https://dashboard.heroku.com/apps/origami-image-service-us
