@@ -148,6 +148,30 @@ Trouble-Shooting
 
 We've outlined some common issues that can occur in the running of the Image Service:
 
+### I've updated an image, how can I purge the old one?
+You need to have a purging API key, if you do not have one, please contact origami.support@ft.com and they will either purge the image for you or will share with you an API key.
+
+If you know the URL of the image you are wanting to purge, replace the word `raw` with the word `purge` in the path and make an HTTP GET request to the URL with the `FT-Origami-Api-Key` header set with your purging API key.
+
+Here is an example of how to purge `https://www.ft.com/__origami/service/image/v2/images/raw/ftcms:1a5787da-1ae7-11e7-a266-12672483791a?source=app&width=800` using `cURL`.
+
+```sh
+curl "https://www.ft.com/__origami/service/image/v2/images/purge/ftcms:1a5787da-1ae7-11e7-a266-12672483791a?source=app&width=800" -H "FT-Origami-Api-Key: xxxx-xxxx"
+```
+
+### I need to purge lots of custom scheme URLs (fticon, fthead, ftsocial, ftpodcast, ftlogo, ftbrand, specialisttitle)
+Please contact origami.support@ft.com -  You can purge all images from all custom schemes however, this may incur a large cost.
+
+Because of the way custom schemes work, they're cached in both Cloudinary and Fastly. We have to manually cache-bust these images before purging Fastly for now. You can do this by running the following, setting the `CUSTOM_SCHEME_CACHE_BUST` environment variable in both production apps to something unique:
+
+```
+heroku config:set --app origami-image-service-eu CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
+heroku config:set --app origami-image-service-us CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
+```
+
+### I need to purge all images, is this possible?
+Please contact origami.support@ft.com - There is a way to purge all images, but this will incur a large cost.
+
 ### What do I do if memory usage is high?
 
 For now, restart the Heroku dynos:
@@ -193,15 +217,6 @@ So Cloudinary responds with a `404`. You can get around this by manually specify
 
 ```
 HOSTNAME=origami-image-service-qa.herokuapp.com
-```
-
-### I need to cache-bust custom scheme URLs
-
-Because of the way custom schemes work, they're cached in both Cloudinary and Fastly. We have to manually cache-bust these images before purging Fastly for now. You can do this by running the following, setting the `CUSTOM_SCHEME_CACHE_BUST` environment variable in both production apps to something unique:
-
-```
-heroku config:set --app origami-image-service-eu CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
-heroku config:set --app origami-image-service-us CUSTOM_SCHEME_CACHE_BUST=your-unique-thing
 ```
 
 
