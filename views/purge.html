@@ -15,9 +15,20 @@
 				To use these endpoints you need to set the header <code>FT-Origami-Api-Key</code> with your API key. If you would like an API key, please request one by emailing <code>origami.support@ft.com</code> and explaining what you are wanting the API key for.
 			</p>
 
+			<h3>GET /v2/images/purge/<var>:uri</var></h3>
+
+			<p>Finds the correct HTTP URL equivalent of the <code>uri</code> being requested to purge and redirects to <code>/v2/purge/url?url=<var>:URL-to-purge</var> to initaite the purge request.</p>
+
+			<h3>GET /v2/purge/url?url=<var>:URL-to-purge</var></h3>
+
+			<p>
+				Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly.
+			</p>
+
 			<h3>GET /v2/purge/key?key=<var>:surrogate-key</var></h3>
 			<p>
 				Purge from Fastly all resources which are tagged with the surrogate-key.
+				You can view the surrogate-keys by adding the header <code>FT-Debug: true</code> to a request.
 				The types of surrogate-keys available are as follows:
 			</p>
 
@@ -41,77 +52,25 @@
 						<td>scheme</td>
 						<td>
 							<p>Each scheme has it's own surrogate key in order to remove all images requested with the scheme from Fastly.</p>
-							<p>List of schemes and their surrogate-key equivalent:</p>
-							<dl>
-								<dt>http</dt>
-								<dd><code>http</code></dd>
-								<dt>https</dt>
-								<dd><code>https</code></dd>
-								<dt>ftcms</dt>
-								<dd><code>ftcms</code></dd>
-								<dt>fticon-v1</dt>
-								<dd><code>fticon</code></dd>
-								<dt>fthead-v1</dt>
-								<dd><code>fthead</code></dd>
-								<dt>ftsocial-v2</dt>
-								<dd><code>ftsocial</code></dd>
-								<dt>ftpodcast-v1</dt>
-								<dd><code>ftpodcast</code></dd>
-								<dt>ftlogo-v1</dt>
-								<dd><code>ftlogo</code></dd>
-								<dt>ftbrand-v1</dt>
-								<dd><code>ftbrand</code></dd>
-								<dt>specialisttitle-v1</dt>
-								<dd><code>specialisttitle</code></dd>
-							</dl>
+							<p>The scheme surrogate key is the third value in the surrogate-key header.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>image response type</td>
 						<td>
 							<p>The response type of the image is used as a surrogate key, purging this will remove all images of the same response type from Fastly.</p>
-							<p>The value of the surrogate key is normalised by converting the response type to lowercase and only alphanumeric and dashes are used</p>
-							<p>List of example image response types and their surrogate-key equivalent:</p>
-							<dl>
-								<dt>image/png</dt>
-								<dd><code>imagepng</code></dd>
-								<dt>image/svg+xml</dt>
-								<dd><code>imagesvgxml</code></dd>
-								<dt>image/webp</dt>
-								<dd><code>imagewebp</code></dd>
-								<dt>image/jpeg</dt>
-								<dd><code>imagejpeg</code></dd>
-								<dt>image/gif</dt>
-								<dd><code>imagegif</code></dd>
-							</dl>
+							<p>The image type surrogate key is the second value in the surrogate-key header.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>requested image</td>
 						<td>
-							<p>The requested image is used as a surrogate key, purging this will remove all transforms based on the original image from Fastly.</p>
-							<p>The value of the surrogate key is the scheme and identifier used for the image.</p>
-							<p>List of example images and their surrogate-key equivalent:</p>
-							<dl>
-								<dt>ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1</dt>
-								<dd><code>ftcms:3520df36-8c20-11e6-8cb7-e7ada1d123b1</code></dd>
-								<dt>http://im.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img</dt>
-								<dd><code>ftcms:a60ae24b-b87f-439c-bf1b-6e54946b4cf2</code></dd>
-								<dt>fticon-v1:book</dt>
-								<dd><code>fticon-v1:book</code></dd>
-								<dt>http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/7/0/1/9/1219107-1-eng-GB/Adriana-Degreas-bikini-set-@-MATCHESFASHION.COM.png</dt>
-								<dd><code>http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/7/0/1/9/1219107-1-eng-GB/Adriana-Degreas-bikini-set-@-MATCHESFASHION.COM.png</code></dd>
-							</dl>
+							<p>The requested image is used as a surrogate key, purging this will remove all images based on the original image from Fastly.</p>
+							<p>The requested image surrogate key is the fourth value in the surrogate-key header.</p>
 						</td>
 					</tr>
 				</table>
 			</div>
-
-			<h3>GET /v2/purge/url?url=<var>:URL-to-purge</var></h3>
-
-			<p>
-				Purge from Fastly a specific URL.
-			</p>
 		</div>
 	</div>
 </div>
