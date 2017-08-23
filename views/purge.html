@@ -17,13 +17,13 @@
 
 			<h3>GET /v2/purge/key?key=<var>:surrogate-key</var></h3>
 			<p>
-				Purge from CDN all resources which are tagged with the surrogate-key.
+				Purge from Fastly all resources which are tagged with the surrogate-key.
 				The types of surrogate-keys available are as follows:
 			</p>
 
 			<aside>
 				<h5>Purging keys will not purge from Cloudinary</h5>
-				<p>Currently the Origami Image Service can only purge keys from Fastly. The original image will still be stored by Cloudinary's CDN unless the image URL can be modified to cache-bust their CDN layer.</p>
+				<p>Currently the Origami Image Service can only purge keys from Fastly. The original image will still be stored by Cloudinary.</p>
 			</aside>
 			<div class="o-techdocs-table-wrapper">
 				<table>
@@ -34,13 +34,13 @@
 					<tr>
 						<td>everything</td>
 						<td>
-							<p>The surrogate key <code>origami-image-service</code> is added to every image, purging this will remove all images from the CDN. Recommended to only use this in extreme circumstances.</p>
+							<p>The surrogate key <code>origami-image-service</code> is added to every image, purging this will remove all images from Fastly. Recommended to only use this in extreme circumstances.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>scheme</td>
 						<td>
-							<p>Each scheme has it's own surrogate key in order to remove all images requested with the scheme from the CDN.</p>
+							<p>Each scheme has it's own surrogate key in order to remove all images requested with the scheme from Fastly.</p>
 							<p>List of schemes and their surrogate-key equivalent:</p>
 							<dl>
 								<dt>http</dt>
@@ -69,7 +69,7 @@
 					<tr>
 						<td>image response type</td>
 						<td>
-							<p>The response type of the image is used as a surrogate key, purging this will remove all images of the same response type from the CDN.</p>
+							<p>The response type of the image is used as a surrogate key, purging this will remove all images of the same response type from Fastly.</p>
 							<p>The value of the surrogate key is normalised by converting the response type to lowercase and only alphanumeric and dashes are used</p>
 							<p>List of example image response types and their surrogate-key equivalent:</p>
 							<dl>
@@ -89,7 +89,7 @@
 					<tr>
 						<td>requested image</td>
 						<td>
-							<p>The requested image is used as a surrogate key, purging this will remove all transforms based on the original image from the CDN.</p>
+							<p>The requested image is used as a surrogate key, purging this will remove all transforms based on the original image from Fastly.</p>
 							<p>The value of the surrogate key is the scheme and identifier used for the image.</p>
 							<p>List of example images and their surrogate-key equivalent:</p>
 							<dl>
@@ -110,7 +110,7 @@
 			<h3>GET /v2/purge/url?url=<var>:URL-to-purge</var></h3>
 
 			<p>
-				Purge from CDN a specific URL.
+				Purge from Fastly a specific URL.
 			</p>
 		</div>
 	</div>
