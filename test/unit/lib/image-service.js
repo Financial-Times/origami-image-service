@@ -156,7 +156,7 @@ describe('lib/image-service', () => {
 			});
 
 			it('should set the `User-Agent` header of the proxy request to identify the Image Service', () => {
-				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'User-Agent', 'Origami Image Service (https://github.com/Financial-Times/origami-image-service)');
+				assert.calledWithExactly(httpProxy.mockProxyRequest.setHeader, 'User-Agent', 'FT-Origami-Image-Service/2 (https://github.com/Financial-Times/origami-image-service)');
 			});
 
 		});
