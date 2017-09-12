@@ -339,6 +339,27 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('.setImmutable() / .getImmutable()', () => {
+
+			beforeEach(() => {
+				sinon.stub(ImageTransform, 'sanitizeImmutableValue').returns(true);
+				instance.setImmutable(true);
+			});
+
+			it('[set] calls the `sanitizeImmutableValue` static method with `value`', () => {
+				assert.calledOnce(ImageTransform.sanitizeImmutableValue);
+				assert.calledWithExactly(
+					ImageTransform.sanitizeImmutableValue,
+					true
+				);
+			});
+
+			it('[get] returns the sanitized `value`', () => {
+				assert.strictEqual(instance.getImmutable(), true);
+			});
+
+		});
+
 	});
 
 	it('has a `sanitizeUriValue` static method', () => {
@@ -740,6 +761,39 @@ describe('lib/image-transform', () => {
 
 			it('the message can be set with a second parameter', () => {
 				assert.throws(() => ImageTransform.sanitizeColorListValue('0f', 'foo'), 'foo');
+			});
+
+		});
+
+	});
+
+	it('has a `sanitizeImmutableValue` static method', () => {
+		assert.isFunction(ImageTransform.sanitizeImmutableValue);
+	});
+
+	describe('.sanitizeImmutableValue(value)', () => {
+
+		describe('when `value` is a Boolean', () => {
+
+			it('returns `value`', () => {
+				assert.deepEqual(ImageTransform.sanitizeImmutableValue(true), true);
+				assert.deepEqual(ImageTransform.sanitizeImmutableValue(false), false);
+			});
+
+		});
+
+		describe('when `value` is `undefined`', () => {
+
+			it('throws an error', () => {
+				assert.throws(() => ImageTransform.sanitizeImmutableValue(undefined), 'Expected a Boolean value');
+			});
+
+		});
+
+		describe('when an error is thrown', () => {
+
+			it('the message can be set with a second parameter', () => {
+				assert.throws(() => ImageTransform.sanitizeImmutableValue(0, 'foo'), 'foo');
 			});
 
 		});

@@ -149,6 +149,33 @@ describe('lib/middleware/process-image-request', () => {
 
 			});
 
+			describe('when the image request is "immutable" ', () => {
+
+				beforeEach(() => {
+					mockImageTransform.setImmutable = sinon.spy();
+					origamiService.mockRequest.params.immutable = true;
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+				});
+
+				it('sets the image transform `immutable` property to true', () => {
+					assert.calledOnce(mockImageTransform.setImmutable);
+					assert.strictEqual(mockImageTransform.setImmutable.firstCall.args[0], true);
+				});
+			});
+
+			describe('when the image request is not "immutable" ', () => {
+
+				beforeEach(() => {
+					mockImageTransform.setImmutable = sinon.spy();
+					origamiService.mockRequest.params.immutable = false;
+					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+				});
+
+				it('sets the image transform `immutable` property to false', () => {
+					assert.notCalled(mockImageTransform.setImmutable);
+				});
+			});
+
 			describe('when ImageTransform throws an error', () => {
 				let imageTransformError;
 
