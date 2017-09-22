@@ -17,7 +17,7 @@ before(function() {
 		defaultLayout: 'main',
 		environment: 'test',
 		log: mockLog,
-		port: null,
+		port: 0,
 		requestLogFormat: null
 	})
 	.listen()
