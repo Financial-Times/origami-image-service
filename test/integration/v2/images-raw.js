@@ -18,9 +18,9 @@ const testImageUris = {
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	http: 'http://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
-	https: 'https://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
-	protocolRelative: '//www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
+	http: 'http://origami-images.ft.com/ftsocial/v1/twitter.svg',
+	https: 'https://origami-images.ft.com/ftsocial/v1/twitter.svg',
+	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo',
 	nonUtf8Characters: 'http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/0/9/3/2/1212390-1-eng-GB/Y+et+Beaute%CC%81+Tranquille.jpg'
