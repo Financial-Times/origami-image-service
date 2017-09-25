@@ -18,9 +18,9 @@ const testImageUris = {
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	http: 'http://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
-	https: 'https://www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
-	protocolRelative: '//www.ft.com/__origami/service/imageset-data/ftsocial/v1/twitter.svg',
+	http: 'http://origami-images.ft.com/ftsocial/v1/twitter.svg',
+	https: 'https://origami-images.ft.com/ftsocial/v1/twitter.svg',
+	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo',
 	nonUtf8Characters: 'http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/0/9/3/2/1212390-1-eng-GB/Y+et+Beaute%CC%81+Tranquille.jpg'
@@ -392,7 +392,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('https', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly93d3cuZnQuY29tL19fb3JpZ2FtaS9zZXJ2aWNlL2ltYWdlc2V0LWRhdGEvZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
+				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly9vcmlnYW1pLWltYWdlcy5mdC5jb20vZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
 			describe('protocolRelativeftcms', function() {
@@ -459,12 +459,12 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('http', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.http}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aHR0cDovL3d3dy5mdC5jb20vX19vcmlnYW1pL3NlcnZpY2UvaW1hZ2VzZXQtZGF0YS9mdHNvY2lhbC92MS90d2l0dGVyLnN2Zw==/);
+				itRespondsWithHeader('surrogate-key', /aHR0cDovL29yaWdhbWktaW1hZ2VzLmZ0LmNvbS9mdHNvY2lhbC92MS90d2l0dGVyLnN2Zw==/);
 			});
 
 			describe('https', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.https}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly93d3cuZnQuY29tL19fb3JpZ2FtaS9zZXJ2aWNlL2ltYWdlc2V0LWRhdGEvZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
+				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly9vcmlnYW1pLWltYWdlcy5mdC5jb20vZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
 			describe('protocolRelativeftcms', function() {
@@ -474,7 +474,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('protocolRelative', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.protocolRelative}?source=test`);
-				itRespondsWithHeader('surrogate-key', /Ly93d3cuZnQuY29tL19fb3JpZ2FtaS9zZXJ2aWNlL2ltYWdlc2V0LWRhdGEvZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
+				itRespondsWithHeader('surrogate-key', /Ly9vcmlnYW1pLWltYWdlcy5mdC5jb20vZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
 			describe('specialisttitle', function() {
