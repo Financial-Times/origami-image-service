@@ -73,17 +73,18 @@ describe('lib/middleware/purge-url', () => {
 			});
 
 			describe('when the request specifies a url to purge', () => {
-				describe('when the url is purgeable from Cloudinary', () => {
-					let dateToPurge;
+				let dateToPurge;
 
-					beforeEach(() => {
-						dateToPurge = new Date();
-						FastlyPurge.mockInstance.returns(dateToPurge);
-						origamiService.mockRequest.query.url = encodeURIComponent(url);
-						cloudinary.uploader.destroy.resolves({
-							result: 'ok'
-						});
+				beforeEach(() => {
+					dateToPurge = new Date();
+					FastlyPurge.mockInstance.returns(dateToPurge);
+					origamiService.mockRequest.query.url = encodeURIComponent(url);
+					cloudinary.uploader.destroy.resolves({
+						result: 'ok'
 					});
+				});
+
+				describe('when the url is purgeable from Cloudinary', () => {
 
 					it('purges from cloudinary', () => {
 						return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
@@ -110,18 +111,15 @@ describe('lib/middleware/purge-url', () => {
 				});
 
 				describe('when the url is not purgeable from Cloudinary', () => {
-					it('calls `next` with a 500 error', () => {
+					it('returns a 200 with a messaging indicating when it will purge from Fastly', () => {
 						cloudinary.uploader.destroy.resolves({result: 'not found'});
 						origamiService.mockRequest.query.url = encodeURIComponent(url);
 
 						return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext).then(() => {
 							assert.called(cloudinary.uploader.destroy);
-							assert.called(origamiService.mockNext);
-
-							const error = origamiService.mockNext.firstCall.args[0];
-							assert.instanceOf(error, Error);
-							assert.strictEqual(error.status, 500);
-							assert.strictEqual(error.message, `Can not purge ${url} as it is not cached by Cloudinary.`);
+							assert.notCalled(origamiService.mockNext);
+							assert.calledWithExactly(origamiService.mockResponse.status, 200);
+							assert.calledWithExactly(origamiService.mockResponse.send, `Purged ${url} from Cloudinary, will purge from Fastly at ${dateToPurge}`);
 						});
 					});
 				});
