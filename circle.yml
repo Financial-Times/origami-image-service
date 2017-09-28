@@ -1,7 +1,10 @@
 
 machine:
   node:
-    version: 8
+    version: 6
+# Use npm > 4 to fix https://github.com/npm/npm/issues/14042
+  post:
+  - npm install -g npm@^4
 
 test:
   override:
