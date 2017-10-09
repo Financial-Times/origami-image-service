@@ -126,9 +126,10 @@ describe('lib/middleware/purge-url', () => {
 					});
 
 					describe('when the request specifies to remove all transforms of the original image', () => {
-						let key = 'key';
+						let key;
 
 						beforeEach(() => {
+							key = 'key';
 							origamiService.mockRequest.query.transforms = 'true';
 							ImageTransform.resolveCustomSchemeUri.returns(key);
 							base64.encode.returnsArg(0);
@@ -145,7 +146,7 @@ describe('lib/middleware/purge-url', () => {
 						it('finds the key for the scheme url and uses it to schedule a purge from Fasly', () => {
 							return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
 								.then(() => {
-									assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, url, config.customSchemeStore, config.customSchemeCacheBust)
+									assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, url, config.customSchemeStore, config.customSchemeCacheBust);
 									assert.calledWithExactly(FastlyPurge.mockInstance, key, {
 										isKey: true
 									});

@@ -49,7 +49,7 @@ describe('lib/purge-from-fastly', () => {
 
 	describe('purgeFromFastly(fastlyApiKey)', () => {
 		it('throws an error', () => {
-			assert.throws(() => purgeFromFastly("api-key"));
+			assert.throws(() => purgeFromFastly('api-key'));
 		});
 	});
 
