@@ -19,10 +19,10 @@
 
 			<p>Finds the correct HTTP URL equivalent of the <code>uri</code> being requested to purge and redirects to <code>/v2/purge/url?url=<var>:URL-to-purge</var> to initaite the purge request.</p>
 
-			<h3>GET /v2/purge/url?url=<var>:URL-to-purge</var></h3>
+			<h3>GET /v2/purge/url?url=<var>:URL-to-purge</var><var>&transforms</var></h3>
 
 			<p>
-				Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly.
+				Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly. If the <code>transforms</code> query parameter is also supplied in the request then all transforms of the original image will be purged from Fastly.
 			</p>
 
 			<h3>GET /v2/purge/key?key=<var>:surrogate-key</var></h3>
