@@ -9,6 +9,9 @@ describe('lib/middleware/purge-url', () => {
 	let purgeUrl;
 	let FastlyPurge;
 	let cloudinary;
+	let ImageTransform;
+	let base64;
+	let utf8;
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
@@ -18,6 +21,15 @@ describe('lib/middleware/purge-url', () => {
 
 		cloudinary = require('../../mock/cloudinary.mock');
 		mockery.registerMock('cloudinary', cloudinary);
+
+		ImageTransform = require('../../mock/image-transform.mock');
+		mockery.registerMock('../image-transform', ImageTransform);
+
+		base64 = require('../../mock/base-64.mock');
+		mockery.registerMock('base-64', base64);
+
+		utf8 = require('../../mock/utf8.mock');
+		mockery.registerMock('utf8', utf8);
 
 		purgeUrl = require('../../../../lib/middleware/purge-url');
 	});
@@ -32,9 +44,12 @@ describe('lib/middleware/purge-url', () => {
 		beforeEach(() => {
 			config = {
 				fastlyApiKey: 'api-key',
+				fastlyServiceId: 'service-id',
 				cloudinaryAccountName: 'cloudinaryAccountName',
 				cloudinaryApiKey: 'cloudinaryApiKey',
-				cloudinaryApiSecret: 'cloudinaryApiSecret'
+				cloudinaryApiSecret: 'cloudinaryApiSecret',
+				customSchemeStore: 'customSchemeStore',
+				customSchemeCacheBust: 'customSchemeCacheBust'
 			};
 
 			middleware = purgeUrl(config);
@@ -53,7 +68,7 @@ describe('lib/middleware/purge-url', () => {
 		});
 
 		it('constructs a purgeFromFastly object with passed in configuration', () => {
-			assert.calledWithExactly(FastlyPurge, 'api-key');
+			assert.calledWithExactly(FastlyPurge, 'api-key', 'service-id');
 		});
 
 		describe('middleware(request, response, next)', () => {
@@ -97,6 +112,7 @@ describe('lib/middleware/purge-url', () => {
 						return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
 							.then(() => {
 								assert.called(FastlyPurge.mockInstance);
+								assert.calledWithExactly(FastlyPurge.mockInstance, url);
 							});
 					});
 
@@ -107,6 +123,43 @@ describe('lib/middleware/purge-url', () => {
 								assert.calledWithExactly(origamiService.mockResponse.status, 200);
 								assert.calledWithExactly(origamiService.mockResponse.send, `Purged ${url} from Cloudinary, will purge from Fastly at ${dateToPurge}`);
 							});
+					});
+
+					describe('when the request specifies to remove all transforms of the original image', () => {
+						let key = 'key';
+
+						beforeEach(() => {
+							origamiService.mockRequest.query.transforms = 'true';
+							ImageTransform.resolveCustomSchemeUri.returns(key);
+							base64.encode.returnsArg(0);
+							utf8.encode.returnsArg(0);
+						});
+
+						it('purges from cloudinary', () => {
+							return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
+								.then(() => {
+									assert.called(cloudinary.uploader.destroy);
+								});
+						});
+
+						it('finds the key for the scheme url and uses it to schedule a purge from Fasly', () => {
+							return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
+								.then(() => {
+									assert.calledWithExactly(ImageTransform.resolveCustomSchemeUri, url, config.customSchemeStore, config.customSchemeCacheBust)
+									assert.calledWithExactly(FastlyPurge.mockInstance, key, {
+										isKey: true
+									});
+								});
+						});
+
+						it('returns a 200 with a messaging indicating when it will purge from Fastly', () => {
+							return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
+								.then(() => {
+									assert.notCalled(origamiService.mockNext);
+									assert.calledWithExactly(origamiService.mockResponse.status, 200);
+									assert.calledWithExactly(origamiService.mockResponse.send, `Purged ${url} from Cloudinary, will purge key ${key} from Fastly at ${dateToPurge}`);
+								});
+						});
 					});
 				});
 

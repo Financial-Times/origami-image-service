@@ -12,9 +12,13 @@ describe('lib/purge-from-fastly', () => {
 	let differenceInMilliseconds;
 	let purgeFromFastly;
 	let url;
+	let key;
 
 	beforeEach(() => {
+		key = 'key';
+
 		url = 'http://www.ft.com/__origami/service/images/v2/images/raw/https://www.example.com/cats.png?source=test';
+
 		FastlyPurge = require('../mock/fastly-purge.mock');
 		mockery.registerMock('fastly-purge', FastlyPurge);
 
@@ -44,14 +48,23 @@ describe('lib/purge-from-fastly', () => {
 	});
 
 	describe('purgeFromFastly(fastlyApiKey)', () => {
+		it('throws an error', () => {
+			assert.throws(() => purgeFromFastly("api-key"));
+		});
+	});
+
+	describe('purgeFromFastly(fastlyApiKey, fastlyServiceId)', () => {
 		let instance;
 		let fastlyApiKey;
 		let clock;
+		let fastlyServiceId;
+
 		beforeEach(() => {
 			fastlyApiKey = 'api-key';
+			fastlyServiceId = 'service-id';
 			clock = sinon.useFakeTimers();
 			sinon.stub(global, 'setTimeout');
-			instance = purgeFromFastly(fastlyApiKey);
+			instance = purgeFromFastly(fastlyApiKey, fastlyServiceId);
 		});
 
 		afterEach(() => {
@@ -69,7 +82,7 @@ describe('lib/purge-from-fastly', () => {
 			assert.isFunction(instance);
 		});
 
-		describe('purgeFromFastly(fastlyApiKey(url)', () => {
+		describe('purgeFromFastly(fastlyApiKey)(url)', () => {
 			let timeoutStartTime;
 			let twoHoursLater;
 
@@ -117,6 +130,35 @@ describe('lib/purge-from-fastly', () => {
 				setTimeout.getCall(0).callArg(0);
 				assert.calledOnce(FastlyPurge.mockInstance.url);
 				assert.equal(FastlyPurge.mockInstance.url.firstCall.args[0], url);
+
+			});
+
+			it('purges a key from Fastly when timeout is fired', () => {
+				FastlyPurge.mockInstance.key.yields();
+				setTimeout.yields();
+				instance(key, {
+					isKey: true
+				});
+				assert.notCalled(FastlyPurge.mockInstance.url);
+				assert.calledOnce(FastlyPurge.mockInstance.key);
+				assert.calledWith(FastlyPurge.mockInstance.key, fastlyServiceId, key, {
+					apiKey: fastlyApiKey
+				});
+			});
+
+			it('purges a key from Fastly only once', () => {
+				FastlyPurge.mockInstance.key.yields();
+				instance(key, {
+					isKey: true
+				});
+				instance(key, {
+					isKey: true
+				});
+				setTimeout.getCall(0).callArg(0);
+				assert.calledOnce(FastlyPurge.mockInstance.key);
+				assert.calledWith(FastlyPurge.mockInstance.key, fastlyServiceId, key, {
+					apiKey: fastlyApiKey
+				});
 
 			});
 
