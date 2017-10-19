@@ -33,7 +33,7 @@ Running Locally
 Before we can run the application, we'll need to install dependencies:
 
 ```sh
-make install
+npm install
 ```
 
 Run the application in development mode with
