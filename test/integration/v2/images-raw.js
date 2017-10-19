@@ -9,6 +9,7 @@ const setupRequest = require('../helpers/setup-request');
 const testImageUris = {
 	ftbrand: 'ftbrand:brussels-blog',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
+	ftflag: 'ftflag:jp',
 	fthead: 'fthead:martin-wolf',
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
@@ -110,6 +111,18 @@ describe('GET /v2/images/raw…', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('/ftflag:… (ftflag scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/svg+xml');
+	});
+
+	describe('/ftflag:… (ftflag scheme with querystring)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}%3Ffoo%3Dbar?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/svg+xml');
 	});
 
 	describe('/fticon:… (fticon scheme)', function() {
@@ -236,6 +249,11 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
+			describe('ftflag', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
+				itRespondsWithHeader('surrogate-key', /origami-image-service/);
+			});
+
 			describe('fthead', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
@@ -293,6 +311,11 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
 			});
 
+			describe('ftflag', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
+				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
+			});
+
 			describe('fthead', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2UvcG5n/);
@@ -348,6 +371,11 @@ describe('GET /v2/images/raw…', function() {
 			describe('ftcms', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRjbXM=/);
+			});
+
+			describe('ftflag', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ZnRmbGFn/);
 			});
 
 			describe('fthead', function() {
@@ -420,6 +448,11 @@ describe('GET /v2/images/raw…', function() {
 			describe('ftcms', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRjbXM6NmM1YTJmOGMtMThjYS00YWZhLTgwZmYtN2Q1NmU0MTE3MmIx/);
+			});
+
+			describe('ftflag', function() {
+				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
+				itRespondsWithHeader('surrogate-key', /ZnRmbGFnOmpw/);
 			});
 
 			describe('fthead', function() {

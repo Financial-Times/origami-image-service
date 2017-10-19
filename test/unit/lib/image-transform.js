@@ -374,6 +374,7 @@ describe('lib/image-transform', () => {
 				const testSources = [
 					'ftbrand:foo',
 					'ftcms:foo',
+					'ftflag:foo',
 					'fthead:foo',
 					'fticon:foo',
 					'ftlogo:foo',
@@ -828,6 +829,17 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `uri` is an `ftflag` URI', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('ftflag-v1:example', 'http://base/images'),
+					'http://base/images/ftflag/v1/example.svg'
+				);
+			});
+
+		});
+
 		describe('when `uri` is an `fthead` URI', () => {
 
 			it('returns the expected URI', () => {
@@ -1158,6 +1170,7 @@ describe('lib/image-transform', () => {
 		assert.deepEqual(ImageTransform.validUriSchemes, [
 			'ftbrand',
 			'ftcms',
+			'ftflag',
 			'fthead',
 			'fticon',
 			'ftlogo',
@@ -1172,6 +1185,7 @@ describe('lib/image-transform', () => {
 	it('has a `schemeVersionMap` static property', () => {
 		assert.deepEqual(ImageTransform.schemeVersionMap, {
 			ftbrand: 'v1',
+			ftflag: 'v1',
 			fthead: 'v1',
 			fticon: 'fticonold/v4',
 			ftlogo: 'v1',
