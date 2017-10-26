@@ -7,7 +7,7 @@ const setupRequest = require('../helpers/setup-request');
 const testImageUris = {
 	valid: 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg',
 	notFound: 'http://google.com/404',
-	nonSvg: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
+	nonSvg: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
 };
 
 describe('GET /v2/images/svgtint…', function() {
