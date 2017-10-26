@@ -141,11 +141,19 @@
 				</div>
 
 				<div class="o-forms">
-					<label for="builder-source" class="o-forms__label">Tint</label>
+					<label for="builder-tint" class="o-forms__label">Tint</label>
 					<small class="o-forms__additional-info">
 						Individual or multiple HEX colour codes, separated by commas
 					</small>
 					<input type="text" id="builder-tint" name="tint" placeholder="#ff0000,blue,0f0" value="{{form.tint}}" class="o-forms__text" />
+				</div>
+
+				<div class="o-forms">
+					<label for="builder-bgcolor" class="o-forms__label">Background Color</label>
+					<small class="o-forms__additional-info">
+						A HEX colour code, only visible when the source image has a transparent background
+					</small>
+					<input type="text" id="builder-bgcolor" name="bgcolor" placeholder="#ff0000" value="{{form.bgcolor}}" class="o-forms__text" />
 				</div>
 
 				<div class="o-forms">
