@@ -230,6 +230,8 @@ License
 The Financial Times has published this software under the [MIT license][license].
 
 
+
+
 [ci]: https://circleci.com/gh/Financial-Times/origami-image-service
 [grafana]: http://grafana.ft.com/dashboard/db/origami-image-service
 [heroku-pipeline]: https://dashboard.heroku.com/pipelines/9cd9033e-fa9d-42af-bfe9-b9d0aa6f4a50
