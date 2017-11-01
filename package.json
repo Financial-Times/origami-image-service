@@ -44,7 +44,6 @@
     "statuses": "^1",
     "svg-tint-stream": "^0.3",
     "throng": "^4.0.0",
-    "tinyserver": "^0.1.1",
     "utf8": "^2.1.2"
   },
   "devDependencies": {
