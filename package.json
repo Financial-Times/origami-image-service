@@ -57,6 +57,7 @@
     "proclaim": "^3",
     "sinon": "^1",
     "sinon-as-promised": "^4",
-    "supertest": "^1"
+    "supertest": "^1",
+    "whitesource": "^1.0.9"
   }
 }

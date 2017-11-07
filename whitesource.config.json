@@ -1,0 +1,7 @@
+{
+	"checkPolicies": true,
+	"projectName": "origami-image-service",
+	"productName": "origami-image-service",
+	"devDep": false,
+	"failOnError": true
+}
