@@ -226,7 +226,6 @@ describe('lib/image-service', () => {
 					'Content-Length': '1234',
 					'Connection': 'keep-alive',
 					'Etag': '123',
-					'Expires': 'Thu, 08 Jan 1970 00:00:10 GMT',
 					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
 					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
