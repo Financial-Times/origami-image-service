@@ -24,8 +24,7 @@ const testImageUris = {
 	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo',
-	nonUtf8Characters: 'http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/0/9/3/2/1212390-1-eng-GB/Y+et+Beaute%CC%81+Tranquille.jpg',
-	jpeg: 'http://prod-upp-image-read.ft.com/3520df36-8c20-11e6-8cb7-e7ada1d123b1'
+	nonUtf8Characters: 'http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/0/9/3/2/1212390-1-eng-GB/Y+et+Beaute%CC%81+Tranquille.jpg'
 };
 
 describe('GET /v2/images/raw…', function() {
@@ -303,7 +302,7 @@ describe('GET /v2/images/raw…', function() {
 			describe(`when the 'user-agent' header is ${userAgent} and the 'accepts' header is ${accept}`, function() {
 				setupRequest(
                     'GET',
-                    `/v2/images/raw/${testImageUris.jpeg}?source=test&format=auto`,
+                    `/v2/images/raw/${testImageUris.nonUtf8Characters}?source=test&format=auto`,
                     {
                         accept: accept,
                         'user-agent': userAgent,
