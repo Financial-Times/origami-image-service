@@ -237,6 +237,83 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('text/html');
 	});
 
+	describe('when the \'format\' query parameter is \'auto\'', () => {
+
+		const firefoxUA = 'Mozilla/5.0 (Android 4.4; Tablet; rv:41.0) Gecko/41.0 Firefox/41.0';
+		const chromeUA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36';
+		const ieUA = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
+
+		[
+			{
+				accept: '*/*',
+				userAgent: firefoxUA,
+				expectedContentType: 'image/jpeg',
+				expectedFtImageFormat: 'default'
+			},
+			{
+				accept: 'image/webp',
+				userAgent: firefoxUA,
+				expectedContentType: 'image/webp',
+				expectedFtImageFormat: 'webp'
+			},
+			{
+				accept: 'image/jxr',
+				userAgent: firefoxUA,
+				expectedContentType: 'image/vnd.ms-photo',
+				expectedFtImageFormat: 'jpegxr'
+			},
+			{
+				accept: '*/*',
+				userAgent: chromeUA,
+				expectedContentType: 'image/jpeg',
+				expectedFtImageFormat: 'default'
+			},
+			{
+				accept: 'image/webp',
+				userAgent: chromeUA,
+				expectedContentType: 'image/webp',
+				expectedFtImageFormat: 'webp'
+			},
+			{
+				accept: 'image/jxr',
+				userAgent: chromeUA,
+				expectedContentType: 'image/vnd.ms-photo',
+				expectedFtImageFormat: 'jpegxr'
+			},
+			{
+				accept: '*/*',
+				userAgent: ieUA,
+				expectedContentType: 'image/jpeg',
+				expectedFtImageFormat: 'default'
+			},
+			{
+				accept: 'image/webp',
+				userAgent: ieUA,
+				expectedContentType: 'image/webp',
+				expectedFtImageFormat: 'webp'
+			},
+			{
+				accept: 'image/jxr',
+				userAgent: ieUA,
+				expectedContentType: 'image/vnd.ms-photo',
+				expectedFtImageFormat: 'jpegxr'
+			},
+		].forEach(({accept, userAgent, expectedContentType, expectedFtImageFormat}) => {
+			describe(`when the 'user-agent' header is ${userAgent} and the 'accepts' header is ${accept}`, function() {
+				setupRequest(
+                    'GET',
+                    `/v2/images/raw/${testImageUris.nonUtf8Characters}?source=test&format=auto`,
+                    {
+                        accept: accept,
+                        'user-agent': userAgent,
+                    }
+                );
+				itRespondsWithHeader('Content-Type', expectedContentType);
+				itRespondsWithHeader('FT-Image-Format', expectedFtImageFormat);
+			});
+		});
+	});
+
 	context('when an image is returned, surrogate keys are added', function() {
 		describe('adds generic key for all image requests:', function() {
 			describe('ftbrand', function() {
