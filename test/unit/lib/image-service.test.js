@@ -97,6 +97,66 @@ describe('lib/image-service', () => {
 			assert.strictEqual(options.about, about);
 		});
 
+		it('sets `options.about` to the contents of about.json', () => {
+			assert.strictEqual(options.about, about);
+		});
+
+		it('sets `options.sentryConfig` to include a `shouldSendCallback` configuration', () => {
+			assert.isObject(options.sentryConfig);
+			assert.isFunction(options.sentryConfig.shouldSendCallback);
+		});
+
+		describe('options.sentryConfig.shouldSendCallback(data)', () => {
+			let data;
+			let shouldSendCallback;
+
+			beforeEach(() => {
+				data = {
+					message: 'mock message',
+					extra: {}
+				};
+				shouldSendCallback = options.sentryConfig.shouldSendCallback;
+			});
+
+			it('returns `true` for most data', () => {
+				assert.isTrue(shouldSendCallback(data));
+			});
+
+			it('returns `false` when the error code is "ECONNRESET"', () => {
+				data.extra.Error = {
+					code: 'ECONNRESET'
+				};
+				assert.isFalse(shouldSendCallback(data));
+			});
+
+			it('returns `false` when the error code is "EHOSTUNREACH"', () => {
+				data.extra.Error = {
+					code: 'EHOSTUNREACH'
+				};
+				assert.isFalse(shouldSendCallback(data));
+			});
+
+			it('returns `false` when the error code is "ESOCKETTIMEOUT"', () => {
+				data.extra.Error = {
+					code: 'ESOCKETTIMEOUT'
+				};
+				assert.isFalse(shouldSendCallback(data));
+			});
+
+			it('returns `false` when the error code is "ETIMEDOUT"', () => {
+				data.extra.Error = {
+					code: 'ETIMEDOUT'
+				};
+				assert.isFalse(shouldSendCallback(data));
+			});
+
+			it('returns `false` when the error message begins with "BadGatewayError:"', () => {
+				data.message = 'BadGatewayError: oops it all went wrong';
+				assert.isFalse(shouldSendCallback(data));
+			});
+
+		});
+
 		it('creates an HTTP proxy', () => {
 			assert.calledOnce(httpProxy.createProxyServer);
 			assert.calledWithExactly(httpProxy.createProxyServer, {
