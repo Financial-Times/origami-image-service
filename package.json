@@ -50,7 +50,6 @@
     "denodeify": "^1.2.1",
     "eslint": "^2",
     "istanbul": "^0.4",
-    "konstructor-api-client": "1.0.0-alpha.3",
     "mocha": "^2",
     "mockery": "^1",
     "nodemon": "^1",
