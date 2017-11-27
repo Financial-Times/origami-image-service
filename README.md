@@ -2,6 +2,8 @@
 Origami Image Service
 =====================
 
+(Testing hub, ignore)
+
 Optimises and resize images. See [the production service][production-url] for API information.
 
 [![Build status](https://img.shields.io/circleci/project/Financial-Times/origami-image-service.svg)][ci]
