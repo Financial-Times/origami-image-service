@@ -237,8 +237,8 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('text/html');
 	});
 
-	describe('when an image starts with a space', function() {
-		setupRequest('GET', `/v2/images/raw/%20${testImageUris.httpsftcms}?source=test`);
+	describe('when an image starts with a spaces', function() {
+		setupRequest('GET', `/v2/images/raw/%20%20%20%20${testImageUris.httpsftcms}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
