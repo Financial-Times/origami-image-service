@@ -237,8 +237,14 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('text/html');
 	});
 
-	describe('when an image starts with a space ', function() {
+	describe('when an image starts with a space', function() {
 		setupRequest('GET', `/v2/images/raw/%20${testImageUris.httpsftcms}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('when an image ends with spaces', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcms}%20%20%20?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
