@@ -237,6 +237,12 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('text/html');
 	});
 
+	describe('when an image starts with a space ', function() {
+		setupRequest('GET', `/v2/images/raw/%20${testImageUris.httpsftcms}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
 	describe('when the \'format\' query parameter is \'auto\'', () => {
 
 		const firefoxUA = 'Mozilla/5.0 (Android 4.4; Tablet; rv:41.0) Gecko/41.0 Firefox/41.0';
