@@ -237,6 +237,12 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('text/html');
 	});
 
+	describe('when a request has no image specified', function() {
+		setupRequest('GET', '/v2/images/raw/?source=test');
+		itRespondsWithStatus(404);
+		itRespondsWithContentType('text/html');
+	});
+
 	describe('when an image starts with a spaces', function() {
 		setupRequest('GET', `/v2/images/raw/%20%20%20%20${testImageUris.httpsftcms}?source=test`);
 		itRespondsWithStatus(200);
