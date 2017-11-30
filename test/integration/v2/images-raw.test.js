@@ -241,6 +241,18 @@ describe('GET /v2/images/raw…', function() {
 		setupRequest('GET', '/v2/images/raw/?source=test');
 		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
+  });
+
+	describe('when an image starts with a spaces', function() {
+		setupRequest('GET', `/v2/images/raw/%20%20%20%20${testImageUris.httpsftcms}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('when an image ends with spaces', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcms}%20%20%20?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
 	});
 
 	describe('when the \'format\' query parameter is \'auto\'', () => {
