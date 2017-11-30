@@ -29,7 +29,7 @@
     "@financial-times/origami-service-makefile": "^6.0.1",
     "@financial-times/source-param-middleware": "^1.0.0",
     "base-64": "^0.1.0",
-    "cloudinary": "^1",
+    "cloudinary": "^1.9.1",
     "colornames": "^1",
     "date-fns": "^1.28.0",
     "dnscache": "^1.0.1",
