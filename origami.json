@@ -1,0 +1,13 @@
+{
+	"description": "Optimises and resize images.",
+	"origamiType": "service",
+	"origamiVersion": 1,
+	"keywords": [],
+	"support": "https://github.com/Financial-Times/origami-image-service/issues",
+	"supportStatus": "active",
+	"supportContact": {
+		"email": "origami.support@ft.com",
+		"slack": "financialtimes/ft-origami"
+	},
+	"serviceUrl": "https://www.ft.com/__origami/service/image/v2"
+}
