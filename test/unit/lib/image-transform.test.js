@@ -507,6 +507,9 @@ describe('lib/image-transform', () => {
 				assert.strictEqual(ImageTransform.sanitizeNumericValue('123px'), 123);
 			});
 
+			it('strips the PX and returns `value` converted into a number', () => {
+				assert.strictEqual(ImageTransform.sanitizeNumericValue('123PX'), 123);
+			});
 		});
 
 		describe('when `value` is `undefined`', () => {
