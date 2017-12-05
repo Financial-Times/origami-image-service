@@ -501,6 +501,14 @@ describe('lib/image-transform', () => {
 
 		});
 
+		describe('when `value` is a numeric string ending in px', () => {
+
+			it('strips the px and returns `value` converted into a number', () => {
+				assert.strictEqual(ImageTransform.sanitizeNumericValue('123px'), 123);
+			});
+
+		});
+
 		describe('when `value` is `undefined`', () => {
 
 			it('returns `undefined`', () => {
