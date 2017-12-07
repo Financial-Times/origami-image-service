@@ -22,3 +22,5 @@ HEROKU_APP_QA = origami-image-service-qa
 HEROKU_APP_EU = origami-image-service-eu
 HEROKU_APP_US = origami-image-service-us
 GRAFANA_DASHBOARD = origami-image-service
+
+export GITHUB_RELEASE_REPO := Financial-Times/origami-image-service
