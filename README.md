@@ -48,7 +48,7 @@ Now you can access the app over HTTP on port `8080`: [http://localhost:8080/](ht
 Configuration
 -------------
 
-We configure Origami Navigation Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
+We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
 
 ### Required everywhere
 
