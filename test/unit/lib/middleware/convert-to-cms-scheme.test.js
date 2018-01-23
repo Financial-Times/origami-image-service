@@ -80,6 +80,32 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 
 			});
 
+         describe('when the `imageUrl` request param points to an image in the imagepublish K8S EU S3 bucket', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'http://com.ft.imagepublish.upp-prod-eu.s3.amazonaws.com/26a7951a-c3e4-11e7-b30e-a7c1c7c13aab';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:26a7951a-c3e4-11e7-b30e-a7c1c7c13aab');
+				});
+
+			});
+
+         describe('when the `imageUrl` request param points to an image in the imagepublish K8S US S3 bucket', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'http://com.ft.imagepublish.upp-prod-us.s3.amazonaws.com/26a7951a-c3e4-11e7-b30e-a7c1c7c13aab';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:26a7951a-c3e4-11e7-b30e-a7c1c7c13aab');
+				});
+
+			});
+
 			describe('when the `imageUrl` request param points to an image on im.ft-static.com', () => {
 
 				beforeEach(done => {
