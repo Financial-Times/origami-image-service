@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  test:
+    working_directory: ~/service
+    docker:
+      - image: node:8
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install Node.js dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run linters
+          command: make verify
+      - run:
+          name: Run unit tests
+          command: make test-unit-coverage
+      - run:
+          name: Run whitesource
+          command: make whitesource
+      - run:
+          name: Run integration tests
+          command: make test-integration
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
