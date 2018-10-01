@@ -32,7 +32,7 @@ describe('lib/cloudinary-metrics', () => {
 			sinon.stub(global, 'setInterval');
 			pingUsage = sinon.stub(CloudinaryMetrics.prototype, 'pingUsage');
 			bindPingUsage = sinon.spy(pingUsage, 'bind');
-			options = origamiService.mockApp.origami.options = {
+			options = origamiService.mockApp.ft.options = {
 				cloudinaryAccountName: 'mock-account-name',
 				cloudinaryApiKey: 'mock-api-key',
 				cloudinaryApiSecret: 'mock-api-secret'
@@ -102,7 +102,7 @@ describe('lib/cloudinary-metrics', () => {
 			});
 
 			it('increments metrics for transformations, objects, bandwidth, and storage', () => {
-				const metrics = origamiService.mockApp.origami.metrics;
+				const metrics = origamiService.mockApp.ft.metrics;
 				assert.called(metrics.count);
 				assert.calledWithExactly(metrics.count, 'cloudinary.transformations.usage', 1);
 				assert.calledWithExactly(metrics.count, 'cloudinary.transformations.limit', 2);
@@ -119,18 +119,18 @@ describe('lib/cloudinary-metrics', () => {
 
 				beforeEach(() => {
 					cloudinaryError = new Error('mock cloudinary error');
-					origamiService.mockApp.origami.metrics.count.reset();
+					origamiService.mockApp.ft.metrics.count.reset();
 					cloudinary.api.usage.rejects(cloudinaryError);
 					return instance.pingUsage().catch();
 				});
 
 				it('logs an error', () => {
-					assert.calledOnce(origamiService.mockApp.origami.log.error);
-					assert.calledWithExactly(origamiService.mockApp.origami.log.error, 'Cloudinary Metrics Failure (usage): mock cloudinary error');
+					assert.calledOnce(origamiService.mockApp.ft.log.error);
+					assert.calledWithExactly(origamiService.mockApp.ft.log.error, 'Cloudinary Metrics Failure (usage): mock cloudinary error');
 				});
 
 				it('does not increment metrics', () => {
-					assert.notCalled(origamiService.mockApp.origami.metrics.count);
+					assert.notCalled(origamiService.mockApp.ft.metrics.count);
 				});
 
 			});
@@ -140,18 +140,18 @@ describe('lib/cloudinary-metrics', () => {
 
 				beforeEach(() => {
 					cloudinaryError = new Error('mock cloudinary error');
-					origamiService.mockApp.origami.metrics.count.reset();
+					origamiService.mockApp.ft.metrics.count.reset();
 					cloudinary.api.usage.throws(cloudinaryError);
 					instance.pingUsage();
 				});
 
 				it('logs an error', () => {
-					assert.calledOnce(origamiService.mockApp.origami.log.error);
-					assert.calledWithExactly(origamiService.mockApp.origami.log.error, 'Cloudinary Metrics Failure (usage): mock cloudinary error');
+					assert.calledOnce(origamiService.mockApp.ft.log.error);
+					assert.calledWithExactly(origamiService.mockApp.ft.log.error, 'Cloudinary Metrics Failure (usage): mock cloudinary error');
 				});
 
 				it('does not increment metrics', () => {
-					assert.notCalled(origamiService.mockApp.origami.metrics.count);
+					assert.notCalled(origamiService.mockApp.ft.metrics.count);
 				});
 
 			});

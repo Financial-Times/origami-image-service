@@ -12,7 +12,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
-		log = origamiService.mockApp.origami.log;
+		log = origamiService.mockApp.ft.log;
 
 		requestPromise = require('../../mock/request-promise.mock');
 		mockery.registerMock('../request-promise', requestPromise);
@@ -116,9 +116,9 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('logs that the CMS ID was found in v1 of the API', () => {
-					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
-					assert.calledWithExactly(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
-					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
+					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
 				});
 
 			});
@@ -163,9 +163,9 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('logs that the CMS ID was found in neither API', () => {
-					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
-					assert.neverCalledWith(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
-					assert.calledWithExactly(origamiService.mockApp.origami.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
+					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
 				});
 
 			});
