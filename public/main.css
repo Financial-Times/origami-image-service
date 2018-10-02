@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+.o-layout__header .o-header-services__top .o-header-services__ftlogo {
+	background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1:origami?source=origami-build-service");
+}
+
+td img {
+	width: 100%;
+}
+
 div.o-forms {
 	padding: 0;
 }
@@ -24,4 +32,13 @@ div.o-forms {
 
 .flex-container {
 	display: flex;
+}
+
+.o-table--responsive-flat td {
+	width: 0;
+}
+
+dt {
+	font-weight: bold;
+	line-height: 1.5;
 }
