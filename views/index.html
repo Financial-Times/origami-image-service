@@ -1,67 +1,58 @@
+<h1>
+	Optimise and resize images.<br/>
+	The right and easy way.
+</h1>
 
-<div class="o-techdocs-container">
-	<div class="o-techdocs-layout">
+<p>
+	The Origami Image Service can be used to optimise and resize images.
+	You can crop, tint, and convert images in JPEG, PNG, GIF and SVG formats quickly and easily.
+</p>
 
-		<div class="o-techdocs-sidebar">
-			{{>navigation}}
-		</div>
+<p>
+	The quickest way to get started is to experiment with the <a href="v2/docs/url-builder">URL builder</a>, and try
+	transforming and optimising some of your images.
+	Read the <a href="v2/docs/api">API documentation</a> for more information on all of the available transforms.
+	If you're migrating from Image Service v1, we maintain a <a href="v2/docs/migration">migration guide</a> to help you.
+</p>
 
-		<div class="o-techdocs-main o-techdocs-content">
+<h2 id="example">Example</h2>
 
-			<h1>
-				Optimise and resize images.<br/>
-				The right and easy way.
-			</h1>
+<table>
+	<thead>
+		<tr>
+			<th class="example-column">Source Image</th>
+			<th class="example-column">Optimised Image</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="example-column">
+				<img src="http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img" alt="Source Image"/>
+			</td>
+			<td class="example-column">
+				<img src="v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?source=docs" alt="Optimised Image"/>
+			</td>
+		</tr>
+		<tr>
+			<td>Image served as a JPEG: <b>227 KB</b></td>
+			<td>Image served as JPEG: <b>111 KB</b></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Image served as JPEG XR (to IE/Edge): <b>97 KB</b></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Image served as WebP (to Chrome): <b>82 KB</b></td>
+		</tr>
+	</tbody>
+</table>
 
-			<p>
-				The Origami Image Service can be used to optimise and resize images.
-				You can crop, tint, and convert images in JPEG, PNG, GIF and SVG formats quickly and easily.
-			</p>
+<h2 id="limitations">Limitations</h2>
 
-			<p>
-				The quickest way to get started is to experiment with the <a href="v2/docs/url-builder">URL builder</a>, and try
-				transforming and optimising some of your images.
-				Read the <a href="v2/docs/api">API documentation</a> for more information on all of the available transforms.
-				If you're migrating from Image Service v1, we maintain a <a href="v2/docs/migration">migration guide</a> to help you.
-			</p>
-
-			<h2>Example</h2>
-
-			<div class="o-table-wrapper o-techdocs-table-wrapper">
-				<table>
-					<thead>
-						<tr>
-							<th class="example-column">Source Image</th>
-							<th class="example-column">Optimised Image</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="example-column">
-								<img src="http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img" alt="Source Image"/><br/>
-								Image served as a JPEG: <b>227 KB</b>
-							</td>
-							<td class="example-column">
-								<img src="v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?source=docs" alt="Optimised Image"/><br/>
-								Image served as WebP (to Chrome): <b>82 KB</b><br/>
-								Image served as JPEG XR (to IE/Edge): <b>97 KB</b><br/>
-								Image served as JPEG: <b>111 KB</b>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<h2>Limitations</h2>
-
-			<p>
-				This service is meant for use in applications maintained by The Financial Times.
-				Use by third-parties is not permitted, and non-FT requests may be rate-limited or
-				blocked without notice. More information can be found in the
-				<a href="v2/docs/api#limitations">Limitations section of the API Documentation</a>
-			</p>
-
-		</div>
-
-	</div>
-</div>
+<p>
+	This service is meant for use in applications maintained by The Financial Times.
+	Use by third-parties is not permitted, and non-FT requests may be rate-limited or
+	blocked without notice. More information can be found in the
+	<a href="v2/docs/api#limitations">Limitations section of the API Documentation</a>
+</p>
