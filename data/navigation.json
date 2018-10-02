@@ -1,0 +1,30 @@
+{
+	"items": [
+		{
+			"name": "Overview",
+			"href": "v2",
+			"current": false
+		},
+		{
+			"name": "URL Builder",
+			"href": "v2/docs/url-builder",
+			"current": false
+		},
+		{
+			"name": "API Reference",
+			"href": "v2/docs/api",
+			"current": false
+		},
+		{
+			"name": "Migration",
+			"href": "v2/docs/migration",
+			"current": false
+		},
+		{
+			"name": "Migration",
+			"href": "v2/docs/purge",
+			"requiresAPIKey": true,
+			"current": false
+		}
+	]
+}

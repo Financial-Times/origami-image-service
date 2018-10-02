@@ -21,40 +21,4 @@
 			</ul>
 		</div>
 	</nav>
-
-	{{#navigation.items}}
-		{{#current}}
-			{{#hasChildren}}
-				<nav class="o-header__subnav" role="navigation" aria-label="Sub navigation" data-o-header-subnav="">
-					<div class="o-header-services__container">
-						<div class="o-header__subnav-wrap-outside">
-							<div class="o-header__subnav-wrap-inside" data-o-header-subnav-wrapper="">
-								<div class="o-header__subnav-content">
-									<ol class="o-header__subnav-list o-header__subnav-list--breadcrumb" aria-label="Breadcrumb">
-											<li class="o-header__subnav-item">
-												<a class="o-header__subnav-link" href="{{@root.basePath}}{{href}}">
-													{{name}}
-												</a>
-											</li>
-									</ol>
-
-									<ul class="o-header__subnav-list o-header__subnav-list--children" aria-label="Subsections">
-										{{#children}}
-										<li class="o-header__subnav-item">
-											<a class="o-header__subnav-link" href="{{@root.basePath}}{{href}}"  {{#current}} aria-current {{/current}} >
-												{{name}}
-											</a>
-										</li>
-										{{/children}}
-									</ul>
-								</div>
-							</div>
-							<button class="o-header__subnav-button o-header__subnav-button--left" title="scroll left" aria-hidden="true" disabled></button>
-							<button class="o-header__subnav-button o-header__subnav-button--right" title="scroll right" aria-hidden="true" disabled></button>
-						</div>
-					</div>
-				</nav>
-			{{/hasChildren}}
-		{{/current}}
-	{{/navigation.items}}
 </header>
