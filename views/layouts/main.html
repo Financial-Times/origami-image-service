@@ -5,16 +5,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>{{title}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<base href="{{basePath}}"/>
 
 	<script>
-		var cutsTheMustard = (
-			'querySelector' in document &&
-			'localStorage' in window &&
-			'addEventListener' in window
-		);
-		if (cutsTheMustard) {
-			document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
+		var script = document.createElement('script');
+		var supportsDeferredScripts = "defer" in script && "async" in script;
+		window.cutsTheMustard = (typeof document.documentElement.dataset === 'object' && ('visibilityState' in document) && supportsDeferredScripts);
+		if (window.cutsTheMustard) {
+			document.documentElement.classList.replace('core', 'enhanced');
 		}
 	</script>
 
@@ -30,52 +27,39 @@
 		body {
 			margin: 0;
 		}
-		.origami-logo {
-			display: inline-block;
-			width: 40px;
-			height: 40px;
-			background-repeat: no-repeat;
-			background-position: 50% 50%;
-			background-size: contain;
-			background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2My4zIDYzLjMnPjxnPjxnPjxwb2x5Z29uIGZpbGw9JyNEN0QxQzYnIHBvaW50cz0nMzEuNyw1MS4zIDE5LjksNjMuMiAwLjEsNDMuNCAwLjEsMTkuNycvPjxwb2x5bGluZSBmaWxsPScjQjdCNUFCJyBwb2ludHM9JzQzLjYsMCAxOS45LDAgMC4xLDE5LjcgMTIsMzEuNiA0My42LDAnLz48cG9seWxpbmUgZmlsbD0nIzg3ODY4MCcgcG9pbnRzPSc2My4zLDQzLjQgNjMuMywxOS43IDQzLjYsMCAzMS43LDExLjggNjMuMyw0My40Jy8+PHBvbHlnb24gZmlsbD0nIzY0NjQ2NCcgcG9pbnRzPScxOS45LDYzLjIgNDMuNiw2My4yIDYzLjMsNDMuNCA1MS41LDMxLjYnLz48cGF0aCBmaWxsPScjRDdEMUM2JyBkPSdtMC4wOTgwNjggMTkuNycvPjwvZz48L2c+PC9zdmc+");
-			vertical-align: top;
-			margin-right: 10px;
+		.o-layout__header .o-header-services__top .o-header-services__ftlogo {
+			background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1:origami?source=origami-build-service");
 		}
 	</style>
 
-	<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-techdocs@^7.0.0,o-fonts@^3.0.0,o-grid@^4.0.0,o-icons@^5.2.0,o-forms@^4.0.0,o-buttons@^5.0.0" />
-	<link rel="stylesheet" href="main.css" />
+	<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules==o-layout@^2.0.1,o-fonts@^3.0.4,o-syntax-highlight@^1.5.1,o-table@^6.9.2,o-forms@^5.8.2" />
+
 	<script src="https://polyfill.io/v2/polyfill.min.js?features=fetch,default"></script>
 	<script>
 		(function(src) {
-			if (cutsTheMustard) {
-				var o = document.createElement('script');
-				o.async = o.defer = true;
-				o.src = src;
+			if (window.cutsTheMustard) {
+				script.async = script.defer = true;
+				script.src = src;
 				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(o, s);
+				s.parentNode.insertBefore(script, s);
 			}
-		}('https://origami-build.ft.com/v2/bundles/js?modules=o-techdocs@^7.0.0,o-fonts@^3.0.0,o-grid@^4.0.0,o-icons@^5.2.0,o-forms@^4.0.0,o-buttons@^5.0.0'));
+		}('https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-layout@^2.0.1,o-syntax-highlight@^1.5.1,o-table@^6.9.2,o-forms@^5.8.2'));
 	</script>
 
 </head>
-<body class="o-techdocs">
-	<header class="o-header-services" data-o-component="o-header">
-		<div class="o-header-services__top o-header-services__container">
-			<div class="o-header-services__ftlogo"></div>
-			<div class="o-header-services__title">
-				<h1 class="o-header-services__product-name"><a href="/">Origami Image Service</a></h1><span class="o-header-subrand__product-tagline ">Optimise and resize images easily</span>
-			</div>
+<body data-o-component="o-syntax-highlight">
+	<div class="o-layout" data-o-component="o-layout">
+		{{> header}}
+
+		<div class="o-layout__sidebar">
+
 		</div>
-	</header>
 
-	{{{body}}}
+		<div class="o-layout__main">
 
-	<footer class="o-techdocs-footer">
-		<div class="o-techdocs-footer__inner">
-			<p>&copy; THE FINANCIAL TIMES LTD. FT and 'Financial Times' are trademarks of The Financial Times Ltd.</p>
 		</div>
-	</footer>
 
+		{{> footer}}
+	</div>
 </body>
 </html>
