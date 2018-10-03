@@ -1,119 +1,104 @@
+<h1>
+	Migration Guide
+</h1>
 
-<div class="o-techdocs-container">
-	<div class="o-techdocs-layout">
+<p>
+	There are some breaking changes in the API between v1 and v2 of the Image Service.
+	We'll outline all of these below.
+</p>
 
-		<div class="o-techdocs-sidebar">
-			{{>navigation}}
-		</div>
+<p>
+	Making the switch should be as simple as performing a replacement on all of the URLs
+	in your application. Image Service v2 has moved to <code>ft.com</code>, the URLs
+	below illustrate the change that needs to be made:
+</p>
 
-		<div class="o-techdocs-main o-techdocs-content">
+<ul>
+	<li>https://<b>image.webservices.ft.com/v1</b>/images/raw/&hellip;</li>
+	<li>https://<b>www.ft.com/__origami/service/image/v2</b>/images/raw/&hellip;</li>
+</ul>
 
-			<h1>
-				Migration Guide
-			</h1>
+<h2 id="image-modes">Image modes</h2>
 
-			<p>
-				There are some breaking changes in the API between v1 and v2 of the Image Service.
-				We'll outline all of these below.
-			</p>
+<p>
+	The image modes <code>data</code> and <code>data-utfhack</code>
+	have been removed from the service. The <code>debug</code> mode has been added.
+</p>
 
-			<p>
-				Making the switch should be as simple as performing a replacement on all of the URLs
-				in your application. Image Service v2 has moved to <code>ft.com</code>, the URLs
-				below illustrate the change that needs to be made:
-			</p>
+<h2 id="imagesets">Imagesets</h2>
 
-			<ul>
-				<li>https://<b>image.webservices.ft.com/v1</b>/images/raw/&hellip;</li>
-				<li>https://<b>www.ft.com/__origami/service/image/v2</b>/images/raw/&hellip;</li>
-			</ul>
+<p>
+	The ability to produce an image from multiple sources (spriting) has been removed
+	from the service. This means that the following endpoints are no longer supported:
+</p>
 
-			<h2>Image modes</h2>
+<ul>
+	<li>GET /v2/images/<var>:uri</var>,<var>:uri</var></li>
+	<li>GET /v1/images/<var>:mode</var>?imageset=<var>:imageset</var></li>
+</ul>
 
-			<p>
-				The image modes <code>data</code> and <code>data-utfhack</code>
-				have been removed from the service. The <code>debug</code> mode has been added.
-			</p>
+<h2 id="image-limits">Image Limits</h2>
 
-			<h2>Imagesets</h2>
+<p>
+	In V2, some limits have been added to both transformed images and source images:
+</p>
 
-			<p>
-				The ability to produce an image from multiple sources (spriting) has been removed
-				from the service. This means that the following endpoints are no longer supported:
-			</p>
+<dl>
+	<dt>MegaPixels</dt>
+	<dd>Transformed images must not exceed 25 MegaPixels (26,214,400 pixels)</dd>
+	<dt>Width/height</dt>
+	<dd>Transformed images must not exceed 65,000 pixels in either width or height</dd>
+	<dt>File size</dt>
+	<dd>Source images must not exceed 20MB in size</dd>
+</dl>
 
-			<ul>
-				<li>GET /v2/images/<var>:uri</var>,<var>:uri</var></li>
-				<li>GET /v1/images/<var>:mode</var>?imageset=<var>:imageset</var></li>
-			</ul>
+<h2 id="transforms-querystrings">Transforms/Querystrings</h2>
 
-			<h2>Image Limits</h2>
+<h3>Scheme</h3>
 
-			<p>
-				In V2, some limits have been added to both transformed images and source images:
-			</p>
+<p>
+	The <code>scheme</code> query parameter is no longer supported, as multiple images
+	cannot be requested at once. The scheme should form part of the image URI.
+</p>
 
-			<dl>
-				<dt>MegaPixels</dt>
-				<dd>Transformed images must not exceed 25 MegaPixels (26,214,400 pixels)</dd>
-				<dt>Width/height</dt>
-				<dd>Transformed images must not exceed 65,000 pixels in either width or height</dd>
-				<dt>File size</dt>
-				<dd>Source images must not exceed 20MB in size</dd>
-			</dl>
+<h3>Imageset</h3>
 
-			<h2>Transforms/Querystrings</h2>
+<p>
+	The <code>imageset</code> query parameter is no longer supported, as multiple images
+	cannot be requested at once.
+</p>
 
-			<h3>Scheme</h3>
+<h3>Tint</h3>
 
-			<p>
-				The <code>scheme</code> query parameter is no longer supported, as multiple images
-				cannot be requested at once. The scheme should form part of the image URI.
-			</p>
+<p>
+	The <code>tint</code> query parameter has changed, with results differing from v1.
+	These changes are minor, and tint colours will differ slightly between v1 and v2 URLs.
+	SVG images can still be tinted, and they no longer require a colour to be specified twice.
+</p>
 
-			<h3>Imageset</h3>
+<h3>Compression</h3>
 
-			<p>
-				The <code>imageset</code> query parameter is no longer supported, as multiple images
-				cannot be requested at once.
-			</p>
+<p>
+	The <code>compression</code> query parameter is no longer supported, use
+	<code>quality</code> alone to manipulate the level of compression that is applied
+	to the image.
+</p>
 
-			<h3>Tint</h3>
+<h3>Format</h3>
 
-			<p>
-				The <code>tint</code> query parameter has changed, with results differing from v1.
-				These changes are minor, and tint colours will differ slightly between v1 and v2 URLs.
-				SVG images can still be tinted, and they no longer require a colour to be specified twice.
-			</p>
+<p>
+	The <code>format</code> query parameter can now be set to <code>gif</code>, and all
+	GIF images (including animated ones) can be resized and cropped.
+</p>
 
-			<h3>Compression</h3>
+<p>
+	If the <code>format</code> query parameter is set to <code>auto</code>, it will now
+	use <a href="http://cloudinary.com/documentation/image_transformations#automatic_format_selection">Cloudinary's automatic format detection</a>.
+	This includes serving WebP or JPEG-XR images for browsers which support them.
+</p>
 
-			<p>
-				The <code>compression</code> query parameter is no longer supported, use
-				<code>quality</code> alone to manipulate the level of compression that is applied
-				to the image.
-			</p>
+<h2 id="metadata">Metadata</h2>
 
-			<h3>Format</h3>
-
-			<p>
-				The <code>format</code> query parameter can now be set to <code>gif</code>, and all
-				GIF images (including animated ones) can be resized and cropped.
-			</p>
-
-			<p>
-				If the <code>format</code> query parameter is set to <code>auto</code>, it will now
-				use <a href="http://cloudinary.com/documentation/image_transformations#automatic_format_selection">Cloudinary's automatic format detection</a>.
-				This includes serving WebP or JPEG-XR images for browsers which support them.
-			</p>
-
-			<h2>Metadata</h2>
-
-			<p>
-				The <code>images/metadata</code> endpoint now doesn't include a <code>cache</code> property.
-			</p>
-
-		</div>
-
-	</div>
-</div>
+<p>
+	The <code>images/metadata</code> endpoint now doesn't include a <code>cache</code> property.
+</p>
