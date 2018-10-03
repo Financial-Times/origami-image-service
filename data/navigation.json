@@ -21,9 +21,8 @@
 			"current": false
 		},
 		{
-			"name": "Migration",
+			"name": "Purging Guide",
 			"href": "v2/docs/purge",
-			"requiresAPIKey": true,
 			"current": false
 		}
 	]

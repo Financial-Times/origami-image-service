@@ -1,76 +1,67 @@
+<h1>
+	Purging Images
+</h1>
 
-<div class="o-techdocs-container">
-	<div class="o-techdocs-layout">
-		<div class="o-techdocs-sidebar">
-			{{>navigation}}
-		</div>
+<p>
+	To use these endpoints you need to set the header <code>FT-Origami-Api-Key</code> with your API key.
+</p>
 
-		<div class="o-techdocs-main o-techdocs-content">
+<h2 id="get-v2-images-purge">GET /v2/images/purge/<var>:uri</var></h2>
 
-			<h1>
-				Purging Images
-			</h1>
+<p>Finds the correct HTTP URL equivalent of the <code>uri</code> being requested to purge and redirects to <code>/v2/purge/url?url=<var>:URL-to-purge</var></code> to initaite the purge request.</p>
 
-			<p>
-				To use these endpoints you need to set the header <code>FT-Origami-Api-Key</code> with your API key.
-			</p>
+<h2 id="get-purge-url">GET /v2/purge/url?url=<var>:URL-to-purge</var><var>&transforms</var></h2>
 
-			<h3>GET /v2/images/purge/<var>:uri</var></h3>
+<p>
+	Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly. If the <code>transforms</code> query parameter is also supplied in the request then all transforms of the original image will be purged from Fastly.
+</p>
 
-			<p>Finds the correct HTTP URL equivalent of the <code>uri</code> being requested to purge and redirects to <code>/v2/purge/url?url=<var>:URL-to-purge</var> to initaite the purge request.</p>
+<h2 id="get-purge-key">GET /v2/purge/key?key=<var>:surrogate-key</var></h2>
+<p>
+	Purge from Fastly all resources which are tagged with the surrogate-key.
+	You can view the surrogate-keys by adding the header <code>FT-Debug: true</code> to a request.
+	The types of surrogate-keys available are as follows:
+</p>
 
-			<h3>GET /v2/purge/url?url=<var>:URL-to-purge</var><var>&transforms</var></h3>
+<aside>
+	<strong>Purging keys will not purge from Cloudinary</strong>
+	<p>Currently the Origami Image Service can only purge keys from Fastly. The original image will still be stored by Cloudinary.</p>
+</aside>
 
-			<p>
-				Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly. If the <code>transforms</code> query parameter is also supplied in the request then all transforms of the original image will be purged from Fastly.
-			</p>
-
-			<h3>GET /v2/purge/key?key=<var>:surrogate-key</var></h3>
-			<p>
-				Purge from Fastly all resources which are tagged with the surrogate-key.
-				You can view the surrogate-keys by adding the header <code>FT-Debug: true</code> to a request.
-				The types of surrogate-keys available are as follows:
-			</p>
-
-			<aside>
-				<h5>Purging keys will not purge from Cloudinary</h5>
-				<p>Currently the Origami Image Service can only purge keys from Fastly. The original image will still be stored by Cloudinary.</p>
-			</aside>
-			<div class="o-techdocs-table-wrapper">
-				<table>
-					<tr>
-						<th>Surrogate Key Types</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>everything</td>
-						<td>
-							<p>The surrogate key <code>origami-image-service</code> is added to every image, purging this will remove all images from Fastly. Recommended to only use this in extreme circumstances.</p>
-						</td>
-					</tr>
-					<tr>
-						<td>scheme</td>
-						<td>
-							<p>Each scheme has it's own surrogate key in order to remove all images requested with the scheme from Fastly.</p>
-							<p>The scheme surrogate key is the third value in the surrogate-key header.</p>
-						</td>
-					</tr>
-					<tr>
-						<td>image response type</td>
-						<td>
-							<p>The response type of the image is used as a surrogate key, purging this will remove all images of the same response type from Fastly.</p>
-							<p>The image type surrogate key is the second value in the surrogate-key header.</p>
-						</td>
-					</tr>
-					<tr>
-						<td>requested image</td>
-						<td>
-							<p>The requested image is used as a surrogate key, purging this will remove all images based on the original image from Fastly.</p>
-							<p>The requested image surrogate key is the fourth value in the surrogate-key header.</p>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
+<table class="o-table o-table--responsive-flat o-layout__main__single-span" data-o-component="o-table" data-o-table-responsive="flat">
+	<thead>
+		<tr>
+			<th>Surrogate Key Types</th>
+			<th data-o-table-heading-disable-sort>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>everything</td>
+			<td>
+				<p>The surrogate key <code>origami-image-service</code> is added to every image, purging this will remove all images from Fastly. Recommended to only use this in extreme circumstances.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>scheme</td>
+			<td>
+				<p>Each scheme has it's own surrogate key in order to remove all images requested with the scheme from Fastly.</p>
+				<p>The scheme surrogate key is the third value in the surrogate-key header.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>image response type</td>
+			<td>
+				<p>The response type of the image is used as a surrogate key, purging this will remove all images of the same response type from Fastly.</p>
+				<p>The image type surrogate key is the second value in the surrogate-key header.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>requested image</td>
+			<td>
+				<p>The requested image is used as a surrogate key, purging this will remove all images based on the original image from Fastly.</p>
+				<p>The requested image surrogate key is the fourth value in the surrogate-key header.</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
