@@ -8,18 +8,6 @@ td img {
 	width: 100%;
 }
 
-div.o-forms {
-	padding: 0;
-}
-
-.o-forms__additional-info {
-	padding-bottom: 0.5em;
-}
-
-.o-forms__radio+.o-forms__label {
-	padding: 0 1em 0 2em;
-}
-
 .url-builder-preview {
 	flex-basis: 75%;
 	margin-left: 20px;

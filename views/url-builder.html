@@ -68,61 +68,69 @@
 
 		<h2 id="advanced-settings">Advanced Settings</h2>
 
-		<div class="o-forms o-forms--wide">
-			<label class="o-forms__label">Fit</label>
+		<fieldset class="o-forms o-forms--wide">
+			<legend class="o-forms__label">Fit</legend>
 			<small class="o-forms__additional-info">
 				The way the image should be cropped. See the <a href="v2/docs/api">API Documentation</a> for more information.
 			</small>
-			<input type="radio" id="builder-fit-cover" name="fit" value="" class="o-forms__radio" {{#if form.fit.isCover}}checked{{/if}}/>
-			<label for="builder-fit-cover" class="o-forms__label">cover (default)</label>
-			<input type="radio" id="builder-fit-contain" name="fit" value="contain" class="o-forms__radio" {{#if form.fit.isContain}}checked{{/if}}/>
-			<label for="builder-fit-contain" class="o-forms__label">contain</label>
-			<input type="radio" id="builder-fit-scale-down" name="fit" value="scale-down" class="o-forms__radio" {{#if form.fit.isScaleDown}}checked{{/if}}/>
-			<label for="builder-fit-scale-down" class="o-forms__label">scale-down</label>
-		</div>
+			<div class="o-forms__group o-forms__group--inline">
+				<input type="radio" id="builder-fit-cover" name="fit" value="" class="o-forms__radio" {{#if form.fit.isCover}}checked{{/if}}/>
+				<label for="builder-fit-cover" class="o-forms__label">cover (default)</label>
+				<input type="radio" id="builder-fit-contain" name="fit" value="contain" class="o-forms__radio" {{#if form.fit.isContain}}checked{{/if}}/>
+				<label for="builder-fit-contain" class="o-forms__label">contain</label>
+				<input type="radio" id="builder-fit-scale-down" name="fit" value="scale-down" class="o-forms__radio" {{#if form.fit.isScaleDown}}checked{{/if}}/>
+				<label for="builder-fit-scale-down" class="o-forms__label">scale-down</label>
+			</div>
+		</fieldset>
 
-		<div class="o-forms o-forms--wide">
-			<label class="o-forms__label">Gravity</label>
+		<fieldset class="o-forms o-forms--wide">
+			<legend class="o-forms__label">Gravity</legend>
 			<small class="o-forms__additional-info">
 				Whether image analysis should be used to provide a better crop. See the <a href="v2/docs/api">API Documentation</a> for more information.
 			</small>
-			<input type="radio" id="builder-gravity-none" name="gravity" value="" class="o-forms__radio" {{#if form.gravity.isNone}}checked{{/if}}/>
-			<label for="builder-gravity-none" class="o-forms__label">none (default)</label>
-			<input type="radio" id="builder-gravity-faces" name="gravity" value="faces" class="o-forms__radio" {{#if form.gravity.isFaces}}checked{{/if}}/>
-			<label for="builder-gravity-faces" class="o-forms__label">faces</label>
-			<input type="radio" id="builder-gravity-poi" name="gravity" value="poi" class="o-forms__radio" {{#if form.gravity.isGravity}}checked{{/if}}/>
-			<label for="builder-gravity-poi" class="o-forms__label">point of interest</label>
-		</div>
+			<div class="o-forms__group o-forms__group--inline">
+				<input type="radio" id="builder-gravity-none" name="gravity" value="" class="o-forms__radio" {{#if form.gravity.isNone}}checked{{/if}}/>
+				<label for="builder-gravity-none" class="o-forms__label">none (default)</label>
+				<input type="radio" id="builder-gravity-faces" name="gravity" value="faces" class="o-forms__radio" {{#if form.gravity.isFaces}}checked{{/if}}/>
+				<label for="builder-gravity-faces" class="o-forms__label">faces</label>
+				<input type="radio" id="builder-gravity-poi" name="gravity" value="poi" class="o-forms__radio" {{#if form.gravity.isGravity}}checked{{/if}}/>
+				<label for="builder-gravity-poi" class="o-forms__label">point of interest</label>
+			</div>
+		</fieldset>
 
-		<div class="o-forms o-forms--wide">
-			<label class="o-forms__label">Format</label>
-			<input type="radio" id="builder-format-auto" name="format" value="" class="o-forms__radio" {{#if form.format.isAuto}}checked{{/if}}/>
-			<label for="builder-format-auto" class="o-forms__label">auto (default)</label>
-			<input type="radio" id="builder-format-jpg" name="format" value="jpg" class="o-forms__radio" {{#if form.format.isJpg}}checked{{/if}}/>
-			<label for="builder-format-jpg" class="o-forms__label">jpg</label>
-			<input type="radio" id="builder-format-png" name="format" value="png" class="o-forms__radio" {{#if form.format.isPng}}checked{{/if}}/>
-			<label for="builder-format-png" class="o-forms__label">png</label>
-			<input type="radio" id="builder-format-gif" name="format" value="gif" class="o-forms__radio" {{#if form.format.isGif}}checked{{/if}}/>
-			<label for="builder-format-gif" class="o-forms__label">gif</label>
-			<input type="radio" id="builder-format-svg" name="format" value="svg" class="o-forms__radio" {{#if form.format.isSvg}}checked{{/if}}/>
-			<label for="builder-format-svg" class="o-forms__label">svg</label>
-		</div>
+		<fieldset class="o-forms o-forms--wide">
+			<legend class="o-forms__label">Format</legend>
+			<div class="o-forms__group o-forms__group--inline">
+				<input type="radio" id="builder-format-auto" name="format" value="" class="o-forms__radio" {{#if form.format.isAuto}}checked{{/if}}/>
+				<label for="builder-format-auto" class="o-forms__label">auto (default)</label>
+				<input type="radio" id="builder-format-jpg" name="format" value="jpg" class="o-forms__radio" {{#if form.format.isJpg}}checked{{/if}}/>
+				<label for="builder-format-jpg" class="o-forms__label">jpg</label>
+				<input type="radio" id="builder-format-png" name="format" value="png" class="o-forms__radio" {{#if form.format.isPng}}checked{{/if}}/>
+				<label for="builder-format-png" class="o-forms__label">png</label>
+				<input type="radio" id="builder-format-gif" name="format" value="gif" class="o-forms__radio" {{#if form.format.isGif}}checked{{/if}}/>
+				<label for="builder-format-gif" class="o-forms__label">gif</label>
+				<input type="radio" id="builder-format-svg" name="format" value="svg" class="o-forms__radio" {{#if form.format.isSvg}}checked{{/if}}/>
+				<label for="builder-format-svg" class="o-forms__label">svg</label>
+			</div>
+		</fieldset>
 
-		<div class="o-forms o-forms--wide">
-			<label class="o-forms__label">Quality</label>
-			<input type="radio" id="builder-quality-lowest" name="quality" value="lowest" class="o-forms__radio" {{#if form.quality.isLowest}}checked{{/if}}/>
-			<label for="builder-quality-lowest" class="o-forms__label">lowest</label>
-			<input type="radio" id="builder-quality-low" name="quality" value="low" class="o-forms__radio" {{#if form.quality.isLow}}checked{{/if}}/>
-			<label for="builder-quality-low" class="o-forms__label">low</label>
-			<input type="radio" id="builder-quality-medium" name="quality" value="" class="o-forms__radio" {{#if form.quality.isMedium}}checked{{/if}}/>
-			<label for="builder-quality-medium" class="o-forms__label">medium (default)</label>
-			<input type="radio" id="builder-quality-high" name="quality" value="high" class="o-forms__radio" {{#if form.quality.isHigh}}checked{{/if}}/>
-			<label for="builder-quality-high" class="o-forms__label">high</label>
-			<input type="radio" id="builder-quality-highest" name="quality" value="highest" class="o-forms__radio" {{#if form.quality.isHighest}}checked{{/if}}/>
-			<label for="builder-quality-highest" class="o-forms__label">highest</label>
-			<input type="radio" id="builder-quality-lossless" name="quality" value="lossless" class="o-forms__radio" {{#if form.quality.isLossless}}checked{{/if}}/>
-			<label for="builder-quality-lossless" class="o-forms__label">lossless</label>
-		</div>
+		<fieldset class="o-forms o-forms--wide">
+			<legend class="o-forms__label">Quality</legend>
+			<div class="o-forms__group o-forms__group--inline">
+				<input type="radio" id="builder-quality-lowest" name="quality" value="lowest" class="o-forms__radio" {{#if form.quality.isLowest}}checked{{/if}}/>
+				<label for="builder-quality-lowest" class="o-forms__label">lowest</label>
+				<input type="radio" id="builder-quality-low" name="quality" value="low" class="o-forms__radio" {{#if form.quality.isLow}}checked{{/if}}/>
+				<label for="builder-quality-low" class="o-forms__label">low</label>
+				<input type="radio" id="builder-quality-medium" name="quality" value="" class="o-forms__radio" {{#if form.quality.isMedium}}checked{{/if}}/>
+				<label for="builder-quality-medium" class="o-forms__label">medium (default)</label>
+				<input type="radio" id="builder-quality-high" name="quality" value="high" class="o-forms__radio" {{#if form.quality.isHigh}}checked{{/if}}/>
+				<label for="builder-quality-high" class="o-forms__label">high</label>
+				<input type="radio" id="builder-quality-highest" name="quality" value="highest" class="o-forms__radio" {{#if form.quality.isHighest}}checked{{/if}}/>
+				<label for="builder-quality-highest" class="o-forms__label">highest</label>
+				<input type="radio" id="builder-quality-lossless" name="quality" value="lossless" class="o-forms__radio" {{#if form.quality.isLossless}}checked{{/if}}/>
+				<label for="builder-quality-lossless" class="o-forms__label">lossless</label>
+			</div>
+		</fieldset>
 
 		<div class="o-forms">
 			<label for="builder-tint" class="o-forms__label">Tint</label>
