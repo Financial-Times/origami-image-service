@@ -11,7 +11,7 @@
 
 <h2 id="url-settings">URL Settings</h2>
 
-	<form class="o-layout__main__full-span" action="v2/docs/url-builder" method="get">
+	<form class="o-layout__main__full-span" action="{{@root.basePath}}v2/docs/url-builder" method="get">
 		<div class="flex-container">
 			<div class="form" >
 				<div class="o-forms o-forms--wide">
@@ -78,6 +78,8 @@
 				<label for="builder-fit-cover" class="o-forms__label">cover (default)</label>
 				<input type="radio" id="builder-fit-contain" name="fit" value="contain" class="o-forms__radio" {{#if form.fit.isContain}}checked{{/if}}/>
 				<label for="builder-fit-contain" class="o-forms__label">contain</label>
+				<input type="radio" id="builder-fit-fill" name="fit" value="fill" class="o-forms__radio" {{#if form.fit.isFill}}checked{{/if}}/>
+				<label for="builder-fit-fill" class="o-forms__label">fill</label>
 				<input type="radio" id="builder-fit-scale-down" name="fit" value="scale-down" class="o-forms__radio" {{#if form.fit.isScaleDown}}checked{{/if}}/>
 				<label for="builder-fit-scale-down" class="o-forms__label">scale-down</label>
 			</div>

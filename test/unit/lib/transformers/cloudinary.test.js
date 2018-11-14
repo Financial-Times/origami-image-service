@@ -101,6 +101,19 @@ describe('lib/transformers/cloudinary', () => {
 
 		});
 
+		describe('when `transform` has a `fit` property set to `fill`', () => {
+
+			beforeEach(() => {
+				transform.setFit('fill');
+				cloudinaryUrl = cloudinaryTransform(transform, options);
+			});
+
+			it('returns the expected Cloudinary fetch URL', () => {
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/fetch/s--[^/]+--/c_scale,f_auto,fl_any_format.force_strip.progressive,q_72/http://example.com/$'));
+			});
+
+		});
+
 		describe('when `transform` has a `fit` property set to `scale-down`', () => {
 
 			beforeEach(() => {

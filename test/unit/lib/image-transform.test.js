@@ -1145,6 +1145,7 @@ describe('lib/image-transform', () => {
 		assert.deepEqual(ImageTransform.validFits, [
 			'contain',
 			'cover',
+			'fill',
 			'scale-down'
 		]);
 	});
