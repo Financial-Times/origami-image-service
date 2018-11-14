@@ -22,9 +22,6 @@ jobs:
           name: Run unit tests
           command: make test-unit-coverage
       - run:
-          name: Run whitesource
-          command: make whitesource
-      - run:
           name: Run integration tests
           command: make test-integration
 workflows:
