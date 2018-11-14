@@ -11,7 +11,7 @@
 
 <h2 id="url-settings">URL Settings</h2>
 
-	<form class="o-layout__main__full-span" action="{{@root.basePath}}v2/docs/url-builder" method="get">
+	<form class="o-layout__main__full-span" action="v2/docs/url-builder" method="get">
 		<div class="flex-container">
 			<div class="form" >
 				<div class="o-forms o-forms--wide">
@@ -56,11 +56,11 @@
 			<div class="url-builder-preview">
 				{{#if imagePreviewUrl}}
 					<a href="{{imagePreviewUrl}}" style="border: none;">
-						<img style="width:100%;"src="{{imagePreviewUrl}}" alt="Optimised Image"/>
+						<img style="width:100%;" src="{{imagePreviewUrl}}" alt="Optimised Image"/>
 					</a>
 					<div class="o-forms o-forms--wide">
 						<label for="builder-output" class="o-forms__label">URL for the optimised image</label>
-						<textarea class="url-builder-output" id="builder-output" class="o-forms__textarea" readonly>https://www.ft.com{{basePath}}{{imagePreviewUrl}}</textarea>
+						<textarea class="url-builder-output" id="builder-output" class="o-forms__textarea" readonly>https://www.ft.com/__origami/service/image/{{imagePreviewUrl}}</textarea>
 					</div>
 				{{/if}}
 			</div>
