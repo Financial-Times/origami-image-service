@@ -42,7 +42,7 @@
     "http-proxy": "^1",
     "jsdom": "^11.6.2",
     "probe-image-size": "^2.2.0",
-    "request": "^2",
+    "request": "^2.83.0",
     "require-all": "^2",
     "statuses": "^1",
     "svg-tint-stream": "^0.3",
