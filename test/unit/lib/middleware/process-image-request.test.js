@@ -179,7 +179,7 @@ describe('lib/middleware/process-image-request', () => {
 				let imageTransformError;
 
 				beforeEach(() => {
-					next. resetHistory();
+					next.resetHistory();
 					imageTransformError = new Error('image transform error');
 					ImageTransform.throws(imageTransformError);
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);

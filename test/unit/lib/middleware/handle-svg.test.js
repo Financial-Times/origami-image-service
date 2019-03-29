@@ -163,7 +163,7 @@ describe('lib/middleware/handle-svg', () => {
 					let dnsError;
 
 					beforeEach(() => {
-						next. resetHistory();
+						next.resetHistory();
 						dnsError = new Error('mock error');
 						dnsError.code = 'ENOTFOUND';
 						dnsError.syscall = 'getaddrinfo';
@@ -182,7 +182,7 @@ describe('lib/middleware/handle-svg', () => {
 					let resetError;
 
 					beforeEach(() => {
-						next. resetHistory();
+						next.resetHistory();
 						resetError = new Error('mock error');
 						resetError.code = 'ECONNRESET';
 						resetError.syscall = 'mock-syscall';
@@ -201,7 +201,7 @@ describe('lib/middleware/handle-svg', () => {
 					let resetError;
 
 					beforeEach(() => {
-						next. resetHistory();
+						next.resetHistory();
 						resetError = new Error('mock error');
 						resetError.code = 'ETIMEDOUT';
 						resetError.syscall = 'mock-syscall';
@@ -246,7 +246,7 @@ describe('lib/middleware/handle-svg', () => {
 				let tintError;
 
 				beforeEach(() => {
-					next. resetHistory();
+					next.resetHistory();
 					tintError = new Error('stream error');
 					SvgTintStream.throws(tintError);
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
