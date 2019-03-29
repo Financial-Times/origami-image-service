@@ -30,6 +30,7 @@ describe('lib/cloudinary-metrics', () => {
 
 		beforeEach(() => {
 			sinon.stub(global, 'setInterval');
+			global.setInterval.returns({unref: sinon.spy()});
 			pingUsage = sinon.stub(CloudinaryMetrics.prototype, 'pingUsage');
 			bindPingUsage = sinon.spy(pingUsage, 'bind');
 			options = origamiService.mockApp.ft.options = {
