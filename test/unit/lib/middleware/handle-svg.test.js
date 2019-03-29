@@ -95,7 +95,7 @@ describe('lib/middleware/handle-svg', () => {
 				describe('when the image response status is an error code', () => {
 
 					beforeEach(() => {
-						origamiService.mockResponse.set. resetHistory();
+						origamiService.mockResponse.set.resetHistory();
 						mockImageResponse.statusCode = 400;
 						handler(mockImageResponse);
 					});
@@ -118,7 +118,7 @@ describe('lib/middleware/handle-svg', () => {
 				describe('when the image response is not an SVG', () => {
 
 					beforeEach(() => {
-						origamiService.mockResponse.set. resetHistory();
+						origamiService.mockResponse.set.resetHistory();
 						mockImageResponse.headers['content-type'] = 'text/html';
 						handler(mockImageResponse);
 					});
@@ -231,7 +231,7 @@ describe('lib/middleware/handle-svg', () => {
 			describe('when `request.query.color` is not set', () => {
 
 				beforeEach(() => {
-					SvgTintStream. resetHistory();
+					SvgTintStream.resetHistory();
 					delete origamiService.mockRequest.query.color;
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});

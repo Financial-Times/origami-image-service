@@ -531,7 +531,7 @@ describe('lib/image-service', () => {
 			describe('when the error represents a failed DNS lookup', () => {
 
 				beforeEach(() => {
-					serviceErrorHandler. resetHistory();
+					serviceErrorHandler.resetHistory();
 					proxyError.code = 'ENOTFOUND';
 					proxyError.syscall = 'getaddrinfo';
 					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
@@ -547,7 +547,7 @@ describe('lib/image-service', () => {
 			describe('when the error represents a connection reset', () => {
 
 				beforeEach(() => {
-					serviceErrorHandler. resetHistory();
+					serviceErrorHandler.resetHistory();
 					proxyError.code = 'ECONNRESET';
 					proxyError.syscall = 'mock-syscall';
 					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
@@ -563,7 +563,7 @@ describe('lib/image-service', () => {
 			describe('when the error represents a request timeout', () => {
 
 				beforeEach(() => {
-					serviceErrorHandler. resetHistory();
+					serviceErrorHandler.resetHistory();
 					proxyError.code = 'ETIMEDOUT';
 					proxyError.syscall = 'mock-syscall';
 					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
@@ -579,7 +579,7 @@ describe('lib/image-service', () => {
 			describe('when the error is possibly a proxy timeout', () => {
 
 				beforeEach(() => {
-					serviceErrorHandler. resetHistory();
+					serviceErrorHandler.resetHistory();
 					proxyError.code = 'ECONNRESET';
 					proxyError.syscall = undefined;
 					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);

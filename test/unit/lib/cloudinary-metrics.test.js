@@ -120,7 +120,7 @@ describe('lib/cloudinary-metrics', () => {
 
 				beforeEach(() => {
 					cloudinaryError = new Error('mock cloudinary error');
-					origamiService.mockApp.ft.metrics.count. resetHistory();
+					origamiService.mockApp.ft.metrics.count.resetHistory();
 					cloudinary.api.usage.rejects(cloudinaryError);
 					return instance.pingUsage().catch();
 				});
@@ -141,7 +141,7 @@ describe('lib/cloudinary-metrics', () => {
 
 				beforeEach(() => {
 					cloudinaryError = new Error('mock cloudinary error');
-					origamiService.mockApp.ft.metrics.count. resetHistory();
+					origamiService.mockApp.ft.metrics.count.resetHistory();
 					cloudinary.api.usage.throws(cloudinaryError);
 					instance.pingUsage();
 				});
