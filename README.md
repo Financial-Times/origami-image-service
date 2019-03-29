@@ -24,7 +24,7 @@ Table Of Contents
 Requirements
 ------------
 
-Running Origami Image Service requires [Node.js] 6.x and [npm].
+Running Origami Image Service requires [Node.js] and [npm].
 
 
 Running Locally
