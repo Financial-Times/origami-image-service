@@ -3,7 +3,7 @@
 const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
-require('sinon-as-promised');
+
 
 describe('lib/middleware/handle-svg', () => {
 	let origamiService;
@@ -95,7 +95,7 @@ describe('lib/middleware/handle-svg', () => {
 				describe('when the image response status is an error code', () => {
 
 					beforeEach(() => {
-						origamiService.mockResponse.set.reset();
+						origamiService.mockResponse.set. resetHistory();
 						mockImageResponse.statusCode = 400;
 						handler(mockImageResponse);
 					});
@@ -118,7 +118,7 @@ describe('lib/middleware/handle-svg', () => {
 				describe('when the image response is not an SVG', () => {
 
 					beforeEach(() => {
-						origamiService.mockResponse.set.reset();
+						origamiService.mockResponse.set. resetHistory();
 						mockImageResponse.headers['content-type'] = 'text/html';
 						handler(mockImageResponse);
 					});
@@ -163,7 +163,7 @@ describe('lib/middleware/handle-svg', () => {
 					let dnsError;
 
 					beforeEach(() => {
-						next.reset();
+						next. resetHistory();
 						dnsError = new Error('mock error');
 						dnsError.code = 'ENOTFOUND';
 						dnsError.syscall = 'getaddrinfo';
@@ -182,7 +182,7 @@ describe('lib/middleware/handle-svg', () => {
 					let resetError;
 
 					beforeEach(() => {
-						next.reset();
+						next. resetHistory();
 						resetError = new Error('mock error');
 						resetError.code = 'ECONNRESET';
 						resetError.syscall = 'mock-syscall';
@@ -201,7 +201,7 @@ describe('lib/middleware/handle-svg', () => {
 					let resetError;
 
 					beforeEach(() => {
-						next.reset();
+						next. resetHistory();
 						resetError = new Error('mock error');
 						resetError.code = 'ETIMEDOUT';
 						resetError.syscall = 'mock-syscall';
@@ -231,7 +231,7 @@ describe('lib/middleware/handle-svg', () => {
 			describe('when `request.query.color` is not set', () => {
 
 				beforeEach(() => {
-					SvgTintStream.reset();
+					SvgTintStream. resetHistory();
 					delete origamiService.mockRequest.query.color;
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 				});
@@ -246,7 +246,7 @@ describe('lib/middleware/handle-svg', () => {
 				let tintError;
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					tintError = new Error('stream error');
 					SvgTintStream.throws(tintError);
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);

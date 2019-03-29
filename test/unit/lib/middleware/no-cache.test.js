@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('proclaim');
-require('sinon-as-promised');
+
 
 describe('lib/middleware/no-cache', () => {
 	let origamiService;

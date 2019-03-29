@@ -119,7 +119,7 @@ describe('lib/middleware/process-image-request', () => {
 				describe('when the transform URI has a querystring', () => {
 
 					beforeEach(() => {
-						mockImageTransform.setUri.reset();
+						mockImageTransform.setUri. resetHistory();
 						mockImageTransform.uri = 'transform-uri?foo';
 						middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 					});
@@ -134,7 +134,7 @@ describe('lib/middleware/process-image-request', () => {
 				describe('when `config.hostname` is set', () => {
 
 					beforeEach(() => {
-						mockImageTransform.setUri.reset();
+						mockImageTransform.setUri. resetHistory();
 						config.hostname = 'config-hostname';
 						middleware(origamiService.mockRequest, origamiService.mockResponse, next);
 					});
@@ -179,7 +179,7 @@ describe('lib/middleware/process-image-request', () => {
 				let imageTransformError;
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					imageTransformError = new Error('image transform error');
 					ImageTransform.throws(imageTransformError);
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);

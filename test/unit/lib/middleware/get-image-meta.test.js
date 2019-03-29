@@ -77,7 +77,7 @@ describe('lib/middleware/get-image-meta', () => {
 		describe('when the request Accept header indicates JPEG-XR support', () => {
 
 			beforeEach(() => {
-				probe.reset();
+				probe. resetHistory();
 				origamiService.mockRequest.headers.accept = 'image/jxr';
 				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
@@ -97,7 +97,7 @@ describe('lib/middleware/get-image-meta', () => {
 		describe('when the transformed image does not have a `dpr` set', () => {
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				origamiService.mockRequest.transform.getDpr.returns(undefined);
 				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
@@ -119,7 +119,7 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				probeError = new Error();
 				probeError.code = 'ECONTENT';
 				probe.yields(probeError);
@@ -144,7 +144,7 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				probeError = new Error('Parse Error');
 				probe.yields(probeError);
 				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
@@ -168,7 +168,7 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				probeError = new Error();
 				probeError.status = 404;
 				probe.yields(probeError);
@@ -192,7 +192,7 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				probeError = new Error();
 				probeError.status = 400;
 				probe.yields(probeError);
@@ -216,7 +216,7 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				probeError = new Error();
 				probeError.status = 500;
 				probe.yields(probeError);
@@ -238,7 +238,7 @@ describe('lib/middleware/get-image-meta', () => {
 			let probeError;
 
 			beforeEach(() => {
-				origamiService.mockResponse.send.reset();
+				origamiService.mockResponse.send. resetHistory();
 				probeError = new Error();
 				probe.yields(probeError);
 				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);

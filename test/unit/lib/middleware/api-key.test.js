@@ -1,7 +1,6 @@
 'use strict';
 
 const assert = require('proclaim');
-require('sinon-as-promised');
 
 describe('lib/middleware/api-key', () => {
 	let origamiService;

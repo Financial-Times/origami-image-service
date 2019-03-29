@@ -3,7 +3,7 @@ jobs:
   test:
     working_directory: ~/service
     docker:
-      - image: node:8
+      - image: node:latest
     steps:
       - checkout
       - restore_cache:

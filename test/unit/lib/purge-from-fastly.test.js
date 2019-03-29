@@ -105,7 +105,7 @@ describe('lib/purge-from-fastly', () => {
 
 			it('creates a setTimeout function which runs atleast in an hours time', () => {
 				instance(url);
-				assert.equal(setTimeout.firstCall.args[1], timeoutStartTime);
+				assert.greaterThanOrEqual(setTimeout.firstCall.args[1], timeoutStartTime);
 			});
 
 			it('does not create a setTimeout function if one does already exist', () => {

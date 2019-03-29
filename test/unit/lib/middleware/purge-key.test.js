@@ -2,7 +2,7 @@
 
 const assert = require('proclaim');
 const mockery = require('mockery');
-require('sinon-as-promised');
+
 
 describe('lib/middleware/purge-key', () => {
 	let origamiService;

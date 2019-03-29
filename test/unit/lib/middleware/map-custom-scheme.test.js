@@ -78,7 +78,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 			describe('when `ImageTransform.resolveCustomSchemeUri` returns the original URL untouched', () => {
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'foo:bar';
 					delete origamiService.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns(origamiService.mockRequest.params.imageUrl);
@@ -103,7 +103,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 			describe('when the `format` query parameter is already set', () => {
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'foo:bar';
 					origamiService.mockRequest.query.format = 'foo';
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
@@ -123,7 +123,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 			describe('when the resolved URL does not have a valid extension', () => {
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'foo:bar';
 					delete origamiService.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.img');
@@ -144,7 +144,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 			describe('when the resolved URL has a querystring', () => {
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'foo:bar';
 					delete origamiService.mockRequest.query.format;
 					ImageTransform.resolveCustomSchemeUri.returns('http://mock-store/foo/bar.svg?foo=bar');
@@ -170,7 +170,7 @@ describe('lib/middleware/map-custom-scheme', () => {
 				let resolutionError;
 
 				beforeEach(() => {
-					next.reset();
+					next. resetHistory();
 					resolutionError = new Error('resolution error');
 					ImageTransform.resolveCustomSchemeUri.throws(resolutionError);
 					middleware(origamiService.mockRequest, origamiService.mockResponse, next);

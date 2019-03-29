@@ -2,7 +2,7 @@
 
 const assert = require('proclaim');
 const mockery = require('mockery');
-require('sinon-as-promised');
+
 
 describe('lib/middleware/get-cms-url', () => {
 	let origamiService;
@@ -77,9 +77,9 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the v2 API cannot find the image', () => {
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
-					log.info.reset();
+					log.info. resetHistory();
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -127,9 +127,9 @@ describe('lib/middleware/get-cms-url', () => {
 				let responseError;
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
-					log.info.reset();
+					log.info. resetHistory();
 
 					// V2 responds with a 404
 					requestPromise.withArgs({
@@ -173,7 +173,7 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the ftcms URL has a querystring', () => {
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id?foo=bar';
 
 					// V2 responds with success
@@ -202,7 +202,7 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the URL is not an ftcms URL', () => {
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'http://foo/bar';
 					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
 				});
@@ -217,7 +217,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let responseError;
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 errors
@@ -245,7 +245,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let responseError;
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
 					// V2 errors
@@ -276,7 +276,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let responseError;
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.url = 'mock-url';
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
@@ -308,7 +308,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let timeoutError;
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.url = 'mock-url';
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
@@ -340,7 +340,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let timeoutError;
 
 				beforeEach(done => {
-					requestPromise.reset();
+					requestPromise. resetHistory();
 					origamiService.mockRequest.url = 'mock-url';
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 
