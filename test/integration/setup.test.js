@@ -25,7 +25,6 @@ before(function() {
 	.then(app => {
 		this.agent = supertest.agent(app);
 		this.app = app;
-		this.app.health.stop();
 	});
 });
 
