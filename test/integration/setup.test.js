@@ -1,6 +1,6 @@
 'use strict';
 
-const imageService = require('../..');
+  const imageService = require('../..');
 const supertest = require('supertest');
 
 const noop = () => {};
@@ -25,6 +25,7 @@ before(function() {
 	.then(app => {
 		this.agent = supertest.agent(app);
 		this.app = app;
+		this.app.health.stop();
 	});
 });
 
