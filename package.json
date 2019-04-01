@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@financial-times/health-check": "^1.9.0",
+    "@financial-times/origami-flag-images": "^1.0.3",
     "@financial-times/origami-service": "^4.0.0",
     "@financial-times/origami-service-makefile": "^6.4.0",
     "@financial-times/source-param-middleware": "^1.0.6",
