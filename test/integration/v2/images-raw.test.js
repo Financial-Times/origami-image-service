@@ -558,7 +558,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRpY29uLXYxOmNyb3Nz/);
+				itRespondsWithHeader('surrogate-key', /ZnRpY29uOmNyb3Nz/);
 			});
 
 			describe('ftlogo', function() {
