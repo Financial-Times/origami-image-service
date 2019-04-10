@@ -12,6 +12,7 @@ const brandImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times
 const specialistTitleLogos = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/origami-specialist-title-logos'), 1);
 const podcastLogos = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/podcast-logos'), 1);
 const socialImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/social-images'), 1);
+const headshotImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/headshot-images'), 1);
 
 function mapImagesetToSchemeNameAndUrlPairs(imageset, version) {
     return imageset.images.reduce(function (accumulator, currentValue) {
@@ -117,6 +118,21 @@ describe('Origami Image Sets via Custom Schemes', function () {
     });
     describe('social-images', function () {
         for (const [customSchemeUrl, realUrl] of Object.entries(socialImages)) {
+            describe(customSchemeUrl, function () {
+                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('application/json');
+                
+                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
+                    this.request.expect(response => {
+                        assert.match(response.body.transform.uri, new RegExp(realUrl));
+                    }).end(done);
+                });
+            });
+        }
+    });
+    describe('headshot-images', function () {
+        for (const [customSchemeUrl, realUrl] of Object.entries(headshotImages)) {
             describe(customSchemeUrl, function () {
                 setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
                 itRespondsWithStatus(200);
