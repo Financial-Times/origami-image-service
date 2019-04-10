@@ -186,6 +186,7 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('text/html');
 
 		it('responds with a descriptive error message', function(done) {
+			this.timeout(30000);
 			this.request.expect(/the source parameter is required/i).end(done);
 		});
 
@@ -557,7 +558,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRpY29uOmNyb3Nz/);
+				itRespondsWithHeader('surrogate-key', /ZnRpY29uLXYxOmNyb3Nz/);
 			});
 
 			describe('ftlogo', function() {
