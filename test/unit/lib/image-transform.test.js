@@ -7,11 +7,52 @@ const sinon = require('sinon');
 describe('lib/image-transform', () => {
 	let colornames;
 	let ImageTransform;
+	let origamiFlagImages;
+	let ftIcons;
+	let logoImages;
+	let origamiBrandImages;
+	let origamiSpecialistTitleLogos;
+	let podcastLogos;
+	let socialImages;
 
 	beforeEach(() => {
 		colornames = sinon.stub();
 		mockery.registerMock('colornames', colornames);
-
+		origamiFlagImages = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/ftflag/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/origami-flag-images', origamiFlagImages);
+		ftIcons = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/fticon/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/fticons', ftIcons);
+		logoImages = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/ftlogo/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/logo-images', logoImages);
+		origamiBrandImages = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/ftbrand/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/origami-brand-images', origamiBrandImages);
+		origamiSpecialistTitleLogos = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/specialisttitle/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/origami-specialist-title-logos', origamiSpecialistTitleLogos);
+		podcastLogos = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/ftpodcast/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/podcast-logos', podcastLogos);
+		socialImages = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/ftsocial/v1/example'
+		}]});
+		mockery.registerMock('@financial-times/social-images', socialImages);
 		ImageTransform = require('../../../lib/image-transform');
 	});
 
@@ -1002,16 +1043,16 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon-v1:foo.svg', 'http://base/images'),
-					'http://base/images/fticon/v1/foo.svg'
+					ImageTransform.resolveCustomSchemeUri('fticon-v1:example.svg', 'http://base/images'),
+					'http://base/images/fticon/v1/example.svg'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:foo.png', 'http://base/images'),
-					'http://base/images/fthead/v1/foo.png'
+					ImageTransform.resolveCustomSchemeUri('fthead:example.png', 'http://base/images'),
+					'http://base/images/fthead/v1/example.png'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:foo.jpg', 'http://base/images'),
-					'http://base/images/fthead/v1/foo.jpg'
+					ImageTransform.resolveCustomSchemeUri('fthead:example.jpg', 'http://base/images'),
+					'http://base/images/fthead/v1/example.jpg'
 				);
 			});
 
