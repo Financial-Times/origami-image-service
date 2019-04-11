@@ -216,7 +216,7 @@ describe('GET /v2/images/raw…', function() {
 
 	describe('when a custom scheme image is not found', function() {
 		setupRequest('GET', '/v2/images/raw/fthead-v1:notahead?source=test');
-		itRespondsWithStatus(404);
+		itRespondsWithStatus(400);
 		itRespondsWithContentType('text/html');
 	});
 
