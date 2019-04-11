@@ -1029,28 +1029,6 @@ describe('lib/image-transform', () => {
 
 		});
 
-		describe('when `uri` has a path', () => {
-
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:example/foo', 'http://base/images'),
-					'http://base/images/fthead/v1/example/foo'
-				);
-			});
-
-		});
-
-		describe('when `uri` has a path with a trailing slash', () => {
-
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:example/foo/', 'http://base/images'),
-					'http://base/images/fthead/v1/example/foo'
-				);
-			});
-
-		});
-
 		describe('when `uri` has a path with a file extension prepopulated', () => {
 
 			it('returns the expected URI', () => {
