@@ -14,6 +14,7 @@ describe('lib/image-transform', () => {
 	let origamiSpecialistTitleLogos;
 	let podcastLogos;
 	let socialImages;
+	let headshotImages;
 
 	beforeEach(() => {
 		colornames = sinon.stub();
@@ -53,6 +54,17 @@ describe('lib/image-transform', () => {
 			url: 'http://base/images/ftsocial/v1/example'
 		}]});
 		mockery.registerMock('@financial-times/social-images', socialImages);
+		headshotImages = sinon.stub({images:[{
+			name: 'example',
+			url: 'http://base/images/fthead/v1/example'
+		},{
+			name: 'example.jpg',
+			url: 'http://base/images/fthead/v1/example.jpg'
+		},{
+			name: 'example.png',
+			url: 'http://base/images/fthead/v1/example.png'
+		}]});
+		mockery.registerMock('@financial-times/headshot-images', headshotImages);
 		ImageTransform = require('../../../lib/image-transform');
 	});
 
