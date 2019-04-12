@@ -573,7 +573,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRzb2NpYWw6d2hhdHNhcHA=/);
+				itRespondsWithHeader('surrogate-key', /ZnRzb2NpYWwtdjE6d2hhdHNhcHA=/);
 			});
 
 			describe('httpftcms', function() {
