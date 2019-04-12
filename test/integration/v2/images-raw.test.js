@@ -14,7 +14,7 @@ const testImageUris = {
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
 	ftpodcast: 'ftpodcast:arts',
-	ftsocial: 'ftsocial:whatsapp',
+	ftsocial: 'ftsocial-v1:whatsapp',
 	httpftcms: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
