@@ -51,7 +51,7 @@ describe('lib/image-transform', () => {
 		mockery.registerMock('@financial-times/podcast-logos', podcastLogos);
 		socialImages = sinon.stub({images:[{
 			name: 'example',
-			url: 'http://base/images/ftsocial/v1/example'
+			url: 'http://base/images/ftsocial/v2/example'
 		}]});
 		mockery.registerMock('@financial-times/social-images', socialImages);
 		headshotImages = sinon.stub({images:[{
@@ -953,7 +953,18 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftsocial-v1:example', 'http://base/images'),
-					'http://base/images/ftsocial/v1/example.svg'
+					'http://base/images/ftsocial/v1/example'
+				);
+			});
+
+		});
+
+		describe('when `uri` is an `ftsocial-v2` URI', () => {
+
+			it('returns the expected URI', () => {
+				assert.strictEqual(
+					ImageTransform.resolveCustomSchemeUri('ftsocial-v2:example', 'http://base/images'),
+					'http://base/images/ftsocial/v2/example.svg'
 				);
 			});
 

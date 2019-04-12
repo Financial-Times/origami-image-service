@@ -11,7 +11,7 @@ const logoImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/
 const brandImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/origami-brand-images'), 1);
 const specialistTitleLogos = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/origami-specialist-title-logos'), 1);
 const podcastLogos = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/podcast-logos'), 1);
-const socialImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/social-images'), 1);
+const socialImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/social-images'), 2);
 const headshotImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/headshot-images'), 1);
 
 function mapImagesetToSchemeNameAndUrlPairs(imageset, version) {
