@@ -953,7 +953,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftsocial-v1:example', 'http://base/images'),
-					'http://base/images/ftsocial/v1/example'
+					'http://base/images/ftsocial/v1/example.svg'
 				);
 			});
 
