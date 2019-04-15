@@ -55,7 +55,7 @@
     "statuses": "1.5.0",
     "svg-tint-stream": "0.3.0",
     "throng": "4.0.0",
-    "utf8": "2.1.2"
+    "utf8": "3.0.0"
   },
   "devDependencies": {
     "denodeify": "1.2.1",
