@@ -13,7 +13,7 @@ dnscache({
 	ttl: 60
 });
 
-dotenv.load({
+dotenv.config({
 	silent: true
 });
 const options = {
