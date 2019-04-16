@@ -22,7 +22,8 @@
   "main": "./lib/image-service.js",
   "scripts": {
     "start": "heroku-node-settings index.js",
-    "heroku-postbuild": "make auto-version"
+    "heroku-postbuild": "make auto-version",
+    "test:fastly": "mocha test/fastly/*.test.js test/fastly/**/*.test.js --recursive --bail --check-leaks --forbid-only --forbid-pending"
   },
   "dependencies": {
     "@financial-times/fticons": "1.19.3",
