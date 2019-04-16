@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 jobs:
   lint_terraform:
     docker:
@@ -89,6 +89,7 @@ jobs:
       - run: make test-integration
 
 workflows:
+  version: 2
   test:
     jobs:
       - lint_terraform:
