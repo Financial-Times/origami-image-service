@@ -85,7 +85,7 @@ sub vcl_recv {
 		call breadcrumb_recv;
 	}
 
-		set req.url = regsub(req.http.FT-Original-URL, "^/__origami/service/image","");
+		set req.url = regsub(req.url, "^/__origami/service/image","");
 		set req.http.FT-Origami-Service-Base-Path = "/__origami/service/image/";
 
 		if (req.http.Accept ~ "image/webp") {
