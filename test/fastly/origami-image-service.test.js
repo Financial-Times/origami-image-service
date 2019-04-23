@@ -3,6 +3,7 @@
 const process = require('process');
 const request = require('supertest');
 const host = process.env.HOST || 'https://origami-image-service.in.ft.com';
+const proclaim = require('proclaim');
 
 describe('Origami-image-service', function () {
     this.timeout(30000);
@@ -65,6 +66,23 @@ describe('Origami-image-service', function () {
                             .expect('Fastly-Debug-Digest', digest)
                             .expect('X-Cache', 'HIT')
                             .expect(200);
+                    });
+            });
+
+            it('does include whether the source parameter existed at all', () => {
+                const path = '/__origami/service/image/v2/images/raw/http://www.elblogdelinfo.com/wp-content/uploads/alb_elias.jpg';
+                return request(host)
+                    .get(`${path}`)
+                    .set('Fastly-Debug', 'true')
+                    .then((response) => {
+                        const digestWithoutSourceParameter = response.headers['fastly-debug-digest'];
+                        return request(host)
+                            .get(`${path}?source=${Math.random()}`)
+                            .set('Fastly-Debug', 'true')
+                            .then((response) => {
+                                const digestWithSourceParameter = response.headers['fastly-debug-digest'];
+                                proclaim.notStrictEqual(digestWithoutSourceParameter, digestWithSourceParameter);
+                            });
                     });
             });
         });
