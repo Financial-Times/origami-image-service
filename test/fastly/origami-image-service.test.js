@@ -49,5 +49,24 @@ describe('Origami-image-service', function () {
                     .expect('vary', /FT-image-format/i);
             });
         });
+
+        describe('cache key logic', () => {
+            it('does not include the source query parameter in the cache key', () => {
+                const path = '/__origami/service/image/v2/images/raw/http://www.elblogdelinfo.com/wp-content/uploads/alb_elias.jpg';
+                return request(host)
+                    .get(`${path}?source=vcl-test`)
+                    .set('Fastly-Debug', 'true')
+                    .expect(200)
+                    .then((response) => {
+                        const digest = response.headers['fastly-debug-digest'];
+                        return request(host)
+                            .get(`${path}?source=${Math.random()}`)
+                            .set('Fastly-Debug', 'true')
+                            .expect('Fastly-Debug-Digest', digest)
+                            .expect('X-Cache', 'HIT')
+                            .expect(200);
+                    });
+            });
+        });
     });
 });

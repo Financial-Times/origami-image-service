@@ -1,3 +1,5 @@
+import querystring;
+
 sub set_backend {
 	# The Fastly macro is inserted before the backend is selected because the
 	# macro has the code which defines the values avaiable for req.http.Host
@@ -109,8 +111,12 @@ sub vcl_hash {
 		call breadcrumb_hash;
 	}
 
-	set req.hash += req.http.host;
-	set req.hash += req.url;
+	# Do not add the host header because it can have 1 of 3 values: origami-image-service.in.ft.com, origami-image-service-eu.herokuapp.com , origami-image-service-us.herokuapp.com
+	# set req.hash += req.http.host;
+	
+	# Do include the source query parameter in the url when adding the url to the hash
+	set req.hash += querystring.filter(req.url, "source");
+
 	# We include return(hash) to stop the function falling through to the default VCL built into varnish, which for vcl_hash will add req.url and req.http.Host to the hash.
 	return(hash);
 }
