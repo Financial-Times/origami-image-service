@@ -114,7 +114,7 @@ sub vcl_hash {
 	# Do not add the host header because it can have 1 of 3 values: origami-image-service.in.ft.com, origami-image-service-eu.herokuapp.com , origami-image-service-us.herokuapp.com
 	# set req.hash += req.http.host;
 	
-	# Do include the source query parameter in the url when adding the url to the hash but do include whether the url did have a source parameter at all
+	# Do not include the source query parameter in the url when adding the url to the hash but do include whether the url did have a source parameter at all
 	set req.hash += querystring.filter(req.url, "source");
 	if (std.strlen(subfield(req.url.qs, "source", "&")) > 0) {
 		set req.hash += "has source parameter";
