@@ -64,7 +64,7 @@ describe('Origami-image-service', function () {
                             .get(`${path}?source=${Math.random()}`)
                             .set('Fastly-Debug', 'true')
                             .expect('Fastly-Debug-Digest', digest)
-                            .expect('X-Cache', '\bHIT\b')
+                            .expect('X-Cache', /\bHIT\b/)
                             .expect(200);
                     });
             });
