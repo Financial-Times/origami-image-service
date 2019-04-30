@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: sudo ~/project/.circleci/install_terraform.sh
       - run: terraform fmt -check=true fastly/terraform/
-  
+
   deploy_dev:
     docker:
       - image: circleci/node:11
@@ -24,7 +24,7 @@ jobs:
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: $FASTLY_API_KEY\" https://api.fastly.com/service/$FASTLY_SERVICE_ID_DEV/purge_all"
       - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Development --summary 'Releasing Origami Image Service to Development'
-  
+
   integration_tests_dev:
     docker:
       - image: circleci/node:11
@@ -32,7 +32,7 @@ jobs:
       - checkout
       - run: npm ci
       - run: HOST=https://origami-image-service-dev.in.ft.com npm run test:fastly
-  
+
   deploy_staging:
     docker:
       - image: circleci/node:11
@@ -48,7 +48,7 @@ jobs:
       - run: terraform apply --auto-approve -var name=origami-image-service-qa.in.ft.com -var domain=origami-image-service-qa.in.ft.com fastly/terraform/
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: $FASTLY_API_KEY\" https://api.fastly.com/service/$FASTLY_SERVICE_ID_STAGING/purge_all"
-      - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment QA --summary 'Releasing Origami Image Service to QA'
+      - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Test --summary 'Releasing Origami Image Service to QA'
 
   integration_tests_staging:
     docker:
@@ -74,7 +74,7 @@ jobs:
       - run: terraform apply --auto-approve -var name=origami-image-service.in.ft.com -var domain=origami-image-service.in.ft.com fastly/terraform/
       - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Production --summary 'Releasing Origami Image Service to Production EU'
       - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Production --summary 'Releasing Origami Image Service to Production US'
-  
+
   lint_js:
     docker:
       - image: circleci/node:11
