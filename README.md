@@ -78,10 +78,6 @@ We configure Origami Image Service using environment variables. In development, 
   * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from
   * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered. This should be the same value as `PURGE_API_KEY`
 
-### Required in Heroku (QA only)
-
-  * `WHITESOURCE_API_KEY`: The API key to use when testing dependencies with Whitesource
-
 ### Required locally
 
   * `GRAFANA_API_KEY`: The API key to use when using Grafana push/pull
