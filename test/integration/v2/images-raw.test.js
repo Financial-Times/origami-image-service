@@ -9,12 +9,17 @@ const setupRequest = require('../helpers/setup-request');
 const testImageUris = {
 	ftbrand: 'ftbrand:brussels-blog',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
+	capiv1: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
+	capiv2: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
+	spark: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
+	sparkMasterImage: 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b',
 	ftflag: 'ftflag:jp',
 	fthead: 'fthead:martin-wolf',
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
 	ftpodcast: 'ftpodcast:arts',
 	ftsocial: 'ftsocial:whatsapp',
+	httpsspark: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
 	httpftcms: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
@@ -103,6 +108,36 @@ describe('GET /v2/images/raw…', function() {
 
 	describe('/ftcms:… (ftcms scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+
+	describe('/ftcms:… (capiv1 scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.capiv1}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+	
+	describe('/ftcms:… (capiv2 scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.capiv2}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+	
+	describe('/ftcms:… (spark scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.spark}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+	
+	describe('/ftcms:… (sparkMasterImage scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.sparkMasterImage}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/jpeg');
+	});
+	
+	describe('/https:… (httpsspark scheme)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsspark}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
