@@ -17,6 +17,7 @@ dotenv.config({
 	silent: true
 });
 const options = {
+	contentApiKey: process.env.CONTENT_API_KEY,
 	cloudinaryAccountName: process.env.CLOUDINARY_ACCOUNT_NAME,
 	cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
 	cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,

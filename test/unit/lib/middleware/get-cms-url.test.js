@@ -9,6 +9,7 @@ describe('lib/middleware/get-cms-url', () => {
 	let getCmsUrl;
 	let log;
 	let requestPromise;
+	let config;
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
@@ -16,6 +17,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 		requestPromise = require('../../mock/request-promise.mock');
 		mockery.registerMock('../request-promise', requestPromise);
+		config = {contentApiKey: 'test'};
 
 		getCmsUrl = require('../../../../lib/middleware/get-cms-url');
 	});
@@ -28,7 +30,7 @@ describe('lib/middleware/get-cms-url', () => {
 		let middleware;
 
 		beforeEach(() => {
-			middleware = getCmsUrl();
+			middleware = getCmsUrl(config);
 		});
 
 		it('returns a middleware function', () => {
