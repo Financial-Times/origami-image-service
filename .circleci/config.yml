@@ -1,4 +1,9 @@
-version: 2
+version: 2.1
+
+orbs:
+    change-api: financial-times/change-api@x.y.z
+
+
 jobs:
   lint_terraform:
     docker:
@@ -23,7 +28,11 @@ jobs:
       - run: terraform apply --auto-approve -var name=origami-image-service-dev.in.ft.com -var domain=origami-image-service-dev.in.ft.com fastly/terraform/
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: $FASTLY_API_KEY\" https://api.fastly.com/service/$FASTLY_SERVICE_ID_DEV/purge_all"
-      - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Development --summary 'Releasing Origami Image Service to Development'
+      - change-api/release-log:
+                  changeApiKey: '${CHANGE_API_KEY}'
+                  systemCode: 'origami-image-service'
+                  environment: 'development'
+                  slackChannels: 'origami-deploys'
 
   integration_tests_dev:
     docker:
@@ -48,7 +57,11 @@ jobs:
       - run: terraform apply --auto-approve -var name=origami-image-service-qa.in.ft.com -var domain=origami-image-service-qa.in.ft.com fastly/terraform/
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: $FASTLY_API_KEY\" https://api.fastly.com/service/$FASTLY_SERVICE_ID_STAGING/purge_all"
-      - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Test --summary 'Releasing Origami Image Service to QA'
+      - change-api/release-log:
+                  changeApiKey: '${CHANGE_API_KEY}'
+                  systemCode: 'origami-image-service'
+                  environment: 'test'
+                  slackChannels: 'origami-deploys'
 
   integration_tests_staging:
     docker:
@@ -72,8 +85,11 @@ jobs:
       - run: terraform init fastly/terraform/
       - run: terraform import -config=fastly/terraform fastly_service_v1.app $FASTLY_SERVICE_ID_PROD
       - run: terraform apply --auto-approve -var name=origami-image-service.in.ft.com -var domain=origami-image-service.in.ft.com fastly/terraform/
-      - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Production --summary 'Releasing Origami Image Service to Production EU'
-      - run: npx -p @financial-times/release-log@^1 release-log --api-key $RELEASE_LOG_API_KEY --service 'Origami Image Service V2' --owner-email 'rowan.manning@ft.com' --notify-channel "origami-deploys" --description 'Release triggered by CI' --environment Production --summary 'Releasing Origami Image Service to Production US'
+      - change-api/release-log:
+                  changeApiKey: '${CHANGE_API_KEY}'
+                  systemCode: 'origami-image-service'
+                  environment: 'production'
+                  slackChannels: 'origami-deploys'
 
   lint_js:
     docker:
