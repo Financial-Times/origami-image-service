@@ -28,10 +28,6 @@ jobs:
       - run: terraform apply --auto-approve -var name=origami-image-service-dev.in.ft.com -var domain=origami-image-service-dev.in.ft.com fastly/terraform/
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: $FASTLY_API_KEY\" https://api.fastly.com/service/$FASTLY_SERVICE_ID_DEV/purge_all"
-      - change-api/release-log:
-                  systemCode: 'origami-image-service'
-                  environment: 'development'
-                  slackChannels: 'origami-deploys'
 
   integration_tests_dev:
     docker:
@@ -56,10 +52,6 @@ jobs:
       - run: terraform apply --auto-approve -var name=origami-image-service-qa.in.ft.com -var domain=origami-image-service-qa.in.ft.com fastly/terraform/
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: $FASTLY_API_KEY\" https://api.fastly.com/service/$FASTLY_SERVICE_ID_STAGING/purge_all"
-      - change-api/release-log:
-                  systemCode: 'origami-image-service'
-                  environment: 'test'
-                  slackChannels: 'origami-deploys'
 
   integration_tests_staging:
     docker:
@@ -83,10 +75,6 @@ jobs:
       - run: terraform init fastly/terraform/
       - run: terraform import -config=fastly/terraform fastly_service_v1.app $FASTLY_SERVICE_ID_PROD
       - run: terraform apply --auto-approve -var name=origami-image-service.in.ft.com -var domain=origami-image-service.in.ft.com fastly/terraform/
-      - change-api/release-log:
-                  systemCode: 'origami-image-service'
-                  environment: 'production'
-                  slackChannels: 'origami-deploys'
 
   lint_js:
     docker:
@@ -137,6 +125,17 @@ workflows:
             - lint_terraform
             - lint_js
             - unit_tests
+      - change-api/release-log:
+          requires:
+            - deploy_dev
+          systemCode: 'origami-image-service'
+          environment: 'dev'
+          slackChannels: 'origami-deploys'
+          filters:
+            tags:
+              ignore: /^v.*/
+            branches:
+              ignore: master
       - integration_tests_dev:
           filters:
             tags:
@@ -146,6 +145,18 @@ workflows:
           requires:
             - deploy_dev
       - deploy_staging:
+          filters:
+            tags:
+              ignore: /^v.*/
+            branches:
+              only:
+               - master
+      - change-api/release-log:
+          requires:
+            - deploy_staging
+          systemCode: 'origami-image-service'
+          environment: 'test'
+          slackChannels: 'origami-deploys'
           filters:
             tags:
               ignore: /^v.*/
@@ -162,6 +173,17 @@ workflows:
           requires:
             - deploy_staging
       - deploy_service_production:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - change-api/release-log:
+          requires:
+            - deploy_service_production
+          systemCode: 'origami-image-service'
+          environment: 'prod'
+          slackChannels: 'origami-deploys'
           filters:
             tags:
               only: /^v.*/
