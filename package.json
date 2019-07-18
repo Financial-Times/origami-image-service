@@ -62,7 +62,7 @@
     "denodeify": "1.2.1",
     "eslint": "6.0.1",
     "istanbul": "0.4.5",
-    "mocha": "6.1.4",
+    "mocha": "6.2.0",
     "mockery": "2.1.0",
     "nodemon": "1.19.1",
     "proclaim": "3.6.0",
