@@ -68,7 +68,7 @@ describe('GET /v2/images/debug…', function () {
 		},
 		capiv2: {
 			requestedUrl: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
-			resolvedUrl: 'http://com.ft.imagepublish.upp-prod-eu.s3.amazonaws.com/03b59122-a148-11e9-a282-2df48f366f7d'
+			resolvedUrl: /http:\/\/com\.ft\.imagepublish\.upp-prod-(eu|us)\.s3\.amazonaws\.com\/03b59122-a148-11e9-a282-2df48f366f7d/
 		},
 		spark: {
 			requestedUrl: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
@@ -125,6 +125,7 @@ describe('GET /v2/images/debug…', function () {
 				this.request.expect(response => {
 					const actual = response.body.transform.uri;
 					assert.deepEqual(actual, resolvedUrl, `Expected ${requestedUrl} to resolve to ${resolvedUrl} but it actually resolved to ${actual}`);
+					assert.match(actual, resolvedUrl, `Expected ${requestedUrl} to match to ${resolvedUrl} but it actually resolved to ${actual}`);
 				}).end(done);
 			});
 		});
