@@ -124,7 +124,6 @@ describe('GET /v2/images/debug…', function () {
 			it('responds with the correct location of the original image', function (done) {
 				this.request.expect(response => {
 					const actual = response.body.transform.uri;
-					assert.deepEqual(actual, resolvedUrl, `Expected ${requestedUrl} to resolve to ${resolvedUrl} but it actually resolved to ${actual}`);
 					assert.match(actual, resolvedUrl, `Expected ${requestedUrl} to match to ${resolvedUrl} but it actually resolved to ${actual}`);
 				}).end(done);
 			});
