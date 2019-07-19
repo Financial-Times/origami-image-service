@@ -60,11 +60,11 @@ describe('GET /v2/images/debug…', function () {
 	const imagesWithSchemes = {
 		ftcms: {
 			requestedUrl: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
-			resolvedUrl: 'http://im.ft-static.com/content/images/6c5a2f8c-18ca-4afa-80ff-7d56e41172b1.img'
+			resolvedUrl: new RegExp('http://im.ft-static.com/content/images/6c5a2f8c-18ca-4afa-80ff-7d56e41172b1.img')
 		},
 		capiv1: {
 			requestedUrl: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
-			resolvedUrl: 'http://im.ft-static.com/content/images/be875529-7675-43d8-b461-b304410398c2.img'
+			resolvedUrl: new RegExp('http://im.ft-static.com/content/images/be875529-7675-43d8-b461-b304410398c2.img')
 		},
 		capiv2: {
 			requestedUrl: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
@@ -72,43 +72,43 @@ describe('GET /v2/images/debug…', function () {
 		},
 		spark: {
 			requestedUrl: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
-			resolvedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/c3fec7fb-aba9-42ee-a745-a62c872850d0.jpg'
+			resolvedUrl: new RegExp('https://d1e00ek4ebabms.cloudfront.net/production/c3fec7fb-aba9-42ee-a745-a62c872850d0.jpg')
 		},
 		sparkMasterImage: {
 			requestedUrl: 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b',
-			resolvedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg'
+			resolvedUrl: new RegExp('https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg')
 		},
 		httpsspark: {
 			requestedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
-			resolvedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
+			resolvedUrl: new RegExp('https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg')
 		},
 		httpspark: {
 			requestedUrl: 'http://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
-			resolvedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
+			resolvedUrl: new RegExp('https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg')
 		},
 		httpssparkcustomdomain: {
 			requestedUrl: 'https://cct-images.ft.com/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
-			resolvedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
+			resolvedUrl: new RegExp('https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg')
 		},
 		httpsparkcustomdomain: {
 			requestedUrl: 'http://cct-images.ft.com/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
-			resolvedUrl: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
+			resolvedUrl: new RegExp('https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg')
 		},
 		httpftcms: {
 			requestedUrl: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-			resolvedUrl: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+			resolvedUrl: new RegExp('http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img')
 		},
 		httpsftcms: {
 			requestedUrl: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-			resolvedUrl: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+			resolvedUrl: new RegExp('http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img')
 		},
 		httpftcmsmalformed: {
 			requestedUrl: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-			resolvedUrl: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+			resolvedUrl: new RegExp('http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img')
 		},
 		httpsftcmsmalformed: {
 			requestedUrl: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-			resolvedUrl: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+			resolvedUrl: new RegExp('http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img')
 		},
 	};
 
