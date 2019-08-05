@@ -25,7 +25,7 @@
     "test:fastly": "mocha test/fastly/*.test.js test/fastly/**/*.test.js --recursive --bail --check-leaks --forbid-only --forbid-pending"
   },
   "dependencies": {
-    "@financial-times/fticons": "1.20.1",
+    "@financial-times/fticons": "1.20.5",
     "@financial-times/headshot-images": "1.159.1",
     "@financial-times/health-check": "1.10.1",
     "@financial-times/logo-images": "1.9.5",
