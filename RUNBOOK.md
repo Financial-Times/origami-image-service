@@ -131,7 +131,9 @@ No data-recovery required.
 
 ## Release Details
 
-The application is deployed to QA whenever a new commit is pushed to the `master` branch of this repo on GitHub. To release to production, the QA application must be [manually promoted through the Heroku interface](https://dashboard.heroku.com/pipelines/748923ac-b3c0-4289-a0ac-c26b5a7dbe3a).
+The application is deployed to QA whenever a new commit is pushed to the `master` branch of this repo on GitHub.
+
+The application is deployed to production whenever a semver tag is added to this repo on Github, such as through GitHub's Releases interface.
 
 ## Key Management Details
 
