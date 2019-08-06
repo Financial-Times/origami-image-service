@@ -42,6 +42,7 @@ origami-team
 ## Dependencies
 
 * ft-fastly
+* content-api
 
 ## Healthchecks
 
@@ -133,4 +134,3 @@ The application is deployed to QA whenever a new commit is pushed to the `master
 ## Key Management Details
 
 This service uses an API key for Cloudinary. The process for rotating these keys is manual, via the Cloudinary interface.
-
