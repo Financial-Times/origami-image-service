@@ -25,8 +25,8 @@
     "test:fastly": "mocha test/fastly/*.test.js test/fastly/**/*.test.js --recursive --bail --check-leaks --forbid-only --forbid-pending"
   },
   "dependencies": {
-    "@financial-times/fticons": "1.20.1",
-    "@financial-times/headshot-images": "1.153.0",
+    "@financial-times/fticons": "1.20.5",
+    "@financial-times/headshot-images": "1.159.1",
     "@financial-times/health-check": "1.10.1",
     "@financial-times/logo-images": "1.9.5",
     "@financial-times/origami-brand-images": "1.1.5",
@@ -37,6 +37,7 @@
     "@financial-times/podcast-logos": "1.1.4",
     "@financial-times/social-images": "2.2.2",
     "@financial-times/source-param-middleware": "1.0.6",
+    "axios": "0.19.0",
     "base-64": "0.1.0",
     "cloudinary": "1.14.0",
     "colornames": "1.1.1",
@@ -49,7 +50,7 @@
     "http-errors": "1.7.3",
     "http-proxy": "1.17.0",
     "jsdom": "15.1.1",
-    "probe-image-size": "4.0.0",
+    "probe-image-size": "4.1.1",
     "request": "2.88.0",
     "require-all": "3.0.0",
     "statuses": "1.5.0",
@@ -59,13 +60,13 @@
   },
   "devDependencies": {
     "denodeify": "1.2.1",
-    "eslint": "6.0.1",
+    "eslint": "6.1.0",
     "istanbul": "0.4.5",
-    "mocha": "6.1.4",
+    "mocha": "6.2.0",
     "mockery": "2.1.0",
     "nodemon": "1.19.1",
     "proclaim": "3.6.0",
-    "sinon": "7.3.2",
+    "sinon": "7.4.1",
     "supertest": "4.0.2"
   }
 }

@@ -52,6 +52,7 @@ We configure Origami Image Service using environment variables. In development, 
 
 ### Required everywhere
 
+  * `CONTENT_API_KEY`: The API key for the FT UPP Content API.
   * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
   * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
   * `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
@@ -77,10 +78,6 @@ We configure Origami Image Service using environment variables. In development, 
   * `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered. This should be the same value as `FASTLY_PURGE_API_KEY`
   * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from
   * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered. This should be the same value as `PURGE_API_KEY`
-
-### Required in Heroku (QA only)
-
-  * `WHITESOURCE_API_KEY`: The API key to use when testing dependencies with Whitesource
 
 ### Required locally
 

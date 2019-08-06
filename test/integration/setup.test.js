@@ -12,6 +12,7 @@ const mockLog = {
 
 before(function() {
 	return imageService({
+		contentApiKey: process.env.CONTENT_API_KEY,
 		cloudinaryAccountName: 'financial-times', // TODO set up a test account for this?
 		customSchemeStore: process.env.CUSTOM_SCHEME_STORE || 'https://origami-images.ft.com',
 		hostname: 'origami-image-service-qa.herokuapp.com',

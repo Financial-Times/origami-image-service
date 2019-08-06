@@ -118,6 +118,32 @@ describe('lib/middleware/convert-to-cms-scheme', () => {
 				});
 
 			});
+			
+			describe('when the `imageUrl` request param points to an image on d1e00ek4ebabms.cloudfront.net', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'http://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b');
+				});
+
+			});
+			
+			describe('when the `imageUrl` request param points to an image on cct-images.ft.com', () => {
+
+				beforeEach(done => {
+					origamiService.mockRequest.params.imageUrl = 'http://cct-images.ft.com/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('sets the `imageUrl` request param to an `ftcms` URL with the image ID', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b');
+				});
+
+			});
 
 			describe('when the `imageUrl` request param points to an image on im.ft-static.com with a "png" extension', () => {
 
