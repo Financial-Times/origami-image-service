@@ -43,6 +43,8 @@ origami-team
 
 * ft-fastly
 * content-api
+* dyn-dns
+* heroku
 
 ## Healthchecks
 
