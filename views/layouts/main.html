@@ -30,7 +30,7 @@
 		}
 	</style>
 
-	<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-layout@^2.0.1,o-fonts@^3.0.4,o-syntax-highlight@^1.5.1,o-table@^6.9.2,o-forms@^5.8.2,o-buttons@^5.15.0,o-table@^6.9.2&brand=internal" />
+	<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-layout@^3.0.0,o-fonts@^3.0.4,o-syntax-highlight@^1.5.1,o-table@^6.9.2,o-forms@^5.8.2,o-buttons@^5.15.0,o-table@^6.9.2,o-footer-services@^2.2.0,o-header-services@^3.3.3&brand=internal" />
 	<link rel="stylesheet" href="main.css" />
 
 	<script src="https://polyfill.io/v2/polyfill.min.js?features=fetch,default"></script>
@@ -42,19 +42,19 @@
 				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(script, s);
 			}
-		}('https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-layout@^2.0.1,o-syntax-highlight@^1.5.1,o-table@^6.9.2,o-forms@^5.8.2,o-table@^6.9.2'));
+		}('https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-layout@^3.0.0,o-syntax-highlight@^1.5.1,o-table@^6.9.2,o-forms@^5.8.2,o-table@^6.9.2,o-footer-services@^2.2.0,o-header-services@^3.3.3'));
 	</script>
 
 </head>
 <body data-o-component="o-syntax-highlight">
-	<div class="o-layout" data-o-component="o-layout">
+	<div class="o-layout o-layout--docs" data-o-component="o-layout">
 		{{> header}}
 
-		<div class="o-layout__sidebar">
+		<nav class="o-layout__sidebar o-layout-typography">
 			<!-- for automatically generated sidebar -->
-		</div>
+		</nav>
 
-		<div class="o-layout__main">
+		<div class="o-layout__main o-layout-typography">
 			{{{body}}}
 		</div>
 
