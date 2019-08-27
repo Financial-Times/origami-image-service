@@ -4,8 +4,9 @@
 	background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1:origami?source=origami-build-service");
 }
 
-.example-column {
-	width: 50%;
+.example-table {
+	table-layout: fixed;
+	width: 100%;
 }
 
 .url-builder-preview {
