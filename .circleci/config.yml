@@ -128,7 +128,7 @@ workflows:
       - change-api/release-log:
           requires:
             - deploy_dev
-          systemCode: 'origami-image-service'
+          systemCode: 'origami-image-service-v2'
           environment: 'dev'
           slackChannels: 'origami-deploys'
           filters:
@@ -154,7 +154,7 @@ workflows:
       - change-api/release-log:
           requires:
             - deploy_staging
-          systemCode: 'origami-image-service'
+          systemCode: 'origami-image-service-v2'
           environment: 'test'
           slackChannels: 'origami-deploys'
           filters:
@@ -181,7 +181,7 @@ workflows:
       - change-api/release-log:
           requires:
             - deploy_service_production
-          systemCode: 'origami-image-service'
+          systemCode: 'origami-image-service-v2'
           environment: 'prod'
           slackChannels: 'origami-deploys'
           filters:
