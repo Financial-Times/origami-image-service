@@ -105,7 +105,7 @@ https://github.com/Financial-Times/origami-image-service#readme
 There are a few things you can try before contacting the Origami team:
 
 1. Verify that Cloudinary is up ([status page](https://status.cloudinary.com/)). This being down won't break old images, but it will prevent new images from being requested.
-2. Restart all of the dynos across the production EU and US Heroku apps ([pipeline here](https://dashboard.heroku.com/pipelines/748923ac-b3c0-4289-a0ac-c26b5a7dbe3a))
+2. Restart all of the dynos across the production EU and US Heroku apps ([pipeline here](https://dashboard.heroku.com/pipelines/be91fac7-5b0e-40f5-abd1-b81b72ad1b97))
 
 ## Second Line Troubleshooting
 
