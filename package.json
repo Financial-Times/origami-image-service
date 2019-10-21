@@ -43,7 +43,7 @@
     "colornames": "1.1.1",
     "date-fns": "1.30.1",
     "dnscache": "1.0.2",
-    "dompurify": "2.0.6",
+    "dompurify": "2.0.7",
     "dotenv": "8.2.0",
     "fastly-purge": "1.0.1",
     "heroku-node-settings": "1.1.0",
