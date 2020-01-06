@@ -19,42 +19,42 @@ describe('lib/image-transform', () => {
 	beforeEach(() => {
 		colornames = sinon.stub();
 		mockery.registerMock('colornames', colornames);
-		origamiFlagImages = sinon.stub({images:[{
+		origamiFlagImages = {images:[{
 			name: 'example',
 			url: 'http://base/images/ftflag/v1/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/origami-flag-images', origamiFlagImages);
-		ftIcons = sinon.stub({images:[{
+		ftIcons = {images:[{
 			name: 'example',
 			url: 'http://base/images/fticon/v1/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/fticons', ftIcons);
-		logoImages = sinon.stub({images:[{
+		logoImages = {images:[{
 			name: 'example',
 			url: 'http://base/images/ftlogo/v1/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/logo-images', logoImages);
-		origamiBrandImages = sinon.stub({images:[{
+		origamiBrandImages = {images:[{
 			name: 'example',
 			url: 'http://base/images/ftbrand/v1/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/origami-brand-images', origamiBrandImages);
-		origamiSpecialistTitleLogos = sinon.stub({images:[{
+		origamiSpecialistTitleLogos = {images:[{
 			name: 'example',
 			url: 'http://base/images/specialisttitle/v1/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/origami-specialist-title-logos', origamiSpecialistTitleLogos);
-		podcastLogos = sinon.stub({images:[{
+		podcastLogos = {images:[{
 			name: 'example',
 			url: 'http://base/images/ftpodcast/v1/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/podcast-logos', podcastLogos);
-		socialImages = sinon.stub({images:[{
+		socialImages = {images:[{
 			name: 'example',
 			url: 'http://base/images/ftsocial/v2/example'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/social-images', socialImages);
-		headshotImages = sinon.stub({images:[{
+		headshotImages = {images:[{
 			name: 'example',
 			url: 'http://base/images/fthead/v1/example'
 		},{
@@ -63,7 +63,7 @@ describe('lib/image-transform', () => {
 		},{
 			name: 'example.png',
 			url: 'http://base/images/fthead/v1/example.png'
-		}]});
+		}]};
 		mockery.registerMock('@financial-times/headshot-images', headshotImages);
 		ImageTransform = require('../../../lib/image-transform');
 	});
