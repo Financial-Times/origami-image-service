@@ -64,7 +64,7 @@
     "istanbul": "0.4.5",
     "mocha": "7.0.1",
     "mockery": "2.1.0",
-    "nodemon": "1.19.4",
+    "nodemon": "2.0.2",
     "proclaim": "3.6.0",
     "sinon": "8.1.1",
     "supertest": "4.0.2"
