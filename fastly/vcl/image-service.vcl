@@ -28,7 +28,7 @@ sub set_backend {
   	set var.shield_eu_is_healthy = req.backend.healthy;
 
   	declare local var.shield_us_is_healthy BOOL;
-  	set req.backend = ssl_shield_iad_va_us;
+  	set req.backend = ssl_shield_dca_dc_us;
   	set var.shield_us_is_healthy = req.backend.healthy;
 
   	# Set some sort of default, that shouldn't get used.
@@ -38,7 +38,7 @@ sub set_backend {
 	set var.EU_shield_server_name = "LCY";
 
 	declare local var.US_shield_server_name STRING;
-	set var.US_shield_server_name = "IAD";
+	set var.US_shield_server_name = "DCA";
 
 	# Route EU requests to the nearest healthy shield or origin.
   	if (var.region == "EU") {
@@ -48,7 +48,7 @@ sub set_backend {
 			set req.backend = F_eu;
 			set req.http.Host = req.http.EU_Host;
 		} elseif (var.shield_us_is_healthy) {
-			set req.backend = ssl_shield_iad_va_us;
+			set req.backend = ssl_shield_dca_dc_us;
 		} elseif (var.us_is_healthy) {
 			set req.backend = F_us;
 			set req.http.Host = req.http.US_Host;
@@ -62,7 +62,7 @@ sub set_backend {
 	# Route US requests to the nearest healthy shield or origin.
   	if (var.region == "US") {
 		if (server.datacenter != var.US_shield_server_name && req.http.Request_Came_From_Shield != var.US_shield_server_name && var.shield_us_is_healthy) {
-			set req.backend = ssl_shield_iad_va_us;
+			set req.backend = ssl_shield_dca_dc_us;
 		} elseif (var.us_is_healthy) {
 			set req.backend = F_us;
 			set req.http.Host = req.http.US_Host;
@@ -105,7 +105,7 @@ sub vcl_recv {
 	set req.url = querystring.clean(querystring.sort(req.url));
 	call set_backend;
 
-	if (req.backend == ssl_shield_iad_va_us || req.backend == ssl_shield_london_city_uk) {
+	if (req.backend == ssl_shield_dca_dc_us || req.backend == ssl_shield_london_city_uk) {
 		# avoid passing stale content from Shield POP to Edge POP
 		set req.max_stale_while_revalidate = 0s;
 	}
@@ -133,7 +133,7 @@ sub vcl_hash {
 
 
 sub shielding_header {
-	if (req.backend == ssl_shield_iad_va_us) {
+	if (req.backend == ssl_shield_dca_dc_us) {
 		set req.http.Request_Came_From_Shield = server.datacenter;
 	} elsif (req.backend == ssl_shield_london_city_uk) {
 		set req.http.Request_Came_From_Shield = server.datacenter;
