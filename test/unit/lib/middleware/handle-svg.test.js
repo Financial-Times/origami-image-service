@@ -4,12 +4,13 @@ const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
 
-
 describe('lib/middleware/handle-svg', () => {
 	let origamiService;
 	let request;
 	let handleSvg;
 	let SvgTintStream;
+	let createDOMPurify;
+	let jsdom;
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
@@ -17,12 +18,14 @@ describe('lib/middleware/handle-svg', () => {
 		request = require('../../mock/request.mock');
 		mockery.registerMock('request', request);
 
-		// Temporary: not real mocks
-		mockery.registerMock('dompurify', {});
-		mockery.registerMock('jsdom', {});
-
 		SvgTintStream = require('../../mock/svg-tint-stream.mock');
 		mockery.registerMock('svg-tint-stream', SvgTintStream);
+
+		createDOMPurify = require('../../mock/dompurify.mock');
+		mockery.registerMock('dompurify', createDOMPurify);
+
+		jsdom = require('../../mock/jsdom.mock');
+		mockery.registerMock('jsdom', jsdom);
 
 		handleSvg = require('../../../../lib/middleware/handle-svg');
 	});
@@ -218,14 +221,84 @@ describe('lib/middleware/handle-svg', () => {
 
 			});
 
-			// Temporarily skipped until we write tests for the latest fix
-			it.skip('pipes the HTTP request stream through the tint stream and into the response', () => {
+			it('pipes the HTTP request stream through the tint stream', () => {
 				assert.calledWithExactly(request.mockStream.pipe, SvgTintStream.mockStream);
-				assert.calledWithExactly(request.mockStream.pipe, origamiService.mockResponse);
-				assert.callOrder(
-					request.mockStream.pipe.withArgs(SvgTintStream.mockStream),
-					request.mockStream.pipe.withArgs(origamiService.mockResponse)
-				);
+			});
+
+			it('binds a handler to the request stream "data" event', () => {
+				assert.calledWith(request.mockStream.on, 'data');
+			});
+
+			it('binds a handler to the request stream "end" event', () => {
+				assert.calledWith(request.mockStream.on, 'end');
+			});
+
+			describe('HTTP request stream "end" handler', () => {
+				let handler;
+
+				beforeEach(() => {
+
+					// Send some mock data through
+					const dataHandler = request.mockStream.on.withArgs('data').firstCall.args[1];
+					dataHandler('mockChunk1');
+					dataHandler('mockChunk2');
+					dataHandler('mockChunk3');
+
+					handler = request.mockStream.on.withArgs('end').firstCall.args[1];
+					handler();
+				});
+
+				it('creates a new JSDOM instance', () => {
+					assert.calledOnce(jsdom.JSDOM);
+					assert.calledWithNew(jsdom.JSDOM);
+					assert.calledWithExactly(jsdom.JSDOM, '');
+				});
+
+				it('creates a DOM purifier, using the JSDOM window', () => {
+					assert.calledOnce(createDOMPurify);
+					assert.calledWithExactly(createDOMPurify, jsdom.mockJSDom.window);
+				});
+
+				it('purifies the SVG', () => {
+					assert.calledOnce(createDOMPurify.mockDomPurify.sanitize);
+					assert.calledWithExactly(createDOMPurify.mockDomPurify.sanitize, 'mockChunk1mockChunk2mockChunk3');
+				});
+
+				it('sends the full purified SVG in the response', () => {
+					assert.calledOnce(origamiService.mockResponse.send);
+					assert.calledWithExactly(origamiService.mockResponse.send, 'mock-purified-svg');
+				});
+
+				describe('when the image URL is from ft.com/__assets', () => {
+
+					beforeEach(() => {
+						request.mockStream.on.resetHistory();
+						createDOMPurify.mockDomPurify.sanitize.resetHistory();
+						origamiService.mockResponse.send.resetHistory();
+
+						origamiService.mockRequest.params[0] = 'https://www.ft.com/__assets/mock.svg';
+						middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+
+						const dataHandler = request.mockStream.on.withArgs('data').firstCall.args[1];
+						dataHandler('mockChunk1');
+						dataHandler('mockChunk2');
+						dataHandler('mockChunk3');
+
+						handler = request.mockStream.on.withArgs('end').firstCall.args[1];
+						handler();
+					});
+
+					it('does not purify the SVG', () => {
+						assert.notCalled(createDOMPurify.mockDomPurify.sanitize);
+					});
+
+					it('sends the full unpurified SVG in the response', () => {
+						assert.calledOnce(origamiService.mockResponse.send);
+						assert.calledWithExactly(origamiService.mockResponse.send, 'mockChunk1mockChunk2mockChunk3');
+					});
+
+				});
+
 			});
 
 			describe('when `request.query.color` is not set', () => {
