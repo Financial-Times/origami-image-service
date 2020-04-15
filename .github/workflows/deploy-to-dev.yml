@@ -1,0 +1,80 @@
+name: Deploy to dev
+on:
+  push:
+    branches:
+      - *
+      - '!master'
+env:
+  tf_version: 'latest'
+  tf_working_dir: './fastly/terraform/'
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+      - name: 'Terraform Format'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: ${{ env.tf_working_dir }}
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Remove the staging and production terraform configuration overrides
+        run: rm -f terraform.tfstate fastly/terraform/qa_override.tf fastly/terraform/production_override.tf fastly/terraform/domains_override.tf
+      - name: Deploy to Heroku
+        run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-navigation-service-qa.git HEAD:master --force
+      - name: 'Terraform Init'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: ${{ env.tf_working_dir }}
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Terraform Import'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_subcommand: 'import'
+          tf_actions_working_dir: ${{ env.tf_working_dir }}
+          tf_actions_comment: true
+          args: '-config=fastly/terraform fastly_service_v1.app $FASTLY_SERVICE_ID_DEV'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FASTLY_SERVICE_ID_DEV: ${{ secrets.FASTLY_SERVICE_ID_DEV }}
+      - name: 'Terraform Validate'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_subcommand: 'validate'
+          tf_actions_working_dir: ${{ env.tf_working_dir }}
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Terraform Plan'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_subcommand: 'plan'
+          tf_actions_working_dir: ${{ env.tf_working_dir }}
+          tf_actions_comment: true
+          args: '-out=plan.tfplan'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Terraform Apply'
+        uses: hashicorp/terraform-github-actions@enhancement/args
+        with:
+          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_subcommand: 'apply'
+          tf_actions_working_dir: ${{ env.tf_working_dir }}
+          tf_actions_comment: true
+          args: '--auto-approve -var name=origami-image-service-dev.in.ft.com -var domain=origami-image-service-dev.in.ft.com fastly/terraform/'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: sleep 60
+      - run: "curl -X POST -H \"Fastly-Key: ${{ secrets.FASTLY_API_KEY }}\" https://api.fastly.com/service/${{ secrets.FASTLY_SERVICE_ID_DEV }}/purge_all"
+
