@@ -6,7 +6,7 @@ on:
       - '!master'
 env:
   tf_version: 'latest'
-  tf_working_dir: './fastly/terraform/'
+  tf_working_dir: 'fastly/terraform/'
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
