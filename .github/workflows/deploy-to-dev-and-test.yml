@@ -92,6 +92,9 @@ jobs:
     needs: [purge-cdn]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
       - run: npm ci
       - run: npm run test:fastly
         env:
