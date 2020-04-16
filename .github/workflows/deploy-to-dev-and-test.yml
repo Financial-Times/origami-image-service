@@ -8,7 +8,7 @@ env:
   terraform_version: 'latest'
   terraform_working_dir: 'fastly/terraform/'
   fastly_service_id: ${{ secrets.FASTLY_SERVICE_ID_DEV }}
-  domain: origami-image-service-qa.in.ft.com
+  domain: origami-image-service-dev.in.ft.com
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
           tf_actions_subcommand: 'plan'
           tf_actions_working_dir: ${{ env.terraform_working_dir }}
           tf_actions_comment: true
-          args: '-out=plan.tfplan -var domain=${{ env.domain }}'
+          args: '-out=plan.tfplan'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}

@@ -53,7 +53,7 @@ jobs:
         tf_actions_subcommand: 'plan'
         tf_actions_working_dir: ${{ env.terraform_working_dir }}
         tf_actions_comment: true
-        args: '-out=plan.tfplan -var domain=${{ env.domain }}'
+        args: '-out=plan.tfplan'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
