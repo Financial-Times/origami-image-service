@@ -45,6 +45,7 @@ jobs:
           args: 'fastly_service_v1.app ${{ secrets.FASTLY_SERVICE_ID_DEV }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
       - name: 'Terraform Validate'
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
@@ -64,6 +65,7 @@ jobs:
           args: '-out=plan.tfplan'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
       - name: 'Terraform Apply'
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
@@ -74,6 +76,7 @@ jobs:
           args: '--auto-approve -var name=origami-image-service-dev.in.ft.com -var domain=origami-image-service-dev.in.ft.com fastly/terraform/'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
       - run: sleep 60
       - run: "curl -X POST -H \"Fastly-Key: ${{ secrets.FASTLY_API_KEY }}\" https://api.fastly.com/service/${{ secrets.FASTLY_SERVICE_ID_DEV }}/purge_all"
 
