@@ -73,7 +73,7 @@ jobs:
           tf_actions_subcommand: 'apply'
           tf_actions_working_dir: ${{ env.tf_working_dir }}
           tf_actions_comment: true
-          args: '--auto-approve -var name=origami-image-service-dev.in.ft.com -var domain=origami-image-service-dev.in.ft.com fastly/terraform/'
+          args: '--auto-approve -var name=origami-image-service-dev.in.ft.com -var domain=origami-image-service-dev.in.ft.com'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
