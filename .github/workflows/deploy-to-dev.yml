@@ -42,10 +42,9 @@ jobs:
           tf_actions_subcommand: 'import'
           tf_actions_working_dir: ${{ env.tf_working_dir }}
           tf_actions_comment: true
-          args: '-config=fastly/terraform fastly_service_v1.app $FASTLY_SERVICE_ID_DEV'
+          args: 'fastly_service_v1.app ${{ secrets.FASTLY_SERVICE_ID_DEV }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FASTLY_SERVICE_ID_DEV: ${{ secrets.FASTLY_SERVICE_ID_DEV }}
       - name: 'Terraform Validate'
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
