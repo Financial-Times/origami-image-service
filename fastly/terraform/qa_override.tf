@@ -1,4 +1,6 @@
 resource "fastly_service_v1" "app" {
+  name = "origami-image-service-qa.in.ft.com"
+
   domain {
     name = "origami-image-service-qa.in.ft.com"
   }
