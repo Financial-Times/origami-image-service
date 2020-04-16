@@ -17,7 +17,7 @@ output "service_id" {
 }
 
 resource "fastly_service_v1" "app" {
-  name = "${var.name}"
+  name = "${var.domain}"
 
   force_destroy = false
 
