@@ -11,6 +11,8 @@ jobs:
     - run: npm ci
     - run: make verify
     - run: make test-unit-coverage
+      env: 
+        CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
     - run: make test-integration
       env: 
         CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
