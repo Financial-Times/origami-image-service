@@ -12,3 +12,5 @@ jobs:
     - run: make verify
     - run: make test-unit-coverage
     - run: make test-integration
+      env: 
+        CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
