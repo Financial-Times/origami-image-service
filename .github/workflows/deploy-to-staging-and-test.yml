@@ -70,6 +70,19 @@ jobs:
         FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
     - run: sleep 60
 
+  create-change-log:
+    needs: [deploy-to-staging]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Financial-Times/change-api-action@v1
+        name: Create new change log
+        with:
+          change-api-key: ${{ secrets.CHANGE_API_KEY }}
+          system-code: "origami-navigation-service"
+          environment: test
+          slack-channels: "ft-changes,origami-deploys"
+
   purge-cdn:
     needs: [deploy-to-staging]
     runs-on: ubuntu-latest
