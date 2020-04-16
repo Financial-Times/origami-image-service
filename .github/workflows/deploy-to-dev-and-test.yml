@@ -1,4 +1,4 @@
-name: Deploy to dev
+name: Deploy to dev and test
 on:
   push:
     branches:
@@ -78,5 +78,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
       - run: sleep 60
+
+  purge-cdn:
+    needs: [deploy-dev]
+    runs-on: ubuntu-latest
+    steps:
       - run: "curl -X POST -H \"Fastly-Key: ${{ secrets.FASTLY_API_KEY }}\" https://api.fastly.com/service/${{ secrets.FASTLY_SERVICE_ID_DEV }}/purge_all"
+      - run: sleep 60
+  
+  end-to-end-test:
+    needs: [purge-cdn]
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm ci
+      - run: npm run test:fastly
+        env:
+          HOST: https://origami-image-service-dev.in.ft.com
 
