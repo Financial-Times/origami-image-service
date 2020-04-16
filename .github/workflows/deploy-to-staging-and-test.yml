@@ -53,7 +53,7 @@ jobs:
         tf_actions_subcommand: 'plan'
         tf_actions_working_dir: ${{ env.terraform_working_dir }}
         tf_actions_comment: true
-        args: '-out=plan.tfplan'
+        args: '-out=plan.tfplan -var domain=${{ env.domain }}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
@@ -64,7 +64,7 @@ jobs:
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: ${{ env.terraform_working_dir }}
         tf_actions_comment: true
-        args: '--auto-approve -var name=${{ env.domain }} -var domain=${{ env.domain }}'
+        args: '--auto-approve'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
