@@ -7,6 +7,7 @@ output "service_id" {
 }
 
 resource "fastly_service_v1" "app" {
+  name = "placeholder"
 
   force_destroy = false
 
