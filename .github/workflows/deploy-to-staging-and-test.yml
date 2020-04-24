@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: git fetch --prune --unshallow
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-navigation-service-qa.git HEAD:master --force
+    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-qa.git HEAD:master --force
     - name: Remove the development and production terraform configuration overrides
       run: rm -f terraform.tfstate fastly/terraform/dev_override.tf fastly/terraform/production_override.tf fastly/terraform/domains_override.tf
     - name: 'Terraform Init'
@@ -79,7 +79,7 @@ jobs:
         name: Create new change log
         with:
           change-api-key: ${{ secrets.CHANGE_API_KEY }}
-          system-code: "origami-navigation-service"
+          system-code: "origami-image-service"
           environment: test
           slack-channels: "ft-changes,origami-deploys"
 
