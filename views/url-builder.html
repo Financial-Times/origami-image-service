@@ -10,13 +10,15 @@
 </p>
 
 <h2 id="url-settings">URL Settings</h2>
-
-	<form class="o-layout__main__full-span" action="v2/docs/url-builder" method="get">
-		<div class="flex-container">
-			<div class="form" >
-				<div class="o-forms o-forms--wide">
-					<label for="builder-url" class="o-forms__label">Image URL (required)</label>
-					<small class="o-forms__additional-info">
+<form class="o-layout__main__full-span" action="v2/docs/url-builder" method="get">
+	<div class="flex-container">
+		<div class="form">
+			<label class="o-forms-field">
+				<span class="o-forms-title">
+					<span class="o-forms-title__main">
+						Image URL
+					</span>
+					<span class="o-forms-title__prompt">
 						Try with
 						<a href="{{demo.url}}">a URL</a>,
 						<a href="{{demo.cms}}">a Content API asset</a>,
@@ -26,132 +28,228 @@
 						<a href="{{demo.logo}}">a logo</a>
 						<a href="{{demo.podcast}}">a podcast logo</a>, or
 						<a href="{{demo.flag}}">a flag</a>
-					</small>
-					<input type="text" id="builder-url" name="url" placeholder="http://&hellip;" value="{{form.url}}" class="o-forms__text" required />
-				</div>
+					</span>
+				</span>
+				<span class="o-forms-input o-forms-input--text">
+					<input type="text" name="url" placeholder="http://&hellip;" value="{{form.url}}" required />
+				</span>
+			</label>
 
-				<div class="o-forms o-forms--wide">
-					<label for="builder-source" class="o-forms__label">Source (required)</label>
-					<small class="o-forms__additional-info">
+			<label class="o-forms-field">
+				<span class="o-forms-title">
+					<span class="o-forms-title__main">
+						Source
+					</span>
+					<span class="o-forms-title__prompt">
 						Typically your product's system code
-					</small>
-					<input type="text" id="builder-source" name="source" value="{{form.source}}" class="o-forms__text" required />
-				</div>
+					</span>
+				</span>
+				<span class="o-forms-input o-forms-input--text">
+					<input type="text" name="source" value="{{form.source}}" class="o-forms-input--text" required />
+				</span>
+			</label>
 
-				<div class="o-forms o-forms--wide">
-					<label for="builder-width" class="o-forms__label">Width</label>
-					<input type="number" id="builder-width" name="width" value="{{form.width}}" class="o-forms__text" />
-				</div>
+			<label class="o-forms-field o-forms-field--optional">
+				<span class="o-forms-title">
+					<span class="o-forms-title__main">
+						Width
+					</span>
+				</span>
+				<span class="o-forms-input o-forms-input--text">
+					<input type="text" name="width" value="{{form.width}}" class="o-forms-input--text" />
+				</span>
+			</label>
 
-				<div class="o-forms o-forms--wide">
-					<label for="builder-height" class="o-forms__label">Height</label>
-					<input type="number" id="builder-height" name="height" value="{{form.height}}" class="o-forms__text" />
-				</div>
+			<label class="o-forms-field o-forms-field--optional">
+				<span class="o-forms-title">
+					<span class="o-forms-title__main">
+						Height
+					</span>
+				</span>
+				<span class="o-forms-input o-forms-input--text">
+					<input type="number" name="height" value="{{form.height}}" class="o-forms-input--text" />
+				</span>
+			</label>
 
-				<div class="o-forms o-forms--wide">
-					<button type="submit" class="o-buttons o-buttons--standout">Preview Image</button>
-				</div>
-			</div>
-
-			<div class="url-builder-preview">
-				{{#if imagePreviewUrl}}
-					<a href="{{imagePreviewUrl}}" style="border: none;">
-						<img style="width:100%;" src="{{imagePreviewUrl}}" alt="Optimised Image"/>
-					</a>
-					<div class="o-forms o-forms--wide">
-						<label for="builder-output" class="o-forms__label">URL for the optimised image</label>
-						<textarea class="url-builder-output" id="builder-output" class="o-forms__textarea" readonly>https://www.ft.com/__origami/service/image/{{imagePreviewUrl}}</textarea>
-					</div>
-				{{/if}}
+			<div class="o-forms-field">
+				<button type="submit" class="o-buttons o-buttons--standout">Preview Image</button>
 			</div>
 		</div>
 
-		<h2 id="advanced-settings">Advanced Settings</h2>
+		<div class="url-builder-preview">
+			{{#if imagePreviewUrl}}
+			<a href="{{imagePreviewUrl}}" style="border: none;">
+				<img style="width: 100%;" src="{{imagePreviewUrl}}" alt="Optimised Image"/>
+			</a>
+			<label class="o-forms-field">
+				<span class="o-forms-title">
+					<span class="o-forms-title__main">
+						URL for the optimised image
+					</span>
+				</span>
+				<span class="o-forms-input o-forms-input--text-area">
+					<textarea class="url-builder-output" readonly>https://www.ft.com/__origami/service/image/{{imagePreviewUrl}}</textarea>
+				</span>
+			</label>
+			{{/if}}
+		</div>
+	</div>
 
-		<fieldset class="o-forms o-forms--wide">
-			<legend class="o-forms__label">Fit</legend>
-			<small class="o-forms__additional-info">
+	<h2 id="advanced-settings">Advanced Settings</h2>
+
+	<div class="o-forms-field">
+		<span class="o-forms-title">
+			<span class="o-forms-title__main">
+				Fit
+			</span>
+			<span class="o-forms-title__prompt">
 				The way the image should be cropped. See the <a href="v2/docs/api">API Documentation</a> for more information.
-			</small>
-			<div class="o-forms__group o-forms__group--inline">
-				<input type="radio" id="builder-fit-cover" name="fit" value="" class="o-forms__radio" {{#if form.fit.isCover}}checked{{/if}}/>
-				<label for="builder-fit-cover" class="o-forms__label">cover (default)</label>
-				<input type="radio" id="builder-fit-contain" name="fit" value="contain" class="o-forms__radio" {{#if form.fit.isContain}}checked{{/if}}/>
-				<label for="builder-fit-contain" class="o-forms__label">contain</label>
-				<input type="radio" id="builder-fit-fill" name="fit" value="fill" class="o-forms__radio" {{#if form.fit.isFill}}checked{{/if}}/>
-				<label for="builder-fit-fill" class="o-forms__label">fill</label>
-				<input type="radio" id="builder-fit-scale-down" name="fit" value="scale-down" class="o-forms__radio" {{#if form.fit.isScaleDown}}checked{{/if}}/>
-				<label for="builder-fit-scale-down" class="o-forms__label">scale-down</label>
-			</div>
-		</fieldset>
+			</span>
+		</span>
+		<div class="o-forms-input o-forms-input--radio-round o-forms-input--inline">
+			<label>
+				<input type="radio" name="fit" value="" {{#if form.format.isCover}}checked{{/if}}/>
+				<label class="o-forms-input__label">cover (default)</label>
+			</label>
 
-		<fieldset class="o-forms o-forms--wide">
-			<legend class="o-forms__label">Gravity</legend>
-			<small class="o-forms__additional-info">
+			<label>
+				<input type="radio" name="fit" value="contain" {{#if form.format.isContain}}checked{{/if}}/>
+				<label class="o-forms-input__label">contain</label>
+			</label>
+
+			<label>
+				<input type="radio" name="fit" value="fill" {{#if form.format.isFill}}checked{{/if}}/>
+				<label class="o-forms-input__label">fill</label>
+			</label>
+
+			<label>
+				<input type="radio" name="fit" value="scale-down"{{#if form.format.isScaleDown}}checked{{/if}}/>
+				<label class="o-forms-input__label">scale-down</label>
+			</label>
+		</div>
+	</div>
+
+	<div class="o-forms-field">
+		<span class="o-forms-title">
+			<span class="o-forms-title__main">
+				Gravity
+			</span>
+			<span class="o-forms-title__prompt">
 				Whether image analysis should be used to provide a better crop. See the <a href="v2/docs/api">API Documentation</a> for more information.
-			</small>
-			<div class="o-forms__group o-forms__group--inline">
-				<input type="radio" id="builder-gravity-none" name="gravity" value="" class="o-forms__radio" {{#if form.gravity.isNone}}checked{{/if}}/>
-				<label for="builder-gravity-none" class="o-forms__label">none (default)</label>
-				<input type="radio" id="builder-gravity-faces" name="gravity" value="faces" class="o-forms__radio" {{#if form.gravity.isFaces}}checked{{/if}}/>
-				<label for="builder-gravity-faces" class="o-forms__label">faces</label>
-				<input type="radio" id="builder-gravity-poi" name="gravity" value="poi" class="o-forms__radio" {{#if form.gravity.isGravity}}checked{{/if}}/>
-				<label for="builder-gravity-poi" class="o-forms__label">point of interest</label>
-			</div>
-		</fieldset>
+			</span>
+		</span>
+		<div class="o-forms-input o-forms-input--radio-round o-forms-input--inline">
+			<label>
+				<input type="radio" name="gravity" value="" {{#if form.gravity.isNone}}checked{{/if}}/>
+				<label class="o-forms-input__label">none (default)</label>
+			</label>
+			<label>
+				<input type="radio" name="gravity" value="faces" {{#if form.gravity.isFaces}}checked{{/if}}/>
+				<label class="o-forms-input__label">faces</label>
+			</label>
+			<label>
+				<input type="radio" name="gravity" value="poi" {{#if form.gravity.isPoi}}checked{{/if}}/>
+				<label class="o-forms-input__label">poi</label>
+			</label>
 
-		<fieldset class="o-forms o-forms--wide">
-			<legend class="o-forms__label">Format</legend>
-			<div class="o-forms__group o-forms__group--inline">
-				<input type="radio" id="builder-format-auto" name="format" value="" class="o-forms__radio" {{#if form.format.isAuto}}checked{{/if}}/>
-				<label for="builder-format-auto" class="o-forms__label">auto (default)</label>
-				<input type="radio" id="builder-format-jpg" name="format" value="jpg" class="o-forms__radio" {{#if form.format.isJpg}}checked{{/if}}/>
-				<label for="builder-format-jpg" class="o-forms__label">jpg</label>
-				<input type="radio" id="builder-format-png" name="format" value="png" class="o-forms__radio" {{#if form.format.isPng}}checked{{/if}}/>
-				<label for="builder-format-png" class="o-forms__label">png</label>
-				<input type="radio" id="builder-format-gif" name="format" value="gif" class="o-forms__radio" {{#if form.format.isGif}}checked{{/if}}/>
-				<label for="builder-format-gif" class="o-forms__label">gif</label>
-				<input type="radio" id="builder-format-svg" name="format" value="svg" class="o-forms__radio" {{#if form.format.isSvg}}checked{{/if}}/>
-				<label for="builder-format-svg" class="o-forms__label">svg</label>
-			</div>
-		</fieldset>
-
-		<fieldset class="o-forms o-forms--wide">
-			<legend class="o-forms__label">Quality</legend>
-			<div class="o-forms__group o-forms__group--inline">
-				<input type="radio" id="builder-quality-lowest" name="quality" value="lowest" class="o-forms__radio" {{#if form.quality.isLowest}}checked{{/if}}/>
-				<label for="builder-quality-lowest" class="o-forms__label">lowest</label>
-				<input type="radio" id="builder-quality-low" name="quality" value="low" class="o-forms__radio" {{#if form.quality.isLow}}checked{{/if}}/>
-				<label for="builder-quality-low" class="o-forms__label">low</label>
-				<input type="radio" id="builder-quality-medium" name="quality" value="" class="o-forms__radio" {{#if form.quality.isMedium}}checked{{/if}}/>
-				<label for="builder-quality-medium" class="o-forms__label">medium (default)</label>
-				<input type="radio" id="builder-quality-high" name="quality" value="high" class="o-forms__radio" {{#if form.quality.isHigh}}checked{{/if}}/>
-				<label for="builder-quality-high" class="o-forms__label">high</label>
-				<input type="radio" id="builder-quality-highest" name="quality" value="highest" class="o-forms__radio" {{#if form.quality.isHighest}}checked{{/if}}/>
-				<label for="builder-quality-highest" class="o-forms__label">highest</label>
-				<input type="radio" id="builder-quality-lossless" name="quality" value="lossless" class="o-forms__radio" {{#if form.quality.isLossless}}checked{{/if}}/>
-				<label for="builder-quality-lossless" class="o-forms__label">lossless</label>
-			</div>
-		</fieldset>
-
-		<div class="o-forms">
-			<label for="builder-tint" class="o-forms__label">Tint</label>
-			<small class="o-forms__additional-info">
-				Individual or multiple HEX colour codes, separated by commas
-			</small>
-			<input type="text" id="builder-tint" name="tint" placeholder="#ff0000,blue,0f0" value="{{form.tint}}" class="o-forms__text" />
 		</div>
+	</div>
 
-		<div class="o-forms">
-			<label for="builder-bgcolor" class="o-forms__label">Background Color</label>
-			<small class="o-forms__additional-info">
-				A HEX colour code, only visible when the source image has a transparent background
-			</small>
-			<input type="text" id="builder-bgcolor" name="bgcolor" placeholder="#ff0000" value="{{form.bgcolor}}" class="o-forms__text" />
+	<div class="o-forms-field">
+		<span class="o-forms-title">
+			<span class="o-forms-title__main">
+				Format
+			</span>
+		</span>
+		<div class="o-forms-input o-forms-input--radio-round o-forms-input--inline">
+			<label>
+				<input type="radio" name="format" value="" {{#if form.format.isAuto}}checked{{/if}}/>
+				<label class="o-forms-input__label">auto (default)</label>
+			</label>
+			<label>
+				<input type="radio" name="format" value="jpg" {{#if form.format.isJpg}}checked{{/if}}/>
+				<label class="o-forms-input__label">jpg</label>
+			</label>
+			<label>
+				<input type="radio" name="format" value="png" {{#if form.format.isPng}}checked{{/if}}/>
+				<label class="o-forms-input__label">png</label>
+			</label>
+			<label>
+				<input type="radio" name="format" value="gif" {{#if form.format.isGif}}checked{{/if}}/>
+				<label class="o-forms-input__label">gif</label>
+			</label>
+			<label>
+				<input type="radio" name="format" value="svg" {{#if form.format.isSvg}}checked{{/if}}/>
+				<label class="o-forms-input__label">svg</label>
+			</label>
 		</div>
+	</div>
 
-		<div class="o-forms">
-			<button type="submit" class="o-buttons o-buttons--standout">Preview Image</button>
+	<div class="o-forms-field">
+		<span class="o-forms-title">
+			<span class="o-forms-title__main">
+				Quality
+			</span>
+		</span>
+		<div class="o-forms-input o-forms-input--radio-round o-forms-input--inline">
+			<label>
+				<input type="radio" name="quality" value="lowest" {{#if form.quality.isLowest}}checked{{/if}}/>
+				<label class="o-forms-input__label">lowest</label>
+			</label>
+			<label>
+				<input type="radio" name="quality" value="low" {{#if form.quality.isLow}}checked{{/if}}/>
+				<label class="o-forms-input__label">low</label>
+			</label>
+			<label>
+				<input type="radio" name="quality" value="" {{#if form.quality.isMedium}}checked{{/if}}/>
+				<label class="o-forms-input__label">medium (default)</label>
+			</label>
+			<label>
+				<input type="radio" name="quality" value="high" {{#if form.quality.isHigh}}checked{{/if}}/>
+				<label class="o-forms-input__label">high</label>
+			</label>
+			<label>
+				<input type="radio" name="quality" value="highest" {{#if form.quality.isHighest}}checked{{/if}}/>
+				<label class="o-forms-input__label">highest</label>
+			</label>
+			<label>
+				<input type="radio" name="quality" value="lossless" {{#if form.quality.isLossless}}checked{{/if}}/>
+				<label class="o-forms-input__label">lossless</label>
+			</label>
 		</div>
+	</div>
 
-	</form>
+	<label class="o-forms-field">
+		<span class="o-forms-title">
+			<span class="o-forms-title__main">
+				Tint
+			</span>
+			<span class="o-forms-title__prompt">
+				Individual or multiple hex colour codes, separated by commas
+			</span>
+		</span>
+		<span class="o-forms-input o-forms-input--text">
+			<input type="text" name="tint" placeholder="#ff0000,blue,0f0" value="{{form.tint}}"  />
+		</span>
+	</label>
+
+	<label class="o-forms-field">
+		<span class="o-forms-title">
+			<span class="o-forms-title__main">
+				Background colour
+			</span>
+			<span class="o-forms-title__prompt">
+				A hex colour code, only visible when the source image has a transparent background and the target format does not support transparency
+			</span>
+		</span>
+		<span class="o-forms-input o-forms-input--text">
+			<input type="text" name="bgcolor" placeholder="#ff0000,blue,0f0" value="{{form.tint}}"  />
+		</span>
+	</label>
+
+	<div class="o-forms-field">
+		<button type="submit" class="o-buttons o-buttons--standout">
+			Preview Image
+		</button>
+	</div>
+</form>
