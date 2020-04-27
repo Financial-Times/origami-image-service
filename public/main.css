@@ -27,3 +27,7 @@ dt {
 	font-weight: bold;
 	line-height: 1.5;
 }
+
+.hex-input {
+	width: 444px;
+}
