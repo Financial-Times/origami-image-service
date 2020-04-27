@@ -9,64 +9,64 @@
 </p>
 
 
-<table class="o-table o-table--responsive-flat" data-o-component="o-table" data-o-table-responsive="flat">
+<table class="o-table o-table--horizontal-lines o-table--row-headings" data-o-component="o-table">
 	<thead>
 		<tr>
 			<th>Param</th>
-			<th data-o-table-heading-disable-sort>Description</th>
+			<th>Description</th>
 		</tr>
-	<thead>
-	<tbody>
-		<tr id="mode">
-			<td><code>mode</code></td>
-			<td>
-				<p>How output should be sent.</p>
-				<dl>
-					<dt>raw</dt>
-						<dd>Output raw image data.</dd>
-					<dt>debug</dt>
-						<dd>Output a JSON object which outlines the image transform found in the query string.</dd>
-					<dt>metadata</dt>
-						<dd>Output a JSON object with dimensions of the image (in pixels) that the <code>raw</code> mode would output.</dd>
-					<dt>purge</dt>
-						<dd>Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly.</dd>
-				</dl>
-			</td>
-		</tr>
-		<tr id="uri">
-			<td><code>uri</code></td>
-			<td>
-				<p>URI to use as the image source, which can be HTTP/HTTPS</p>
-				<p>Source URIs <strong>must</strong> be URL-encoded when they're embedded in the URL of the image service, e.g. <code>/v2/images/raw/http%3A%2F%2Fexample%2Ecom%2Fimage%2Ejpg</code>. If you build image service URLs without help of <a href="//php.net/rawurlencode"><code>rawurlencode</code></a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"><code>encodeURIComponent</code></a> (or similar) URLs with query strings or special characters (e.g. spaces) will break.</p>
-				<p>Source images may not exceed 20MB in size. Requests to larger images will result in <code>400</code> errors.</p>
-				<p>Supported source types (schemes):</p>
-				<dl>
-					<dt>http</dt>
-						<dd>HTTP URLs of source images anywhere on the public web</dd>
-					<dt>https</dt>
-						<dd>HTTPS URLs of source images anywhere on the public web</dd>
-					<dt>ftcms</dt>
-						<dd>UUID of image in Content API (both V1 and V2 are supported)</dd>
-					<dt>ftflag-v1</dt>
-						<dd>Identifiers for current images from the the <a href="http://registry.origami.ft.com/components/origami-flag-images">flags image set</a></dd>
-					<dt>fticon-v1</dt>
-						<dd>Identifiers for the current icons within the <a href="http://registry.origami.ft.com/components/fticons">standard FT icon set</a></dd>
-					<dt>fthead-v1</dt>
-						<dd>Slugified names of known FT columnists and others from the <a href="http://registry.origami.ft.com/components/headshot-images">standard FT headshots set</a></dd>
-					<dt>ftsocial-v2</dt>
-						<dd>Identifiers for button images representing common social platforms from the <a href="http://registry.origami.ft.com/components/social-images">standard FT social images set</a></dd>
-					<dt>ftpodcast-v1</dt>
-						<dd>Logo from the <a href="http://registry.origami.ft.com/components/podcast-logos">FT podcast logo set</a></dd>
-					<dt>ftlogo-v1</dt>
-						<dd>FT and other sub-brand logos from the <a href="http://registry.origami.ft.com/components/logo-images">standard colour FT logo set</a></dd>
-					<dt>ftbrand-v1</dt>
-						<dd>Editorial brands for use with bylines from the <a href="http://registry.origami.ft.com/components/origami-brand-images">brand image set</a></dd>
-					<dt>specialisttitle-v1</dt>
-						<dd>logos used by Specialist Titles from the <a href="http://registry.origami.ft.com/components/origami-specialist-title-logos">specialist title set</a></dd>
-				</dl>
-			</td>
-		</tr>
-	</tbody>
+		<thead>
+			<tbody>
+				<tr id="mode">
+					<th scope="row"><code>mode</code></td>
+					<td>
+						<p>How output should be sent.</p>
+						<dl>
+							<dt>raw</dt>
+							<dd>Output raw image data.</dd>
+							<dt>debug</dt>
+							<dd>Output a JSON object which outlines the image transform found in the query string.</dd>
+							<dt>metadata</dt>
+							<dd>Output a JSON object with dimensions of the image (in pixels) that the <code>raw</code> mode would output.</dd>
+							<dt>purge</dt>
+							<dd>Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly.</dd>
+						</dl>
+					</td>
+				</tr>
+				<tr id="uri">
+					<th scope="row"><code>uri</code></td>
+					<td>
+						<p>URI to use as the image source, which can be HTTP/HTTPS</p>
+						<p>Source URIs <strong>must</strong> be URL-encoded when they're embedded in the URL of the image service, e.g. <code>/v2/images/raw/http%3A%2F%2Fexample%2Ecom%2Fimage%2Ejpg</code>. If you build image service URLs without help of <a href="//php.net/rawurlencode"><code>rawurlencode</code></a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"><code>encodeURIComponent</code></a> (or similar) URLs with query strings or special characters (e.g. spaces) will break.</p>
+						<p>Source images may not exceed 20MB in size. Requests to larger images will result in <code>400</code> errors.</p>
+						<p>Supported source types (schemes):</p>
+						<dl>
+							<dt>http</dt>
+							<dd>HTTP URLs of source images anywhere on the public web</dd>
+							<dt>https</dt>
+							<dd>HTTPS URLs of source images anywhere on the public web</dd>
+							<dt>ftcms</dt>
+							<dd>UUID of image in Content API (both V1 and V2 are supported)</dd>
+							<dt>ftflag-v1</dt>
+							<dd>Identifiers for current images from the the <a href="http://registry.origami.ft.com/components/origami-flag-images">flags image set</a></dd>
+							<dt>fticon-v1</dt>
+							<dd>Identifiers for the current icons within the <a href="http://registry.origami.ft.com/components/fticons">standard FT icon set</a></dd>
+							<dt>fthead-v1</dt>
+							<dd>Slugified names of known FT columnists and others from the <a href="http://registry.origami.ft.com/components/headshot-images">standard FT headshots set</a></dd>
+							<dt>ftsocial-v2</dt>
+							<dd>Identifiers for button images representing common social platforms from the <a href="http://registry.origami.ft.com/components/social-images">standard FT social images set</a></dd>
+							<dt>ftpodcast-v1</dt>
+							<dd>Logo from the <a href="http://registry.origami.ft.com/components/podcast-logos">FT podcast logo set</a></dd>
+							<dt>ftlogo-v1</dt>
+							<dd>FT and other sub-brand logos from the <a href="http://registry.origami.ft.com/components/logo-images">standard colour FT logo set</a></dd>
+							<dt>ftbrand-v1</dt>
+							<dd>Editorial brands for use with bylines from the <a href="http://registry.origami.ft.com/components/origami-brand-images">brand image set</a></dd>
+							<dt>specialisttitle-v1</dt>
+							<dd>logos used by Specialist Titles from the <a href="http://registry.origami.ft.com/components/origami-specialist-title-logos">specialist title set</a></dd>
+						</dl>
+					</td>
+				</tr>
+			</tbody>
 </table>
 
 <h2 id="query-parameters">Query Parameters</h2>
@@ -76,16 +76,16 @@
 	The available transforms are documented below:
 </p>
 
-<table class="o-table o-table--responsive-flat" data-o-component="o-table" data-o-table-responsive="flat">
+<table class="o-table o-table--horizontal-lines o-table--row-headings" data-o-component="o-table">
 	<thead>
 		<tr>
 			<th>Param</th>
-			<th data-o-table-heading-disable-sort>Description</th>
+			<th>Description</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr id="width">
-			<td><code>width</code></td>
+			<th scope="row"><code>width</code></td>
 			<td>
 				<p>Width of desired output image in CSS pixels. When generating images for high-DPI displays <strong>avoid multiplying width</strong>, and use <code>dpr</code> argument instead.</p>
 				<p>Defaults to a width that maintains the aspect of the image, or the width of the source image if <code>height</code> is also not set.</p>
@@ -93,21 +93,21 @@
 			</td>
 		</tr>
 		<tr id="height">
-			<td><code>height</code></td>
+			<th scope="row"><code>height</code></td>
 			<td>
 				<p>Height of desired output image in CSS pixels (subject to `dpr` scaling). Defaults to a height that maintains the aspect of the image, or the height of the source image if <code>width</code> is also not set.</p>
 				<p>The maximum allowed height is 65,500 pixels.</p>
 			</td>
 		</tr>
 		<tr id="dpr">
-			<td><code>dpr</code></td>
+			<th scope="row"><code>dpr</code></td>
 			<td>
 				<p>Device Pixel Ratio, i.e. number of image pixels per CSS pixel. The default is <code>1</code>, which gives the standard 1:1 ratio of image pixels to CSS pixels. Set to <code>2</code> for high-DPI ("Retina") displays. Request to the image service with <code>width=100<wbr>&amp;dpr=2</code> will output image 200 pixels wide, but optimized to be displayed with CSS <code>width:100px</code></p>
 				<p>Note that browsers don't automatically adjust intrinsic size of images with higher DPI, so you need'll need to use some "responsive image" solution, e.g. set explicit width or height, use <code>image-set()</code> or <code>srcset</code> attribute.</p>
 			</td>
 		</tr>
 		<tr id="fit">
-			<td><code>fit</code></td>
+			<th scope="row"><code>fit</code></td>
 			<td>
 				<p>Type of transform to apply if the source aspect ratio does not perfectly match the target (subset of rules defined by CSS <a href="http://www.w3.org/TR/css3-images/#the-object-fit"><code>object-fit</code> property</a>):</p>
 				<dl>
@@ -123,7 +123,7 @@
 			</td>
 		</tr>
 		<tr id="gravity">
-			<td><code>gravity</code></td>
+			<th scope="row"><code>gravity</code></td>
 			<td>
 				<p><strong>BETA</strong> The focal point of the image when it's been cropped to a different aspect ratio. This parameter only works when the <code>fit</code> parameter is set to <code>cover</code> (the default).</p>
 				<p><strong>Warning: this property is considered in a beta state. Do not rely on it in production yet, as we may make breaking changes.</strong></p>
@@ -136,13 +136,13 @@
 			</td>
 		</tr>
 		<tr id="bgcolor">
-			<td><code>bgcolor</code></td>
+			<th scope="row"><code>bgcolor</code></td>
 			<td>
 				<p>Fallback background colour to apply when the output image format does not support transparency (i.e., JPEG). Ignored if the image supports transparency. Specified as three- or six-character RGB hex code, e.g. <code>00ff00</code></p>
 			</td>
 		</tr>
 		<tr id="tint">
-			<td><code>tint</code></td>
+			<th scope="row"><code>tint</code></td>
 			<td>
 				<p>Replaces colours in the image. Tinting only works when the source image is an SVG, and colours can be either hex codes or named colours. Different numbers of colours (separated by commas) behave differently:</p>
 				<ol start="0">
@@ -153,7 +153,7 @@
 			</td>
 		</tr>
 		<tr id="format">
-			<td><code>format</code></td>
+			<th scope="row"><code>format</code></td>
 			<td>
 				<p>Desired output format.</p>
 				<dl>
@@ -171,13 +171,13 @@
 			</td>
 		</tr>
 		<tr id="quality">
-			<td><code>quality</code></td>
+			<th scope="row"><code>quality</code></td>
 			<td>
 				<p>Compression level for lossy encoding. May be set to <code>lowest</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>highest</code>, or <code>lossless</code>. If lossless is not supported by chosen image format (JPG), the highest level will be used instead. Default is <code>medium</code>.</p>
 			</td>
 		</tr>
 		<tr id="source">
-			<td><code>source</code></td>
+			<th scope="row"><code>source</code></td>
 			<td>
 				<p>Name of the application making the request, used for audit purposes. This should be a valid FT System Code which relates to the application making the request.</p>
 			</td>

@@ -23,10 +23,6 @@
 	display: flex;
 }
 
-.o-table--responsive-flat td {
-	width: 0;
-}
-
 dt {
 	font-weight: bold;
 	line-height: 1.5;
