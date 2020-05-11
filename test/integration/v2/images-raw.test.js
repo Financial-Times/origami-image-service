@@ -97,13 +97,13 @@ describe('GET /v2/images/raw…', function() {
 	describe('/ftbrand:… (ftbrand scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/png');
+		itRespondsWithContentType('image/jpeg');
 	});
 
 	describe('/ftbrand:… (ftbrand scheme with querystring)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/png');
+		itRespondsWithContentType('image/jpeg');
 	});
 
 	describe('/ftcms:… (ftcms scheme)', function() {
@@ -193,7 +193,7 @@ describe('GET /v2/images/raw…', function() {
 	describe('/ftpodcast:… (ftpodcast scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
 		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/png');
+		itRespondsWithContentType('image/jpeg');
 	});
 
 	describe('/ftlogo:… (ftlogo scheme)', function() {
@@ -434,7 +434,7 @@ describe('GET /v2/images/raw…', function() {
 		describe('adds specific keys for image content types', function() {
 			describe('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2UvcG5n/);
+				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
 			});
 
 			describe('ftcms', function() {
@@ -464,7 +464,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('ftpodcast', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2UvcG5n/);
+				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
 			});
 
 			describe('ftsocial', function() {
