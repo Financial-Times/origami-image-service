@@ -1,4 +1,4 @@
-name: Deploy to dev and test
+name: Deploy to dev
 on: [pull_request]
 
 jobs:
