@@ -1,19 +1,19 @@
-name: Deploy to production
+name: Deploy to staging
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - master
 
 jobs:
-  deploy-to-production:
+  deploy-to-staging:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - run: git fetch --prune --unshallow
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-eu.git HEAD:refs/heads/master --force
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-us.git HEAD:refs/heads/master --force
+    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-qa.git HEAD:master --force
 
   create-change-log:
-    needs: [deploy-to-production]
+    needs: [deploy-to-staging]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,5 +22,5 @@ jobs:
         with:
           change-api-key: ${{ secrets.CHANGE_API_KEY }}
           system-code: "origami-image-service"
-          environment: prod
+          environment: test
           slack-channels: "ft-changes,origami-deploys"
