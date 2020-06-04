@@ -872,89 +872,286 @@ describe('lib/image-transform', () => {
 	describe('.resolveCustomSchemeUri(uri, baseUrl)', () => {
 
 		describe('when `uri` is an `ftbrand` URI', () => {
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftbrand-v1:example', 'http://base/images'),
+						'http://base/images/ftbrand/v1/example'
+					);
+				});
+			});
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:example', 'http://base/images'),
-					'http://base/images/ftbrand/v1/example'
-				);
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftbrand-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftbrand:example', 'http://base/images'),
+						'http://base/images/ftbrand/v1/example'
+					);
+				});
+			});
+			
+			context('unversioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftbrand:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `ftcms` URI', () => {
 
-			it('returns `uri`', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftcms:example', 'http://base/images'),
-					'ftcms:example'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftcms-v1:example', 'http://base/images'),
+						'ftcms-v1:example'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftcms:example', 'http://base/images'),
+						'ftcms:example'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `ftflag` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftflag-v1:example', 'http://base/images'),
-					'http://base/images/ftflag/v1/example.svg'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftflag-v1:example', 'http://base/images'),
+						'http://base/images/ftflag/v1/example.svg'
+					);
+				});
+			});
+
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftflag-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftflag:example', 'http://base/images'),
+						'http://base/images/ftflag/v1/example.svg'
+					);
+				});
+			});
+			
+			context('unversioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftflag:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `fthead` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images'),
+						'http://base/images/fthead/v1/example'
+					);
+				});
+			});
+
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('fthead-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images'),
+						'http://base/images/fthead/v1/example'
+					);
+				});
+			});
+			
+			context('unversioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('fthead:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `fticon` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images'),
-					'http://base/images/fticon/v1/example.svg'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fticon-v1:example', 'http://base/images'),
+						'http://base/images/fticon/v1/example.svg'
+					);
+				});
+			});
+
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('fticon-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fticon:example', 'http://base/images'),
+						'http://base/images/fticonold/v4/example.svg'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `ftlogo` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftlogo-v1:example', 'http://base/images'),
-					'http://base/images/ftlogo/v1/example.svg'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftlogo-v1:example', 'http://base/images'),
+						'http://base/images/ftlogo/v1/example.svg'
+					);
+				});
+			});
+
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftlogo-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftlogo:example', 'http://base/images'),
+						'http://base/images/ftlogo/v1/example.svg'
+					);
+				});
+			});
+			
+			context('unversioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftlogo:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `ftpodcast` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:example', 'http://base/images'),
-					'http://base/images/ftpodcast/v1/example'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:example', 'http://base/images'),
+						'http://base/images/ftpodcast/v1/example'
+					);
+				});
+			});
+
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftpodcast:example', 'http://base/images'),
+						'http://base/images/ftpodcast/v1/example'
+					);
+				});
+			});
+			
+			context('unversioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('ftpodcast:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
 			});
 
 		});
 
 		describe('when `uri` is an `ftsocial` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftsocial-v1:example', 'http://base/images'),
-					'http://base/images/ftsocial/v1/example.svg'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftsocial-v1:example', 'http://base/images'),
+						'http://base/images/ftsocial/v1/example.svg'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('ftsocial:example', 'http://base/images'),
+						'http://base/images/ftsocial/v1/example.svg'
+					);
+				});
 			});
 
 		});
@@ -994,11 +1191,42 @@ describe('lib/image-transform', () => {
 
 		describe('when `uri` is a `specialisttitle` URI', () => {
 
-			it('returns the expected URI', () => {
-				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('specialisttitle-v1:example', 'http://base/images'),
-					'http://base/images/specialisttitle/v1/example.svg'
-				);
+			context('versioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('specialisttitle-v1:example', 'http://base/images'),
+						'http://base/images/specialisttitle/v1/example.svg'
+					);
+				});
+			});
+
+			context('versioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('specialisttitle-v1:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
+			});
+
+			context('unversioned scheme with name which exists', () => {
+				it('returns the expected URI', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('specialisttitle:example', 'http://base/images'),
+						'http://base/images/specialisttitle/v1/example.svg'
+					);
+				});
+			});
+			
+			context('unversioned scheme with name which does not exist', () => {
+				it('returns the expected URI', () => {
+					assert.throws(() => {
+						ImageTransform.resolveCustomSchemeUri('specialisttitle:not-found', 'http://base/images');
+					},
+						'Image URI must be a string with a valid scheme'
+					);
+				});
 			});
 
 		});

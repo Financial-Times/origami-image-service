@@ -29,7 +29,7 @@ const testImageUris = {
 	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo',
-	nonUtf8Characters: 'http://s3-eu-west-1.amazonaws.com/fthtsi-assets-production/ez/images/0/9/3/2/1212390-1-eng-GB/Y+et+Beaute%CC%81+Tranquille.jpg'
+	nonUtf8Characters: 'https://origami-image-service-integration-tests.s3-eu-west-1.amazonaws.com/Beaute%CC%81.jpg'
 };
 
 describe('GET /v2/images/raw…', function() {
@@ -41,7 +41,7 @@ describe('GET /v2/images/raw…', function() {
 	});
 
 	describe('/https://… (HTTPS scheme unencoded)', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcms}?source=test`);
+		setupRequest('GET', `/v2/images/raw/${testImageUris.nonUtf8Characters}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
@@ -356,7 +356,7 @@ describe('GET /v2/images/raw…', function() {
 			describe(`when the 'user-agent' header is ${userAgent} and the 'accepts' header is ${accept}`, function() {
 				setupRequest(
                     'GET',
-                    `/v2/images/raw/${testImageUris.nonUtf8Characters}?source=test&format=auto`,
+                    `/v2/images/raw/${testImageUris.httpsftcms}?source=test&format=auto`,
                     {
                         accept: accept,
                         'user-agent': userAgent,
@@ -648,7 +648,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('nonUtf8Characters', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.nonUtf8Characters}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aHR0cDovL3MzLWV1LXdlc3QtMS5hbWF6b25hd3MuY29tL2Z0aHRzaS1hc3NldHMtcHJvZHVjdGlvbi9lei9pbWFnZXMvMC85LzMvMi8xMjEyMzkwLTEtZW5nLUdCL1krZXQrQmVhdXRlzIErVHJhbnF1aWxsZS5qcGc=/);
+				itRespondsWithHeader('surrogate-key', /aHR0cHM6Ly9vcmlnYW1pLWltYWdlLXNlcnZpY2UtaW50ZWdyYXRpb24tdGVzdHMuczMtZXUtd2VzdC0xLmFtYXpvbmF3cy5jb20vQmVhdXRlzIEuanBn/);
 			});
 		});
 	});
