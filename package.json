@@ -55,7 +55,7 @@
     "request": "2.88.2",
     "require-all": "3.0.0",
     "statuses": "2.0.0",
-    "svg-tint-stream": "0.4.1",
+    "svg-tint-stream": "1.0.1",
     "throng": "4.0.0",
     "utf8": "3.0.0",
     "snyk": "^1.336.0"
