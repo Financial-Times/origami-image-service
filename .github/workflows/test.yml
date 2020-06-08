@@ -7,12 +7,12 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
-        node-version: 10.x
+        node-version: 12.x
     - run: npm ci
     - run: make verify
     - run: make test-unit-coverage
-      env: 
+      env:
         CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
     - run: make test-integration
-      env: 
+      env:
         CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
