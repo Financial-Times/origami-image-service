@@ -44,6 +44,7 @@ describe('lib/middleware/get-cms-url', () => {
 			beforeEach(done => {
 				origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
 				origamiService.mockRequest.query.source = 'mock-source';
+				origamiService.mockRequest.params.originalImageUrl = 'http://test.example/image.jpg';
 
 				// V2 responds with success
 				requestPromise.withArgs({
@@ -126,6 +127,56 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when neither the v1 or v2 API can find the image', () => {
+				beforeEach(done => {
+					requestPromise.resetHistory();
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					log.info.resetHistory();
+
+					// V2 responds with a 404
+					requestPromise.withArgs({
+						uri: v2Uri,
+						method: 'HEAD',
+						timeout: 10000
+					}).resolves({
+						statusCode: 404
+					});
+
+					// V1 responds with a 404
+					requestPromise.withArgs({
+						uri: v1Uri,
+						method: 'HEAD',
+						timeout: 10000
+					}).resolves({
+						statusCode: 404
+					});
+
+					// original image responds with a 200
+					requestPromise.withArgs({
+						uri: origamiService.mockRequest.params.originalImageUrl,
+						method: 'HEAD',
+						timeout: 10000
+					}).resolves({
+						statusCode: 200
+					});
+
+					middleware(origamiService.mockRequest, origamiService.mockResponse, done);
+				});
+
+				it('attempts to fetch the original image URL if it is known', () => {
+					assert.calledThrice(requestPromise);
+					assert.calledWith(requestPromise, {
+						uri: origamiService.mockRequest.params.originalImageUrl,
+						method: 'HEAD',
+						timeout: 10000
+					});
+				});
+
+				it('sets the `imageUrl` request param to the original image URL corresponding', () => {
+					assert.strictEqual(origamiService.mockRequest.params.imageUrl, origamiService.mockRequest.params.originalImageUrl);
+				});
+			});
+
+			describe('when neither the v1, v2 API can find the image and the original image url does not exist', () => {
 				let responseError;
 
 				beforeEach(done => {
@@ -151,6 +202,15 @@ describe('lib/middleware/get-cms-url', () => {
 						statusCode: 404
 					});
 
+					// original image responds with a 200
+					requestPromise.withArgs({
+						uri: origamiService.mockRequest.params.originalImageUrl,
+						method: 'HEAD',
+						timeout: 10000
+					}).resolves({
+						statusCode: 404
+					});
+
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
 						done();
@@ -159,7 +219,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a 404 error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Unable to get image mock-id from FT CMS v1 or v2');
+					assert.strictEqual(responseError.message, 'Unable to get image mock-id from Content API v1 or v2');
 					assert.strictEqual(responseError.status, 404);
 					assert.strictEqual(responseError.cacheMaxAge, '30s');
 				});
