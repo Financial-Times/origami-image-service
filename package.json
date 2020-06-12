@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "denodeify": "1.2.1",
-    "eslint": "7.0.0",
+    "eslint": "7.2.0",
     "istanbul": "0.4.5",
     "mocha": "7.2.0",
     "mockery": "2.1.0",
