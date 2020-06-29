@@ -58,7 +58,7 @@
     "svg-tint-stream": "1.0.1",
     "throng": "4.0.0",
     "utf8": "3.0.0",
-    "snyk": "^1.350.1"
+    "snyk": "^1.352.1"
   },
   "devDependencies": {
     "denodeify": "1.2.1",
