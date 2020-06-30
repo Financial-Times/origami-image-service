@@ -23,16 +23,16 @@ describe('lib/purge-from-fastly', () => {
 		mockery.registerMock('fastly-purge', FastlyPurge);
 
 		addHours = sinon.stub();
-		mockery.registerMock('date-fns/add_hours', addHours);
+		mockery.registerMock('date-fns/addHours', addHours);
 
 		startOfHour = sinon.stub();
-		mockery.registerMock('date-fns/start_of_hour', startOfHour);
+		mockery.registerMock('date-fns/startOfHour', startOfHour);
 
 		getHours = sinon.stub();
-		mockery.registerMock('date-fns/get_hours', getHours);
+		mockery.registerMock('date-fns/getHours', getHours);
 
 		differenceInMilliseconds = sinon.stub();
-		mockery.registerMock('date-fns/difference_in_milliseconds', differenceInMilliseconds);
+		mockery.registerMock('date-fns/differenceInMilliseconds', differenceInMilliseconds);
 
 		purgeFromFastly = require('../../../lib/purge-from-fastly');
 	});
