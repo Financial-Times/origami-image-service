@@ -48,7 +48,7 @@
     "dotenv": "8.2.0",
     "fastly-purge": "1.0.1",
     "heroku-node-settings": "1.1.0",
-    "http-errors": "1.7.3",
+    "http-errors": "1.8.0",
     "http-proxy": "1.18.1",
     "jsdom": "16.2.2",
     "probe-image-size": "5.0.0",
