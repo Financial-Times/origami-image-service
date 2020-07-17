@@ -42,7 +42,7 @@
     "base-64": "0.1.0",
     "cloudinary": "1.22.0",
     "colornames": "1.1.1",
-    "date-fns": "2.14.0",
+    "date-fns": "2.15.0",
     "dnscache": "1.0.2",
     "dompurify": "2.0.12",
     "dotenv": "8.2.0",
