@@ -50,7 +50,7 @@
     "heroku-node-settings": "1.1.0",
     "http-errors": "1.8.0",
     "http-proxy": "1.18.1",
-    "jsdom": "16.3.0",
+    "jsdom": "16.4.0",
     "probe-image-size": "5.0.0",
     "request": "2.88.2",
     "require-all": "3.0.0",
