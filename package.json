@@ -38,7 +38,7 @@
     "@financial-times/podcast-logos": "1.1.4",
     "@financial-times/social-images": "2.2.2",
     "@financial-times/source-param-middleware": "2.0.0",
-    "axios": "0.19.2",
+    "axios": "0.20.0",
     "base-64": "0.1.0",
     "cloudinary": "1.22.0",
     "colornames": "1.1.1",
