@@ -47,8 +47,8 @@ describe('lib/cloudinary-metrics', () => {
 		});
 
 		it('configures Cloudinary', () => {
-			assert.calledOnce(cloudinary.config);
-			assert.calledWith(cloudinary.config, {
+			assert.calledOnce(cloudinary.v2.config);
+			assert.calledWith(cloudinary.v2.config, {
 				cloud_name: options.cloudinaryAccountName,
 				api_key: options.cloudinaryApiKey,
 				api_secret: options.cloudinaryApiSecret
@@ -93,13 +93,13 @@ describe('lib/cloudinary-metrics', () => {
 						limit: 8
 					}
 				};
-				cloudinary.api.usage.resolves(usageData);
+				cloudinary.v2.api.usage.resolves(usageData);
 				return instance.pingUsage();
 			});
 
-			it('calls `cloudinary.api.usage`', () => {
-				assert.calledOnce(cloudinary.api.usage);
-				assert.calledWithExactly(cloudinary.api.usage);
+			it('calls `cloudinary.v2.api.usage`', () => {
+				assert.calledOnce(cloudinary.v2.api.usage);
+				assert.calledWithExactly(cloudinary.v2.api.usage);
 			});
 
 			it('increments metrics for transformations, objects, bandwidth, and storage', () => {
@@ -115,13 +115,13 @@ describe('lib/cloudinary-metrics', () => {
 				assert.calledWithExactly(metrics.count, 'cloudinary.storage.limit', 8);
 			});
 
-			describe('when `cloudinary.api.usage` rejects', () => {
+			describe('when `cloudinary.v2.api.usage` rejects', () => {
 				let cloudinaryError;
 
 				beforeEach(() => {
 					cloudinaryError = new Error('mock cloudinary error');
 					origamiService.mockApp.ft.metrics.count.resetHistory();
-					cloudinary.api.usage.rejects(cloudinaryError);
+					cloudinary.v2.api.usage.rejects(cloudinaryError);
 					return instance.pingUsage().catch();
 				});
 
@@ -136,13 +136,13 @@ describe('lib/cloudinary-metrics', () => {
 
 			});
 
-			describe('when `cloudinary.api.usage` throws', () => {
+			describe('when `cloudinary.v2.api.usage` throws', () => {
 				let cloudinaryError;
 
 				beforeEach(() => {
 					cloudinaryError = new Error('mock cloudinary error');
 					origamiService.mockApp.ft.metrics.count.resetHistory();
-					cloudinary.api.usage.throws(cloudinaryError);
+					cloudinary.v2.api.usage.throws(cloudinaryError);
 					instance.pingUsage();
 				});
 

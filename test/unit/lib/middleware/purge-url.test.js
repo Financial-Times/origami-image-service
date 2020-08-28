@@ -60,7 +60,7 @@ describe('lib/middleware/purge-url', () => {
 		});
 
 		it('constructs a cloudinary object with passed in configuration', () => {
-			assert.calledWithExactly(cloudinary.config, {
+			assert.calledWithExactly(cloudinary.v2.config, {
 				cloud_name: 'cloudinaryAccountName',
 				api_key: 'cloudinaryApiKey',
 				api_secret: 'cloudinaryApiSecret'
@@ -94,7 +94,7 @@ describe('lib/middleware/purge-url', () => {
 					dateToPurge = new Date();
 					FastlyPurge.mockInstance.returns(dateToPurge);
 					origamiService.mockRequest.query.url = encodeURIComponent(url);
-					cloudinary.uploader.destroy.resolves({
+					cloudinary.v2.uploader.destroy.resolves({
 						result: 'ok'
 					});
 				});
@@ -104,7 +104,7 @@ describe('lib/middleware/purge-url', () => {
 					it('purges from cloudinary', () => {
 						return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
 							.then(() => {
-								assert.called(cloudinary.uploader.destroy);
+								assert.called(cloudinary.v2.uploader.destroy);
 							});
 					});
 
@@ -139,7 +139,7 @@ describe('lib/middleware/purge-url', () => {
 						it('purges from cloudinary', () => {
 							return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext)
 								.then(() => {
-									assert.called(cloudinary.uploader.destroy);
+									assert.called(cloudinary.v2.uploader.destroy);
 								});
 						});
 
@@ -166,11 +166,11 @@ describe('lib/middleware/purge-url', () => {
 
 				describe('when the url is not purgeable from Cloudinary', () => {
 					it('returns a 200 with a messaging indicating when it will purge from Fastly', () => {
-						cloudinary.uploader.destroy.resolves({result: 'not found'});
+						cloudinary.v2.uploader.destroy.resolves({result: 'not found'});
 						origamiService.mockRequest.query.url = encodeURIComponent(url);
 
 						return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext).then(() => {
-							assert.called(cloudinary.uploader.destroy);
+							assert.called(cloudinary.v2.uploader.destroy);
 							assert.notCalled(origamiService.mockNext);
 							assert.calledWithExactly(origamiService.mockResponse.status, 200);
 							assert.calledWithExactly(origamiService.mockResponse.send, `Purged ${url} from Cloudinary, will purge from Fastly at ${dateToPurge}`);
@@ -180,11 +180,11 @@ describe('lib/middleware/purge-url', () => {
 
 				describe('when the Cloudinary purging fails outright', () => {
 					it('calls `next` with a 500 error', () => {
-						cloudinary.uploader.destroy.rejects(Error('Something broke!'));
+						cloudinary.v2.uploader.destroy.rejects(Error('Something broke!'));
 						origamiService.mockRequest.query.url = encodeURIComponent(url);
 
 						return middleware(origamiService.mockRequest, origamiService.mockResponse, origamiService.mockNext).then(() => {
-							assert.called(cloudinary.uploader.destroy);
+							assert.called(cloudinary.v2.uploader.destroy);
 							assert.called(origamiService.mockNext);
 
 							const error = origamiService.mockNext.firstCall.args[0];
