@@ -6,6 +6,7 @@ const sinon = require('sinon');
 
 describe('lib/middleware/process-image-request', () => {
 	let cloudinaryTransform;
+	let cloudinary;
 	let ImageTransform;
 	let origamiService;
 	let processImageRequest;
@@ -16,6 +17,18 @@ describe('lib/middleware/process-image-request', () => {
 
 		cloudinaryTransform = sinon.stub();
 		mockery.registerMock('../transformers/cloudinary', cloudinaryTransform);
+		
+		cloudinary = sinon.stub();
+		cloudinary.v2 = {
+			uploader:{
+				upload: sinon.stub().yields(),
+			},
+			api:{
+				resource: sinon.stub().yields(),
+			},
+			config: sinon.stub(),
+		};
+		mockery.registerMock('cloudinary', cloudinary);
 
 		origamiService = require('../../mock/origami-service.mock');
 
@@ -43,22 +56,28 @@ describe('lib/middleware/process-image-request', () => {
 			assert.isFunction(middleware);
 		});
 
-		describe('middleware(request, response, next)', () => {
+		describe('middleware(request, response, next)', function() {
+			this.timeout(30 * 1000);
 			let mockImageTransform;
+			let name;
 			let next;
-
-			beforeEach(() => {
+			beforeEach((done) => {
 				next = sinon.spy();
-
-				mockImageTransform = {};
+				mockImageTransform = {
+					getUri: () => 'https://example.com',
+					setName: (n) => {name=n;},
+					getName: () => name
+				};
 				ImageTransform.returns(mockImageTransform);
 
 				cloudinaryTransform.returns('mock-cloudinary-url');
 
 				origamiService.mockRequest.params.imageUrl = 'mock-uri';
 				origamiService.mockRequest.query.source = 'mock-source';
-
-				middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+				middleware(origamiService.mockRequest, origamiService.mockResponse, function(error){
+					next(error);
+					done(error);
+				});
 			});
 
 			it('sets the request query `uri` property to the `imageUrl` request param', () => {
@@ -87,11 +106,6 @@ describe('lib/middleware/process-image-request', () => {
 
 			it('sets the request `appliedTransform` property to the Cloudinary URL', () => {
 				assert.strictEqual(origamiService.mockRequest.appliedTransform, 'mock-cloudinary-url');
-			});
-
-			it('calls `next` with no error', () => {
-				assert.calledOnce(next);
-				assert.calledWithExactly(next);
 			});
 
 			describe('when the image transform format is "svg" and tint is set', () => {

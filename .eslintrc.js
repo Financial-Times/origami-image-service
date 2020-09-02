@@ -3,10 +3,12 @@
 module.exports = {
 	'env': {
 		'node': true,
-		'es6': true
+		'commonjs': true,
+		'es2020': true
 	},
-	'ecmaFeatures': {
-		'modules': false
+	'extends': 'eslint:recommended',
+	'parserOptions': {
+		'ecmaVersion': 11
 	},
 	'rules': {
 		'no-unused-vars': 2,

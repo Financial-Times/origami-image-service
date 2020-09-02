@@ -14,7 +14,10 @@ before(function() {
 	return imageService({
 		contentApiKey: process.env.CONTENT_API_KEY,
 		cloudinaryAccountName: 'financial-times', // TODO set up a test account for this?
-		customSchemeStore: process.env.CUSTOM_SCHEME_STORE || 'https://origami-images.ft.com',
+		cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+		cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
+		customSchemeCacheBust: process.env.CUSTOM_SCHEME_CACHE_BUST || '',
+		customSchemeStore: process.env.CUSTOM_SCHEME_STORE,
 		hostname: 'origami-image-service-qa.herokuapp.com',
 		defaultLayout: 'main',
 		environment: 'test',
