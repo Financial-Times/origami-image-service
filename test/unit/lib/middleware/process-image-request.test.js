@@ -64,7 +64,7 @@ describe('lib/middleware/process-image-request', () => {
 			beforeEach((done) => {
 				next = sinon.spy();
 				mockImageTransform = {
-					getUri: () => 'https://example.com',
+					getUri: () => 'https://origami-images.ft.com/fthead/v1/lionel-barber-595330c73ff13873ae15ce65db55d88a2b7fcc0d14af17a4950f9f3477a56e988a18cca1dfab9f055c1c827221bcab11376ea6fe553068c2af6093f85028d517',
 					setName: (n) => {name=n;},
 					getName: () => name
 				};
