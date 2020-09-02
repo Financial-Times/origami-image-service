@@ -38,11 +38,10 @@ describe('lib/middleware/get-cms-url', () => {
 		});
 
 		describe('middleware(request, response, next)', () => {
-			const v1Uri = 'http://im.ft-static.com/content/images/mock-id.img';
-			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id';
+			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id1';
 
 			beforeEach(done => {
-				origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+				origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id1';
 				origamiService.mockRequest.query.source = 'mock-source';
 				origamiService.mockRequest.params.originalImageUrl = 'http://test.example/image.jpg';
 
@@ -72,16 +71,18 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			it('logs that the CMS ID was found in v2 of the API', () => {
-				assert.calledWithExactly(log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
-				assert.neverCalledWith(log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
-				assert.neverCalledWith(log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
+				assert.calledWithExactly(log.info, 'ftcms-check cmsId=mock-id1 cmsVersionUsed=v2 source=mock-source');
+				assert.neverCalledWith(log.info, 'ftcms-check cmsId=mock-id1 cmsVersionUsed=v1 source=mock-source');
+				assert.neverCalledWith(log.info, 'ftcms-check cmsId=mock-id1 cmsVersionUsed=error source=mock-source');
 			});
 
 			describe('when the v2 API cannot find the image', () => {
+				const v1Uri = 'http://im.ft-static.com/content/images/mock-id2.img';
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id2';
 
 				beforeEach(done => {
 					requestPromise.resetHistory();
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id2';
 					log.info.resetHistory();
 
 					// V2 responds with a 404
@@ -119,17 +120,19 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('logs that the CMS ID was found in v1 of the API', () => {
-					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
-					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
-					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id2 cmsVersionUsed=v2 source=mock-source');
+					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id2 cmsVersionUsed=v1 source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id2 cmsVersionUsed=error source=mock-source');
 				});
 
 			});
 
 			describe('when neither the v1 or v2 API can find the image', () => {
+				const v1Uri = 'http://im.ft-static.com/content/images/mock-id3.img';
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id3';
 				beforeEach(done => {
 					requestPromise.resetHistory();
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id3';
 					log.info.resetHistory();
 
 					// V2 responds with a 404
@@ -178,10 +181,12 @@ describe('lib/middleware/get-cms-url', () => {
 
 			describe('when neither the v1, v2 API can find the image and the original image url does not exist', () => {
 				let responseError;
+				const v1Uri = 'http://im.ft-static.com/content/images/mock-id4.img';
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id4';
 
 				beforeEach(done => {
 					requestPromise.resetHistory();
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id4';
 					log.info.resetHistory();
 
 					// V2 responds with a 404
@@ -219,24 +224,24 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a 404 error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Unable to get image mock-id from Content API v1 or v2');
+					assert.strictEqual(responseError.message, 'Unable to get image mock-id4 from Content API v1 or v2');
 					assert.strictEqual(responseError.status, 404);
 					assert.strictEqual(responseError.cacheMaxAge, '30s');
 				});
 
 				it('logs that the CMS ID was found in neither API', () => {
-					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v2 source=mock-source');
-					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=v1 source=mock-source');
-					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id cmsVersionUsed=error source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id4 cmsVersionUsed=v2 source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id4 cmsVersionUsed=v1 source=mock-source');
+					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id4 cmsVersionUsed=error source=mock-source');
 				});
 
 			});
 
 			describe('when the ftcms URL has a querystring', () => {
-
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id5';
 				beforeEach(done => {
 					requestPromise.resetHistory();
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id?foo=bar';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id5?foo=bar';
 
 					// V2 responds with success
 					requestPromise.withArgs({
@@ -277,10 +282,10 @@ describe('lib/middleware/get-cms-url', () => {
 
 			describe('when the request errors', () => {
 				let responseError;
-
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id6';
 				beforeEach(done => {
 					requestPromise.resetHistory();
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id6';
 
 					// V2 errors
 					requestPromise.withArgs({
@@ -305,10 +310,10 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request fails a DNS lookup', () => {
 				let dnsError;
 				let responseError;
-
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id7';
 				beforeEach(done => {
 					requestPromise.resetHistory();
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id7';
 
 					// V2 errors
 					dnsError = new Error('mock error');
@@ -328,7 +333,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'DNS lookup failed for "http://prod-upp-image-read.ft.com/mock-id"');
+					assert.strictEqual(responseError.message, 'DNS lookup failed for "http://prod-upp-image-read.ft.com/mock-id7"');
 				});
 
 			});
@@ -336,11 +341,11 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request connection resets', () => {
 				let resetError;
 				let responseError;
-
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id8';
 				beforeEach(done => {
 					requestPromise.resetHistory();
 					origamiService.mockRequest.url = 'mock-url';
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id8';
 
 					// V2 errors
 					resetError = new Error('mock error');
@@ -360,7 +365,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Connection reset when requesting "http://prod-upp-image-read.ft.com/mock-id" (mock-syscall)');
+					assert.strictEqual(responseError.message, 'Connection reset when requesting "http://prod-upp-image-read.ft.com/mock-id8" (mock-syscall)');
 				});
 
 			});
@@ -368,11 +373,11 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request times out', () => {
 				let responseError;
 				let timeoutError;
-
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id9';
 				beforeEach(done => {
 					requestPromise.resetHistory();
 					origamiService.mockRequest.url = 'mock-url';
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id9';
 
 					// V2 errors
 					timeoutError = new Error('mock error');
@@ -392,7 +397,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Request timed out when requesting "http://prod-upp-image-read.ft.com/mock-id" (mock-syscall)');
+					assert.strictEqual(responseError.message, 'Request timed out when requesting "http://prod-upp-image-read.ft.com/mock-id9" (mock-syscall)');
 				});
 
 			});
@@ -400,11 +405,11 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request socket times out', () => {
 				let responseError;
 				let timeoutError;
-
+				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id10';
 				beforeEach(done => {
 					requestPromise.resetHistory();
 					origamiService.mockRequest.url = 'mock-url';
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id';
+					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id10';
 
 					// V2 errors
 					timeoutError = new Error('mock error');
@@ -424,7 +429,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Request socket timed out when requesting "http://prod-upp-image-read.ft.com/mock-id" (mock-syscall)');
+					assert.strictEqual(responseError.message, 'Request socket timed out when requesting "http://prod-upp-image-read.ft.com/mock-id10" (mock-syscall)');
 				});
 
 			});
