@@ -13,7 +13,6 @@ jobs:
     - run: make test-unit-coverage
       env:
         CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
-        CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
         CLOUDINARY_ACCOUNT_NAME: ${{ secrets.CLOUDINARY_ACCOUNT_NAME }}
         CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
         CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
@@ -23,7 +22,6 @@ jobs:
         FASTLY_SERVICE_ID: ${{ secrets.FASTLY_SERVICE_ID }}
     - run: make test-integration
       env:
-        CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
         CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
         CLOUDINARY_ACCOUNT_NAME: ${{ secrets.CLOUDINARY_ACCOUNT_NAME }}
         CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
