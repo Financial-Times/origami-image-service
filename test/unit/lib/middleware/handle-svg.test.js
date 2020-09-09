@@ -1,33 +1,49 @@
 'use strict';
 
 const assert = require('proclaim');
-const mockery = require('mockery');
 const sinon = require('sinon');
 
-describe('lib/middleware/handle-svg', () => {
+const twitterSVG = `<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M417 720c193.2 0 298.9-160.1 298.9-298.9 0-4.5 0-9.1-.3-13.6 20.6-14.9 38.3-33.3 52.4-54.4-19.2 8.5-39.5 14.1-60.3 16.5 21.9-13.1 38.3-33.8 46.2-58.1-20.6 12.2-43.2 20.9-66.7 25.5-39.8-42.3-106.3-44.3-148.6-4.6-27.3 25.7-38.9 63.9-30.4 100.4-84.5-4.2-163.2-44.1-216.5-109.8-27.9 48-13.6 109.4 32.5 140.2-16.7-.5-33.1-5-47.7-13.1v1.3c0 50 35.3 93.1 84.3 103-15.5 4.2-31.7 4.8-47.4 1.8 13.8 42.8 53.2 72.1 98.1 72.9-37.2 29.2-83.1 45.1-130.5 45.1-8.4 0-16.7-.5-25-1.5 48 31 103.9 47.3 161 47.3"></path></svg>`;
+const twitterSVGWithOnClickHandler = `<svg onClick="doSomething(); return false;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M417 720c193.2 0 298.9-160.1 298.9-298.9 0-4.5 0-9.1-.3-13.6 20.6-14.9 38.3-33.3 52.4-54.4-19.2 8.5-39.5 14.1-60.3 16.5 21.9-13.1 38.3-33.8 46.2-58.1-20.6 12.2-43.2 20.9-66.7 25.5-39.8-42.3-106.3-44.3-148.6-4.6-27.3 25.7-38.9 63.9-30.4 100.4-84.5-4.2-163.2-44.1-216.5-109.8-27.9 48-13.6 109.4 32.5 140.2-16.7-.5-33.1-5-47.7-13.1v1.3c0 50 35.3 93.1 84.3 103-15.5 4.2-31.7 4.8-47.4 1.8 13.8 42.8 53.2 72.1 98.1 72.9-37.2 29.2-83.1 45.1-130.5 45.1-8.4 0-16.7-.5-25-1.5 48 31 103.9 47.3 161 47.3"/></svg>`;
+
+const nock = require('nock');
+const proclaim = require('proclaim');
+
+
+describe.only('lib/middleware/handle-svg', function () {
+	this.timeout(10 * 1000);
+
 	let origamiService;
-	let request;
 	let handleSvg;
-	let SvgTintStream;
-	let createDOMPurify;
-	let jsdom;
+	let scope;
 
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
-
-		request = require('../../mock/request.mock');
-		mockery.registerMock('request', request);
-
-		SvgTintStream = require('../../mock/svg-tint-stream.mock');
-		mockery.registerMock('svg-tint-stream', SvgTintStream);
-
-		createDOMPurify = require('../../mock/dompurify.mock');
-		mockery.registerMock('dompurify', createDOMPurify);
-
-		jsdom = require('../../mock/jsdom.mock');
-		mockery.registerMock('jsdom', jsdom);
-
 		handleSvg = require('../../../../lib/middleware/handle-svg');
+		scope = nock('https://ft.com').persist();
+		scope.get('/twitter.svg').reply(200, twitterSVG, {
+			'Content-Type': 'image/svg+xml; charset=utf-8',
+		});
+
+		scope.get('/twitter.svg-ECONNRESET').replyWithError({
+			message: 'uh oh the connection reset',
+			syscall: 'syscall',
+			code: 'ECONNRESET',
+		});
+		scope.get('/twitter.svg-ENOTFOUND').replyWithError({
+			message: 'uh oh the domain has no dns record',
+			syscall: 'getaddrinfo',
+			code: 'ENOTFOUND',
+		});
+		scope.get('/twitter.svg-ETIMEDOUT').replyWithError({
+			message: 'uh oh the connection timed out',
+			syscall: 'syscall',
+			code: 'ETIMEDOUT',
+		});
+	});
+
+	afterEach(() => {
+		nock.cleanAll();
 	});
 
 	it('exports a function', () => {
@@ -46,298 +62,318 @@ describe('lib/middleware/handle-svg', () => {
 		});
 
 		describe('middleware(request, response, next)', () => {
-			let next;
-
-			beforeEach(() => {
-				next = sinon.spy();
-				origamiService.mockRequest.params[0] = 'mock-uri';
-				origamiService.mockRequest.query.color = 'f00';
-				middleware(origamiService.mockRequest, origamiService.mockResponse, next);
-			});
-
-			it('creates an SVG tint stream with `request.query.color`', () => {
-				assert.calledOnce(SvgTintStream);
-				assert.calledWithNew(SvgTintStream);
-				assert.calledWith(SvgTintStream, {
-					color: origamiService.mockRequest.query.color,
-					stroke: false
+			context('when the svg request connection is reset', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://ft.com/twitter.svg-ECONNRESET';
+					origamiService.mockRequest.query.color = 'f00';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
+					});
+				});
+				it('calls `next` with a descriptive error', () => {
+					assert.isTrue(next.calledOnce);
+					assert.isInstanceOf(next.firstCall.args[0], Error);
+					assert.strictEqual(next.firstCall.args[0].message, 'Connection reset when requesting "https://ft.com/twitter.svg-ECONNRESET" (syscall)');
 				});
 			});
 
-			it('creates an HTTP request stream with `request.params[0]`', () => {
-				assert.calledOnce(request);
-				assert.calledWith(request, origamiService.mockRequest.params[0], {
-					timeout: 25000
+			context('when the svg request has no DNS entry', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://ft.com/twitter.svg-ENOTFOUND';
+					origamiService.mockRequest.query.color = 'f00';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
+					});
+				});
+				it('calls `next` with a descriptive error', () => {
+					assert.isTrue(next.calledOnce);
+					assert.isInstanceOf(next.firstCall.args[0], Error);
+					assert.strictEqual(next.firstCall.args[0].message, 'DNS lookup failed for "https://ft.com/twitter.svg-ENOTFOUND"');
 				});
 			});
 
-			it('binds a handler to the HTTP request stream "response" event', () => {
-				assert.calledWith(request.mockStream.on, 'response');
+			context('when the svg request times out', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://ft.com/twitter.svg-ETIMEDOUT';
+					origamiService.mockRequest.query.color = 'f00';
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
+					});
+				});
+
+				it('calls `next` with a descriptive error', () => {
+					assert.isTrue(next.calledOnce);
+					assert.isInstanceOf(next.firstCall.args[0], Error);
+					assert.strictEqual(next.firstCall.args[0].message, 'Request timed out when requesting "https://ft.com/twitter.svg-ETIMEDOUT" (syscall)');
+				});
+
 			});
 
-			describe('HTTP request stream "response" handler', () => {
-				let handler;
-				let mockImageResponse;
-
-				beforeEach(() => {
-					mockImageResponse = {
-						statusCode: 200,
-						headers: {
-							'content-type': 'image/svg+xml'
-						}
+			describe('when the image URL is from ft.com/__assets', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://www.ft.com/__assets/twitter.svg';
+					const scope = nock('https://www.ft.com').persist();
+					scope.get('/__assets/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
 					};
-					handler = request.mockStream.on.withArgs('response').firstCall.args[1];
-					handler(mockImageResponse);
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
+					});
 				});
-
-				it('sets the Content-Type header to the SVG content type', () => {
-					assert.calledOnce(origamiService.mockResponse.set);
-					assert.calledWithExactly(origamiService.mockResponse.set, 'Content-Type', 'image/svg+xml; charset=utf-8');
+				afterEach(() => {
+					nock.cleanAll();
 				});
-
-				describe('when the image response status is an error code', () => {
-
-					beforeEach(() => {
-						origamiService.mockResponse.set.resetHistory();
-						mockImageResponse.statusCode = 400;
-						handler(mockImageResponse);
-					});
-
-					it('does not set the Content-Type header', () => {
-						assert.notCalled(origamiService.mockResponse.set);
-					});
-
-					it('emits an error on the HTTP request stream', () => {
-						assert.calledOnce(request.mockStream.emit);
-						assert.calledWith(request.mockStream.emit, 'error');
-						assert.instanceOf(request.mockStream.emit.firstCall.args[1], Error);
-						assert.strictEqual(request.mockStream.emit.firstCall.args[1].status, 400);
-						assert.strictEqual(request.mockStream.emit.firstCall.args[1].cacheMaxAge, '30s');
-						assert.strictEqual(request.mockStream.emit.firstCall.args[1].message, 'Bad Request');
-					});
-
+				it('does not purify the SVG', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVGWithOnClickHandler);
 				});
-
-				describe('when the image response is not an SVG', () => {
-
-					beforeEach(() => {
-						origamiService.mockResponse.set.resetHistory();
-						mockImageResponse.headers['content-type'] = 'text/html';
-						handler(mockImageResponse);
+			});
+			
+			describe('when the image URL is from origami-images.ft.com', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://origami-images.ft.com/twitter.svg';
+					const scope = nock('https://origami-images.ft.com').persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-
-					it('does not set the Content-Type header', () => {
-						assert.notCalled(origamiService.mockResponse.set);
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
 					});
-
-					it('emits an error on the HTTP request stream', () => {
-						assert.calledOnce(request.mockStream.emit);
-						assert.calledWith(request.mockStream.emit, 'error');
-						assert.instanceOf(request.mockStream.emit.firstCall.args[1], Error);
-						assert.strictEqual(request.mockStream.emit.firstCall.args[1].status, 400);
-						assert.strictEqual(request.mockStream.emit.firstCall.args[1].cacheMaxAge, '5m');
-						assert.strictEqual(request.mockStream.emit.firstCall.args[1].message, 'URI must point to an SVG image');
-					});
-
 				});
-
+				afterEach(() => {
+					nock.cleanAll();
+				});
+				it('does not purify the SVG', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVGWithOnClickHandler);
+				});
 			});
 
-			it('binds a handler to the HTTP request stream "error" event', () => {
-				assert.calledWith(request.mockStream.on, 'error');
+			describe('when the image URL is not from origami-images.ft.com or ft.com/__assets', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
+					});
+				});
+				it('does purify the SVG', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVG);
+				});
 			});
 
-			describe('HTTP request stream "error" handler', () => {
-				let handler;
-				let streamError;
-
-				beforeEach(() => {
-					streamError = new Error('mock error');
-					handler = request.mockStream.on.withArgs('error').firstCall.args[1];
-					handler(streamError);
+			describe('when the svg request returns a 404', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(404, 'Not Found.', {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
+					});
 				});
-
-				it('calls `next` with the error', () => {
-					assert.calledOnce(next);
-					assert.calledWithExactly(next, streamError);
+				it('calls next with an error and sets correct status code', () => {
+					assert.isTrue(next.calledOnce);
+					assert.equal(next.firstCall.firstArg.status, 404);
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '30s');
 				});
-
-				describe('when the error represents a failed DNS lookup', () => {
-					let dnsError;
-
-					beforeEach(() => {
-						next.resetHistory();
-						dnsError = new Error('mock error');
-						dnsError.code = 'ENOTFOUND';
-						dnsError.syscall = 'getaddrinfo';
-						handler(dnsError);
-					});
-
-					it('calls `next` with a descriptive error', () => {
-						assert.calledOnce(next);
-						assert.instanceOf(next.firstCall.args[0], Error);
-						assert.strictEqual(next.firstCall.args[0].message, 'DNS lookup failed for "mock-uri"');
-					});
-
-				});
-
-				describe('when the error represents a connection reset', () => {
-					let resetError;
-
-					beforeEach(() => {
-						next.resetHistory();
-						resetError = new Error('mock error');
-						resetError.code = 'ECONNRESET';
-						resetError.syscall = 'mock-syscall';
-						handler(resetError);
-					});
-
-					it('calls `next` with a descriptive error', () => {
-						assert.calledOnce(next);
-						assert.instanceOf(next.firstCall.args[0], Error);
-						assert.strictEqual(next.firstCall.args[0].message, 'Connection reset when requesting "mock-uri" (mock-syscall)');
-					});
-
-				});
-
-				describe('when the error represents a request timeout', () => {
-					let resetError;
-
-					beforeEach(() => {
-						next.resetHistory();
-						resetError = new Error('mock error');
-						resetError.code = 'ETIMEDOUT';
-						resetError.syscall = 'mock-syscall';
-						handler(resetError);
-					});
-
-					it('calls `next` with a descriptive error', () => {
-						assert.calledOnce(next);
-						assert.instanceOf(next.firstCall.args[0], Error);
-						assert.strictEqual(next.firstCall.args[0].message, 'Request timed out when requesting "mock-uri" (mock-syscall)');
-					});
-
-				});
-
 			});
 
-			it('pipes the HTTP request stream through the tint stream', () => {
-				assert.calledWithExactly(request.mockStream.pipe, SvgTintStream.mockStream);
-			});
-
-			it('binds a handler to the request stream "data" event', () => {
-				assert.calledWith(request.mockStream.on, 'data');
-			});
-
-			it('binds a handler to the request stream "end" event', () => {
-				assert.calledWith(request.mockStream.on, 'end');
-			});
-
-			describe('HTTP request stream "end" handler', () => {
-				let handler;
-
-				beforeEach(() => {
-
-					// Send some mock data through
-					const dataHandler = request.mockStream.on.withArgs('data').firstCall.args[1];
-					dataHandler('mockChunk1');
-					dataHandler('mockChunk2');
-					dataHandler('mockChunk3');
-
-					handler = request.mockStream.on.withArgs('end').firstCall.args[1];
-					handler();
-				});
-
-				it('creates a new JSDOM instance', () => {
-					assert.calledOnce(jsdom.JSDOM);
-					assert.calledWithNew(jsdom.JSDOM);
-					assert.calledWithExactly(jsdom.JSDOM, '');
-				});
-
-				it('creates a DOM purifier, using the JSDOM window', () => {
-					assert.calledOnce(createDOMPurify);
-					assert.calledWithExactly(createDOMPurify, jsdom.mockJSDom.window);
-				});
-
-				it('purifies the SVG', () => {
-					assert.calledOnce(createDOMPurify.mockDomPurify.sanitize);
-					assert.calledWithExactly(createDOMPurify.mockDomPurify.sanitize, 'mockChunk1mockChunk2mockChunk3');
-				});
-
-				it('sends the full purified SVG in the response', () => {
-					assert.calledOnce(origamiService.mockResponse.send);
-					assert.calledWithExactly(origamiService.mockResponse.send, 'mock-purified-svg');
-				});
-
-				describe('when the image URL is from ft.com/__assets', () => {
-
-					beforeEach(() => {
-						request.mockStream.on.resetHistory();
-						createDOMPurify.mockDomPurify.sanitize.resetHistory();
-						origamiService.mockResponse.send.resetHistory();
-
-						origamiService.mockRequest.params[0] = 'https://www.ft.com/__assets/mock.svg';
-						middleware(origamiService.mockRequest, origamiService.mockResponse, next);
-
-						const dataHandler = request.mockStream.on.withArgs('data').firstCall.args[1];
-						dataHandler('mockChunk1');
-						dataHandler('mockChunk2');
-						dataHandler('mockChunk3');
-
-						handler = request.mockStream.on.withArgs('end').firstCall.args[1];
-						handler();
+			describe('when the svg request returns a 500', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(500, 'Internal Server Error.', {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-
-					it('does not purify the SVG', () => {
-						assert.notCalled(createDOMPurify.mockDomPurify.sanitize);
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
 					});
-
-					it('sends the full unpurified SVG in the response', () => {
-						assert.calledOnce(origamiService.mockResponse.send);
-						assert.calledWithExactly(origamiService.mockResponse.send, 'mockChunk1mockChunk2mockChunk3');
-					});
-
 				});
-
+				it('calls next with an error and sets correct status code', () => {
+					assert.isTrue(next.calledOnce);
+					assert.equal(next.firstCall.firstArg.status, 500);
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '30s');
+				});
 			});
 
+			describe('when the svg request returns a non svg content-type', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(200, 'Hello.', {
+						'Content-Type': 'text/plain; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
+					});
+				});
+				it('calls next with an error and sets correct status code', () => {
+					assert.isTrue(next.calledOnce);
+					assert.equal(next.firstCall.firstArg.status, 400);
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '5m');
+				});
+			});
+
+			describe('when `request.query.color` is set', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.query.color = '#FFC0CB';
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
+					});
+				});
+				it('tints the SVG with the color defined in `request.query.color`', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.include(origamiService.mockResponse.send.firstCall.firstArg, '<style>*{fill:#FFC0CB!important;}</style>');
+				});
+			});
+			
 			describe('when `request.query.color` is not set', () => {
-
-				beforeEach(() => {
-					SvgTintStream.resetHistory();
-					delete origamiService.mockRequest.query.color;
-					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
+					});
 				});
-
-				it('does not create an SVG tint stream', () => {
-					assert.notCalled(SvgTintStream);
+				it('does not tint the SVG', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVG);
 				});
-
 			});
 
 			describe('when the SvgTintStream errors', () => {
-				let tintError;
-
-				beforeEach(() => {
-					next.resetHistory();
-					tintError = new Error('stream error');
-					SvgTintStream.throws(tintError);
-					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.query.color = 'not-a-valid-hex-color';
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done();
+					});
 				});
 
-				it('sets the error `status` property to 400', () => {
-					assert.strictEqual(tintError.status, 400);
-				});
-
-				it('calls `next` with the error', () => {
-					assert.calledOnce(next);
-					assert.calledWithExactly(next, tintError);
+				it('calls next with the error and sets correct status code', () => {
+					assert.isTrue(next.calledOnce);
+					assert.equal(next.firstCall.firstArg.status, 400);
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '30s');
 				});
 
 			});
-
 		});
-
 	});
-
 });
