@@ -10,7 +10,7 @@ const nock = require('nock');
 const proclaim = require('proclaim');
 
 
-describe.only('lib/middleware/handle-svg', function () {
+describe('lib/middleware/handle-svg', function () {
 	this.timeout(10 * 1000);
 
 	let origamiService;
