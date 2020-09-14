@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "denodeify": "1.2.1",
-    "eslint": "7.8.1",
+    "eslint": "7.9.0",
     "mocha": "8.1.3",
     "mockery": "2.1.0",
     "nock": "^13.0.4",
