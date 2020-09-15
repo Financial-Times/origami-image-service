@@ -229,7 +229,7 @@ describe('lib/middleware/handle-svg', function () {
 				it('calls next with an error and sets correct status code', () => {
 					assert.isTrue(next.calledOnce);
 					assert.equal(next.firstCall.firstArg.status, 404);
-					assert.equal(next.firstCall.firstArg.cacheMaxAge, '30s');
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '5m');
 				});
 			});
 
@@ -257,7 +257,7 @@ describe('lib/middleware/handle-svg', function () {
 				it('calls next with an error and sets correct status code', () => {
 					assert.isTrue(next.calledOnce);
 					assert.equal(next.firstCall.firstArg.status, 500);
-					assert.equal(next.firstCall.firstArg.cacheMaxAge, '30s');
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '5m');
 				});
 			});
 
