@@ -370,7 +370,7 @@ describe('lib/middleware/handle-svg', function () {
 				it('calls next with the error and sets correct status code', () => {
 					assert.isTrue(next.calledOnce);
 					assert.equal(next.firstCall.firstArg.status, 400);
-					assert.equal(next.firstCall.firstArg.cacheMaxAge, '30s');
+					assert.equal(next.firstCall.firstArg.cacheMaxAge, '1y');
 				});
 
 			});
