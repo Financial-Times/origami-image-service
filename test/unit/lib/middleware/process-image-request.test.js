@@ -398,6 +398,38 @@ describe('lib/middleware/process-image-request', () => {
 				});
 			});
 
+			describe('when uploading the image to cloudinary fails', () => {
+				context('due to the file being too large', ()=>{
+					let scope;
+					beforeEach((done)=>{
+						scope = nock('https://ft.com').persist();
+						
+						scope.get('/twitter.svg').reply(200, 'svg-code-here', {
+							'Content-Type': 'image/svg+xml; charset=utf-8',
+						});
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg';
+						next.resetHistory();
+						cloudinary.v2.uploader.upload.yields(new Error('File size too large. Got 222350285. Maximum is 104857600.'));
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+					});
+				});
+			});
 		});
 	});
 });
