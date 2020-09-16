@@ -8,35 +8,35 @@ describe('lib/middleware/get-cms-url', () => {
 	let getCmsUrl;
 	let log;
 	let config;
-	
+
 	beforeEach(() => {
 		origamiService = require('../../mock/origami-service.mock');
 		log = origamiService.mockApp.ft.log;
-		
+
 		config = {contentApiKey: 'test'};
-		
+
 		getCmsUrl = require('../../../../lib/middleware/get-cms-url');
 	});
 
 	afterEach(() => {
 		nock.cleanAll();
 	});
-	
+
 	it('exports a function', () => {
 		assert.isFunction(getCmsUrl);
 	});
-	
+
 	describe('getCmsUrl(config)', () => {
 		let middleware;
-		
+
 		beforeEach(() => {
 			middleware = getCmsUrl(config);
 		});
-		
+
 		it('returns a middleware function', () => {
 			assert.isFunction(middleware);
 		});
-		
+
 		describe('middleware(request, response, next)', () => {
 			let scope;
 			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id1';
@@ -128,8 +128,6 @@ describe('lib/middleware/get-cms-url', () => {
 
 			describe('when neither the v1, v2 API can find the image and the original image url does not exist', () => {
 				let responseError;
-				const v1Uri = 'http://im.ft-static.com/content/images/mock-id4.img';
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id4';
 				let nockScopeForV1Images;
 				let nockScopeForV2Images;
 				let nockScopeForFallback;
@@ -207,7 +205,6 @@ describe('lib/middleware/get-cms-url', () => {
 
 			describe('when the request errors', () => {
 				let responseError;
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id6';
 				let scope;
 
 				beforeEach(done => {
@@ -232,7 +229,6 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request fails a DNS lookup', () => {
 				let dnsError;
 				let responseError;
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id7';
 				let scope;
 
 				beforeEach(done => {
@@ -261,7 +257,6 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request connection resets', () => {
 				let resetError;
 				let responseError;
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id8';
 				let scope;
 
 				beforeEach(done => {
@@ -291,7 +286,6 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request times out', () => {
 				let responseError;
 				let timeoutError;
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id9';
 				let scope;
 
 				beforeEach(done => {
@@ -321,7 +315,6 @@ describe('lib/middleware/get-cms-url', () => {
 			describe('when the request socket times out', () => {
 				let responseError;
 				let timeoutError;
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id10';
 				let scope;
 
 				beforeEach(done => {
