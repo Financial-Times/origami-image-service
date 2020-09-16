@@ -1,17 +1,8 @@
 'use strict';
 
-const dnscache = require('dnscache');
 const dotenv = require('dotenv');
 const imageService = require('./lib/image-service');
 const throng = require('throng');
-
-// Cache DNS, but with a very low TTL until this issue is
-// resolved: https://github.com/yahoo/dnscache/issues/14
-dnscache({
-	cachesize: 1000,
-	enable: true,
-	ttl: 60
-});
 
 dotenv.config({
 	silent: true
