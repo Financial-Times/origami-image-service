@@ -3,12 +3,13 @@
 const assert = require('proclaim');
 const mockery = require('mockery');
 const sinon = require('sinon');
+const httpMock = require('node-mocks-http');
+const nock = require('nock');
 
 describe('lib/middleware/process-image-request', () => {
 	let cloudinaryTransform;
 	let cloudinary;
 	let ImageTransform;
-	let origamiService;
 	let processImageRequest;
 
 	beforeEach(() => {
@@ -29,8 +30,6 @@ describe('lib/middleware/process-image-request', () => {
 			config: sinon.stub(),
 		};
 		mockery.registerMock('cloudinary', cloudinary);
-
-		origamiService = require('../../mock/origami-service.mock');
 
 		processImageRequest = require('../../../../lib/middleware/process-image-request');
 	});
@@ -60,9 +59,14 @@ describe('lib/middleware/process-image-request', () => {
 			this.timeout(30 * 1000);
 			let mockImageTransform;
 			let name;
+			let request;
+			let response;
 			let next;
+
 			beforeEach((done) => {
-				next = sinon.spy();
+				request = httpMock.createRequest();
+				response = httpMock.createResponse();
+				next = sinon.stub();
 				mockImageTransform = {
 					getUri: () => 'https://origami-images.ft.com/fthead/v1/lionel-barber-595330c73ff13873ae15ce65db55d88a2b7fcc0d14af17a4950f9f3477a56e988a18cca1dfab9f055c1c827221bcab11376ea6fe553068c2af6093f85028d517',
 					setName: (n) => {name=n;},
@@ -72,22 +76,22 @@ describe('lib/middleware/process-image-request', () => {
 
 				cloudinaryTransform.returns('mock-cloudinary-url');
 
-				origamiService.mockRequest.params.imageUrl = 'mock-uri';
-				origamiService.mockRequest.query.source = 'mock-source';
-				middleware(origamiService.mockRequest, origamiService.mockResponse, function(error){
+				request.params.imageUrl = 'mock-uri';
+				request.query.source = 'mock-source';
+				middleware(request, response, function(error){
 					next(error);
 					done(error);
 				});
 			});
 
 			it('sets the request query `uri` property to the `imageUrl` request param', () => {
-				assert.strictEqual(origamiService.mockRequest.query.uri, origamiService.mockRequest.params.imageUrl);
+				assert.strictEqual(request.query.uri, request.params.imageUrl);
 			});
 
 			it('creates an image transform using the query parameters', () => {
 				assert.calledOnce(ImageTransform);
 				assert.calledWithNew(ImageTransform);
-				assert.calledWithExactly(ImageTransform, origamiService.mockRequest.query);
+				assert.calledWithExactly(ImageTransform, request.query);
 			});
 
 			it('generates a Cloudinary transform URL with the image transform', () => {
@@ -101,11 +105,11 @@ describe('lib/middleware/process-image-request', () => {
 			});
 
 			it('sets the request `transform` property to the created image transform', () => {
-				assert.strictEqual(origamiService.mockRequest.transform, mockImageTransform);
+				assert.strictEqual(request.transform, mockImageTransform);
 			});
 
 			it('sets the request `appliedTransform` property to the Cloudinary URL', () => {
-				assert.strictEqual(origamiService.mockRequest.appliedTransform, 'mock-cloudinary-url');
+				assert.strictEqual(request.appliedTransform, 'mock-cloudinary-url');
 			});
 
 			describe('when the image transform format is "svg" and tint is set', () => {
@@ -116,8 +120,8 @@ describe('lib/middleware/process-image-request', () => {
 					mockImageTransform.uri = 'transform-uri';
 					mockImageTransform.setUri = sinon.spy();
 					mockImageTransform.setTint = sinon.spy();
-					origamiService.mockRequest.hostname = 'hostname';
-					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+					request.hostname = 'hostname';
+					middleware(request, response, next);
 				});
 
 				it('sets the image transform `uri` property to route through the SVG tinter', () => {
@@ -135,7 +139,7 @@ describe('lib/middleware/process-image-request', () => {
 					beforeEach(() => {
 						mockImageTransform.setUri.resetHistory();
 						mockImageTransform.uri = 'transform-uri?foo';
-						middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+						middleware(request, response, next);
 					});
 
 					it('sets the image transform `uri` property to route through the SVG tinter', () => {
@@ -150,7 +154,7 @@ describe('lib/middleware/process-image-request', () => {
 					beforeEach(() => {
 						mockImageTransform.setUri.resetHistory();
 						config.hostname = 'config-hostname';
-						middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+						middleware(request, response, next);
 					});
 
 					it('sets the image transform `uri` property to route through the SVG tinter', () => {
@@ -166,8 +170,8 @@ describe('lib/middleware/process-image-request', () => {
 
 				beforeEach(() => {
 					mockImageTransform.setImmutable = sinon.spy();
-					origamiService.mockRequest.params.immutable = true;
-					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+					request.params.immutable = true;
+					middleware(request, response, next);
 				});
 
 				it('sets the image transform `immutable` property to true', () => {
@@ -180,8 +184,8 @@ describe('lib/middleware/process-image-request', () => {
 
 				beforeEach(() => {
 					mockImageTransform.setImmutable = sinon.spy();
-					origamiService.mockRequest.params.immutable = false;
-					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+					request.params.immutable = false;
+					middleware(request, response, next);
 				});
 
 				it('sets the image transform `immutable` property to false', () => {
@@ -196,15 +200,15 @@ describe('lib/middleware/process-image-request', () => {
 					next.resetHistory();
 					imageTransformError = new Error('image transform error');
 					ImageTransform.throws(imageTransformError);
-					middleware(origamiService.mockRequest, origamiService.mockResponse, next);
+					middleware(request, response, next);
 				});
 
 				it('sets the error `status` property to 400', () => {
 					assert.strictEqual(imageTransformError.status, 400);
 				});
 
-				it('sets the error `cacheMaxAge` property to "10m"', () => {
-					assert.strictEqual(imageTransformError.status, 400);
+				it('sets the error `cacheMaxAge` property to "1y"', () => {
+					assert.strictEqual(imageTransformError.cacheMaxAge, '1y');
 				});
 
 				it('calls `next` with the error', () => {
@@ -214,8 +218,186 @@ describe('lib/middleware/process-image-request', () => {
 
 			});
 
+			describe('when the request to the original image fails', () => {
+				let scope;
+				beforeEach(()=>{
+					scope = nock('https://ft.com').persist();
+					
+					scope.get('/twitter.svg').reply(200, 'svg-code-here', {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					scope.get('/twitter.svg-ECONNRESET').replyWithError({
+						message: 'uh oh the connection reset',
+						syscall: 'syscall',
+						code: 'ECONNRESET',
+					});
+					scope.get('/twitter.svg-ENOTFOUND').replyWithError({
+						message: 'uh oh the domain has no dns record',
+						syscall: 'getaddrinfo',
+						code: 'ENOTFOUND',
+					});
+					scope.get('/twitter.svg-ETIMEDOUT').replyWithError({
+						message: 'uh oh the connection timed out',
+						syscall: 'syscall',
+						code: 'ETIMEDOUT',
+					});
+					scope.get('/twitter.svg-CERT_HAS_EXPIRED').replyWithError({
+						message: 'Certificate has expired for "https://ft.com/twitter.svg-CERT_HAS_EXPIRED',
+						code: 'CERT_HAS_EXPIRED',
+					});
+					scope.get('/twitter.svg-ERR_TLS_CERT_ALTNAME_INVALID').replyWithError({
+						message: 'NodeError: Hostname/IP does not match certificate\'s altnames: Host: ft.com. is not in the cert\'s altnames: DNS: example.com',
+						code: 'ERR_TLS_CERT_ALTNAME_INVALID',
+					});
+					scope.get('/twitter.svg-UNKNOWN_ERROR').replyWithError(new Error('Something went wrong here, we do not know what it what.'));
+				});
+				
+				context('due to no DNS record for the domain', () => {
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ENOTFOUND';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+					});
+
+				});
+
+				context('due to the connection being reset', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ECONNRESET';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					});
+				});
+
+				context('due to the request timing out', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ETIMEDOUT';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					});
+				});
+
+				context('due to the certificate having expired', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-CERT_HAS_EXPIRED';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+					});
+				});
+
+				context('due to the certificate not having the domain listed', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ERR_TLS_CERT_ALTNAME_INVALID';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+					});
+				});
+
+				context('due to an unknown error', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-UNKNOWN_ERROR';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('does not set the error `skipSentry` property', () => {
+						assert.isUndefined(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('does not set the error `cacheMaxAge` property', () => {
+						assert.isUndefined(next.firstCall.firstArg.cacheMaxAge);
+					});
+				});
+			});
+
 		});
-
 	});
-
 });
