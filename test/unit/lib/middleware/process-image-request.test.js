@@ -18,7 +18,7 @@ describe('lib/middleware/process-image-request', () => {
 
 		cloudinaryTransform = sinon.stub();
 		mockery.registerMock('../transformers/cloudinary', cloudinaryTransform);
-		
+
 		cloudinary = sinon.stub();
 		cloudinary.v2 = {
 			uploader:{
@@ -222,7 +222,7 @@ describe('lib/middleware/process-image-request', () => {
 				let scope;
 				beforeEach(()=>{
 					scope = nock('https://ft.com').persist();
-					
+
 					scope.get('/twitter.svg').reply(200, 'svg-code-here', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -251,7 +251,7 @@ describe('lib/middleware/process-image-request', () => {
 					});
 					scope.get('/twitter.svg-UNKNOWN_ERROR').replyWithError(new Error('Something went wrong here, we do not know what it what.'));
 				});
-				
+
 				context('due to no DNS record for the domain', () => {
 					beforeEach((done) => {
 						next.resetHistory();
@@ -403,13 +403,44 @@ describe('lib/middleware/process-image-request', () => {
 					let scope;
 					beforeEach((done)=>{
 						scope = nock('https://ft.com').persist();
-						
+
 						scope.get('/twitter.svg').reply(200, 'svg-code-here', {
 							'Content-Type': 'image/svg+xml; charset=utf-8',
 						});
 						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg';
 						next.resetHistory();
 						cloudinary.v2.uploader.upload.yields(new Error('File size too large. Got 222350285. Maximum is 104857600.'));
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+					});
+				});
+
+				context('due to the file being an invalid image file', ()=>{
+					let scope;
+					beforeEach((done)=>{
+						scope = nock('https://ft.com').persist();
+
+						scope.get('/twitter.svg').reply(200, 'svg-code-here', {
+							'Content-Type': 'image/svg+xml; charset=utf-8',
+						});
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg';
+						next.resetHistory();
+						cloudinary.v2.uploader.upload.yields(new Error('Invalid image file'));
 						middleware(request, response, error => {
 							next(error);
 							done();
