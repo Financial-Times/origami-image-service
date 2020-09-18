@@ -18,7 +18,7 @@ describe('lib/middleware/process-image-request', () => {
 
 		cloudinaryTransform = sinon.stub();
 		mockery.registerMock('../transformers/cloudinary', cloudinaryTransform);
-		
+
 		cloudinary = sinon.stub();
 		cloudinary.v2 = {
 			uploader:{
@@ -222,7 +222,7 @@ describe('lib/middleware/process-image-request', () => {
 				let scope;
 				beforeEach(()=>{
 					scope = nock('https://ft.com').persist();
-					
+
 					scope.get('/twitter.svg').reply(200, 'svg-code-here', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -230,6 +230,9 @@ describe('lib/middleware/process-image-request', () => {
 						message: 'uh oh the connection reset',
 						syscall: 'syscall',
 						code: 'ECONNRESET',
+					});
+					scope.get('/twitter.svg-EAI_AGAIN').replyWithError({
+						message: 'uh oh the DNS lookup timed out'
 					});
 					scope.get('/twitter.svg-ENOTFOUND').replyWithError({
 						message: 'uh oh the domain has no dns record',
@@ -251,7 +254,7 @@ describe('lib/middleware/process-image-request', () => {
 					});
 					scope.get('/twitter.svg-UNKNOWN_ERROR').replyWithError(new Error('Something went wrong here, we do not know what it what.'));
 				});
-				
+
 				context('due to no DNS record for the domain', () => {
 					beforeEach((done) => {
 						next.resetHistory();
@@ -277,6 +280,29 @@ describe('lib/middleware/process-image-request', () => {
 
 				});
 
+				context('due to the dns lookup timing out', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-EAI_AGAIN';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "30s"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					});
+				});
 				context('due to the connection being reset', ()=>{
 					beforeEach((done) => {
 						next.resetHistory();
@@ -403,7 +429,7 @@ describe('lib/middleware/process-image-request', () => {
 					let scope;
 					beforeEach((done)=>{
 						scope = nock('https://ft.com').persist();
-						
+
 						scope.get('/twitter.svg').reply(200, 'svg-code-here', {
 							'Content-Type': 'image/svg+xml; charset=utf-8',
 						});
