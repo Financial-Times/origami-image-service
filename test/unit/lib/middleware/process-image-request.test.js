@@ -234,6 +234,9 @@ describe('lib/middleware/process-image-request', () => {
 					scope.get('/twitter.svg-UNABLE_TO_VERIFY_LEAF_SIGNATURE').replyWithError({
 						message: 'Unable to verify the certificate',
 					});
+					scope.get('/twitter.svg-ERR_UNESCAPED_CHARACTERS').replyWithError({
+						message: 'URL contains unescaped characters',
+					});
 					scope.get('/twitter.svg-ENETUNREACH').replyWithError({
 						message: 'uh oh the network is unreachable',
 						syscall: 'syscall',
@@ -356,6 +359,30 @@ describe('lib/middleware/process-image-request', () => {
 
 					it('sets the error `cacheMaxAge` property to "30s"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					});
+				});
+
+				context('due to the image url having invalid characters', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ERR_UNESCAPED_CHARACTERS';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "1y"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '1y');
 					});
 				});
 
