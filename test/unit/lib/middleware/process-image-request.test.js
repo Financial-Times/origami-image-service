@@ -336,8 +336,8 @@ describe.only('lib/middleware/process-image-request', () => {
 						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
-					it('sets the error `cacheMaxAge` property to "30s"', () => {
-						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
 					});
 				});
 
