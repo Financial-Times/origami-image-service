@@ -25,7 +25,9 @@ const testImageUris = {
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	http: 'http://origami-images.ft.com/ftsocial/v1/twitter.svg',
+	httpmalformed: 'http:/origami-images.ft.com/ftsocial/v1/twitter.svg',
 	https: 'https://origami-images.ft.com/ftsocial/v1/twitter.svg',
+	httpsmalformed: 'https:/origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo',
@@ -58,13 +60,25 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('image/jpeg');
 	});
 
-	describe('/http:/… (HTTP scheme unencoded malformed)', function() {
+	describe('/http:/… (HTTP scheme url unencoded malformed)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpmalformed}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/png');
+	});
+
+	describe('/https:… (HTTPS scheme url unencoded malformed)', function() {
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsmalformed}?source=test`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/png');
+	});
+
+	describe('/http:/… (HTTP scheme with ftcms url unencoded malformed)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcmsmalformed}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
 
-	describe('/https:… (HTTPS scheme unencoded malformed)', function() {
+	describe('/https:… (HTTPS scheme with ftcms url unencoded malformed)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsftcmsmalformed}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
@@ -117,25 +131,25 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
-	
+
 	describe('/ftcms:… (capiv2 scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.capiv2}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
-	
+
 	describe('/ftcms:… (spark scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.spark}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
-	
+
 	describe('/ftcms:… (sparkMasterImage scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.sparkMasterImage}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
-	
+
 	describe('/https:… (httpsspark scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.httpsspark}?source=test`);
 		itRespondsWithStatus(200);
