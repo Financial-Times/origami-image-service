@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const httpMock = require('node-mocks-http');
 const nock = require('nock');
 
-describe('lib/middleware/process-image-request', () => {
+describe.only('lib/middleware/process-image-request', () => {
 	let cloudinaryTransform;
 	let cloudinary;
 	let ImageTransform;
@@ -233,9 +233,11 @@ describe('lib/middleware/process-image-request', () => {
 					});
 					scope.get('/twitter.svg-UNABLE_TO_VERIFY_LEAF_SIGNATURE').replyWithError({
 						message: 'Unable to verify the certificate',
+						code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
 					});
 					scope.get('/twitter.svg-ERR_UNESCAPED_CHARACTERS').replyWithError({
 						message: 'URL contains unescaped characters',
+						code: 'ERR_UNESCAPED_CHARACTERS',
 					});
 					scope.get('/twitter.svg-ENETUNREACH').replyWithError({
 						message: 'uh oh the network is unreachable',
@@ -243,7 +245,8 @@ describe('lib/middleware/process-image-request', () => {
 						code: 'ENETUNREACH',
 					});
 					scope.get('/twitter.svg-EAI_AGAIN').replyWithError({
-						message: 'uh oh the DNS lookup timed out'
+						message: 'uh oh the DNS lookup timed out',
+						code: 'EAI_AGAIN',
 					});
 					scope.get('/twitter.svg-ENOTFOUND').replyWithError({
 						message: 'uh oh the domain has no dns record',
