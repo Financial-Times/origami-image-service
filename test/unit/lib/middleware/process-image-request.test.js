@@ -231,6 +231,11 @@ describe('lib/middleware/process-image-request', () => {
 						syscall: 'syscall',
 						code: 'ECONNRESET',
 					});
+					scope.get('/twitter.svg-ENETUNREACH').replyWithError({
+						message: 'uh oh the network is unreachable',
+						syscall: 'syscall',
+						code: 'ENETUNREACH',
+					});
 					scope.get('/twitter.svg-EAI_AGAIN').replyWithError({
 						message: 'uh oh the DNS lookup timed out'
 					});
@@ -322,7 +327,31 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
-					it('sets the error `cacheMaxAge` property to "5m"', () => {
+					it('sets the error `cacheMaxAge` property to "30s"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					});
+				});
+
+				context('due to the network being unreachable', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ENETUNREACH';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "30s"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
 					});
 				});
