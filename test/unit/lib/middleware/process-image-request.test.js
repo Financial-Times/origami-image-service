@@ -248,6 +248,14 @@ describe('lib/middleware/process-image-request', () => {
 						message: 'uh oh the DNS lookup timed out',
 						code: 'EAI_AGAIN',
 					});
+					scope.get('/twitter.svg-ESERVFAIL').replyWithError({
+						message: 'The domain has no DNS records',
+						code: 'EAI_AGAIN',
+					});
+					scope.get('/twitter.svg-EBADNAME').replyWithError({
+						message: 'The hostname is incorrect formatting',
+						code: 'EBADNAME',
+					});
 					scope.get('/twitter.svg-ENOTFOUND').replyWithError({
 						message: 'uh oh the domain has no dns record',
 						syscall: 'getaddrinfo',
@@ -273,6 +281,31 @@ describe('lib/middleware/process-image-request', () => {
 					beforeEach((done) => {
 						next.resetHistory();
 						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ENOTFOUND';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "5m"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+					});
+
+				});
+
+				context('due to the domain having no Name Server DNS record', () => {
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-ESERVFAIL';
 						middleware(request, response, error => {
 							next(error);
 							done();
@@ -362,6 +395,30 @@ describe('lib/middleware/process-image-request', () => {
 
 					it('sets the error `cacheMaxAge` property to "30s"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
+					});
+				});
+
+				context('due to the image url hostname having incorrect formatting', ()=>{
+					beforeEach((done) => {
+						next.resetHistory();
+						mockImageTransform.getUri = () => 'https://ft.com/twitter.svg-EBADNAME';
+						middleware(request, response, error => {
+							next(error);
+							done();
+						});
+					});
+
+					it('calls `next` with an error', () => {
+						assert.isTrue(next.calledOnce);
+						assert.isInstanceOf(next.firstCall.firstArg, Error);
+					});
+
+					it('sets the error `skipSentry` property to true', () => {
+						assert.isTrue(next.firstCall.firstArg.skipSentry);
+					});
+
+					it('sets the error `cacheMaxAge` property to "1y"', () => {
+						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '1y');
 					});
 				});
 
