@@ -249,8 +249,8 @@ describe('lib/middleware/process-image-request', () => {
 						code: 'EAI_AGAIN',
 					});
 					scope.get('/twitter.svg-ESERVFAIL').replyWithError({
-						message: 'The domain has no DNS records',
-						code: 'EAI_AGAIN',
+						message: 'The domain has no name server',
+						code: 'ESERVFAIL',
 					});
 					scope.get('/twitter.svg-EBADNAME').replyWithError({
 						message: 'The hostname is incorrect formatting',
