@@ -258,7 +258,6 @@ describe('lib/middleware/process-image-request', () => {
 					});
 					scope.get('/twitter.svg-ENOTFOUND').replyWithError({
 						message: 'uh oh the domain has no dns record',
-						syscall: 'getaddrinfo',
 						code: 'ENOTFOUND',
 					});
 					scope.get('/twitter.svg-ETIMEDOUT').replyWithError({

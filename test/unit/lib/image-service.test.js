@@ -533,7 +533,6 @@ describe('lib/image-service', () => {
 				beforeEach(() => {
 					serviceErrorHandler.resetHistory();
 					proxyError.code = 'ENOTFOUND';
-					proxyError.syscall = 'getaddrinfo';
 					handler(proxyError, origamiService.mockRequest, origamiService.mockResponse);
 				});
 

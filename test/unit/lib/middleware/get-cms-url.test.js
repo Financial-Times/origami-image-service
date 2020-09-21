@@ -237,7 +237,6 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 errors
 					dnsError = new Error('mock error');
 					dnsError.code = 'ENOTFOUND';
-					dnsError.syscall = 'getaddrinfo';
 					scope = nock('http://prod-upp-image-read.ft.com').persist();
 					scope.head('/mock-id7').replyWithError(dnsError);
 

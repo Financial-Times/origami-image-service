@@ -32,7 +32,6 @@ describe('lib/middleware/handle-svg', function () {
 		});
 		scope.get('/twitter.svg-ENOTFOUND').replyWithError({
 			message: 'uh oh the domain has no dns record',
-			syscall: 'getaddrinfo',
 			code: 'ENOTFOUND',
 		});
 		scope.get('/twitter.svg-ETIMEDOUT').replyWithError({
@@ -147,7 +146,7 @@ describe('lib/middleware/handle-svg', function () {
 					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVGWithOnClickHandler);
 				});
 			});
-			
+
 			describe('when the image URL is from origami-images.ft.com', () => {
 				let next;
 				beforeEach((done) => {
@@ -316,7 +315,7 @@ describe('lib/middleware/handle-svg', function () {
 					proclaim.include(origamiService.mockResponse.send.firstCall.firstArg, '<style>*{fill:#FFC0CB!important;}</style>');
 				});
 			});
-			
+
 			describe('when `request.query.color` is not set', () => {
 				let next;
 				beforeEach((done) => {
