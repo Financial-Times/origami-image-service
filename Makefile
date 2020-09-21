@@ -7,6 +7,15 @@ include node_modules/@financial-times/origami-service-makefile/index.mk
 # [edit below this line]
 # ------------------------
 
+# Set up the npm binary path
+NPM_BIN = ./node_modules/.bin
+export PATH := $(PATH):$(NPM_BIN)
+
+# Run the service using nodemon, restarting when
+# local files change
+run-dev:
+	@nodemon --ext html,js,json --exec "npm run dev"
+
 
 # Configuration
 # -------------
