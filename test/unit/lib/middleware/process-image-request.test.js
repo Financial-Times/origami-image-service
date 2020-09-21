@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const httpMock = require('node-mocks-http');
 const nock = require('nock');
 
-describe.only('lib/middleware/process-image-request', () => {
+describe('lib/middleware/process-image-request', () => {
 	let cloudinaryTransform;
 	let cloudinary;
 	let ImageTransform;
