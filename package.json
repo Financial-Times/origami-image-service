@@ -52,6 +52,7 @@
     "http-proxy": "1.18.1",
     "jsdom": "16.4.0",
     "lookup-dns-cache": "^2.1.0",
+    "make-promises-safe": "^5.1.0",
     "probe-image-size": "5.0.0",
     "require-all": "3.0.0",
     "snyk": "^1.352.1",
