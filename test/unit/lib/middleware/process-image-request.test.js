@@ -261,7 +261,8 @@ describe('lib/middleware/process-image-request', () => {
 				});
 
 				it('does not error', () => {
-					assert.isFalse(next.calledOnce);
+					assert.isTrue(next.calledOnce);
+					assert.isUndefined(next.firstCall.firstArg); 
 				});
 			});
 
