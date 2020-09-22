@@ -3,8 +3,12 @@
 require('dotenv').config();
 require('make-promises-safe'); // installs an 'unhandledRejection' handler
 
-const cloudinary = require('cloudinary').v2;
+const sentry = require('@sentry/node');
+sentry.init({
+	dsn: process.env.SENTRY_DSN,
+});
 
+const cloudinary = require('cloudinary').v2;
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_ACCOUNT_NAME,
 	api_key: process.env.CLOUDINARY_API_KEY,
@@ -64,4 +68,8 @@ async function main() {
 	console.log(`Deleted ${totalAmountOfImagesDeleted} images`);
 }
 
-main();
+try {
+	main();
+} catch (e) {
+	sentry.captureException(e);
+}
