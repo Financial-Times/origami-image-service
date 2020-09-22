@@ -218,6 +218,53 @@ describe('lib/middleware/process-image-request', () => {
 
 			});
 
+			describe.only('when the request to the original image returns hmtl', () => {
+				let scope;
+				beforeEach((done)=>{
+					scope = nock('https://ft.com').persist();
+					scope.get('/twitter.html').reply(200, '<html><head><title>hello</title></head><body>hello</body></html>', {
+						'Content-Type': 'text/html;charset=utf-8',
+					});
+					next.resetHistory();
+					mockImageTransform.getUri = () => 'https://ft.com/twitter.html';
+					middleware(request, response, error => {
+						next(error);
+						done();
+					});
+				});
+
+				it('calls `next` with an error', () => {
+					assert.isTrue(next.calledOnce);
+					assert.isInstanceOf(next.firstCall.firstArg, Error);
+				});
+
+				it('sets the error `skipSentry` property to true', () => {
+					assert.isTrue(next.firstCall.firstArg.skipSentry);
+				});
+
+				it('sets the error `cacheMaxAge` property to "5m"', () => {
+					assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+				});
+			});
+
+			describe.only('when the request to the original image returns no content-type', () => {
+				let scope;
+				beforeEach((done)=>{
+					scope = nock('https://ft.com').persist();
+					scope.get('/twitter').reply(200, '<html><head><title>hello</title></head><body>hello</body></html>', {});
+					next.resetHistory();
+					mockImageTransform.getUri = () => 'https://ft.com/twitter';
+					middleware(request, response, error => {
+						next(error);
+						done();
+					});
+				});
+
+				it('does not error', () => {
+					assert.isFalse(next.calledOnce);
+				});
+			});
+
 			describe('when the request to the original image fails', () => {
 				let scope;
 				beforeEach(()=>{
