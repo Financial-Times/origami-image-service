@@ -218,7 +218,7 @@ describe('lib/middleware/process-image-request', () => {
 
 			});
 
-			describe.only('when the request to the original image returns hmtl', () => {
+			describe('when the request to the original image returns hmtl', () => {
 				let scope;
 				beforeEach((done)=>{
 					scope = nock('https://ft.com').persist();
@@ -247,7 +247,7 @@ describe('lib/middleware/process-image-request', () => {
 				});
 			});
 
-			describe.only('when the request to the original image returns no content-type', () => {
+			describe('when the request to the original image returns no content-type', () => {
 				let scope;
 				beforeEach((done)=>{
 					scope = nock('https://ft.com').persist();
