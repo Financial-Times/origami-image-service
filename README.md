@@ -144,6 +144,10 @@ Trouble-Shooting
 
 We've outlined some common issues that can occur in the running of the Image Service:
 
+### Requesting a PNG but being returned a JPG, why is that?
+
+When a png image is requested, and the requested image has no alpha channel (no transparency in the image), a jpg is instead returned because it will have a smaller filesize.
+
 ### I need to purge an image
 
 Please read the [purging documentation](https://www.ft.com/__origami/service/image/v2/docs/purge) on the website.
