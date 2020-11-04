@@ -45,7 +45,7 @@
     "cloudinary": "1.22.0",
     "colornames": "1.1.1",
     "date-fns": "2.15.0",
-    "dompurify": "2.0.17",
+    "dompurify": "2.2.2",
     "dotenv": "8.2.0",
     "fastly-purge": "1.0.1",
     "heroku-node-settings": "1.1.0",
