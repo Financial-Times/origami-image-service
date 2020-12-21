@@ -176,9 +176,9 @@ You'll need to provide an API key for change request logging. You can get this f
 make deploy
 ```
 
-### SVGs don't tint locally
+### SVGs don't work when running locally
 
-SVG tinting is done in a way that makes it near-impossible to run locally. When an SVG image is requested and a `tint` query parameter is provided, then we rewrite the URL to go route back through the Image Service. It looks something like this:
+When an SVG image is requested we rewrite the URL to go route back through the Image Service, this is to sanatize the SVG of any cross-site-scripting attack vectors and to tint the SVG if tinting has been requested. It looks something like this:
 
   * User requests:<br/>
   `http://imageservice/v2/images/raw/http://mysite/example.svg?tint=red`
