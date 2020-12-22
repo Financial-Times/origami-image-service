@@ -23,6 +23,7 @@ describe('lib/middleware/process-image-request', () => {
 		cloudinary.v2 = {
 			uploader:{
 				upload: sinon.stub().yields(),
+				text: sinon.stub().yields(),
 			},
 			api:{
 				resource: sinon.stub().yields(),
