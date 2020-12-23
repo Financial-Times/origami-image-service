@@ -303,7 +303,7 @@ describe('GET /v2/images/raw…', function() {
 
 	describe('when a request has no image specified', function() {
 		setupRequest('GET', '/v2/images/raw/?source=test');
-		itRespondsWithStatus(404);
+		itRespondsWithStatus(400);
 		itRespondsWithContentType('text/html');
 	});
 
