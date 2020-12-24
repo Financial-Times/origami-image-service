@@ -21,11 +21,11 @@ describe('lib/middleware/process-image-request', () => {
 
 		cloudinary = sinon.stub();
 		cloudinary.v2 = {
-			uploader:{
+			uploader: {
 				upload: sinon.stub().yields(),
 				text: sinon.stub().yields(),
 			},
-			api:{
+			api: {
 				resource: sinon.stub().yields(),
 			},
 			config: sinon.stub(),
@@ -56,6 +56,58 @@ describe('lib/middleware/process-image-request', () => {
 			assert.isFunction(middleware);
 		});
 
+		describe('placeholder middleware(request, response, next)', function () {
+			this.timeout(30 * 1000);
+			let mockImageTransform;
+			let next;
+			let name;
+			let fit;
+			let format = 'png';
+			let request;
+			let response;
+
+			beforeEach((done) => {
+				request = httpMock.createRequest();
+				response = httpMock.createResponse();
+				next = sinon.stub();
+				mockImageTransform = {
+					getUri: () => 'https://origami-images.ft.com/fthead/v1/lionel-barber-595330c73ff13873ae15ce65db55d88a2b7fcc0d14af17a4950f9f3477a56e988a18cca1dfab9f055c1c827221bcab11376ea6fe553068c2af6093f85028d517',
+					setName: (n) => { name = n; },
+					setFit: (f) => { fit = f; },
+					getFormat: () => format,
+					setFormat: (f) => { format = f; },
+					getName: () => name
+				};
+
+				ImageTransform.returns(mockImageTransform);
+
+				cloudinaryTransform.returns('mock-cloudinary-url');
+
+				request.params.imageMode = 'placeholder';
+				request.params.imageUrl = '';
+				request.query.source = 'mock-source';
+				done();
+			});
+
+			it('calls .text once with the correct args', async () => {
+				request.query.width = 200;
+				request.query.height = 200;
+				await middleware(request, response, next);
+				assert.calledOnce(cloudinary.v2.uploader.text);
+			});
+
+			it('changes svg format to auto', async () => {
+				format = 'svg';
+				await middleware(request, response, next);
+				assert.equal(format, 'auto');
+			});
+
+			it('sets fit format to fill', async () => {
+				await middleware(request, response, next);
+				assert.equal(fit, 'fill');
+			});
+		});
+
 		describe('middleware(request, response, next)', function() {
 			this.timeout(30 * 1000);
 			let mockImageTransform;
@@ -77,6 +129,7 @@ describe('lib/middleware/process-image-request', () => {
 
 				cloudinaryTransform.returns('mock-cloudinary-url');
 
+				request.params.imageMode = 'raw';
 				request.params.imageUrl = 'mock-uri';
 				request.query.source = 'mock-source';
 				middleware(request, response, function(error){
@@ -87,6 +140,11 @@ describe('lib/middleware/process-image-request', () => {
 
 			it('sets the request query `uri` property to the `imageUrl` request param', () => {
 				assert.strictEqual(request.query.uri, request.params.imageUrl);
+			});
+
+			it('does not call .text when the request.params.imageMode', () => {
+				request.params.imageMode = 'placeholder';
+				assert.notCalled(cloudinary.v2.uploader.text);
 			});
 
 			it('creates an image transform using the query parameters', () => {
