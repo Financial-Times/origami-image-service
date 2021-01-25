@@ -63,7 +63,6 @@ We configure Origami Image Service using environment variables. In development, 
 
 ### Required in Heroku
 
-  * `CMDB_API_KEY`: The API key to use when performing CMDB operations
   * `FASTLY_PURGE_API_KEY`: A Fastly API key which is used to purge URLs (when somebody POSTs to the `/purge` endpoint)
   * `GRAPHITE_API_KEY`: The FT's internal Graphite API key
   * `PURGE_API_KEY`: The API key to require when somebody POSTs to the `/purge` endpoint. This should be a non-memorable string, for example a UUID
