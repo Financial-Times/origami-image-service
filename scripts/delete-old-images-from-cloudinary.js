@@ -58,14 +58,18 @@ async function deleteImages(images) {
 }
 
 async function main() {
-	let totalAmountOfImagesDeleted = 0;
-	for await (const images of getAllImagesUploadedMoreThan30DaysAgo()) {
-		if (images.length > 0) {
-			totalAmountOfImagesDeleted += await deleteImages(images);
+	try {
+		let totalAmountOfImagesDeleted = 0;
+		for await (const images of getAllImagesUploadedMoreThan30DaysAgo()) {
+			if (images.length > 0) {
+				totalAmountOfImagesDeleted += await deleteImages(images);
+			}
 		}
-	}
 
-	console.log(`Deleted ${totalAmountOfImagesDeleted} images`);
+		console.log(`Deleted ${totalAmountOfImagesDeleted} images`);
+	} catch (e) {
+		sentry.captureException(e);
+	}
 }
 
 try {
