@@ -209,13 +209,13 @@ The Financial Times has published this software under the [MIT license][license]
 
 
 
-[grafana]: http://grafana.ft.com/dashboard/db/origami-image-service
+[grafana]: https://grafana.ft.com/dashboard/db/origami-image-service
 [heroku-pipeline]: https://dashboard.heroku.com/pipelines/9cd9033e-fa9d-42af-bfe9-b9d0aa6f4a50
 [heroku-production-eu]: https://dashboard.heroku.com/apps/origami-image-service-eu
 [heroku-production-us]: https://dashboard.heroku.com/apps/origami-image-service-us
 [heroku-qa]: https://dashboard.heroku.com/apps/origami-image-service-qa
 [heroku]: https://heroku.com/
-[license]: http://opensource.org/licenses/MIT
+[license]: https://opensource.org/licenses/MIT
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
 [pingdom-eu]: https://my.pingdom.com/newchecks/checks#check=2301115

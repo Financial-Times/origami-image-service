@@ -64,7 +64,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the v2 API cannot find the image', () => {
-				const v1Uri = 'http://im.ft-static.com/content/images/mock-id2.img';
+				const v1Uri = 'https://im.ft-static.com/content/images/mock-id2.img';
 				let nockScopeForV1Images;
 				let nockScopeForV2Images;
 
@@ -72,7 +72,7 @@ describe('lib/middleware/get-cms-url', () => {
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id2';
 					log.info.resetHistory();
 
-					nockScopeForV1Images = nock('http://im.ft-static.com').persist();
+					nockScopeForV1Images = nock('https://im.ft-static.com').persist();
 					nockScopeForV1Images.head('/content/images/mock-id2.img').reply(200, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -109,7 +109,7 @@ describe('lib/middleware/get-cms-url', () => {
 					nockScopeForFallback.head('/image.jpg').reply(200, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-					nockScopeForV1Images = nock('http://im.ft-static.com').persist();
+					nockScopeForV1Images = nock('https://im.ft-static.com').persist();
 					nockScopeForV1Images.head('/content/images/mock-id3.img').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -140,7 +140,7 @@ describe('lib/middleware/get-cms-url', () => {
 					nockScopeForFallback.head('/image.jpg').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-					nockScopeForV1Images = nock('http://im.ft-static.com').persist();
+					nockScopeForV1Images = nock('https://im.ft-static.com').persist();
 					nockScopeForV1Images.head('/content/images/mock-id4.img').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
