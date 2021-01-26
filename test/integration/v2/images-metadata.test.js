@@ -6,7 +6,7 @@ const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
 const testImageUris = {
-	http: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
+	http: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
 };
 
 describe('GET /v2/images/metadata…', function() {

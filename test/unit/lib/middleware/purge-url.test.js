@@ -72,7 +72,7 @@ describe('lib/middleware/purge-url', () => {
 		});
 
 		describe('middleware(request, response, next)', () => {
-			const url = 'http://im.ft-static.com/content/images/mock-id.img';
+			const url = 'https://im.ft-static.com/content/images/mock-id.img';
 
 			describe('when the request does not specify a url to purge', () => {
 				it('calls `next` with a 400 error', () => {
