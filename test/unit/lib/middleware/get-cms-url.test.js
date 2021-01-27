@@ -39,13 +39,13 @@ describe('lib/middleware/get-cms-url', () => {
 
 		describe('middleware(request, response, next)', () => {
 			let scope;
-			const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id1';
+			const v2Uri = 'https://prod-upp-image-read.ft.com/mock-id1';
 
 			beforeEach(done => {
 				origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id1';
 				origamiService.mockRequest.query.source = 'mock-source';
 				origamiService.mockRequest.params.originalImageUrl = 'http://test.example/image.jpg';
-				scope = nock('http://prod-upp-image-read.ft.com').persist();
+				scope = nock('https://prod-upp-image-read.ft.com').persist();
 				scope.head('/mock-id1').reply(200, 'I am an svg file', {
 					'Content-Type': 'image/svg+xml; charset=utf-8',
 				});
@@ -76,7 +76,7 @@ describe('lib/middleware/get-cms-url', () => {
 					nockScopeForV1Images.head('/content/images/mock-id2.img').reply(200, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-					nockScopeForV2Images = nock('http://prod-upp-image-read.ft.com').persist();
+					nockScopeForV2Images = nock('https://prod-upp-image-read.ft.com').persist();
 					nockScopeForV2Images.head('/mock-id2').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -113,7 +113,7 @@ describe('lib/middleware/get-cms-url', () => {
 					nockScopeForV1Images.head('/content/images/mock-id3.img').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-					nockScopeForV2Images = nock('http://prod-upp-image-read.ft.com').persist();
+					nockScopeForV2Images = nock('https://prod-upp-image-read.ft.com').persist();
 					nockScopeForV2Images.head('/mock-id3').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -144,7 +144,7 @@ describe('lib/middleware/get-cms-url', () => {
 					nockScopeForV1Images.head('/content/images/mock-id4.img').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
-					nockScopeForV2Images = nock('http://prod-upp-image-read.ft.com').persist();
+					nockScopeForV2Images = nock('https://prod-upp-image-read.ft.com').persist();
 					nockScopeForV2Images.head('/mock-id4').reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -171,12 +171,12 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the ftcms URL has a querystring', () => {
-				const v2Uri = 'http://prod-upp-image-read.ft.com/mock-id5?foo=bar';
+				const v2Uri = 'https://prod-upp-image-read.ft.com/mock-id5?foo=bar';
 				let scope;
 
 				beforeEach(done => {
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id5?foo=bar';
-					scope = nock('http://prod-upp-image-read.ft.com').persist();
+					scope = nock('https://prod-upp-image-read.ft.com').persist();
 					scope.head('/mock-id5?foo=bar').reply(200, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
@@ -210,7 +210,7 @@ describe('lib/middleware/get-cms-url', () => {
 				beforeEach(done => {
 					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id6';
 
-					scope = nock('http://prod-upp-image-read.ft.com').persist();
+					scope = nock('https://prod-upp-image-read.ft.com').persist();
 					scope.head('/mock-id6').replyWithError(new Error('mock error'));
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -237,7 +237,7 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 errors
 					dnsError = new Error('mock error');
 					dnsError.code = 'ENOTFOUND';
-					scope = nock('http://prod-upp-image-read.ft.com').persist();
+					scope = nock('https://prod-upp-image-read.ft.com').persist();
 					scope.head('/mock-id7').replyWithError(dnsError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -248,7 +248,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'DNS lookup failed for "http://prod-upp-image-read.ft.com/mock-id7"');
+					assert.strictEqual(responseError.message, 'DNS lookup failed for "https://prod-upp-image-read.ft.com/mock-id7"');
 				});
 
 			});
@@ -265,7 +265,7 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 errors
 					resetError = new Error('mock error');
 					resetError.code = 'ECONNRESET';
-					scope = nock('http://prod-upp-image-read.ft.com').persist();
+					scope = nock('https://prod-upp-image-read.ft.com').persist();
 					scope.head('/mock-id8').replyWithError(resetError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -276,7 +276,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Connection reset when requesting "http://prod-upp-image-read.ft.com/mock-id8"');
+					assert.strictEqual(responseError.message, 'Connection reset when requesting "https://prod-upp-image-read.ft.com/mock-id8"');
 				});
 
 			});
@@ -293,7 +293,7 @@ describe('lib/middleware/get-cms-url', () => {
 					// V2 errors
 					timeoutError = new Error('mock error');
 					timeoutError.code = 'ETIMEDOUT';
-					scope = nock('http://prod-upp-image-read.ft.com').persist();
+					scope = nock('https://prod-upp-image-read.ft.com').persist();
 					scope.head('/mock-id9').replyWithError(timeoutError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
@@ -304,7 +304,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Request timed out when requesting "http://prod-upp-image-read.ft.com/mock-id9"');
+					assert.strictEqual(responseError.message, 'Request timed out when requesting "https://prod-upp-image-read.ft.com/mock-id9"');
 				});
 			});
 		});
