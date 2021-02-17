@@ -27,7 +27,7 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "@financial-times/fticons": "^1.21.1",
+    "@financial-times/fticons": "^1.22.0",
     "@financial-times/headshot-images": "1.171.2",
     "@financial-times/health-check": "2.1.6",
     "@financial-times/logo-images": "1.13.0",
