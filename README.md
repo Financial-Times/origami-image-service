@@ -195,7 +195,7 @@ When you're running locally this won't work because Cloudinary cannot access you
   * Cloudinary receives the image URL:<br/>
   `http://localhost/images/svgtint/http://mysite/example.svg?color=red`
 
-So Cloudinary responds with a `404`. You can get around this by manually specifying a hostname in your configuration. You'll need to tell the service to rely on the QA instance for SVG tinting. Add the following to your `.env` file:
+So Cloudinary responds with a `404`, and you may see an error like `connect ECONNREFUSED 127.0.0.1:443`. You can get around this by manually specifying a hostname in your configuration. You'll need to tell the service to rely on the QA instance for SVG tinting. Add the following to your `.env` file:
 
 ```
 HOSTNAME=origami-image-service-qa.herokuapp.com
