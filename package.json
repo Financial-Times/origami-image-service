@@ -56,7 +56,7 @@
     "make-promises-safe": "^5.1.0",
     "probe-image-size": "5.0.0",
     "require-all": "3.0.0",
-    "snyk": "^1.455.0",
+    "snyk": "^1.465.0",
     "statuses": "2.0.0",
     "svg-tint-stream": "1.0.1",
     "throng": "4.0.0",
