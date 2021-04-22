@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - run: git config --global url."https://${{ secrets.ORIGAMI_GITHUB_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
     - uses: actions/setup-node@v2.1.5
       with:
         node-version: 12.x
