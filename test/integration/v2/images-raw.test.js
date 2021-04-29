@@ -38,18 +38,6 @@ const testImageUris = {
 
 describe('GET /v2/images/raw…', function() {
 
-	describe('/http://blogs.r.ftdata.co.uk', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.oldLiveBlogsDomainHttp}?source=test`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/jpeg');
-	});
-
-	describe('/https://blogs.r.ftdata.co.uk', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.oldLiveBlogsDomainHttps}?source=test`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/jpeg');
-	});
-
 	describe('/http://… (HTTP scheme unencoded)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcms}?source=test`);
 		itRespondsWithStatus(200);
