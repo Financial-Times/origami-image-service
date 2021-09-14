@@ -18,7 +18,7 @@ run-dev:
 
 # Run the unit tests using mocha
 test-unit:
-	mocha "test/unit/**/*.test.js" --recursive --reporter mocha-github-actions-reporter ${CI:+--forbid-only}
+	mocha "test/unit/**/*.test.js" --recursive --retries 5 --reporter mocha-github-actions-reporter ${CI:+--forbid-only}
 
 # Run the unit tests using mocha and generating
 # a coverage report if nyc or istanbul are installed
