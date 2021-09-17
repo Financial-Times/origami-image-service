@@ -277,7 +277,7 @@ describe('lib/middleware/process-image-request', () => {
 
 			});
 
-			describe('when the request to the original image returns hmtl', () => {
+			describe('when the request to the original image returns html', () => {
 				let scope;
 				beforeEach((done)=>{
 					scope = nock('https://ft.com').persist();
@@ -286,6 +286,36 @@ describe('lib/middleware/process-image-request', () => {
 					});
 					next.resetHistory();
 					mockImageTransform.getUri = () => 'https://ft.com/twitter.html';
+					middleware(request, response, error => {
+						next(error);
+						done();
+					});
+				});
+
+				it('calls `next` with an error', () => {
+					assert.isTrue(next.calledOnce);
+					assert.isInstanceOf(next.firstCall.firstArg, Error);
+				});
+
+				it('sets the error `skipSentry` property to true', () => {
+					assert.isTrue(next.firstCall.firstArg.skipSentry);
+				});
+
+				it('sets the error `cacheMaxAge` property to "5m"', () => {
+					assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
+				});
+			});
+
+			describe('when the request to the original image returns a video', () => {
+				let scope;
+				beforeEach((done)=>{
+					scope = nock('https://ft.com').persist();
+					// Smallest mp4 video file from https://github.com/mathiasbynens/small/blob/master/Mpeg4.mp4
+					scope.get('/twitter.mp4').reply(200, Buffer.from([0,0,0,32,102,116,121,112,105,115,111,109,0,0,2,0,105,115,111,109,105,115,111,50,97,118,99,49,109,112,52,49,0,0,0,8,102,114,101,101,0,0,0,8,109,100,97,116,0,0,0,214,109,111,111,118,0,0,0,108,109,118,104,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,232,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,64,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,98,117,100,116,97,0,0,0,90,109,101,116,97,0,0,0,0,0,0,0,33,104,100,108,114,0,0,0,0,0,0,0,0,109,100,105,114,97,112,112,108,0,0,0,0,0,0,0,0,0,0,0,0,45,105,108,115,116,0,0,0,37,169,116,111,111,0,0,0,29,100,97,116,97,0,0,0,1,0,0,0,0,76,97,118,102,53,55,46,52,49,46,49,48,48]), {
+						'Content-Type': 'video/mp4',
+					});
+					next.resetHistory();
+					mockImageTransform.getUri = () => 'https://ft.com/twitter.mp4';
 					middleware(request, response, error => {
 						next(error);
 						done();
