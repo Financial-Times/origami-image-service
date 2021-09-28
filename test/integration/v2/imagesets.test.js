@@ -1,133 +1,160 @@
 'use strict';
 
-const assert = require('proclaim');
 const itRespondsWithContentType = require('../helpers/it-responds-with-content-type');
 const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
-const flagImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/origami-flag-images'), 1);
-const ftIcons = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/fticons'), 1);
-const logoImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/logo-images'), 1);
-const brandImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/origami-brand-images'), 1);
-const specialistTitleLogos = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/origami-specialist-title-logos'), 1);
-const podcastLogos = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/podcast-logos'), 1);
-const socialImages = mapImagesetToSchemeNameAndUrlPairs(require('@financial-times/social-images'), 2);
+const {
+    ftbrand,
+    ftflag,
+    fticonold,
+    fticon,
+    ftlogo,
+    specialisttitle,
+    ftpodcast,
+    ftsocial,
+    ftsocialV2,
+    fthead,
+} = require('../../../lib/imagesets');
 
-function mapImagesetToSchemeNameAndUrlPairs(imageset, version) {
-    return imageset.images.reduce(function (accumulator, currentValue) {
-        if (version) {
-            accumulator[`${imageset.scheme}-v${version}:${currentValue.name}`] = currentValue.url;
-        } else {
-            accumulator[`${imageset.scheme}:${currentValue.name}`] = currentValue.url;
-        }
-        return accumulator;
-    }, Object.create(null));
-}
+const usingExternalServer = Boolean(process.env.HOST);
 
-describe('Origami Image Sets via Custom Schemes', function () {
-    describe('origami-flag-images', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(flagImages)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
+
+// These tests are not possible to run against a local server as the images need to be accessible to Cloudinary over the web
+onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
+    describe('ftbrand', function () {
+        for (const name of Object.keys(ftbrand)) {
+            describe(`ftbrand:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftbrand:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`ftbrand-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftbrand-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
-    describe('fticons', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(ftIcons)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+    describe('ftflag', function () {
+        for (const name of Object.keys(ftflag)) {
+            describe(`ftflag:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftflag:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`ftflag-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftflag-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
-    describe('logo-images', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(logoImages)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+    describe('fthead', function () {
+        for (const name of Object.keys(fthead)) {
+            describe(`fthead:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/fthead:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`fthead-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/fthead-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
-    describe('origami-brand-images', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(brandImages)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+    describe('fticon', function () {
+        for (const name of Object.keys(fticon)) {
+            describe(`fticon:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/fticon:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`fticon-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/fticon-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
-    describe('origami-specialist-title-logos', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(specialistTitleLogos)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+    describe('fticonold', function () {
+        for (const name of Object.keys(fticonold)) {
+            describe(`fticonold:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/fticonold:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`fticonold-v4:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/fticonold-v4:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
-    describe('podcast-logos', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(podcastLogos)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+    describe('ftlogo', function () {
+        for (const name of Object.keys(ftlogo)) {
+            describe(`ftlogo:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftlogo:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`ftlogo-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftlogo-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
-    describe('social-images', function () {
-        for (const [customSchemeUrl, realUrl] of Object.entries(socialImages)) {
-            describe(customSchemeUrl, function () {
-                setupRequest('GET', `/v2/images/debug/${customSchemeUrl}?source=test`);
+    describe('ftpodcast', function () {
+        for (const name of Object.keys(ftpodcast)) {
+            describe(`ftpodcast:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftpodcast:${name}?source=test`);
                 itRespondsWithStatus(200);
-                itRespondsWithContentType('application/json');
-                
-                it(`${customSchemeUrl} is transformed into ${realUrl}`, function (done) {
-                    this.request.expect(response => {
-                        assert.match(response.body.transform.uri, new RegExp(realUrl));
-                    }).end(done);
-                });
+                itRespondsWithContentType('image/*');
+            });
+            describe(`ftpodcast-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftpodcast-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
             });
         }
     });
+    describe('ftsocial', function () {
+        for (const name of Object.keys(ftsocial)) {
+            describe(`ftsocial:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftsocial:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
+            });
+            describe(`ftsocial-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftsocial-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
+            });
+        }
+        for (const name of Object.keys(ftsocialV2)) {
+            describe(`ftsocial-v2:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/ftsocial-v2:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
+            });
+        }
+    });
+    describe('specialisttitle', function () {
+        for (const name of Object.keys(specialisttitle)) {
+            describe(`specialisttitle:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/specialisttitle:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
+            });
+            describe(`specialisttitle-v1:${name}`, function () {
+                setupRequest('GET', `/v2/images/raw/specialisttitle-v1:${name}?source=test`);
+                itRespondsWithStatus(200);
+                itRespondsWithContentType('image/*');
+            });
+        }
+    });
+
 });
