@@ -9,3 +9,28 @@ jobs:
       - run: git fetch --prune --unshallow
       - name: Deploy to Heroku
         run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git HEAD:refs/heads/master --force
+  
+  create-change-log:
+    needs: [deploy-dev]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Financial-Times/change-api-action@v1
+        name: Create new change log
+        with:
+          change-api-key: ${{ secrets.CHANGE_API_KEY }}
+          system-code: "origami-image-service-v2"
+          environment: dev
+          slack-channels: "ft-changes,origami-deploys"
+
+  integration-tests:
+    needs: [deploy-dev]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.x
+      - run: npm install -g "npm@^7"
+      - run: npm ci
+      - run: HOST="https://origami-image-service-dev.herokuapp.com" make test-integration
