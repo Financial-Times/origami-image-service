@@ -24,3 +24,15 @@ jobs:
           system-code: "origami-image-service-v2"
           environment: test
           slack-channels: "ft-changes,origami-deploys"
+
+  integration-tests:
+    needs: [deploy-to-staging]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.x
+      - run: npm install -g "npm@^7"
+      - run: npm ci
+      - run: HOST="https://origami-image-service-qa.herokuapp.com" make test-integration
