@@ -30,7 +30,6 @@ const testImageUris = {
 	httpsmalformed: 'https:/origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	specialisttitle: 'specialisttitle:ned-logo',
 	nonUtf8Characters: 'https://origami-image-service-integration-tests.s3-eu-west-1.amazonaws.com/Beaute%CC%81.jpg',
 	oldLiveBlogsDomainHttp: 'http://blogs.ft.com/tech-blog/files/2012/03/Screen-Shot-2012-03-01-at-11.25.02-PM-391x270.png',
 	oldLiveBlogsDomainHttps: 'https://blogs.ft.com/tech-blog/files/2012/03/Screen-Shot-2012-03-01-at-11.25.02-PM-391x270.png',
