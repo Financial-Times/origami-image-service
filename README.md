@@ -114,6 +114,12 @@ make verify
 
 We run the tests and linter on CI, you can view [results on CI][ci]. `make test` and `make lint` must pass before we merge a pull request.
 
+You can run the integration tests against a URL by setting a `HOST` environment variable to the URL you want to test. This is useful for testing a Heroku application after it is deployed, which we do on CI.
+
+```sh
+HOST="https://www.example.com" make test-integration
+```
+
 
 Deployment
 ----------
