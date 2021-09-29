@@ -10,8 +10,8 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-eu.git $GITHUB_HEAD_REF:refs/heads/master --force --no-verify
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-us.git $GITHUB_HEAD_REF:refs/heads/master --force --no-verify
+    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-eu.git origin/$GITHUB_HEAD_REF:refs/heads/master --force --no-verify
+    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-us.git origin/$GITHUB_HEAD_REF:refs/heads/master --force --no-verify
 
   create-change-log:
     needs: [deploy-to-production]
