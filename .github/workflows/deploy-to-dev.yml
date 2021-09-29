@@ -9,7 +9,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Deploy to Heroku
-        run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git $GITHUB_HEAD_REF:refs/heads/master --force --no-verify
+        run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git origin/$GITHUB_HEAD_REF:refs/heads/master --force --no-verify
   
   create-change-log:
     needs: [deploy-dev]
