@@ -14,7 +14,6 @@ const {
     ftpodcast,
     ftsocial,
     ftsocialV2,
-    fthead,
 } = require('../../../lib/imagesets');
 
 const usingExternalServer = Boolean(process.env.HOST);
@@ -46,20 +45,6 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             });
             describe(`ftflag-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftflag-v1:${name}?source=test`);
-                itRespondsWithStatus(200);
-                itRespondsWithContentType('image/*');
-            });
-        }
-    });
-    describe('fthead', function () {
-        for (const name of Object.keys(fthead)) {
-            describe(`fthead:${name}`, function () {
-                setupRequest('GET', `/v2/images/raw/fthead:${name}?source=test`);
-                itRespondsWithStatus(200);
-                itRespondsWithContentType('image/*');
-            });
-            describe(`fthead-v1:${name}`, function () {
-                setupRequest('GET', `/v2/images/raw/fthead-v1:${name}?source=test`);
                 itRespondsWithStatus(200);
                 itRespondsWithContentType('image/*');
             });

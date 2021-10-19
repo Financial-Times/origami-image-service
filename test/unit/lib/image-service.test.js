@@ -465,11 +465,6 @@ describe('lib/image-service', () => {
 					handler(proxyResponse, request);
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
 				});
-				it('Sets the Surrogate-Control header to a year for fthead images', () => {
-					request.params.scheme = 'fthead';
-					handler(proxyResponse, request);
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
-				});
 				it('Sets the Surrogate-Control header to a year for fticon images', () => {
 					request.params.scheme = 'fticon';
 					handler(proxyResponse, request);

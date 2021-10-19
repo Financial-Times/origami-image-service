@@ -374,7 +374,6 @@ describe('lib/image-transform', () => {
 					'ftbrand:foo',
 					'ftcms:foo',
 					'ftflag:foo',
-					'fthead:foo',
 					'fticon:foo',
 					'ftlogo:foo',
 					'ftpodcast:foo',
@@ -1201,12 +1200,13 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('FTSOCIAL:example', 'http://base/images'),
-					'http://base/images/ftsocial/v1/example.svg'
+					ImageTransform.resolveCustomSchemeUri('SPECIALISTTITLE:ned-logo', 'http://base/images'),
+					'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
 				);
+				
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('FTSOCIAL-V2:example', 'http://base/images'),
-					'http://base/images/ftsocial/v2/example.svg'
+					ImageTransform.resolveCustomSchemeUri('SPECIALISTTITLE-V1:ned-logo', 'http://base/images'),
+					'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
 				);
 			});
 
@@ -1220,12 +1220,12 @@ describe('lib/image-transform', () => {
 					'http://base/images/internal-images/fticon/v1/book.svg'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftsocial:example.png', 'http://base/images'),
-					'http://base/images/ftsocial/v1/example.png'
+					ImageTransform.resolveCustomSchemeUri('ftbrand:andrew-mcafees-blog.png', 'http://base/images'),
+					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftsocial-v2:example.jpg', 'http://base/images'),
-					'http://base/images/ftsocial/v2/example.jpg'
+					ImageTransform.resolveCustomSchemeUri('ftbrand:andrew-mcafees-blog.jpg', 'http://base/images'),
+					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
 				);
 			});
 
@@ -1239,8 +1239,8 @@ describe('lib/image-transform', () => {
 					'http://foo/bar?foo=bar'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftsocial:example?foo=bar', 'http://base/images'),
-					'http://base/images/ftsocial/v1/example.svg?foo=bar'
+					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:andrew-mcafees-blog?foo=bar', 'http://base/images'),
+					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png?foo=bar'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fticon-v1:book?foo=bar', 'http://base/images'),
@@ -1254,8 +1254,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('ftsocial:example', 'http://base/images/'),
-					'http://base/images/ftsocial/v1/example.svg'
+					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:andrew-mcafees-blog', 'http://base/images/'),
+					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
 				);
 			});
 
@@ -1397,7 +1397,6 @@ describe('lib/image-transform', () => {
 			'ftbrand',
 			'ftcms',
 			'ftflag',
-			'fthead',
 			'fticon',
 			'ftlogo',
 			'ftpodcast',
