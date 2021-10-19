@@ -13,7 +13,6 @@ const testImageUris = {
 	spark: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
 	sparkMasterImage: 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b',
 	ftflag: 'ftflag:jp',
-	fthead: 'fthead:martin-wolf',
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
 	ftpodcast: 'ftpodcast:arts',

@@ -199,18 +199,6 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/fthead:… (fthead scheme)', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/png');
-	});
-
-	describe('/fthead:… (fthead scheme with querystring)', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}%3Ffoo%3Dbar?source=test`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/png');
-	});
-
 	describe('/ftsocial:… (ftsocial scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 		itRespondsWithStatus(200);
@@ -267,18 +255,18 @@ describe('GET /v2/images/raw…', function() {
 	});
 
 	describe('when a dpr is set', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test&dpr=2`);
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcms}?source=test&dpr=2`);
 		itRespondsWithHeader('content-Dpr', '2');
 	});
 
 	describe('when a dpr is not set', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
+		setupRequest('GET', `/v2/images/raw/${testImageUris.httpftcms}?source=test`);
 		itDoesNotRespondWithHeader('content-Dpr');
 	});
 
 	describe('when a custom scheme image is not found', function() {
-		setupRequest('GET', '/v2/images/raw/fthead-v1:notahead?source=test');
-		itRespondsWithStatus(404);
+		setupRequest('GET', '/v2/images/raw/ftbrand-v1:notabrand?source=test');
+		itRespondsWithStatus(400);
 		itRespondsWithContentType('text/html');
 	});
 
@@ -412,11 +400,6 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('fthead', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
-				itRespondsWithHeader('surrogate-key', /origami-image-service/);
-			});
-
 			describe('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
@@ -474,11 +457,6 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
-			describe('fthead', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2UvcG5n/);
-			});
-
 			describe('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
@@ -534,11 +512,6 @@ describe('GET /v2/images/raw…', function() {
 			describe('ftflag', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRmbGFn/);
-			});
-
-			describe('fthead', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRoZWFk/);
 			});
 
 			describe('fticon', function() {
