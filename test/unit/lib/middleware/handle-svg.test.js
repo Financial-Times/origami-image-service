@@ -146,63 +146,6 @@ describe('lib/middleware/handle-svg', function () {
 				});
 			});
 
-			describe('when the image URL is from origami-images.ft.com', () => {
-				let next;
-				beforeEach((done) => {
-					next = sinon.spy();
-					origamiService.mockRequest.params[0] = 'https://origami-images.ft.com/twitter.svg';
-					const scope = nock('https://origami-images.ft.com').persist();
-					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
-						'Content-Type': 'image/svg+xml; charset=utf-8',
-					});
-					origamiService.mockResponse.send.resetHistory();
-					const originalMockResponseSendMethod = origamiService.mockResponse.send;
-					origamiService.mockResponse.send = function(...args) {
-						originalMockResponseSendMethod.apply(undefined, args);
-						origamiService.mockResponse.send = originalMockResponseSendMethod;
-						done();
-					};
-					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
-						next(error);
-						done(error);
-					});
-				});
-				afterEach(() => {
-					nock.cleanAll();
-				});
-				it('does not purify the SVG', () => {
-					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
-					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVGWithOnClickHandler);
-				});
-			});
-
-			describe('when the image URL is not from origami-images.ft.com or ft.com/__assets', () => {
-				let next;
-				beforeEach((done) => {
-					next = sinon.spy();
-					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
-					const scope = nock('https://example.com').persist();
-					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
-						'Content-Type': 'image/svg+xml; charset=utf-8',
-					});
-					origamiService.mockResponse.send.resetHistory();
-					const originalMockResponseSendMethod = origamiService.mockResponse.send;
-					origamiService.mockResponse.send = function(...args) {
-						originalMockResponseSendMethod.apply(undefined, args);
-						origamiService.mockResponse.send = originalMockResponseSendMethod;
-						done();
-					};
-					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
-						next(error);
-						done(error);
-					});
-				});
-				it('does purify the SVG', () => {
-					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
-					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVG);
-				});
-			});
-
 			describe('when the svg request returns a 404', () => {
 				let next;
 				beforeEach((done) => {
@@ -371,6 +314,76 @@ describe('lib/middleware/handle-svg', function () {
 					assert.equal(next.firstCall.firstArg.cacheMaxAge, '1y');
 				});
 
+			});
+		});
+	});
+
+	describe('handleSvg(config)', () => {
+		let middleware;
+		let customSchemeStore;
+		beforeEach(() => {
+			customSchemeStore = 'https://origami-images.ft.com';
+			middleware = handleSvg({
+				customSchemeStore
+			});
+		});
+
+		describe('middleware(request, response, next)', () => {
+			describe('when the image URL is from the same place as `customSchemeStore`', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = `${customSchemeStore}/twitter.svg`;
+					const scope = nock(customSchemeStore).persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
+					});
+				});
+				afterEach(() => {
+					nock.cleanAll();
+				});
+				it('does not purify the SVG', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVGWithOnClickHandler);
+				});
+			});
+
+			describe('when the image URL is not from `customSchemeStore` or ft.com/__assets', () => {
+				let next;
+				beforeEach((done) => {
+					next = sinon.spy();
+					origamiService.mockRequest.params[0] = 'https://example.com/twitter.svg';
+					const scope = nock('https://example.com').persist();
+					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+						'Content-Type': 'image/svg+xml; charset=utf-8',
+					});
+					origamiService.mockResponse.send.resetHistory();
+					const originalMockResponseSendMethod = origamiService.mockResponse.send;
+					origamiService.mockResponse.send = function(...args) {
+						originalMockResponseSendMethod.apply(undefined, args);
+						origamiService.mockResponse.send = originalMockResponseSendMethod;
+						done();
+					};
+					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
+						next(error);
+						done(error);
+					});
+				});
+				it('does purify the SVG', () => {
+					proclaim.isTrue(origamiService.mockResponse.send.calledOnce);
+					proclaim.equal(origamiService.mockResponse.send.firstCall.firstArg, twitterSVG);
+				});
 			});
 		});
 	});
