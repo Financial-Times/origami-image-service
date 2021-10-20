@@ -1,12 +1,10 @@
 'use strict';
 
-const dotenv = require('dotenv');
+require('dotenv').config();
+
 const imageService = require('./lib/image-service');
 const throng = require('throng');
 
-dotenv.config({
-	silent: true
-});
 const options = {
 	contentApiKey: process.env.CONTENT_API_KEY,
 	cloudinaryAccountName: process.env.CLOUDINARY_ACCOUNT_NAME,
