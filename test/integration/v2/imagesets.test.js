@@ -7,8 +7,8 @@ const setupRequest = require('../helpers/setup-request');
 const {
     ftbrand,
     ftflag,
-    fticonold,
     fticon,
+    fticonV1,
     ftlogo,
     specialisttitle,
     ftpodcast,
@@ -50,29 +50,17 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             });
         }
     });
-    describe('fticon', function () {
+    describe.only('fticon', function () {
         for (const name of Object.keys(fticon)) {
             describe(`fticon:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/fticon:${name}?source=test`);
                 itRespondsWithStatus(200);
                 itRespondsWithContentType('image/*');
             });
+        }
+        for (const name of Object.keys(fticonV1)) {
             describe(`fticon-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/fticon-v1:${name}?source=test`);
-                itRespondsWithStatus(200);
-                itRespondsWithContentType('image/*');
-            });
-        }
-    });
-    describe('fticonold', function () {
-        for (const name of Object.keys(fticonold)) {
-            describe(`fticonold:${name}`, function () {
-                setupRequest('GET', `/v2/images/raw/fticonold:${name}?source=test`);
-                itRespondsWithStatus(200);
-                itRespondsWithContentType('image/*');
-            });
-            describe(`fticonold-v4:${name}`, function () {
-                setupRequest('GET', `/v2/images/raw/fticonold-v4:${name}?source=test`);
                 itRespondsWithStatus(200);
                 itRespondsWithContentType('image/*');
             });
