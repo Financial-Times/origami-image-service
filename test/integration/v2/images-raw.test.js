@@ -7,7 +7,7 @@ const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
 const testImageUris = {
-	ftbrand: 'ftbrand:brussels-blog',
+	ftbrand: 'ftbrand-v1:brand-ft-money',
 	fthead: 'fthead-v1:ændra-rininsland',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
 	capiv1: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
