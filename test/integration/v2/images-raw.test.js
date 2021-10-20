@@ -453,7 +453,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('ftcms', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
+				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
 			});
 
 			onlyRunOnExternalServer('ftflag', function() {
