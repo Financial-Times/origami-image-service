@@ -20,11 +20,6 @@ const testImageUris = {
 	capiv2: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
 	spark: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
 	sparkMasterImage: 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b',
-	ftflag: 'ftflag:jp',
-	fticon: 'fticon:cross',
-	ftlogo: 'ftlogo:brand-ft',
-	ftpodcast: 'ftpodcast:arts',
-	ftsocial: 'ftsocial:whatsapp',
 	httpsspark: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
 	httpftcms: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
@@ -40,6 +35,9 @@ const testImageUris = {
 	oldLiveBlogsDomainHttp: 'http://blogs.ft.com/tech-blog/files/2012/03/Screen-Shot-2012-03-01-at-11.25.02-PM-391x270.png',
 	oldLiveBlogsDomainHttps: 'https://blogs.ft.com/tech-blog/files/2012/03/Screen-Shot-2012-03-01-at-11.25.02-PM-391x270.png',
 };
+
+const usingExternalServer = Boolean(process.env.HOST);
+const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
 
 describe('GET /v2/images/raw…', function() {
 
@@ -127,13 +125,13 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('image/jpeg');
 	});
 
-	describe('/ftbrand:… (ftbrand scheme)', function() {
+	onlyRunOnExternalServer('/ftbrand:… (ftbrand scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/ftbrand:… (ftbrand scheme with querystring)', function() {
+	onlyRunOnExternalServer('/ftbrand:… (ftbrand scheme with querystring)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
@@ -181,55 +179,55 @@ describe('GET /v2/images/raw…', function() {
 		itRespondsWithContentType('image/jpeg');
 	});
 
-	describe('/ftflag:… (ftflag scheme)', function() {
+	onlyRunOnExternalServer('/ftflag:… (ftflag scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/ftflag:… (ftflag scheme with querystring)', function() {
+	onlyRunOnExternalServer('/ftflag:… (ftflag scheme with querystring)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/fticon:… (fticon scheme)', function() {
+	onlyRunOnExternalServer('/fticon:… (fticon scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/fticon:… (fticon scheme with querystring)', function() {
+	onlyRunOnExternalServer('/fticon:… (fticon scheme with querystring)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/ftsocial:… (ftsocial scheme)', function() {
+	onlyRunOnExternalServer('/ftsocial:… (ftsocial scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/ftpodcast:… (ftpodcast scheme)', function() {
+	onlyRunOnExternalServer('/ftpodcast:… (ftpodcast scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/jpeg');
 	});
 
-	describe('/ftlogo:… (ftlogo scheme)', function() {
+	onlyRunOnExternalServer('/ftlogo:… (ftlogo scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/specialisttitle:… (specialisttitle scheme)', function() {
+	onlyRunOnExternalServer('/specialisttitle:… (specialisttitle scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 	});
 
-	describe('/specialisttitle:… (specialisttitle scheme with querystring)', function() {
+	onlyRunOnExternalServer('/specialisttitle:… (specialisttitle scheme with querystring)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
@@ -270,7 +268,7 @@ describe('GET /v2/images/raw…', function() {
 		itDoesNotRespondWithHeader('content-Dpr');
 	});
 
-	describe('when a custom scheme image is not found', function() {
+	onlyRunOnExternalServer('when a custom scheme image is not found', function() {
 		setupRequest('GET', '/v2/images/raw/ftbrand-v1:notabrand?source=test');
 		itRespondsWithStatus(400);
 		itRespondsWithContentType('text/html');
@@ -391,7 +389,7 @@ describe('GET /v2/images/raw…', function() {
 
 	context('when an image is returned, surrogate keys are added', function() {
 		describe('adds generic key for all image requests:', function() {
-			describe('ftbrand', function() {
+			onlyRunOnExternalServer('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
@@ -401,27 +399,27 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('ftflag', function() {
+			onlyRunOnExternalServer('ftflag', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('fticon', function() {
+			onlyRunOnExternalServer('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('ftlogo', function() {
+			onlyRunOnExternalServer('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('ftpodcast', function() {
+			onlyRunOnExternalServer('ftpodcast', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('ftsocial', function() {
+			onlyRunOnExternalServer('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
@@ -441,14 +439,14 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			describe('specialisttitle', function() {
+			onlyRunOnExternalServer('specialisttitle', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 		});
 
 		describe('adds specific keys for image content types', function() {
-			describe('ftbrand', function() {
+			onlyRunOnExternalServer('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
@@ -458,27 +456,27 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
-			describe('ftflag', function() {
+			onlyRunOnExternalServer('ftflag', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
-			describe('fticon', function() {
+			onlyRunOnExternalServer('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
-			describe('ftlogo', function() {
+			onlyRunOnExternalServer('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
-			describe('ftpodcast', function() {
+			onlyRunOnExternalServer('ftpodcast', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
 			});
 
-			describe('ftsocial', function() {
+			onlyRunOnExternalServer('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
@@ -498,14 +496,14 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
 			});
 
-			describe('specialisttitle', function() {
+			onlyRunOnExternalServer('specialisttitle', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 		});
 
 		describe('adds specific keys for image schemes', function() {
-			describe('ftbrand', function() {
+			onlyRunOnExternalServer('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRicmFuZA==/);
 			});
@@ -515,27 +513,27 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /ZnRjbXM=/);
 			});
 
-			describe('ftflag', function() {
+			onlyRunOnExternalServer('ftflag', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRmbGFn/);
 			});
 
-			describe('fticon', function() {
+			onlyRunOnExternalServer('fticon', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fticon}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRpY29u/);
 			});
 
-			describe('ftlogo', function() {
+			onlyRunOnExternalServer('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRsb2dv/);
 			});
 
-			describe('ftpodcast', function() {
+			onlyRunOnExternalServer('ftpodcast', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRwb2RjYXN0/);
 			});
 
-			describe('ftsocial', function() {
+			onlyRunOnExternalServer('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRzb2NpYWw=/);
 			});
@@ -570,14 +568,14 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /aHR0cA==/);
 			});
 
-			describe('specialisttitle', function() {
+			onlyRunOnExternalServer('specialisttitle', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
 				itRespondsWithHeader('surrogate-key', /c3BlY2lhbGlzdHRpdGxl/);
 			});
 		});
 
 		describe('adds key for specific image requested', function() {
-			describe('ftbrand', function() {
+			onlyRunOnExternalServer('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRicmFuZC12MTpicmFuZC1mdC1tb25leQ/);
 			});
@@ -587,7 +585,7 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /ZnRjbXM6NmM1YTJmOGMtMThjYS00YWZhLTgwZmYtN2Q1NmU0MTE3MmIx/);
 			});
 
-			describe('ftflag', function() {
+			onlyRunOnExternalServer('ftflag', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftflag}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRmbGFnOmpw/);
 			});
@@ -602,17 +600,17 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /ZnRpY29uOmNyb3Nz/);
 			});
 
-			describe('ftlogo', function() {
+			onlyRunOnExternalServer('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRsb2dvOmJyYW5kLWZ0/);
 			});
 
-			describe('ftpodcast', function() {
+			onlyRunOnExternalServer('ftpodcast', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRwb2RjYXN0OmFydHM=/);
 			});
 
-			describe('ftsocial', function() {
+			onlyRunOnExternalServer('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRzb2NpYWw6d2hhdHNhcHA=/);
 			});
@@ -647,7 +645,7 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /Ly9vcmlnYW1pLWltYWdlcy5mdC5jb20vZnRzb2NpYWwvdjEvdHdpdHRlci5zdmc=/);
 			});
 
-			describe('specialisttitle', function() {
+			onlyRunOnExternalServer('specialisttitle', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.specialisttitle}?source=test`);
 				itRespondsWithHeader('surrogate-key', /c3BlY2lhbGlzdHRpdGxlOm5lZC1sb2dv/);
 			});
