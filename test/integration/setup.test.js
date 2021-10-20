@@ -28,7 +28,7 @@ before(function() {
 			cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
 			cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 			customSchemeCacheBust: process.env.CUSTOM_SCHEME_CACHE_BUST || '',
-			customSchemeStore: process.env.CUSTOM_SCHEME_STORE || process.env.HOST,
+			customSchemeStore: process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com',
 			hostname: 'origami-image-service-qa.herokuapp.com',
 			defaultLayout: 'main',
 			environment: 'test',
