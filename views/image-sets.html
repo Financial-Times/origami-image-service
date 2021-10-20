@@ -1,0 +1,18 @@
+<h1>
+	Image Sets
+</h1>
+
+
+{{#imagesets}}
+<h2 id="{{name}}">{{name}}</h2>
+<div class="flex-container">
+	<ul class="image-grid o-layout__unstyled-element">
+		{{#images}}
+		<li id="arrow-down" class="image-grid__item">
+			<img src="/v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" alt="{{name}}" loading=lazy>
+			<p class="image-grid__item__title o-layout__unstyled-element">{{name}}</p>
+		</li>
+		{{/images}}
+	</ul>
+</div>
+{{/imagesets}}

@@ -16,6 +16,11 @@
 			"current": false
 		},
 		{
+			"name": "Image Sets",
+			"href": "v2/docs/image-sets",
+			"current": false
+		},
+		{
 			"name": "Migration",
 			"href": "v2/docs/migration",
 			"current": false
