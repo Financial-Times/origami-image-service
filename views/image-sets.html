@@ -9,11 +9,11 @@
 	<ul class="image-grid o-layout__unstyled-element">
 		{{#images}}
 		<li id="arrow-down" class="image-grid__item">
-			<a href="/v2/images/raw/{{uri}}?source=origami-image-service-website">
-				<img src="/v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" width=200 height=200 alt="{{name}}" loading=lazy>
+			<a href="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service-website">
+				<img src="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" width=200 height=200 alt="{{name}}" loading=lazy>
 			</a>
 			<p class="image-grid__item__title o-layout__unstyled-element">
-				<a href="/v2/docs/url-builder?url={{uri}}&amp;preview=true">{{name}}</a>
+				<a href="{{@root.basePath}}v2/docs/url-builder?url={{uri}}&amp;preview=true">{{name}}</a>
 			</p>
 		</li>
 		{{/images}}

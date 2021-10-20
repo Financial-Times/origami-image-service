@@ -5,7 +5,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>{{title}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<base href="{{basePath}}"/>
 
 	<script>
 		var script = document.createElement('script');
@@ -31,7 +30,7 @@
 	</style>
 
 	<link rel="stylesheet" href="https://www.ft.com/__origami/service/build/v3/bundles/css?components=o-layout@^5,o-fonts@^5,o-syntax-highlight@^4,o-forms@^9,o-buttons@^7,o-table@^9,o-footer-services@^4,o-header-services@^5&brand=internal&system_code=origami-image-service-v2" />
-	<link rel="stylesheet" href="main.css" />
+	<link rel="stylesheet" href="{{@root.basePath}}main.css" />
 
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=fetch,default"></script>
 	<script>
