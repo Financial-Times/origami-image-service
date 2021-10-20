@@ -10,6 +10,12 @@ const testImageUris = {
 	ftbrand: 'ftbrand-v1:brand-ft-money',
 	fthead: 'fthead-v1:ændra-rininsland',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
+	ftflag: 'ftflag:jp',
+	fticon: 'fticon:cross',
+	ftlogo: 'ftlogo:brand-ft',
+	ftpodcast: 'ftpodcast:arts',
+	ftsocial: 'ftsocial:whatsapp',
+	specialisttitle: 'specialisttitle:ned-logo',
 	capiv1: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
 	capiv2: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
 	spark: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
@@ -124,13 +130,13 @@ describe('GET /v2/images/raw…', function() {
 	describe('/ftbrand:… (ftbrand scheme)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
 		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/jpeg');
+		itRespondsWithContentType('image/svg+xml');
 	});
 
 	describe('/ftbrand:… (ftbrand scheme with querystring)', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}%3Ffoo%3Dbar?source=test`);
 		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/jpeg');
+		itRespondsWithContentType('image/svg+xml');
 	});
 
 	describe('/ftcms:… (ftcms scheme)', function() {
@@ -444,12 +450,12 @@ describe('GET /v2/images/raw…', function() {
 		describe('adds specific keys for image content types', function() {
 			describe('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
+				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
 			describe('ftcms', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftcms}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
+				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
 			describe('ftflag', function() {
@@ -573,7 +579,7 @@ describe('GET /v2/images/raw…', function() {
 		describe('adds key for specific image requested', function() {
 			describe('ftbrand', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftbrand}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRicmFuZDpicnVzc2Vscy1ibG9n/);
+				itRespondsWithHeader('surrogate-key', /ZnRicmFuZC12MTpicmFuZC1mdC1tb25leQ/);
 			});
 
 			describe('ftcms', function() {
