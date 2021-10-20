@@ -51,7 +51,7 @@
     "path-exists": "^4.0.0",
     "probe-image-size": "5.0.0",
     "require-all": "3.0.0",
-    "snyk": "^1.465.0",
+    "snyk": "^1.685.0",
     "st": "^3.0.0",
     "statuses": "2.0.0",
     "svg-tint-stream": "1.0.1",
