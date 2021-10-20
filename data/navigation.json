@@ -2,32 +2,32 @@
 	"items": [
 		{
 			"name": "Overview",
-			"href": "v2",
+			"href": "/v2",
 			"current": false
 		},
 		{
 			"name": "URL Builder",
-			"href": "v2/docs/url-builder",
+			"href": "/v2/docs/url-builder",
 			"current": false
 		},
 		{
 			"name": "API Reference",
-			"href": "v2/docs/api",
+			"href": "/v2/docs/api",
 			"current": false
 		},
 		{
 			"name": "Image Sets",
-			"href": "v2/docs/image-sets",
+			"href": "/v2/docs/image-sets",
 			"current": false
 		},
 		{
 			"name": "Migration",
-			"href": "v2/docs/migration",
+			"href": "/v2/docs/migration",
 			"current": false
 		},
 		{
 			"name": "Purging Guide",
-			"href": "v2/docs/purge",
+			"href": "/v2/docs/purge",
 			"current": false
 		}
 	]
