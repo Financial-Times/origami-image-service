@@ -1411,7 +1411,6 @@ describe('lib/image-transform', () => {
 		assert.deepEqual(ImageTransform.schemeVersionMap, {
 			ftbrand: 'v1',
 			ftflag: 'v1',
-			fticon: 'fticonold/v4',
 			ftlogo: 'v1',
 			ftpodcast: 'v1',
 			ftsocial: 'v1',
