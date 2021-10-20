@@ -31,3 +31,34 @@ dt {
 .hex-input {
 	width: 444px;
 }
+
+
+.image-grid {
+	display: flex;
+	justify-content: space-around;
+	flex-flow: row wrap;
+	padding: 0;
+}
+
+.image-grid img {
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 0;
+}
+
+.image-grid__item {
+	flex: 0 1 35%;
+	margin: 0 4px 24px;
+	display: flex;
+	flex-direction: column;
+	flex-basis: 20%;
+}
+
+/* .image-grid__item__title {
+	padding-top: oSpacingByName('s1');
+	padding-bottom: oSpacingByName('s1');
+	text-align: center;
+	margin-top: auto;
+	border-bottom: 1px solid oColorsByName('slate-white-15');
+} */
