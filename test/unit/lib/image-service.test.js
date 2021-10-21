@@ -475,11 +475,6 @@ describe('lib/image-service', () => {
 					handler(proxyResponse, request);
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
 				});
-				it('Sets the Surrogate-Control header to a year for ftpodcast images', () => {
-					request.params.scheme = 'ftpodcast';
-					handler(proxyResponse, request);
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
-				});
 				it('Sets the Surrogate-Control header to a year for ftsocial images', () => {
 					request.params.scheme = 'ftsocial';
 					handler(proxyResponse, request);
