@@ -2,21 +2,32 @@
 	Image Sets
 </h1>
 
+<p>Image sets are collections of images which can be loaded directly from the Origami Image Service</p>
+
+<h2>Include images in your project</h2>
+<p>To load an image from this image set, use the following Image Service URL:</p>
+<pre><code>https://www.ft.com/__origami/service/image/v2/images/raw/&lt;schemename&gt;?source=&lt;your-systemcode-here&gt;</code></pre>
+
+<h2>Add/update an image</h2>
+<p>To request a new image, or to change an existing image, please <a href="https://github.com/Financial-Times/origami/issues">create an issue</a> on Github. For support please get in touch &#x1F60A;</p>
+<p>
+	Slack:&nbsp;<a href="https://financialtimes.slack.com/archives/C02FU5ARJ">#origami-support</a>
+	<br>
+	Email:&nbsp;<a href="mailto:origami.support@ft.com?subject=Image Sets">{{component.support.email}}</a>
+</p>
 
 {{#imagesets}}
 <h2 id="{{id}}">{{name}}</h2>
-<div class="flex-container">
-	<ul class="image-grid o-layout__unstyled-element">
-		{{#images}}
-		<li id="arrow-down" class="image-grid__item">
-			<a href="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service-website">
-				<img src="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" width=200 height=200 alt="{{name}}" loading=lazy>
-			</a>
-			<p class="image-grid__item__title o-layout__unstyled-element">
-				<a href="{{@root.basePath}}v2/docs/url-builder?url={{uri}}&amp;preview=true">{{name}}</a>
-			</p>
-		</li>
-		{{/images}}
-	</ul>
-</div>
+<ul class="image-grid o-layout__unstyled-element">
+	{{#images}}
+	<li id="arrow-down" class="image-grid__item">
+		<a href="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service-website">
+			<img src="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" width=200 height=200 alt="{{name}}" loading=lazy>
+		</a>
+		<p class="image-grid__item__title o-layout__unstyled-element">
+			<a href="{{@root.basePath}}v2/docs/url-builder?url={{uri}}&amp;preview=true">{{name}}</a>
+		</p>
+	</li>
+	{{/images}}
+</ul>
 {{/imagesets}}
