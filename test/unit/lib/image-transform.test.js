@@ -376,7 +376,6 @@ describe('lib/image-transform', () => {
 					'ftflag:foo',
 					'fticon:foo',
 					'ftlogo:foo',
-					'ftpodcast:foo',
 					'ftsocial:foo',
 					'http://foo/',
 					'https://foo/',
@@ -1035,48 +1034,6 @@ describe('lib/image-transform', () => {
 
 		});
 
-		describe('when `uri` is an `ftpodcast` URI', () => {
-
-			context('versioned scheme with name which exists', () => {
-				it('returns the expected URI', () => {
-					assert.strictEqual(
-						ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:arts', 'http://base/images'),
-						'http://base/images/internal-images/ftpodcast/v1/arts.png'
-					);
-				});
-			});
-
-			context('versioned scheme with name which does not exist', () => {
-				it('returns the expected URI', () => {
-					assert.throws(() => {
-						ImageTransform.resolveCustomSchemeUri('ftpodcast-v1:not-found', 'http://base/images');
-					},
-						'Image URI must be a string with a valid scheme'
-					);
-				});
-			});
-
-			context('unversioned scheme with name which exists', () => {
-				it('returns the expected URI', () => {
-					assert.strictEqual(
-						ImageTransform.resolveCustomSchemeUri('ftpodcast:arts', 'http://base/images'),
-						'http://base/images/internal-images/ftpodcast/v1/arts.png'
-					);
-				});
-			});
-			
-			context('unversioned scheme with name which does not exist', () => {
-				it('returns the expected URI', () => {
-					assert.throws(() => {
-						ImageTransform.resolveCustomSchemeUri('ftpodcast:not-found', 'http://base/images');
-					},
-						'Image URI must be a string with a valid scheme'
-					);
-				});
-			});
-
-		});
-
 		describe('when `uri` is an `ftsocial` URI', () => {
 
 			context('versioned scheme with name which exists', () => {
@@ -1399,7 +1356,6 @@ describe('lib/image-transform', () => {
 			'ftflag',
 			'fticon',
 			'ftlogo',
-			'ftpodcast',
 			'ftsocial',
 			'http',
 			'https',
@@ -1412,7 +1368,6 @@ describe('lib/image-transform', () => {
 			ftbrand: 'v1',
 			ftflag: 'v1',
 			ftlogo: 'v1',
-			ftpodcast: 'v1',
 			ftsocial: 'v1',
 			specialisttitle: 'v1'
 		});

@@ -13,7 +13,6 @@ const testImageUris = {
 	ftflag: 'ftflag:jp',
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
-	ftpodcast: 'ftpodcast:arts',
 	ftsocial: 'ftsocial:whatsapp',
 	specialisttitle: 'specialisttitle:ned-logo',
 	capiv1: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
@@ -207,12 +206,6 @@ describe('GET /v2/images/raw…', function() {
 		setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
-	});
-
-	onlyRunOnExternalServer('/ftpodcast:… (ftpodcast scheme)', function() {
-		setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/jpeg');
 	});
 
 	onlyRunOnExternalServer('/ftlogo:… (ftlogo scheme)', function() {
@@ -414,11 +407,6 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 
-			onlyRunOnExternalServer('ftpodcast', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-				itRespondsWithHeader('surrogate-key', /origami-image-service/);
-			});
-
 			onlyRunOnExternalServer('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
@@ -471,11 +459,6 @@ describe('GET /v2/images/raw…', function() {
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
 			});
 
-			onlyRunOnExternalServer('ftpodcast', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-				itRespondsWithHeader('surrogate-key', /aW1hZ2UvanBlZw==/);
-			});
-
 			onlyRunOnExternalServer('ftsocial', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftsocial}?source=test`);
 				itRespondsWithHeader('surrogate-key', /aW1hZ2Uvc3ZnK3htbA==/);
@@ -526,11 +509,6 @@ describe('GET /v2/images/raw…', function() {
 			onlyRunOnExternalServer('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRsb2dv/);
-			});
-
-			onlyRunOnExternalServer('ftpodcast', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRwb2RjYXN0/);
 			});
 
 			onlyRunOnExternalServer('ftsocial', function() {
@@ -603,11 +581,6 @@ describe('GET /v2/images/raw…', function() {
 			onlyRunOnExternalServer('ftlogo', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.ftlogo}?source=test`);
 				itRespondsWithHeader('surrogate-key', /ZnRsb2dvOmJyYW5kLWZ0/);
-			});
-
-			onlyRunOnExternalServer('ftpodcast', function() {
-				setupRequest('GET', `/v2/images/raw/${testImageUris.ftpodcast}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRwb2RjYXN0OmFydHM=/);
 			});
 
 			onlyRunOnExternalServer('ftsocial', function() {

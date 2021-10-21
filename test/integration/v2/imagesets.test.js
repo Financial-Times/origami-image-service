@@ -11,7 +11,6 @@ const {
     fticonV1,
     ftlogo,
     specialisttitle,
-    ftpodcast,
     ftsocial,
     ftsocialV2,
 } = require('../../../lib/imagesets');
@@ -75,20 +74,6 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             });
             describe(`ftlogo-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftlogo-v1:${name}?source=test`);
-                itRespondsWithStatus(200);
-                itRespondsWithContentType('image/*');
-            });
-        }
-    });
-    describe('ftpodcast', function () {
-        for (const name of Object.keys(ftpodcast)) {
-            describe(`ftpodcast:${name}`, function () {
-                setupRequest('GET', `/v2/images/raw/ftpodcast:${name}?source=test`);
-                itRespondsWithStatus(200);
-                itRespondsWithContentType('image/*');
-            });
-            describe(`ftpodcast-v1:${name}`, function () {
-                setupRequest('GET', `/v2/images/raw/ftpodcast-v1:${name}?source=test`);
                 itRespondsWithStatus(200);
                 itRespondsWithContentType('image/*');
             });

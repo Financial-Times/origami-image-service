@@ -15,7 +15,6 @@ const testImageUris = {
 	ftflag: 'ftflag:jp',
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
-	ftpodcast: 'ftpodcast:arts',
 	ftsocial: 'ftsocial:whatsapp',
 	httpsspark: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
 	httpftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
