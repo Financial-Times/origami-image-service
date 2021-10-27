@@ -49,7 +49,7 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             });
         }
     });
-    describe.only('fticon', function () {
+    describe('fticon', function () {
         for (const name of Object.keys(fticon)) {
             describe(`fticon:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/fticon:${name}?source=test`);
