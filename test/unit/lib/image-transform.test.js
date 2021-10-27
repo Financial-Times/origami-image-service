@@ -14,7 +14,6 @@ describe('lib/image-transform', () => {
 	let origamiSpecialistTitleLogos;
 	let podcastLogos;
 	let socialImages;
-	let headshotImages;
 
 	beforeEach(() => {
 		colornames = sinon.stub();
@@ -52,19 +51,14 @@ describe('lib/image-transform', () => {
 		socialImages = {images:[{
 			name: 'example',
 			url: 'http://base/images/ftsocial/v2/example'
-		}]};
-		mockery.registerMock('@financial-times/social-images', socialImages);
-		headshotImages = {images:[{
-			name: 'example',
-			url: 'http://base/images/fthead/v1/example'
 		},{
 			name: 'example.jpg',
-			url: 'http://base/images/fthead/v1/example.jpg'
+			url: 'http://base/images/ftsocial/v2/example.jpg'
 		},{
 			name: 'example.png',
-			url: 'http://base/images/fthead/v1/example.png'
+			url: 'http://base/images/ftsocial/v2/example.png'
 		}]};
-		mockery.registerMock('@financial-times/headshot-images', headshotImages);
+		mockery.registerMock('@financial-times/social-images', socialImages);
 		ImageTransform = require('../../../lib/image-transform');
 	});
 
@@ -979,39 +973,37 @@ describe('lib/image-transform', () => {
 		describe('when `uri` is an `fthead` URI', () => {
 
 			context('versioned scheme with name which exists', () => {
-				it('returns the expected URI', () => {
+				it('returns the URI as-is for processing later', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images'),
-						'http://base/images/fthead/v1/example'
+						'fthead-v1:example'
 					);
 				});
 			});
 
 			context('versioned scheme with name which does not exist', () => {
-				it('returns the expected URI', () => {
-					assert.throws(() => {
-						ImageTransform.resolveCustomSchemeUri('fthead-v1:not-found', 'http://base/images');
-					},
-						'Image URI must be a string with a valid scheme'
+				it('returns the URI as-is for processing later', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fthead-v1:not-found', 'http://base/images'),
+						'fthead-v1:not-found'
 					);
 				});
 			});
 
 			context('unversioned scheme with name which exists', () => {
-				it('returns the expected URI', () => {
+				it('returns the URI as-is for processing later', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images'),
-						'http://base/images/fthead/v1/example'
+						'fthead:example'
 					);
 				});
 			});
 			
 			context('unversioned scheme with name which does not exist', () => {
-				it('returns the expected URI', () => {
-					assert.throws(() => {
-						ImageTransform.resolveCustomSchemeUri('fthead:not-found', 'http://base/images');
-					},
-						'Image URI must be a string with a valid scheme'
+				it('returns the URI as-is for processing later', () => {
+					assert.strictEqual(
+						ImageTransform.resolveCustomSchemeUri('fthead:not-found', 'http://base/images'),
+						'fthead:not-found'
 					);
 				});
 			});
@@ -1236,7 +1228,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example'
+					'fthead:example'
 				);
 			});
 
@@ -1257,12 +1249,12 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('FTHEAD:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example'
+					ImageTransform.resolveCustomSchemeUri('FTSOCIAL:example', 'http://base/images'),
+					'http://base/images/ftsocial/v1/example.svg'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('FTHEAD-V1:example', 'http://base/images'),
-					'http://base/images/fthead/v1/example'
+					ImageTransform.resolveCustomSchemeUri('FTSOCIAL-V2:example', 'http://base/images'),
+					'http://base/images/ftsocial/v2/example.svg'
 				);
 			});
 
@@ -1276,12 +1268,12 @@ describe('lib/image-transform', () => {
 					'http://base/images/fticon/v1/example.svg'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:example.png', 'http://base/images'),
-					'http://base/images/fthead/v1/example.png'
+					ImageTransform.resolveCustomSchemeUri('ftsocial:example.png', 'http://base/images'),
+					'http://base/images/ftsocial/v1/example.png'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:example.jpg', 'http://base/images'),
-					'http://base/images/fthead/v1/example.jpg'
+					ImageTransform.resolveCustomSchemeUri('ftsocial-v2:example.jpg', 'http://base/images'),
+					'http://base/images/ftsocial/v2/example.jpg'
 				);
 			});
 
@@ -1295,8 +1287,8 @@ describe('lib/image-transform', () => {
 					'http://foo/bar?foo=bar'
 				);
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead-v1:example?foo=bar', 'http://base/images'),
-					'http://base/images/fthead/v1/example?foo=bar'
+					ImageTransform.resolveCustomSchemeUri('ftsocial:example?foo=bar', 'http://base/images'),
+					'http://base/images/ftsocial/v1/example.svg?foo=bar'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fticon-v1:example?foo=bar', 'http://base/images'),
@@ -1310,8 +1302,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('fthead:example', 'http://base/images/'),
-					'http://base/images/fthead/v1/example'
+					ImageTransform.resolveCustomSchemeUri('ftsocial:example', 'http://base/images/'),
+					'http://base/images/ftsocial/v1/example.svg'
 				);
 			});
 
@@ -1343,10 +1335,10 @@ describe('lib/image-transform', () => {
 
 			describe('when `uri` is an `fthead` URI', () => {
 
-				it('returns the expected URI', () => {
+				it('returns `uri` (not cache busted)', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fthead-v1:example', 'http://base/images/', 'busted'),
-						'http://base/images/fthead/v1/example?cacheBust=busted'
+						'fthead-v1:example'
 					);
 				});
 
@@ -1468,7 +1460,6 @@ describe('lib/image-transform', () => {
 		assert.deepEqual(ImageTransform.schemeVersionMap, {
 			ftbrand: 'v1',
 			ftflag: 'v1',
-			fthead: 'v1',
 			fticon: 'fticonold/v4',
 			ftlogo: 'v1',
 			ftpodcast: 'v1',

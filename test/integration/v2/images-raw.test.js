@@ -8,13 +8,13 @@ const setupRequest = require('../helpers/setup-request');
 
 const testImageUris = {
 	ftbrand: 'ftbrand:brussels-blog',
+	fthead: 'fthead-v1:ændra-rininsland',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
 	capiv1: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
 	capiv2: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
 	spark: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
 	sparkMasterImage: 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b',
 	ftflag: 'ftflag:jp',
-	fthead: 'fthead:martin-wolf',
 	fticon: 'fticon:cross',
 	ftlogo: 'ftlogo:brand-ft',
 	ftpodcast: 'ftpodcast:arts',
@@ -279,7 +279,7 @@ describe('GET /v2/images/raw…', function() {
 
 	describe('when a custom scheme image is not found', function() {
 		setupRequest('GET', '/v2/images/raw/fthead-v1:notahead?source=test');
-		itRespondsWithStatus(400);
+		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
 	});
 
@@ -616,7 +616,7 @@ describe('GET /v2/images/raw…', function() {
 
 			describe('fthead', function() {
 				setupRequest('GET', `/v2/images/raw/${testImageUris.fthead}?source=test`);
-				itRespondsWithHeader('surrogate-key', /ZnRoZWFkOm1hcnRpbi13b2xm/);
+				itRespondsWithHeader('surrogate-key', /ZnRoZWFkLXYx/);
 			});
 
 			describe('fticon', function() {

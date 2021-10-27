@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "@financial-times/fticons": "^1.23.1",
-    "@financial-times/headshot-images": "1.171.2",
     "@financial-times/health-check": "2.1.6",
     "@financial-times/logo-images": "^1.14.0",
     "@financial-times/origami-brand-images": "1.1.5",
