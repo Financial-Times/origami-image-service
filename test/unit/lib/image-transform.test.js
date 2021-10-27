@@ -1135,8 +1135,8 @@ describe('lib/image-transform', () => {
 
 			it('returns the expected URI', () => {
 				assert.strictEqual(
-					ImageTransform.resolveCustomSchemeUri('specialisttitle:not-found', 'http://base/images'),
-					'fthead:example'
+					ImageTransform.resolveCustomSchemeUri('specialisttitle:ned-logo', 'http://base/images'),
+					'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
 				);
 			});
 
