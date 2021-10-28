@@ -35,6 +35,7 @@ dt {
 
 .image-grid {
 	display: flex;
+	gap: 1rem;
 	justify-content: space-around;
 	flex-flow: row wrap;
 	padding: 0;
@@ -42,23 +43,15 @@ dt {
 
 .image-grid img {
 	display: block;
-	width: 100%;
-	height: auto;
+	width: 200px;
+	height: 200px;
+	object-fit: contain;
 	margin: 0;
 }
 
 .image-grid__item {
-	flex: 0 1 35%;
-	margin: 0 4px 24px;
+	margin: 0 0 24px;
 	display: flex;
 	flex-direction: column;
-	flex-basis: 20%;
+	flex-basis: calc(25% - (3rem /4));
 }
-
-/* .image-grid__item__title {
-	padding-top: oSpacingByName('s1');
-	padding-bottom: oSpacingByName('s1');
-	text-align: center;
-	margin-top: auto;
-	border-bottom: 1px solid oColorsByName('slate-white-15');
-} */
