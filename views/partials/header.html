@@ -15,7 +15,7 @@
 			<ul class="o-header-services__primary-nav-list">
 				{{#navigation.items}}
 				<li>
-					<a {{#current}}aria-current="true" aria-label="Current page" {{/current}} class="o-header-services__nav-link" href="{{href}}">
+					<a {{#current}}aria-current="true" aria-label="Current page" {{/current}} class="o-header-services__nav-link" href="{{@root.basePath}}{{href}}">
 						{{name}}
 					</a>
 				</li>
