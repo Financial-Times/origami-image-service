@@ -54,3 +54,7 @@ dt {
 	flex-direction: column;
 	flex-basis: calc(25% - (3rem /4));
 }
+
+.image-grid__item__title {
+	margin: 0;
+}
