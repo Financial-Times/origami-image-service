@@ -23,7 +23,7 @@ Table Of Contents
 Requirements
 ------------
 
-Running Origami Image Service requires [Node.js] and [npm].
+Running Origami Image Service requires [Node.js], [npm] and [git-lfs](https://git-lfs.github.com/).
 
 
 Running Locally
