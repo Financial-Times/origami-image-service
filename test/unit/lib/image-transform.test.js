@@ -1356,6 +1356,7 @@ describe('lib/image-transform', () => {
 			'ftflag',
 			'fticon',
 			'ftlogo',
+			'ftpodcast',
 			'ftsocial',
 			'http',
 			'https',
@@ -1368,6 +1369,7 @@ describe('lib/image-transform', () => {
 			ftbrand: 'v1',
 			ftflag: 'v1',
 			ftlogo: 'v1',
+			ftpodcast: 'v1',
 			ftsocial: 'v1',
 			specialisttitle: 'v1'
 		});
