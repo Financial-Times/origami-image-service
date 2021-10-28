@@ -50,7 +50,6 @@ dt {
 }
 
 .image-grid__item {
-	margin: 0 0 24px;
 	display: flex;
 	flex-direction: column;
 	flex-basis: calc(25% - (3rem /4));
