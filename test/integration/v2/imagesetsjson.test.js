@@ -45,6 +45,16 @@ describe('Origami Image Sets JSON API', function () {
         itRespondsWithStatus(200);
         itRespondsWithContentType('application/json; charset=utf-8');
     });
+    describe('ftpodcast', function () {
+        setupRequest('GET', '/v2/imagesets/ftpodcast?source=test');
+        itRespondsWithStatus(200);
+        itRespondsWithContentType('application/json; charset=utf-8');
+    });
+    describe('ftpodcast-v1', function () {
+        setupRequest('GET', '/v2/imagesets/ftpodcast-v1?source=test');
+        itRespondsWithStatus(200);
+        itRespondsWithContentType('application/json; charset=utf-8');
+    });
     describe('ftsocial', function () {
         setupRequest('GET', '/v2/imagesets/ftsocial?source=test');
         itRespondsWithStatus(200);
