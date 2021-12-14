@@ -10,8 +10,8 @@ describe('GET /v1/', function() {
 	itRespondsWithHeader('Location', '/v2/');
 });
 
-describe('GET /v1/images/raw/fticon:cross?source=test', function() {
-	setupRequest('GET', '/v1/images/raw/fticon:cross?source=test');
+describe('GET /v1/images/raw/fticon:cross?source=origami-image-service', function() {
+	setupRequest('GET', '/v1/images/raw/fticon:cross?source=origami-image-service');
 	itRespondsWithStatus(301);
-	itRespondsWithHeader('Location', '/v2/images/raw/fticon:cross?source=test');
+	itRespondsWithHeader('Location', '/v2/images/raw/fticon:cross?source=origami-image-service');
 });
