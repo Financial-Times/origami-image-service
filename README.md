@@ -13,6 +13,7 @@ Table Of Contents
   * [Requirements](#requirements)
   * [Running Locally](#running-locally)
   * [Configuration](#configuration)
+  * [Adding Images](#adding-images)
   * [Testing](#testing)
   * [Deployment](#deployment)
   * [Monitoring](#monitoring)
@@ -88,6 +89,14 @@ The service can also be configured by sending HTTP headers, these would normally
   * `FT-Origami-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
   * `FT-Origami-Api-Key`: The API key for the service, this is used when calling API endpoints which are restricted to FT Origami developers.
 
+Adding Images
+-------
+
+The Origami Image Service fetches and transforms images from external hosts, such as FT APIs or any given URL. It also hosts [a number of image sets](https://www.ft.com/__origami/service/image/v2/docs/image-sets) directly.
+
+To add, edit, or remove an image in one of these image sets see the `image-sets` directory. Some image sets have their own `readme.md` or `contribution.md` with further guidance specific to the image set. For example see the [fticon contributing guide](./image-sets/fticon/v1/contributing.md).
+
+Removing an image from an image set is considered a major change. To remove an image a new major version of the Origami Image Service API must be released. Therefore it's typical to deprecate images first, and remove multiple deprecated images later as a batch. To manage this each image set directory has a `deprecated.json` file containing a list of images in the set which are deprecated and should be removed in the next major version of the Origami Image Service. Deprecated images are hidden on the Origami Image Service image sets page.
 
 Testing
 -------
