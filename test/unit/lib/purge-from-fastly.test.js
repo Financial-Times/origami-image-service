@@ -17,7 +17,7 @@ describe('lib/purge-from-fastly', () => {
 	beforeEach(() => {
 		key = 'key';
 
-		url = 'http://www.ft.com/__origami/service/images/v2/images/raw/https://www.example.com/cats.png?source=test';
+		url = 'http://www.ft.com/__origami/service/images/v2/images/raw/https://www.example.com/cats.png?source=origami-image-service';
 
 		FastlyPurge = require('../mock/fastly-purge.mock');
 		mockery.registerMock('fastly-purge', FastlyPurge);

@@ -5,7 +5,7 @@ const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
 const testImageUris = {
-	valid: 'https://origami-images.ft.com/ftlogo/v1/origami-a601a979aef6e38299dc22501508ee0f490dfd330586fe124ba475a1757c4232b9238ed2bace3da92c83785e535e5c71ba1bebe1498b844b327d2fd62984d782.svg',
+	valid: `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`,
 	notFound: 'http://google.com/404',
 	nonSvg: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
 };

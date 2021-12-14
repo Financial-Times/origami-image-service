@@ -71,7 +71,7 @@ describe('lib/middleware/process-image-request', () => {
 				response = httpMock.createResponse();
 				next = sinon.stub();
 				mockImageTransform = {
-					getUri: () => 'https://origami-images.ft.com/fthead/v1/lionel-barber-595330c73ff13873ae15ce65db55d88a2b7fcc0d14af17a4950f9f3477a56e988a18cca1dfab9f055c1c827221bcab11376ea6fe553068c2af6093f85028d517',
+					getUri: () => `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`,
 					setName: (n) => { name = n; },
 					setFit: (f) => { fit = f; },
 					getFormat: () => format,
@@ -121,7 +121,7 @@ describe('lib/middleware/process-image-request', () => {
 				response = httpMock.createResponse();
 				next = sinon.stub();
 				mockImageTransform = {
-					getUri: () => 'https://origami-images.ft.com/fthead/v1/lionel-barber-595330c73ff13873ae15ce65db55d88a2b7fcc0d14af17a4950f9f3477a56e988a18cca1dfab9f055c1c827221bcab11376ea6fe553068c2af6093f85028d517',
+					getUri: () => `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1:twitter?source=origami-image-service`,
 					setName: (n) => {name=n;},
 					getName: () => name
 				};
