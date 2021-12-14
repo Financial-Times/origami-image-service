@@ -1,6 +1,6 @@
-# How to contribute to fticons
+# How to contribute an FT icon
 
-Thank you for your interest in contributing to fticons! As our icons are used by a lot of different applications, we have a few constraints for new ones. If you aren't sure if your new icon meets any of these, please [raise an issue](http://github.com/financial-times/origami/issues), or ask in the [#origami-support slack channel](https://financialtimes.slack.com/messages/origami-support/).
+Thank you for your interest in contributing an FT Icon! As our icons are used by a lot of different applications, we have a few constraints for new ones. If you aren't sure if your new icon meets any of these, please [raise an issue](http://github.com/financial-times/origami/issues), or ask in the [#origami-support slack channel](https://financialtimes.slack.com/messages/origami-support/).
 Thank you!
 
 ## Adding or updating an icon
@@ -39,25 +39,25 @@ If your icon meets the design and technical criteria please follow the following
 
 1. Clone the repository
 
-		git clone https://github.com/Financial-Times/fticons.git
-		cd fticons
+		git clone https://github.com/Financial-Times/origami-image-service.git
+		cd origami-image-service
 
 1. Create a branch
-		
-		git checkout -b add-new-icon
-		
-1. Add or edit an SVG file to the `svg` folder.
+
+		git checkout -b add-new-icon-[icon-name]
+
+1. Add or edit an SVG file in the `image-sets/fticon/v1/` folder.
 1. Commit your changes
 
-		git add /svg/your-new-icon.svg
-		git commit -m "Added new pathfinder icon"
+		git add image-sets/fticon/v1/your-new-icon.svg
+		git commit -m "Added new [icon-name] icon"
 		git push origin add-new-icon
-	
+
 1. Go to Github and open a pull request
 
 ## Removing an icon
 
-A lot of people use fticons in different ways. To remove an icon completely from fticons, please [raise an issue](http://github.com/financial-times/origami/issues) so that the Origami team can manage the deprecation process.
+A lot of people use FT icons in different ways. To remove an icon completely from FT icons, please [raise an issue](http://github.com/financial-times/origami/issues) so that the Origami team can manage the deprecation process.
 
 ## How to test an icon with the Image Service
 
