@@ -5,6 +5,14 @@ const itRespondsWithContentType = require('../helpers/it-responds-with-content-t
 const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
+const customSchemeStore = `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`;
+
+const httpCustomSchemeStore = new URL(customSchemeStore);
+httpCustomSchemeStore.protocol = 'http';
+
+const httpsCustomSchemeStore = new URL(customSchemeStore);
+httpsCustomSchemeStore.protocol = 'https';
+
 const testImageUris = {
 	ftbrand: 'ftbrand:brussels-blog',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
@@ -21,9 +29,9 @@ const testImageUris = {
 	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	http: 'http://origami-images.ft.com/ftsocial/v1/twitter.svg',
-	https: 'https://origami-images.ft.com/ftsocial/v1/twitter.svg',
-	protocolRelative: '//origami-images.ft.com/ftsocial/v1/twitter.svg',
+	http: httpCustomSchemeStore.toString(),
+	https: httpsCustomSchemeStore.toString(),
+	protocolRelative: httpsCustomSchemeStore.toString().replace('https:', ''),
 	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	specialisttitle: 'specialisttitle:ned-logo',
 	nonUtf8Characters: 'https://origami-image-service-integration-tests.s3-eu-west-1.amazonaws.com/Beaute%CC%81.jpg'
@@ -33,7 +41,7 @@ const testImageUris = {
 describe('GET /v2/images/debug…', function () {
 
 	describe('http', function () {
-		setupRequest('GET', `/v2/images/debug/${testImageUris.httpftcms}?source=test&width=123&height=456&echo`);
+		setupRequest('GET', `/v2/images/debug/${testImageUris.httpftcms}?source=origami-image-service&width=123&height=456&echo`);
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('application/json');
 
@@ -116,7 +124,7 @@ describe('GET /v2/images/debug…', function () {
 			resolvedUrl
 		}] of Object.entries(imagesWithSchemes)) {
 		describe(`resolving urls which have custom schemes: ${test} -- ${requestedUrl} should resolve to ${resolvedUrl}`, function () {
-			setupRequest('GET', `/v2/images/debug/${requestedUrl}?source=test&width=123&height=456`);
+			setupRequest('GET', `/v2/images/debug/${requestedUrl}?source=origami-image-service&width=123&height=456`);
 			itRespondsWithStatus(200);
 			itRespondsWithContentType('application/json');
 
