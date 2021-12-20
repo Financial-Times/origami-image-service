@@ -322,7 +322,7 @@ describe('lib/middleware/handle-svg', function () {
 		let middleware;
 		let customSchemeStore;
 		beforeEach(() => {
-			customSchemeStore = 'https://origami-images.ft.com';
+			customSchemeStore = 'https://example.org';
 			middleware = handleSvg({
 				customSchemeStore
 			});
@@ -333,9 +333,9 @@ describe('lib/middleware/handle-svg', function () {
 				let next;
 				beforeEach((done) => {
 					next = sinon.spy();
-					origamiService.mockRequest.params[0] = `${customSchemeStore}/twitter.svg`;
+					origamiService.mockRequest.params[0] = `${customSchemeStore}/v2/images/raw/ftsocial-v2%3Atwitter?source=origami-image-service`;
 					const scope = nock(customSchemeStore).persist();
-					scope.get('/twitter.svg').reply(200, twitterSVGWithOnClickHandler, {
+					scope.get('/v2/images/raw/ftsocial-v2%3Atwitter?source=origami-image-service').reply(200, twitterSVGWithOnClickHandler, {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 					origamiService.mockResponse.send.resetHistory();

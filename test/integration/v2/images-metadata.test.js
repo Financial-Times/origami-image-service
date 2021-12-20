@@ -11,7 +11,7 @@ const testImageUris = {
 
 describe('GET /v2/images/metadata…', function() {
 
-	setupRequest('GET', `/v2/images/metadata/${testImageUris.http}?source=test&width=123&height=456&echo`);
+	setupRequest('GET', `/v2/images/metadata/${testImageUris.http}?source=origami-image-service&width=123&height=456&echo`);
 	itRespondsWithStatus(200);
 	itRespondsWithContentType('application/json');
 
