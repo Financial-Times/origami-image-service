@@ -2,6 +2,7 @@
 
 const assert = require('proclaim');
 const itRespondsWithContentType = require('../helpers/it-responds-with-content-type');
+const itRespondsWithHeader = require('../helpers/it-responds-with-header');
 const itRespondsWithStatus = require('../helpers/it-responds-with-status');
 const setupRequest = require('../helpers/setup-request');
 
@@ -14,6 +15,8 @@ describe('GET /v2/images/metadata…', function() {
 	setupRequest('GET', `/v2/images/metadata/${testImageUris.http}?source=origami-image-service&width=123&height=456&echo`);
 	itRespondsWithStatus(200);
 	itRespondsWithContentType('application/json');
+
+	itRespondsWithHeader('surrogate-key', /origami-image-service/);
 
 	it('responds with JSON representing the metadata of the requested image', function(done) {
 		this.request.expect(response => {
