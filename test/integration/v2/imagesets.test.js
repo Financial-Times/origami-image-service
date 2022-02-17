@@ -15,6 +15,7 @@ const {
     ftsocial,
     ftsocialV2,
 } = require('../../../lib/imagesets');
+const itRespondsWithHeader = require('../helpers/it-responds-with-header');
 
 const usingExternalServer = Boolean(process.env.HOST);
 
@@ -27,11 +28,13 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`ftbrand:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftbrand:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
             describe(`ftbrand-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftbrand-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -41,11 +44,13 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`ftflag:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftflag:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
             describe(`ftflag-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftflag-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -55,6 +60,7 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`fticon:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/fticon:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -62,6 +68,7 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`fticon-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/fticon-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -71,11 +78,13 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`ftlogo:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftlogo:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
             describe(`ftlogo-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftlogo-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -85,11 +94,13 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`ftpodcast:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftpodcast:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
             describe(`ftpodcast-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftpodcast-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -99,11 +110,13 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`ftsocial:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftsocial:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
             describe(`ftsocial-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftsocial-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -111,6 +124,7 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`ftsocial-v2:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/ftsocial-v2:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
@@ -120,11 +134,13 @@ onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
             describe(`specialisttitle:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/specialisttitle:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
             describe(`specialisttitle-v1:${name}`, function () {
                 setupRequest('GET', `/v2/images/raw/specialisttitle-v1:${name}?source=origami-image-service`);
                 itRespondsWithStatus(200);
+                itRespondsWithHeader('surrogate-key', /origami-image-service/);
                 itRespondsWithContentType('image/*');
             });
         }
