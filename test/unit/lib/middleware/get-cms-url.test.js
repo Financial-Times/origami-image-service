@@ -159,7 +159,7 @@ describe('lib/middleware/get-cms-url', () => {
 					assert.instanceOf(responseError, Error);
 					assert.strictEqual(responseError.message, 'Unable to get image mock-id4 from Content API v1 or v2');
 					assert.strictEqual(responseError.status, 404);
-					assert.strictEqual(responseError.cacheMaxAge, '1y');
+					assert.strictEqual(responseError.cacheMaxAge, '5m');
 				});
 
 				it('logs that the CMS ID was found in neither API', () => {
