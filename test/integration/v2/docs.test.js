@@ -10,3 +10,10 @@ describe('GET /v2/', function() {
 	itRespondsWithStatus(200);
 	itRespondsWithContentType('text/html');
 });
+
+describe('GET /__origami/service/image/v2/', function() {
+
+	setupRequest('GET', '/__origami/service/image/v2/');
+	itRespondsWithStatus(200);
+	itRespondsWithContentType('text/html');
+});

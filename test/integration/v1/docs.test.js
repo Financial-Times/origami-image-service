@@ -7,11 +7,23 @@ const setupRequest = require('../helpers/setup-request');
 describe('GET /v1/', function() {
 	setupRequest('GET', '/v1/');
 	itRespondsWithStatus(301);
-	itRespondsWithHeader('Location', '/v2/');
+	itRespondsWithHeader('Location', '/__origami/service/image/v2/');
 });
 
 describe('GET /v1/images/raw/fticon:cross?source=origami-image-service', function() {
 	setupRequest('GET', '/v1/images/raw/fticon:cross?source=origami-image-service');
 	itRespondsWithStatus(301);
-	itRespondsWithHeader('Location', '/v2/images/raw/fticon:cross?source=origami-image-service');
+	itRespondsWithHeader('Location', '/__origami/service/image/v2/images/raw/fticon:cross?source=origami-image-service');
+});
+
+describe('GET /__origami/service/image/v1/', function() {
+	setupRequest('GET', '/__origami/service/image/v1/');
+	itRespondsWithStatus(301);
+	itRespondsWithHeader('Location', '/__origami/service/image/v2/');
+});
+
+describe('GET /__origami/service/image/v1/images/raw/fticon:cross?source=origami-image-service', function() {
+	setupRequest('GET', '/__origami/service/image/v1/images/raw/fticon:cross?source=origami-image-service');
+	itRespondsWithStatus(301);
+	itRespondsWithHeader('Location', '/__origami/service/image/v2/images/raw/fticon:cross?source=origami-image-service');
 });
