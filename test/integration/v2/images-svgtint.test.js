@@ -52,3 +52,45 @@ describe('GET /v2/images/svgtint…', function() {
 	});
 
 });
+
+describe('GET /__origami/service/image/v2/images/svgtint…', function() {
+
+	describe('with a valid URI', function() {
+		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.valid}`);
+		itRespondsWithStatus(200);
+		itRespondsWithContentType('image/svg+xml');
+		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+	});
+
+	describe('with a URI that 404s', function() {
+		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.notFound}`);
+		itRespondsWithStatus(404);
+		itRespondsWithContentType('text/html');
+		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+	});
+
+	describe('with a URI that does not point to an SVG', function() {
+		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.nonSvg}`);
+		itRespondsWithStatus(400);
+		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		it('responds with a descriptive error message', function(done) {
+			this.request.expect(/uri must point to an svg image/i).end(done);
+		});
+	});
+
+	describe('with a valid `color` query parameter', function() {
+		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.valid}?color=f00`);
+		itRespondsWithStatus(200);
+		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+	});
+
+	describe('with an invalid `color` query parameter', function() {
+		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.valid}?color=nope`);
+		itRespondsWithStatus(400);
+		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		it('responds with a descriptive error message', function(done) {
+			this.request.expect(/tint color must be a valid hex code/i).end(done);
+		});
+	});
+
+});
