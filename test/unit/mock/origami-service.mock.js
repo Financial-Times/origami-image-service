@@ -25,11 +25,9 @@ const mockApp = module.exports.mockApp = {
 
 const mockServer = module.exports.mockServer = {};
 
-const mockBasePathMiddleware = module.exports.mockBasePathMiddleware = sinon.spy();
 const mockErrorHandlerMiddleware = module.exports.mockErrorHandlerMiddleware = sinon.spy();
 const mockNotFoundMiddleware = module.exports.mockNotFoundMiddleware = sinon.spy();
 origamiService.middleware = {
-	getBasePath: sinon.stub().returns(mockBasePathMiddleware),
 	errorHandler: sinon.stub().returns(mockErrorHandlerMiddleware),
 	notFound: sinon.stub().returns(mockNotFoundMiddleware)
 };

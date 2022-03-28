@@ -4,7 +4,7 @@
 			<div class="o-header-services__ftlogo"></div>
 			<div class="o-header-services__title">
 				<h1 class="o-header-services__product-name">
-					<a href="{{@root.basePath}}">Origami Image Service</a>
+					<a href="/__origami/service/image/">Origami Image Service</a>
 				</h1>
 				<span class="o-header-services__product-tagline ">
 					Optimise and resize images easily
@@ -15,7 +15,7 @@
 			<ul class="o-header-services__primary-nav-list">
 				{{#navigation.items}}
 				<li>
-					<a {{#current}}aria-current="true" aria-label="Current page" {{/current}} class="o-header-services__nav-link" href="{{@root.basePath}}{{href}}">
+					<a {{#current}}aria-current="true" aria-label="Current page" {{/current}} class="o-header-services__nav-link" href="{{href}}">
 						{{name}}
 					</a>
 				</li>

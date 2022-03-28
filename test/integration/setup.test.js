@@ -17,7 +17,6 @@ before(function() {
 	if (HOST) {
 		return new Promise(resolve => {
 			this.app = HOST;
-			this.basepath = new URL(HOST).pathname;
 			this.agent = supertest.agent(this.app);
 			resolve();
 		});
