@@ -2,32 +2,32 @@
 	"items": [
 		{
 			"name": "Overview",
-			"href": "v2",
+			"href": "/__origami/service/image/v2",
 			"current": false
 		},
 		{
 			"name": "URL Builder",
-			"href": "v2/docs/url-builder",
+			"href": "/__origami/service/image/v2/docs/url-builder",
 			"current": false
 		},
 		{
 			"name": "API Reference",
-			"href": "v2/docs/api",
+			"href": "/__origami/service/image/v2/docs/api",
 			"current": false
 		},
 		{
 			"name": "Image Sets",
-			"href": "v2/docs/image-sets",
+			"href": "/__origami/service/image/v2/docs/image-sets",
 			"current": false
 		},
 		{
 			"name": "Migration",
-			"href": "v2/docs/migration",
+			"href": "/__origami/service/image/v2/docs/migration",
 			"current": false
 		},
 		{
 			"name": "Purging Guide",
-			"href": "v2/docs/purge",
+			"href": "/__origami/service/image/v2/docs/purge",
 			"current": false
 		}
 	]

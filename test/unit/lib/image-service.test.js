@@ -587,12 +587,6 @@ describe('lib/image-service', () => {
 			assert.strictEqual(origamiService.mockApp.proxy, httpProxy.mockProxyServer);
 		});
 
-		it('creates and mounts getBasePath middleware', () => {
-			assert.calledOnce(origamiService.middleware.getBasePath);
-			assert.calledWithExactly(origamiService.middleware.getBasePath);
-			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.getBasePath.firstCall.returnValue);
-		});
-
 		it('loads all of the routes', () => {
 			assert.calledOnce(requireAll);
 			assert.isObject(requireAll.firstCall.args[0]);

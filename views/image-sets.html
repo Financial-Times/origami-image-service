@@ -22,11 +22,11 @@
 	{{#images}}
 	{{#unless deprecated}}
 		<li id="arrow-down" class="image-grid__item">
-			<a href="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service-website">
-				<img src="{{@root.basePath}}v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" width=200 height=200 alt="{{name}}" loading=lazy>
+			<a href="/__origami/service/image/v2/images/raw/{{uri}}?source=origami-image-service-website">
+				<img src="/__origami/service/image/v2/images/raw/{{uri}}?source=origami-image-service&amp;width=200" width=200 height=200 alt="{{name}}" loading=lazy>
 			</a>
 			<p class="image-grid__item__title o-layout__unstyled-element">
-				<a href="{{@root.basePath}}v2/docs/url-builder?url={{uri}}&amp;preview=true">{{name}}</a>
+				<a href="/__origami/service/image/v2/docs/url-builder?url={{uri}}&amp;preview=true">{{name}}</a>
 			</p>
 		</li>
 	{{/unless}}
