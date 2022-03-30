@@ -286,11 +286,10 @@ describe('lib/image-service', () => {
 					'Content-Length': '1234',
 					'Connection': 'keep-alive',
 					'Etag': '123',
-					'FT-Image-Format': 'default',
 					'Last-Modified': 'some time',
 					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
 					'Surrogate-Key': 'origami-image-service image/jpeg-mock-utf8-mock-base64 http-mock-utf8-mock-base64 http://example.com/PICTURE.png-mock-utf8-mock-base64',
-					'Vary': 'FT-image-format, Content-Dpr, Accept'
+					'Vary': 'Content-Dpr, Accept'
 				});
 			});
 
@@ -306,28 +305,6 @@ describe('lib/image-service', () => {
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['Content-Dpr'], 2);
 				});
 
-			});
-
-			describe('when the request has an `accept` header which includes "image/webp"', () => {
-				beforeEach(() => {
-					request.headers['accept'] = 'image/webp';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to "webp"', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'webp');
-				});
-			});
-
-			describe('when the request has an `accept` header which includes "image/jxr"', () => {
-				beforeEach(() => {
-					request.headers['accept'] = 'image/jxr';
-					handler(proxyResponse, request);
-				});
-
-				it('should set the `FT-Image-Format` header in the response to jpegxr', () => {
-					assert.strictEqual(httpProxy.mockProxyResponse.headers['FT-Image-Format'], 'jpegxr');
-				});
 			});
 
 			describe('when the proxy response has an `X-Cld-Error` header', () => {

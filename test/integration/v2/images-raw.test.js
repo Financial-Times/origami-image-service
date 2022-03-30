@@ -369,57 +369,48 @@ describe('GET /v2/images/raw…', function() {
 				accept: '*/*',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/jpeg',
-				expectedFtImageFormat: 'default'
 			},
 			{
 				accept: 'image/webp',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/webp',
-				expectedFtImageFormat: 'webp'
 			},
 			{
 				accept: 'image/jxr',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/vnd.ms-photo',
-				expectedFtImageFormat: 'jpegxr'
 			},
 			{
 				accept: '*/*',
 				userAgent: chromeUA,
 				expectedContentType: 'image/jpeg',
-				expectedFtImageFormat: 'default'
 			},
 			{
 				accept: 'image/webp',
 				userAgent: chromeUA,
 				expectedContentType: 'image/webp',
-				expectedFtImageFormat: 'webp'
 			},
 			{
 				accept: 'image/jxr',
 				userAgent: chromeUA,
 				expectedContentType: 'image/vnd.ms-photo',
-				expectedFtImageFormat: 'jpegxr'
 			},
 			{
 				accept: '*/*',
 				userAgent: ieUA,
 				expectedContentType: 'image/jpeg',
-				expectedFtImageFormat: 'default'
 			},
 			{
 				accept: 'image/webp',
 				userAgent: ieUA,
 				expectedContentType: 'image/webp',
-				expectedFtImageFormat: 'webp'
 			},
 			{
 				accept: 'image/jxr',
 				userAgent: ieUA,
 				expectedContentType: 'image/vnd.ms-photo',
-				expectedFtImageFormat: 'jpegxr'
 			},
-		].forEach(({accept, userAgent, expectedContentType, expectedFtImageFormat}) => {
+		].forEach(({accept, userAgent, expectedContentType}) => {
 			describe(`when the 'user-agent' header is ${userAgent} and the 'accepts' header is ${accept}`, function() {
 				setupRequest(
                     'GET',
@@ -430,7 +421,6 @@ describe('GET /v2/images/raw…', function() {
                     }
                 );
 				itRespondsWithHeader('Content-Type', expectedContentType);
-				itRespondsWithHeader('FT-Image-Format', expectedFtImageFormat);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 		});
@@ -1048,57 +1038,48 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				accept: '*/*',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/jpeg',
-				expectedFtImageFormat: 'default'
 			},
 			{
 				accept: 'image/webp',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/webp',
-				expectedFtImageFormat: 'webp'
 			},
 			{
 				accept: 'image/jxr',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/vnd.ms-photo',
-				expectedFtImageFormat: 'jpegxr'
 			},
 			{
 				accept: '*/*',
 				userAgent: chromeUA,
 				expectedContentType: 'image/jpeg',
-				expectedFtImageFormat: 'default'
 			},
 			{
 				accept: 'image/webp',
 				userAgent: chromeUA,
 				expectedContentType: 'image/webp',
-				expectedFtImageFormat: 'webp'
 			},
 			{
 				accept: 'image/jxr',
 				userAgent: chromeUA,
 				expectedContentType: 'image/vnd.ms-photo',
-				expectedFtImageFormat: 'jpegxr'
 			},
 			{
 				accept: '*/*',
 				userAgent: ieUA,
 				expectedContentType: 'image/jpeg',
-				expectedFtImageFormat: 'default'
 			},
 			{
 				accept: 'image/webp',
 				userAgent: ieUA,
 				expectedContentType: 'image/webp',
-				expectedFtImageFormat: 'webp'
 			},
 			{
 				accept: 'image/jxr',
 				userAgent: ieUA,
 				expectedContentType: 'image/vnd.ms-photo',
-				expectedFtImageFormat: 'jpegxr'
 			},
-		].forEach(({accept, userAgent, expectedContentType, expectedFtImageFormat}) => {
+		].forEach(({accept, userAgent, expectedContentType}) => {
 			describe(`when the 'user-agent' header is ${userAgent} and the 'accepts' header is ${accept}`, function() {
 				setupRequest(
                     'GET',
@@ -1109,7 +1090,6 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
                     }
                 );
 				itRespondsWithHeader('Content-Type', expectedContentType);
-				itRespondsWithHeader('FT-Image-Format', expectedFtImageFormat);
 				itRespondsWithHeader('surrogate-key', /origami-image-service/);
 			});
 		});
