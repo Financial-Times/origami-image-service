@@ -18,6 +18,8 @@ describe('GET /v2/images/svgtint…', function() {
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 	});
 
 	describe('with a URI that 404s', function() {
@@ -25,12 +27,16 @@ describe('GET /v2/images/svgtint…', function() {
 		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 	});
 
 	describe('with a URI that does not point to an SVG', function() {
 		setupRequest('GET', `/v2/images/svgtint/${testImageUris.nonSvg}`);
 		itRespondsWithStatus(400);
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 		it('responds with a descriptive error message', function(done) {
 			this.request.expect(/uri must point to an svg image/i).end(done);
 		});
@@ -40,12 +46,16 @@ describe('GET /v2/images/svgtint…', function() {
 		setupRequest('GET', `/v2/images/svgtint/${testImageUris.valid}?color=f00`);
 		itRespondsWithStatus(200);
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 	});
 
 	describe('with an invalid `color` query parameter', function() {
 		setupRequest('GET', `/v2/images/svgtint/${testImageUris.valid}?color=nope`);
 		itRespondsWithStatus(400);
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 		it('responds with a descriptive error message', function(done) {
 			this.request.expect(/tint color must be a valid hex code/i).end(done);
 		});
@@ -60,6 +70,8 @@ describe('GET /__origami/service/image/v2/images/svgtint…', function() {
 		itRespondsWithStatus(200);
 		itRespondsWithContentType('image/svg+xml');
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 	});
 
 	describe('with a URI that 404s', function() {
@@ -67,12 +79,16 @@ describe('GET /__origami/service/image/v2/images/svgtint…', function() {
 		itRespondsWithStatus(404);
 		itRespondsWithContentType('text/html');
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 	});
 
 	describe('with a URI that does not point to an SVG', function() {
 		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.nonSvg}`);
 		itRespondsWithStatus(400);
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 		it('responds with a descriptive error message', function(done) {
 			this.request.expect(/uri must point to an svg image/i).end(done);
 		});
@@ -82,12 +98,16 @@ describe('GET /__origami/service/image/v2/images/svgtint…', function() {
 		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.valid}?color=f00`);
 		itRespondsWithStatus(200);
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 	});
 
 	describe('with an invalid `color` query parameter', function() {
 		setupRequest('GET', `/__origami/service/image/v2/images/svgtint/${testImageUris.valid}?color=nope`);
 		itRespondsWithStatus(400);
 		itRespondsWithHeader('surrogate-key', /origami-image-service/);
+		itRespondsWithHeader('Timing-Allow-Origin', '*');
+		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 		it('responds with a descriptive error message', function(done) {
 			this.request.expect(/tint color must be a valid hex code/i).end(done);
 		});

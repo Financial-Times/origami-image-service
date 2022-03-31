@@ -17,6 +17,8 @@ describe('GET /v2/images/metadata…', function() {
 	itRespondsWithContentType('application/json');
 
 	itRespondsWithHeader('surrogate-key', /origami-image-service/);
+	itRespondsWithHeader('Timing-Allow-Origin', '*');
+	itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 
 	it('responds with JSON representing the metadata of the requested image', function(done) {
 		this.request.expect(response => {
@@ -39,6 +41,8 @@ describe('GET /__origami/service/image/v2/images/metadata…', function() {
 	itRespondsWithContentType('application/json');
 
 	itRespondsWithHeader('surrogate-key', /origami-image-service/);
+	itRespondsWithHeader('Timing-Allow-Origin', '*');
+	itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
 
 	it('responds with JSON representing the metadata of the requested image', function(done) {
 		this.request.expect(response => {
