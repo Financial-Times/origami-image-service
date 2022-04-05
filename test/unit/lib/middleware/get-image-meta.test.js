@@ -40,16 +40,15 @@ describe('lib/middleware/get-image-meta', () => {
 				width: 99,
 				height: 88
 			};
-			probe.yields(null, mockResult);
+			probe.resolves(mockResult);
 
 			next = sinon.spy();
-			getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+			return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 		});
 
 		it('probes the transformed image to get meta data, passing through the Accept header', () => {
 			assert.calledOnce(probe);
-			assert.calledWith(probe, {
-				url: origamiService.mockRequest.appliedTransform,
+			assert.calledWith(probe, origamiService.mockRequest.appliedTransform,{
 				headers: {
 					Accept: origamiService.mockRequest.headers.accept
 				}
@@ -79,13 +78,12 @@ describe('lib/middleware/get-image-meta', () => {
 			beforeEach(() => {
 				probe.resetHistory();
 				origamiService.mockRequest.headers.accept = 'image/jxr';
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('alters the Accept header before passing it on to probe', () => {
 				assert.calledOnce(probe);
-				assert.calledWith(probe, {
-					url: origamiService.mockRequest.appliedTransform,
+				assert.calledWith(probe, origamiService.mockRequest.appliedTransform,{
 					headers: {
 						Accept: '*/*'
 					}
@@ -99,7 +97,7 @@ describe('lib/middleware/get-image-meta', () => {
 			beforeEach(() => {
 				origamiService.mockResponse.send.resetHistory();
 				origamiService.mockRequest.transform.getDpr.returns(undefined);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('defaults to 1 in the response', () => {
@@ -122,8 +120,8 @@ describe('lib/middleware/get-image-meta', () => {
 				origamiService.mockResponse.send.resetHistory();
 				probeError = new Error();
 				probeError.code = 'ECONTENT';
-				probe.yields(probeError);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				probe.rejects(probeError);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new error', () => {
@@ -146,8 +144,8 @@ describe('lib/middleware/get-image-meta', () => {
 			beforeEach(() => {
 				origamiService.mockResponse.send.resetHistory();
 				probeError = new Error('Parse Error');
-				probe.yields(probeError);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				probe.rejects(probeError);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new error', () => {
@@ -171,8 +169,8 @@ describe('lib/middleware/get-image-meta', () => {
 				origamiService.mockResponse.send.resetHistory();
 				probeError = new Error();
 				probeError.status = 404;
-				probe.yields(probeError);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				probe.rejects(probeError);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new 404 error', () => {
@@ -195,8 +193,8 @@ describe('lib/middleware/get-image-meta', () => {
 				origamiService.mockResponse.send.resetHistory();
 				probeError = new Error();
 				probeError.status = 400;
-				probe.yields(probeError);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				probe.rejects(probeError);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with a new 400 error', () => {
@@ -219,8 +217,8 @@ describe('lib/middleware/get-image-meta', () => {
 				origamiService.mockResponse.send.resetHistory();
 				probeError = new Error();
 				probeError.status = 500;
-				probe.yields(probeError);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				probe.rejects(probeError);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with the probe error', () => {
@@ -240,8 +238,8 @@ describe('lib/middleware/get-image-meta', () => {
 			beforeEach(() => {
 				origamiService.mockResponse.send.resetHistory();
 				probeError = new Error();
-				probe.yields(probeError);
-				getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
+				probe.rejects(probeError);
+				return getImageMeta(origamiService.mockRequest, origamiService.mockResponse, next);
 			});
 
 			it('calls `next` with the probe error', () => {
