@@ -1334,7 +1334,8 @@ describe('lib/image-transform', () => {
 			'gif',
 			'jpg',
 			'png',
-			'svg'
+			'svg',
+			'avif'
 		]);
 	});
 

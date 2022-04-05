@@ -455,6 +455,11 @@ describe('GET /v2/images/raw…', function() {
 				expectedContentType: 'image/jpeg',
 			},
 			{
+				accept: 'image/avif',
+				userAgent: firefoxUA,
+				expectedContentType: 'image/avif',
+			},
+			{
 				accept: 'image/webp',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/webp',
@@ -468,6 +473,11 @@ describe('GET /v2/images/raw…', function() {
 				accept: '*/*',
 				userAgent: chromeUA,
 				expectedContentType: 'image/jpeg',
+			},
+			{
+				accept: 'image/avif',
+				userAgent: chromeUA,
+				expectedContentType: 'image/avif',
 			},
 			{
 				accept: 'image/webp',
@@ -483,6 +493,11 @@ describe('GET /v2/images/raw…', function() {
 				accept: '*/*',
 				userAgent: ieUA,
 				expectedContentType: 'image/jpeg',
+			},
+			{
+				accept: 'image/avif',
+				userAgent: ieUA,
+				expectedContentType: 'image/avif',
 			},
 			{
 				accept: 'image/webp',
@@ -1306,6 +1321,11 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				expectedContentType: 'image/jpeg',
 			},
 			{
+				accept: 'image/avif',
+				userAgent: firefoxUA,
+				expectedContentType: 'image/avif',
+			},
+			{
 				accept: 'image/webp',
 				userAgent: firefoxUA,
 				expectedContentType: 'image/webp',
@@ -1319,6 +1339,11 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				accept: '*/*',
 				userAgent: chromeUA,
 				expectedContentType: 'image/jpeg',
+			},
+			{
+				accept: 'image/avif',
+				userAgent: chromeUA,
+				expectedContentType: 'image/avif',
 			},
 			{
 				accept: 'image/webp',
@@ -1334,6 +1359,11 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				accept: '*/*',
 				userAgent: ieUA,
 				expectedContentType: 'image/jpeg',
+			},
+			{
+				accept: 'image/avif',
+				userAgent: ieUA,
+				expectedContentType: 'image/avif',
 			},
 			{
 				accept: 'image/webp',
