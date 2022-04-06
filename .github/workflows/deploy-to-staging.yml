@@ -2,7 +2,7 @@ name: Deploy to staging
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy-to-staging:
@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-qa.git HEAD:refs/heads/master --force --no-verify
+    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-qa.git HEAD:refs/heads/main --force --no-verify
 
   create-change-log:
     needs: [deploy-to-staging]

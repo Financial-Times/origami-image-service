@@ -117,7 +117,7 @@ No data-recovery required.
 
 ## Release Details
 
-The application is deployed to QA whenever a new commit is pushed to the `master` branch of this repo on GitHub.
+The application is deployed to QA whenever a new commit is pushed to the `main` branch of this repo on GitHub.
 
 The application is deployed to production whenever a semver tag is added to this repo on Github, such as through GitHub's Releases interface.
 
