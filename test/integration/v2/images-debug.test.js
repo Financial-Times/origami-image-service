@@ -1,9 +1,7 @@
 'use strict';
 
 const assert = require('proclaim');
-const itRespondsWithContentType = require('../helpers/it-responds-with-content-type');
-const itRespondsWithStatus = require('../helpers/it-responds-with-status');
-const setupRequest = require('../helpers/setup-request');
+const axios = require('../helpers/axios');
 
 const customSchemeStore = `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`;
 
@@ -41,25 +39,27 @@ const testImageUris = {
 describe('GET /v2/images/debug…', function () {
 
 	describe('http', function () {
-		setupRequest('GET', `/__origami/service/image/v2/images/debug/${testImageUris.httpftcms}?source=origami-image-service&width=123&height=456&echo`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('application/json');
+		it('responds with a 200 status', async function() {
+			const response = await axios.get(`/__origami/service/image/v2/images/debug/${testImageUris.httpftcms}?source=origami-image-service&width=123&height=456&echo`);
+			assert.equal(response.status, 200);
+			assert.equal(response.headers['content-type'], 'application/json; charset=utf-8');
 
-		it('responds with JSON representing the transforms in the image request', function (done) {
-			this.request.expect(response => {
-				assert.isObject(response.body);
-				assert.deepEqual(response.body.transform, {
-					fit: 'cover',
-					format: 'auto',
-					height: 456,
-					quality: 72,
-					uri: testImageUris.httpftcms,
-					width: 123,
-					immutable: true,
-					name: '15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793'
-				});
-				assert.match(response.body.appliedTransform, new RegExp('^https://res.cloudinary.com/financial-times/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive.immutable_cache,h_456,q_72,w_123/15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793$'));
-			}).end(done);
+			it('responds with JSON representing the transforms in the image request', function (done) {
+				this.request.expect(response => {
+					assert.isObject(response.body);
+					assert.deepEqual(response.body.transform, {
+						fit: 'cover',
+						format: 'auto',
+						height: 456,
+						quality: 72,
+						uri: testImageUris.httpftcms,
+						width: 123,
+						immutable: true,
+						name: '15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793'
+					});
+					assert.match(response.body.appliedTransform, new RegExp('^https://res.cloudinary.com/financial-times/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive.immutable_cache,h_456,q_72,w_123/15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793$'));
+				}).end(done);
+			});
 		});
 	});
 
@@ -124,19 +124,17 @@ describe('GET /v2/images/debug…', function () {
 			resolvedUrl
 		}] of Object.entries(imagesWithSchemes)) {
 		describe(`resolving urls which have custom schemes: ${test} -- ${requestedUrl} should resolve to ${resolvedUrl}`, function () {
-			setupRequest('GET', `/__origami/service/image/v2/images/debug/${requestedUrl}?source=origami-image-service&width=123&height=456`);
-			itRespondsWithStatus(200);
-			itRespondsWithContentType('application/json');
+			it('responds with the correct location of the original image', async function () {
+				const response = await axios.get(`/__origami/service/image/v2/images/debug/${requestedUrl}?source=origami-image-service&width=123&height=456`);
+				assert.equal(response.status, 200);
+				assert.equal(response.headers['content-type'], 'application/json; charset=utf-8');
 
-			it('responds with the correct location of the original image', function (done) {
-				this.request.expect(response => {
-					const actual = response.body.transform.uri;
-					if (typeof resolvedUrl === 'string') {
-						assert.deepEqual(actual, resolvedUrl, `Expected ${requestedUrl} to match ${resolvedUrl} but it actually resolved to ${actual}`);
-					} else {
-						assert.match(actual, resolvedUrl, `Expected ${requestedUrl} to match to ${resolvedUrl} but it actually resolved to ${actual}`);
-					}
-				}).end(done);
+				const actual = response.data.transform.uri;
+				if (typeof resolvedUrl === 'string') {
+					assert.deepEqual(actual, resolvedUrl, `Expected ${requestedUrl} to match ${resolvedUrl} but it actually resolved to ${actual}`);
+				} else {
+					assert.match(actual, resolvedUrl, `Expected ${requestedUrl} to match to ${resolvedUrl} but it actually resolved to ${actual}`);
+				}
 			});
 		});
 	}

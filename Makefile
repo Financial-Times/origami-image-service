@@ -27,7 +27,7 @@ test-unit-coverage:
 
 # Run the integration tests using mocha
 test-integration:
-	mocha "test/integration/**/*.test.js" --recursive --reporter mocha-github-actions-reporter ${CI:+--forbid-only} --bail --retries 5 --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) $(INTEGRATION_FLAGS)
+	./node_modules/.bin/start-test start 8080 'mocha "test/integration/**/*.test.js" --recursive --reporter mocha-github-actions-reporter ${CI:+--forbid-only} --bail --retries 5 --timeout $(INTEGRATION_TIMEOUT) --slow $(INTEGRATION_SLOW) $(INTEGRATION_FLAGS)'
 
 
 # Configuration
