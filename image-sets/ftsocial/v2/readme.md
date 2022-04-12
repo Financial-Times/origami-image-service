@@ -29,7 +29,7 @@ To keep social icons consistent, please follow these guidelines:
 
 - Icons must be SVG format
 - Icons must represent the brand colours of the social network
-- Icons should have a viewBox of 66x66
+- Icons should have a viewBox of 1024x1024
 - Icons must be passed through an SVG compressor like SVGOMG
 - File names must be all lower case and hyphenated
   - **good** twitter.svg, financial-times.svg, yahoo.svg
