@@ -820,7 +820,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftbrand-v1:lex', 'http://base/images'),
-						'http://base/images/internal-images/ftbrand/v1/lex.png'
+						'http://base/images/__origami/service/image/internal-images/ftbrand/v1/lex.png'
 					);
 				});
 			});
@@ -839,11 +839,11 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftbrand:lex', 'http://base/images'),
-						'http://base/images/internal-images/ftbrand/v1/lex.png'
+						'http://base/images/__origami/service/image/internal-images/ftbrand/v1/lex.png'
 					);
 				});
 			});
-			
+
 			context('unversioned scheme with name which does not exist', () => {
 				it('returns the expected URI', () => {
 					assert.throws(() => {
@@ -884,7 +884,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftflag-v1:ad', 'http://base/images'),
-						'http://base/images/internal-images/ftflag/v1/ad.svg'
+						'http://base/images/__origami/service/image/internal-images/ftflag/v1/ad.svg'
 					);
 				});
 			});
@@ -903,11 +903,11 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftflag:ad', 'http://base/images'),
-						'http://base/images/internal-images/ftflag/v1/ad.svg'
+						'http://base/images/__origami/service/image/internal-images/ftflag/v1/ad.svg'
 					);
 				});
 			});
-			
+
 			context('unversioned scheme with name which does not exist', () => {
 				it('returns the expected URI', () => {
 					assert.throws(() => {
@@ -948,7 +948,7 @@ describe('lib/image-transform', () => {
 					);
 				});
 			});
-			
+
 			context('unversioned scheme with name which does not exist', () => {
 				it('returns the URI as-is for processing later', () => {
 					assert.strictEqual(
@@ -966,7 +966,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fticon-v1:audio', 'http://base/images'),
-						'http://base/images/internal-images/fticon/v1/audio.svg'
+						'http://base/images/__origami/service/image/internal-images/fticon/v1/audio.svg'
 					);
 				});
 			});
@@ -985,7 +985,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fticon:bell', 'http://base/images'),
-						'http://base/images/internal-images/fticonold/v4/bell.svg'
+						'http://base/images/__origami/service/image/internal-images/fticonold/v4/bell.svg'
 					);
 				});
 			});
@@ -998,7 +998,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftlogo-v1:brand-ft', 'http://base/images'),
-						'http://base/images/internal-images/ftlogo/v1/brand-ft.svg'
+						'http://base/images/__origami/service/image/internal-images/ftlogo/v1/brand-ft.svg'
 					);
 				});
 			});
@@ -1017,11 +1017,11 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftlogo:brand-ft', 'http://base/images'),
-						'http://base/images/internal-images/ftlogo/v1/brand-ft.svg'
+						'http://base/images/__origami/service/image/internal-images/ftlogo/v1/brand-ft.svg'
 					);
 				});
 			});
-			
+
 			context('unversioned scheme with name which does not exist', () => {
 				it('returns the expected URI', () => {
 					assert.throws(() => {
@@ -1040,7 +1040,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftsocial-v1:email', 'http://base/images'),
-						'http://base/images/internal-images/ftsocial/v1/email.svg'
+						'http://base/images/__origami/service/image/internal-images/ftsocial/v1/email.svg'
 					);
 				});
 			});
@@ -1049,7 +1049,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('ftsocial:email', 'http://base/images'),
-						'http://base/images/internal-images/ftsocial/v1/email.svg'
+						'http://base/images/__origami/service/image/internal-images/ftsocial/v1/email.svg'
 					);
 				});
 			});
@@ -1061,7 +1061,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftsocial-v2:twitter', 'http://base/images'),
-					'http://base/images/internal-images/ftsocial/v2/twitter.svg'
+					'http://base/images/__origami/service/image/internal-images/ftsocial/v2/twitter.svg'
 				);
 			});
 
@@ -1095,7 +1095,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('specialisttitle-v1:ned-logo', 'http://base/images'),
-						'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
+						'http://base/images/__origami/service/image/internal-images/specialisttitle/v1/ned-logo.svg'
 					);
 				});
 			});
@@ -1114,11 +1114,11 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('specialisttitle:ned-logo', 'http://base/images'),
-						'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
+						'http://base/images/__origami/service/image/internal-images/specialisttitle/v1/ned-logo.svg'
 					);
 				});
 			});
-			
+
 			context('unversioned scheme with name which does not exist', () => {
 				it('returns the expected URI', () => {
 					assert.throws(() => {
@@ -1136,7 +1136,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('specialisttitle:ned-logo', 'http://base/images'),
-					'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
+					'http://base/images/__origami/service/image/internal-images/specialisttitle/v1/ned-logo.svg'
 				);
 			});
 
@@ -1147,7 +1147,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fticon:bell', 'http://base/images'),
-					'http://base/images/internal-images/fticonold/v4/bell.svg'
+					'http://base/images/__origami/service/image/internal-images/fticonold/v4/bell.svg'
 				);
 			});
 
@@ -1158,12 +1158,12 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('SPECIALISTTITLE:ned-logo', 'http://base/images'),
-					'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
+					'http://base/images/__origami/service/image/internal-images/specialisttitle/v1/ned-logo.svg'
 				);
-				
+
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('SPECIALISTTITLE-V1:ned-logo', 'http://base/images'),
-					'http://base/images/internal-images/specialisttitle/v1/ned-logo.svg'
+					'http://base/images/__origami/service/image/internal-images/specialisttitle/v1/ned-logo.svg'
 				);
 			});
 
@@ -1174,15 +1174,15 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fticon-v1:book.svg', 'http://base/images'),
-					'http://base/images/internal-images/fticon/v1/book.svg'
+					'http://base/images/__origami/service/image/internal-images/fticon/v1/book.svg'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftbrand:andrew-mcafees-blog.png', 'http://base/images'),
-					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
+					'http://base/images/__origami/service/image/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftbrand:andrew-mcafees-blog.jpg', 'http://base/images'),
-					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
+					'http://base/images/__origami/service/image/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
 				);
 			});
 
@@ -1197,11 +1197,11 @@ describe('lib/image-transform', () => {
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:andrew-mcafees-blog?foo=bar', 'http://base/images'),
-					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png?foo=bar'
+					'http://base/images/__origami/service/image/internal-images/ftbrand/v1/andrew-mcafees-blog.png?foo=bar'
 				);
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('fticon-v1:book?foo=bar', 'http://base/images'),
-					'http://base/images/internal-images/fticon/v1/book.svg?foo=bar'
+					'http://base/images/__origami/service/image/internal-images/fticon/v1/book.svg?foo=bar'
 				);
 			});
 
@@ -1212,7 +1212,7 @@ describe('lib/image-transform', () => {
 			it('returns the expected URI', () => {
 				assert.strictEqual(
 					ImageTransform.resolveCustomSchemeUri('ftbrand-v1:andrew-mcafees-blog', 'http://base/images/'),
-					'http://base/images/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
+					'http://base/images/__origami/service/image/internal-images/ftbrand/v1/andrew-mcafees-blog.png'
 				);
 			});
 
@@ -1258,7 +1258,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fticon-v1:book', 'http://base/images/', 'busted'),
-						'http://base/images/internal-images/fticon/v1/book.svg?cacheBust=busted'
+						'http://base/images/__origami/service/image/internal-images/fticon/v1/book.svg?cacheBust=busted'
 					);
 				});
 
@@ -1269,7 +1269,7 @@ describe('lib/image-transform', () => {
 				it('returns the expected URI', () => {
 					assert.strictEqual(
 						ImageTransform.resolveCustomSchemeUri('fticon-v1:book?foo=bar', 'http://base/images/', 'busted'),
-						'http://base/images/internal-images/fticon/v1/book.svg?foo=bar&cacheBust=busted'
+						'http://base/images/__origami/service/image/internal-images/fticon/v1/book.svg?foo=bar&cacheBust=busted'
 					);
 				});
 

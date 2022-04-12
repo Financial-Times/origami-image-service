@@ -71,7 +71,7 @@ describe('lib/middleware/process-image-request', () => {
 				response = httpMock.createResponse();
 				next = sinon.stub();
 				mockImageTransform = {
-					getUri: () => `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`,
+					getUri: () => `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/__origami/service/image/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`,
 					setName: (n) => { name = n; },
 					setFit: (f) => { fit = f; },
 					getFormat: () => format,
@@ -121,7 +121,7 @@ describe('lib/middleware/process-image-request', () => {
 				response = httpMock.createResponse();
 				next = sinon.stub();
 				mockImageTransform = {
-					getUri: () => `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/v2/images/raw/ftsocial-v1:twitter?source=origami-image-service`,
+					getUri: () => `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/__origami/service/image/v2/images/raw/ftsocial-v1:twitter?source=origami-image-service`,
 					setName: (n) => {name=n;},
 					getName: () => name
 				};
@@ -185,7 +185,7 @@ describe('lib/middleware/process-image-request', () => {
 
 				it('sets the image transform `uri` property to route through the SVG tinter', () => {
 					assert.calledOnce(mockImageTransform.setUri);
-					assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'https://hostname/v2/images/svgtint/transform-uri?color=ff0000');
+					assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'https://hostname/__origami/service/image/v2/images/svgtint/transform-uri?color=ff0000');
 				});
 
 				it('removes the tint property from the image transform', () => {
@@ -203,7 +203,7 @@ describe('lib/middleware/process-image-request', () => {
 
 					it('sets the image transform `uri` property to route through the SVG tinter', () => {
 						assert.calledOnce(mockImageTransform.setUri);
-						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'https://hostname/v2/images/svgtint/transform-uri%3Ffoo&color=ff0000');
+						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'https://hostname/__origami/service/image/v2/images/svgtint/transform-uri%3Ffoo&color=ff0000');
 					});
 
 				});
@@ -218,7 +218,7 @@ describe('lib/middleware/process-image-request', () => {
 
 					it('sets the image transform `uri` property to route through the SVG tinter', () => {
 						assert.calledOnce(mockImageTransform.setUri);
-						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'https://config-hostname/v2/images/svgtint/transform-uri?color=ff0000');
+						assert.strictEqual(mockImageTransform.setUri.firstCall.args[0], 'https://config-hostname/__origami/service/image/v2/images/svgtint/transform-uri?color=ff0000');
 					});
 
 				});
