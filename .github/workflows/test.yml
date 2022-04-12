@@ -23,13 +23,3 @@ jobs:
         API_KEY: ${{ secrets.API_KEY }}
         FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
         FASTLY_SERVICE_ID: ${{ secrets.FASTLY_SERVICE_ID }}
-    - run: make test-integration
-      env:
-        CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
-        CLOUDINARY_ACCOUNT_NAME: ${{ secrets.CLOUDINARY_ACCOUNT_NAME }}
-        CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
-        CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
-        CUSTOM_SCHEME_STORE: ${{ secrets.CUSTOM_SCHEME_STORE }}
-        API_KEY: ${{ secrets.API_KEY }}
-        FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
-        FASTLY_SERVICE_ID: ${{ secrets.FASTLY_SERVICE_ID }}
