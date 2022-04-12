@@ -1,23 +1,28 @@
 'use strict';
 
-const itRespondsWithHeader = require('../helpers/it-responds-with-header');
-const itRespondsWithStatus = require('../helpers/it-responds-with-status');
-const setupRequest = require('../helpers/setup-request');
+const assert = require('proclaim');
+const axios = require('../helpers/axios');
 
 describe('GET /', function() {
-	setupRequest('GET', '/');
-	itRespondsWithStatus(301);
-	itRespondsWithHeader('Location', '/__origami/service/image/v2/');
+	it('responds with a 301 status', async function() {
+		const response = await axios.get('/');
+		assert.equal(response.status, 301);
+		assert.equal(response.headers['location'], '/__origami/service/image/v2/');
+	});
 });
 
 describe('GET /__origami/service/image/v1/', function() {
-	setupRequest('GET', '/__origami/service/image/v1/');
-	itRespondsWithStatus(301);
-	itRespondsWithHeader('Location', '/__origami/service/image/v2/');
+	it('responds with a 301 status', async function() {
+		const response = await axios.get('/__origami/service/image/v1/');
+		assert.equal(response.status, 301);
+		assert.equal(response.headers['location'], '/__origami/service/image/v2/');
+	});
 });
 
 describe('GET /__origami/service/image/v1/images/raw/fticon:cross?source=origami-image-service', function() {
-	setupRequest('GET', '/__origami/service/image/v1/images/raw/fticon:cross?source=origami-image-service');
-	itRespondsWithStatus(301);
-	itRespondsWithHeader('Location', '/__origami/service/image/v2/images/raw/fticon:cross?source=origami-image-service');
+	it('responds with a 301 status', async function() {
+		const response = await axios.get('/__origami/service/image/v1/images/raw/fticon:cross?source=origami-image-service');
+		assert.equal(response.status, 301);
+		assert.equal(response.headers['location'], '/__origami/service/image/v2/images/raw/fticon:cross?source=origami-image-service');
+	});
 });

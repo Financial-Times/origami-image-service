@@ -1,11 +1,12 @@
 'use strict';
 
-const itRespondsWithContentType = require('./helpers/it-responds-with-content-type');
-const itRespondsWithStatus = require('./helpers/it-responds-with-status');
-const setupRequest = require('./helpers/setup-request');
+const assert = require('proclaim');
+const axios = require('./helpers/axios');
 
 describe('GET /404', function() {
-	setupRequest('GET', '/404');
-	itRespondsWithStatus(404);
-	itRespondsWithContentType('text/html');
+	it('responds with a 404 status', async function() {
+		const response = await axios.get('/404');
+		assert.equal(response.status, 404);
+		assert.equal(response.headers['content-type'], 'text/html; charset=utf-8');
+	});
 });

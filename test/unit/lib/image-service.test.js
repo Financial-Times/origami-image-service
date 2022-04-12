@@ -289,8 +289,8 @@ describe('lib/image-service', () => {
 					'Last-Modified': 'some time',
 					'Surrogate-Control': 'public, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800',
 					'Surrogate-Key': 'origami-image-service image/jpeg-mock-utf8-mock-base64 http-mock-utf8-mock-base64 http://example.com/PICTURE.png-mock-utf8-mock-base64',
-					'Timing-Allow-Origin': '*',
-					'FT-Suppress-Friendly-Error': 'true',
+					'timing-allow-origin': '*',
+					'ft-suppress-friendly-error': 'true',
 					'Vary': 'Content-Dpr, Accept'
 				});
 			});
