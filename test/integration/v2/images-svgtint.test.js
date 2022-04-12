@@ -11,58 +11,6 @@ const testImageUris = {
 	nonSvg: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
 };
 
-describe('GET /v2/images/svgtint…', function() {
-
-	describe('with a valid URI', function() {
-		setupRequest('GET', `/v2/images/svgtint/${testImageUris.valid}`);
-		itRespondsWithStatus(200);
-		itRespondsWithContentType('image/svg+xml');
-		itRespondsWithHeader('surrogate-key', /origami-image-service/);
-		itRespondsWithHeader('Timing-Allow-Origin', '*');
-		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
-	});
-
-	describe('with a URI that 404s', function() {
-		setupRequest('GET', `/v2/images/svgtint/${testImageUris.notFound}`);
-		itRespondsWithStatus(404);
-		itRespondsWithContentType('text/html');
-		itRespondsWithHeader('surrogate-key', /origami-image-service/);
-		itRespondsWithHeader('Timing-Allow-Origin', '*');
-		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
-	});
-
-	describe('with a URI that does not point to an SVG', function() {
-		setupRequest('GET', `/v2/images/svgtint/${testImageUris.nonSvg}`);
-		itRespondsWithStatus(400);
-		itRespondsWithHeader('surrogate-key', /origami-image-service/);
-		itRespondsWithHeader('Timing-Allow-Origin', '*');
-		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
-		it('responds with a descriptive error message', function(done) {
-			this.request.expect(/uri must point to an svg image/i).end(done);
-		});
-	});
-
-	describe('with a valid `color` query parameter', function() {
-		setupRequest('GET', `/v2/images/svgtint/${testImageUris.valid}?color=f00`);
-		itRespondsWithStatus(200);
-		itRespondsWithHeader('surrogate-key', /origami-image-service/);
-		itRespondsWithHeader('Timing-Allow-Origin', '*');
-		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
-	});
-
-	describe('with an invalid `color` query parameter', function() {
-		setupRequest('GET', `/v2/images/svgtint/${testImageUris.valid}?color=nope`);
-		itRespondsWithStatus(400);
-		itRespondsWithHeader('surrogate-key', /origami-image-service/);
-		itRespondsWithHeader('Timing-Allow-Origin', '*');
-		itRespondsWithHeader('FT-Suppress-Friendly-Error', 'true');
-		it('responds with a descriptive error message', function(done) {
-			this.request.expect(/tint color must be a valid hex code/i).end(done);
-		});
-	});
-
-});
-
 describe('GET /__origami/service/image/v2/images/svgtint…', function() {
 
 	describe('with a valid URI', function() {
