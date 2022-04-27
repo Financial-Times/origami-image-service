@@ -4,6 +4,26 @@ const assert = require('proclaim');
 const axios = require('../helpers/axios');
 
 describe('Origami Image Sets JSON API', function () {
+	describe('app-badge', async function () {
+		it('responds with a 200 status', async function() {
+			const response = await axios.get('/__origami/service/image/v2/imagesets/app-badge?source=origami-image-service');
+			assert.equal(response.status, 200);
+			assert.equal(response.headers['content-type'], 'application/json; charset=utf-8');
+			assert.match(response.headers['surrogate-key'], /origami-image-service/);
+			assert.equal(response.headers['timing-allow-origin'], '*');
+			assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
+		});
+	});
+	describe('app-badge-v1', async function () {
+		it('responds with a 200 status', async function() {
+			const response = await axios.get('/__origami/service/image/v2/imagesets/app-badge-v1?source=origami-image-service');
+			assert.equal(response.status, 200);
+			assert.equal(response.headers['content-type'], 'application/json; charset=utf-8');
+			assert.match(response.headers['surrogate-key'], /origami-image-service/);
+			assert.equal(response.headers['timing-allow-origin'], '*');
+			assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
+		});
+	});
 	describe('ftbrand', async function () {
 		it('responds with a 200 status', async function() {
 			const response = await axios.get('/__origami/service/image/v2/imagesets/ftbrand?source=origami-image-service');
