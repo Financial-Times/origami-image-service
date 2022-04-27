@@ -434,6 +434,11 @@ describe('lib/image-service', () => {
 					handler(proxyResponse, request);
 					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
 				});
+				it('Sets the Surrogate-Control header to a year for app-badge images', () => {
+					request.params.scheme = 'app-badge';
+					handler(proxyResponse, request);
+					assert.strictEqual(httpProxy.mockProxyResponse.headers['Surrogate-Control'], 'max-age=31449600, stale-while-revalidate=31449600, stale-if-error=31449600');
+				});
 				it('Sets the Surrogate-Control header to a year for ftcms images', () => {
 					request.params.scheme = 'ftcms';
 					handler(proxyResponse, request);

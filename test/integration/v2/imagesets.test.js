@@ -4,6 +4,7 @@ const assert = require('proclaim');
 const axios = require('../helpers/axios');
 
 const {
+	appBadge,
 	ftbrand,
 	ftflag,
 	fticon,
@@ -21,6 +22,30 @@ const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
 
 // These tests are not possible to run against a local server as the images need to be accessible to Cloudinary over the web
 onlyRunOnExternalServer('Origami Image Sets via Custom Schemes', function () {
+	describe('appBadge', function () {
+		for (const name of Object.keys(appBadge)) {
+			describe(`app-badge:${name}`, function () {
+				it('responds with a 200 status', async function() {
+					const response = await axios.get(`/__origami/service/image/v2/images/raw/app-badge:${name}?source=origami-image-service`);
+					assert.equal(response.status, 200);
+					assert.match(response.headers['surrogate-key'], /origami-image-service/);
+					assert.equal(response.headers['timing-allow-origin'], '*');
+					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
+					assert.match(response.headers['content-type'], /image\/[a-z]+/);
+				});
+			});
+			describe(`app-badge-v1:${name}`, function () {
+				it('responds with a 200 status', async function() {
+					const response = await axios.get(`/__origami/service/image/v2/images/raw/app-badge-v1:${name}?source=origami-image-service`);
+					assert.equal(response.status, 200);
+					assert.match(response.headers['surrogate-key'], /origami-image-service/);
+					assert.equal(response.headers['timing-allow-origin'], '*');
+					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
+					assert.match(response.headers['content-type'], /image\/[a-z]+/);
+				});
+			});
+		}
+	});
 	describe('ftbrand', function () {
 		for (const name of Object.keys(ftbrand)) {
 			describe(`ftbrand:${name}`, function () {

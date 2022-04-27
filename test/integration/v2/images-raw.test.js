@@ -12,6 +12,7 @@ const httpsCustomSchemeStore = new URL(customSchemeStore);
 httpsCustomSchemeStore.protocol = 'https';
 
 const testImageUris = {
+	'app-badge': 'app-badge:apple',
 	ftbrand: 'ftbrand-v1:brand-ft-money',
 	fthead: 'fthead-v1%3A%C3%A6ndra-rininsland',
 	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
@@ -193,6 +194,17 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 			const response = await axios.get(`/__origami/service/image/v2/images/raw/${encodeURIComponent(testImageUris.protocolRelativeftcms)}?source=origami-image-service`);
 			assert.equal(response.status, 200);
 			assert.equal(response.headers['content-type'], 'image/jpeg');
+			assert.match(response.headers['surrogate-key'], /origami-image-service/);
+			assert.equal(response.headers['timing-allow-origin'], '*');
+			assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
+		});
+	});
+
+	onlyRunOnExternalServer('/app-badge:… (app-badge scheme)', function() {
+		it('responds with a 200 status', async function() {
+			const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris['app-badge']}?source=origami-image-service`);
+			assert.equal(response.status, 200);
+			assert.equal(response.headers['content-type'], 'image/svg+xml');
 			assert.match(response.headers['surrogate-key'], /origami-image-service/);
 			assert.equal(response.headers['timing-allow-origin'], '*');
 			assert.equal(response.headers['ft-suppress-friendly-error'], 'true');

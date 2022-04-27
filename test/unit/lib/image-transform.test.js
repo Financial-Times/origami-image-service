@@ -371,6 +371,7 @@ describe('lib/image-transform', () => {
 
 			it('returns `value`', () => {
 				const testSources = [
+					'app-badge:foo',
 					'ftbrand:foo',
 					'ftcms:foo',
 					'ftflag:foo',
@@ -1352,6 +1353,7 @@ describe('lib/image-transform', () => {
 
 	it('has a `validUriSchemes` static property', () => {
 		assert.deepEqual(ImageTransform.validUriSchemes, [
+			'app-badge',
 			'ftbrand',
 			'ftcms',
 			'ftflag',
