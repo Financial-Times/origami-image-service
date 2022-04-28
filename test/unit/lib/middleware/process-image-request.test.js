@@ -11,8 +11,11 @@ describe('lib/middleware/process-image-request', () => {
 	let cloudinary;
 	let ImageTransform;
 	let processImageRequest;
+	let origamiService;
 
 	beforeEach(() => {
+		origamiService = require('../../mock/origami-service.mock');
+
 		ImageTransform = sinon.stub();
 		mockery.registerMock('../image-transform', ImageTransform);
 
@@ -68,6 +71,7 @@ describe('lib/middleware/process-image-request', () => {
 
 			beforeEach((done) => {
 				request = httpMock.createRequest();
+				request.app = origamiService.mockApp;
 				response = httpMock.createResponse();
 				next = sinon.stub();
 				mockImageTransform = {
@@ -118,6 +122,7 @@ describe('lib/middleware/process-image-request', () => {
 
 			beforeEach((done) => {
 				request = httpMock.createRequest();
+				request.app = origamiService.mockApp;
 				response = httpMock.createResponse();
 				next = sinon.stub();
 				mockImageTransform = {
