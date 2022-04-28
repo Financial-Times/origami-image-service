@@ -2,12 +2,7 @@
 
 const assert = require('proclaim');
 const axios = require('../helpers/axios');
-
-const testImageUris = {
-	valid: `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/__origami/service/image/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`,
-	notFound: 'http://google.com/404',
-	nonSvg: 'http://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
-};
+const testImageUris = require('../helpers/test-image-uris');
 
 describe('GET /__origami/service/image/v2/images/svgtint…', function() {
 
