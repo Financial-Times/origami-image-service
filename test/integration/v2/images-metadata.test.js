@@ -2,14 +2,11 @@
 
 const assert = require('proclaim');
 const axios = require('../helpers/axios');
-
-const testImageUris = {
-	http: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
-};
+const testImageUris = require('../helpers/test-image-uris');
 
 describe('GET /__origami/service/image/v2/images/metadata…', function() {
 	it('responds with JSON representing the metadata of the requested image', async function() {
-		const response = await axios.get(`/__origami/service/image/v2/images/metadata/${testImageUris.http}?source=origami-image-service&width=123&height=456&echo`);
+		const response = await axios.get(`/__origami/service/image/v2/images/metadata/${testImageUris.httpsftcms}?source=origami-image-service&width=123&height=456&echo`);
 		assert.equal(response.status, 200);
 		assert.equal(response.headers['content-type'], 'application/json; charset=utf-8');
 

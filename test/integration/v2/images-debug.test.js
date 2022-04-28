@@ -2,39 +2,7 @@
 
 const assert = require('proclaim');
 const axios = require('../helpers/axios');
-
-const customSchemeStore = `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/__origami/service/image/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`;
-
-const httpCustomSchemeStore = new URL(customSchemeStore);
-httpCustomSchemeStore.protocol = 'http';
-
-const httpsCustomSchemeStore = new URL(customSchemeStore);
-httpsCustomSchemeStore.protocol = 'https';
-
-const testImageUris = {
-	ftbrand: 'ftbrand:brussels-blog',
-	ftcms: 'ftcms:6c5a2f8c-18ca-4afa-80ff-7d56e41172b1',
-	capiv1: 'ftcms:be875529-7675-43d8-b461-b304410398c2',
-	capiv2: 'ftcms:03b59122-a148-11e9-a282-2df48f366f7d',
-	spark: 'ftcms:c3fec7fb-aba9-42ee-a745-a62c872850d0',
-	sparkMasterImage: 'ftcms:817dd37c-b808-4b32-9db2-d50bdd92372b',
-	ftflag: 'ftflag:jp',
-	fticon: 'fticon:cross',
-	ftlogo: 'ftlogo:brand-ft',
-	ftsocial: 'ftsocial:whatsapp',
-	httpsspark: 'https://d1e00ek4ebabms.cloudfront.net/production/817dd37c-b808-4b32-9db2-d50bdd92372b.jpg',
-	httpftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	httpsftcms: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	httpftcmsmalformed: 'http:/im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	httpsftcmsmalformed: 'https:im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	http: httpCustomSchemeStore.toString(),
-	https: httpsCustomSchemeStore.toString(),
-	protocolRelative: httpsCustomSchemeStore.toString().replace('https:', ''),
-	protocolRelativeftcms: '//im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
-	specialisttitle: 'specialisttitle:ned-logo',
-	nonUtf8Characters: 'https://origami-image-service-integration-tests.s3-eu-west-1.amazonaws.com/Beaute%CC%81.jpg'
-};
-
+const testImageUris = require('../helpers/test-image-uris');
 
 describe('GET /v2/images/debug…', function () {
 
