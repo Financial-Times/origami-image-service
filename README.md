@@ -68,7 +68,6 @@ We configure Origami Image Service using environment variables. In development, 
   * `GRAPHITE_API_KEY`: The FT's internal Graphite API key
   * `PURGE_API_KEY`: The API key to require when somebody POSTs to the `/purge` endpoint. This should be a non-memorable string, for example a UUID
   * `REGION`: The region the application is running in. One of `QA`, `EU`, or `US`
-  * `RELEASE_LOG_API_KEY`: The change request API key to use when creating and closing release logs
   * `RELEASE_LOG_ENVIRONMENT`: The Salesforce environment to include in release logs. One of `Test` or `Production`
   * `SENTRY_DSN`: The Sentry URL to send error information to
 
