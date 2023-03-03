@@ -16,8 +16,7 @@
     "url": "https://github.com/Financial-Times/origami-image-service.git"
   },
   "engines": {
-    "node": "^14",
-    "npm": "^7"
+    "node": "^18"
   },
   "main": "./lib/image-service.js",
   "scripts": {
@@ -74,7 +73,6 @@
   },
   "snyk": true,
   "volta": {
-    "node": "14.16.1",
-    "npm": "7.10.0"
+    "node": "18.14.2"
   }
 }
