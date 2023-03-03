@@ -25,7 +25,7 @@ describe('GET /v2/images/debug…', function () {
 						immutable: true,
 						name: '15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793'
 					});
-					assert.match(response.body.appliedTransform, new RegExp('^https://res.cloudinary.com/financial-times/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive.immutable_cache,h_456,q_72,w_123/15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793$'));
+					assert.match(response.body.appliedTransform, new RegExp('^http://res.cloudinary.com/financial-times/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive.immutable_cache,h_456,q_72,w_123/15a8ed456065fe9f8193405a81d4ee3d1531876634177efe359a662496d62793$'));
 				}).end(done);
 			});
 		});
