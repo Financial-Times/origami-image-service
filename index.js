@@ -1,9 +1,14 @@
 'use strict';
 
+const tls = require('tls');
 require('dotenv').config();
 
 const imageService = require('./lib/image-service');
 const throng = require('throng');
+
+
+tls.DEFAULT_MIN_VERSION = 'TLSv1.2';
+tls.DEFAULT_MAX_VERSION = 'TLSv1.3';
 
 const options = {
 	contentApiKey: process.env.CONTENT_API_KEY,
