@@ -162,7 +162,8 @@ describe('lib/image-service', () => {
 			assert.calledWithExactly(httpProxy.createProxyServer, {
 				ignorePath: true,
 				proxyTimeout: 25000,
-				secure: false
+				secure: false,
+				changeOrigin: true
 			});
 		});
 
