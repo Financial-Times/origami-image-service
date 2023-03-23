@@ -66,12 +66,12 @@ The following requests cover all known quirks with SVGs.
 
 ### Testing PNG conversion
 
-- `https://www.ft.com/__origami/service/image/v2/images/raw/{http://path-to-image.svg}?source=test&format=png`
+- `https://origami-image-service-dev.herokuapp.com/__origami/service/image/v2/images/raw/{http://path-to-image.svg}?source=test&format=png`
 
 ### Testing PNG + resizing
 
-- `https://www.ft.com/__origami/service/image/v2/images/raw/{http://path-to-image.svg}?source=test&format=png&width=400`
+- `https://origami-image-service-dev.herokuapp.com/__origami/service/image/v2/images/raw/{http://path-to-image.svg}?source=test&format=png&width=400`
 
 ### Testing tinting
 
-- `https://www.ft.com/__origami/service/image/v2/images/raw/{http://path-to-image.svg}?source=test&tint=00ff00`
+- `https://origami-image-service-dev.herokuapp.com/__origami/service/image/v2/images/raw/{http://path-to-image.svg}?source=test&tint=00ff00`
