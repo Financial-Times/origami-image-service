@@ -140,6 +140,9 @@ You can promote either through the Heroku interface, or by running the following
 make promote
 ```
 
+Alternatively you can use labels on pull requests to promote to production. If you add the label `release:major`, `release:minor` or `release:patch` to a pull request, it will be promoted to production when it is merged. This is useful for small changes, or if you don't have access to the Heroku pipeline. But if changes are large, or you want to test them on QA first, you should merge PR without a label and test on QA.
+
+Creating release manually from github will also promote to production.
 
 Monitoring
 ----------
