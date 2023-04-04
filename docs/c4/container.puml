@@ -1,0 +1,25 @@
+@startuml C4_Elements
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+AddElementTag("externalContainer", $bgColor="grey")
+
+Person(ftDev, "FT Customer")
+Container(client, "Customer's client", "Browser, Email, Native App, System", "Displays FT content to a user")
+Container(imageSource, "Image sources","Any sources for images, including FT's CMS (which may require an API key) and public sources", $tags="externalContainer")
+Container(cloudinary, "Cloudinary", "CMS", "Transforms images and handles logic on which format to return")
+Container(fastly, "Fastly", "CDN", "Edge system providing caching")
+System_Boundary(test, "Origami Image Service") {
+        Container(origamiImageService, "Origami Image Service", "API","Retrieves images from a source, also has its own images. Can return logos, images, debug info, metadata, placeholder images, includes purge endpoints")
+        Container(imageServiceImages, "Internal image sets", "","An internal source of images (icons, logos, etc.)")
+}
+
+Rel_D(ftDev, client, "View FT content")
+Rel_D(client, fastly, "Request image with transformations")
+Rel_D(fastly, origamiImageService, "Forwards request if not cached")
+Rel(origamiImageService, imageServiceImages, "Requests an image")
+Rel_D(origamiImageService, imageSource, "Retrieves image from source")
+Rel(origamiImageService, cloudinary, "Uploads image")
+Rel(origamiImageService, cloudinary, "Requests image with transforms")
+'Image service will optimise images based on best format for browser (determined by Accepts header)
+SHOW_LEGEND()
+@enduml
