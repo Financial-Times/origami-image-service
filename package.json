@@ -60,7 +60,7 @@
     "denodeify": "1.2.1",
     "eslint": "7.25.0",
     "mocha": "8.3.2",
-    "mocha-github-actions-reporter": "^0.2.3",
+    "mocha-github-actions-reporter": "^0.3.0",
     "mockery": "2.1.0",
     "nock": "^13.0.11",
     "node-mocks-http": "^1.10.1",
