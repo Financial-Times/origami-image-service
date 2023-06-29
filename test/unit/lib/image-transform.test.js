@@ -1318,7 +1318,8 @@ describe('lib/image-transform', () => {
 			'contain',
 			'cover',
 			'fill',
-			'scale-down'
+			'scale-down',
+			'pad'
 		]);
 	});
 
