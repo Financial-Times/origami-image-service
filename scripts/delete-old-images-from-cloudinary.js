@@ -25,7 +25,7 @@ async function* getAllImagesUploadedMoreThan30DaysAgo() {
 	do {
 		const result = await cloudinary.search
 			.expression('uploaded_at < 30d')
-			.sort_by('public_id', 'desc')
+			.next_cursor(next_cursor)
 			.max_results(100)
 			.execute();
 		next_cursor = result.next_cursor;
@@ -42,7 +42,9 @@ async function* getAllImagesUploadedMoreThan30DaysAgo() {
  */
 async function deleteImages(images) {
 	return new Promise((resolve, reject) => {
-		cloudinary.api.delete_resources(images, function (error, result) {
+		cloudinary.api.delete_resources(images, {
+			keep_original: true
+		}, function (error, result) {
 			if (error) {
 				reject(error);
 			} else {
@@ -58,15 +60,19 @@ async function deleteImages(images) {
 }
 
 async function main() {
+	console.log('delete-old-images-from-cloudinary: Start');
 	try {
 		let totalAmountOfImagesDeleted = 0;
 		for await (const images of getAllImagesUploadedMoreThan30DaysAgo()) {
 			if (images.length > 0) {
-				totalAmountOfImagesDeleted += await deleteImages(images);
+				const countOfImagesJustDeleted = await deleteImages(images);
+				totalAmountOfImagesDeleted += countOfImagesJustDeleted;
+				console.log(`delete-old-images-from-cloudinary: ${countOfImagesJustDeleted} Images Deleted`);
 			}
 		}
 
-		console.log(`Deleted ${totalAmountOfImagesDeleted} images`);
+		console.log(`delete-old-images-from-cloudinary: ${totalAmountOfImagesDeleted} Images Deleted In Total`);
+		console.log('delete-old-images-from-cloudinary: Finish');
 	} catch (e) {
 		sentry.captureException(e);
 	}
