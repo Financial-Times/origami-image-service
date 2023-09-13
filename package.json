@@ -32,7 +32,7 @@
     "@sentry/node": "^5.30.0",
     "axios": "^0.26.1",
     "base-64": "0.1.0",
-    "cloudinary": "1.22.0",
+    "cloudinary": "1.40.0",
     "colornames": "1.1.1",
     "date-fns": "2.15.0",
     "dompurify": "2.2.2",
