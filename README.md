@@ -16,6 +16,7 @@ Table Of Contents
   * [Adding Images](#adding-images)
   * [Testing](#testing)
   * [Deployment](#deployment)
+  * [Scheduled Tasks](#scheduled-tasks)
   * [Monitoring](#monitoring)
   * [Trouble-Shooting](#trouble-shooting)
   * [License](#license)
@@ -144,6 +145,11 @@ Alternatively you can use labels on pull requests to promote to production. If y
 
 Creating release manually from github will also promote to production.
 
+Scheduled Tasks
+----------
+
+The Origami Image Service uses a Heroku Schedule to run `scripts/delete-old-images-from-cloudinary.js` daily. This is setup only for the `origami-image-service-eu` app. It removes transformations for past images, reducing the number of images we store via Cloudinary.
+
 Monitoring
 ----------
 
@@ -191,6 +197,15 @@ You'll need to provide an API key for change request logging. You can get this f
 ```sh
 make deploy
 ```
+
+### How do I reduce Cloudinary storage use?
+
+Cloudinary stores images and their transformations (format, size, etc.). This is not always necessary as:
+1. Our CDN caches images, for up to a year depending on its origin.
+1. Images are less likely to be viewed after a period of time. Some images are replaced, and won't be accessed again.
+1. The image size apps request and the formats browsers support change – serving jpg is less common now.
+
+To combat ever increasing storage requirements, a [scheduled task](#scheduled-tasks) periodically deletes stored transformations. If Cloudinary storage climbs high, ensure this script is working as expected. Alternatively, consider deleting all transforms for un-accessed assets using [Cloudinary's bulk deletion tool](https://cloudinary.com/documentation/admin_api#resources_last_access_reports).
 
 ### SVGs don't work when running locally
 
