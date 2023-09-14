@@ -16,15 +16,16 @@ cloudinary.config({
 });
 
 /**
- * Creates an async iterable which contains cloudinary image public ids of images which were uploaded over 30 days ago.
+ * Creates an async iterable which contains cloudinary image public ids of images which were uploaded 30 days ago.
  *
  * @returns {AsyncIterable<string[]>} An asynchronous iterable of an array of strings which are the public IDs of the cloudinary images.
  */
-async function* getAllImagesUploadedMoreThan30DaysAgo() {
+async function* getImagesUploaded30DaysAgo() {
 	let next_cursor;
 	do {
 		const result = await cloudinary.search
-			.expression('uploaded_at < 30d')
+			.expression('created_at:[31d TO 30d]')
+			.sort_by('created_at', 'asc')
 			.next_cursor(next_cursor)
 			.max_results(100)
 			.execute();
@@ -63,7 +64,7 @@ async function main() {
 	console.log('delete-old-images-from-cloudinary: Start');
 	try {
 		let totalAmountOfImagesDeleted = 0;
-		for await (const images of getAllImagesUploadedMoreThan30DaysAgo()) {
+		for await (const images of getImagesUploaded30DaysAgo()) {
 			if (images.length > 0) {
 				const countOfImagesJustDeleted = await deleteImages(images);
 				totalAmountOfImagesDeleted += countOfImagesJustDeleted;
