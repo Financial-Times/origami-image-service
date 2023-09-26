@@ -52,7 +52,8 @@
     "statuses": "2.0.0",
     "svg-tint-stream": "1.0.1",
     "throng": "4.0.0",
-    "utf8": "3.0.0"
+    "utf8": "3.0.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "clarify": "^2.1.0",

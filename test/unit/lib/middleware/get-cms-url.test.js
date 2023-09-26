@@ -2,8 +2,26 @@
 
 const assert = require('proclaim');
 const nock = require('nock');
+const {v4: generateUuid} = require('uuid');
 
-describe('lib/middleware/get-cms-url', () => {
+
+const uuids = {
+  mock1: generateUuid(),
+  mock2: generateUuid(),
+  mock3: generateUuid(),
+  mock4: generateUuid(),
+  mock5: generateUuid(),
+  mock6: generateUuid(),
+  mock7: generateUuid(),
+  mock8: generateUuid(),
+  mock9: generateUuid(),
+  mock10: 'not-a-uuid',
+  mock11: '11-3333-1221213-5553231341',
+  mock12: generateUuid().replace(/^./, '%'),
+  mock13: `${generateUuid}moreText`
+};
+
+describe.only('lib/middleware/get-cms-url', () => {
 	let origamiService;
 	let getCmsUrl;
 	let log;
@@ -39,14 +57,14 @@ describe('lib/middleware/get-cms-url', () => {
 
 		describe('middleware(request, response, next)', () => {
 			let scope;
-			const v2Uri = 'https://prod-upp-image-read.ft.com/mock-id1';
+			const v2Uri = `https://prod-upp-image-read.ft.com/${uuids.mock1}`;
 
 			beforeEach(done => {
-				origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id1';
+				origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock1}`;
 				origamiService.mockRequest.query.source = 'mock-source';
 				origamiService.mockRequest.params.originalImageUrl = 'http://test.example/image.jpg';
 				scope = nock('https://prod-upp-image-read.ft.com').persist();
-				scope.head('/mock-id1').reply(200, 'I am an svg file', {
+				scope.head(`/${uuids.mock1}`).reply(200, 'I am an svg file', {
 					'Content-Type': 'image/svg+xml; charset=utf-8',
 				});
 
@@ -58,26 +76,26 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			it('logs that the CMS ID was found in v2 of the API', () => {
-				assert.isTrue(log.info.calledWithExactly('ftcms-check cmsId=mock-id1 cmsVersionUsed=v2 source=mock-source'));
-				assert.isTrue(log.info.neverCalledWith('ftcms-check cmsId=mock-id1 cmsVersionUsed=v1 source=mock-source'));
-				assert.isTrue(log.info.neverCalledWith('ftcms-check cmsId=mock-id1 cmsVersionUsed=error source=mock-source'));
+				assert.isTrue(log.info.calledWithExactly(`ftcms-check cmsId=${uuids.mock1} cmsVersionUsed=v2 source=mock-source`));
+				assert.isTrue(log.info.neverCalledWith(`ftcms-check cmsId=${uuids.mock1} cmsVersionUsed=v1 source=mock-source`));
+				assert.isTrue(log.info.neverCalledWith(`ftcms-check cmsId=${uuids.mock1} cmsVersionUsed=error source=mock-source`));
 			});
 
 			describe('when the v2 API cannot find the image', () => {
-				const v1Uri = 'https://im.ft-static.com/content/images/mock-id2.img';
+				const v1Uri = `https://im.ft-static.com/content/images/${uuids.mock2}.img`;
 				let nockScopeForV1Images;
 				let nockScopeForV2Images;
 
 				beforeEach(done => {
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id2';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock2}`;
 					log.info.resetHistory();
 
 					nockScopeForV1Images = nock('https://im.ft-static.com').persist();
-					nockScopeForV1Images.head('/content/images/mock-id2.img').reply(200, 'I am an svg file', {
+					nockScopeForV1Images.head(`/content/images/${uuids.mock2}.img`).reply(200, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 					nockScopeForV2Images = nock('https://prod-upp-image-read.ft.com').persist();
-					nockScopeForV2Images.head('/mock-id2').reply(404, 'I am an svg file', {
+					nockScopeForV2Images.head(`/${uuids.mock2}`).reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 
@@ -89,9 +107,9 @@ describe('lib/middleware/get-cms-url', () => {
 				});
 
 				it('logs that the CMS ID was found in v1 of the API', () => {
-					assert.isTrue(origamiService.mockApp.ft.log.info.neverCalledWith('ftcms-check cmsId=mock-id2 cmsVersionUsed=v2 source=mock-source'));
-					assert.isTrue(origamiService.mockApp.ft.log.info.calledWithExactly('ftcms-check cmsId=mock-id2 cmsVersionUsed=v1 source=mock-source'));
-					assert.isTrue(origamiService.mockApp.ft.log.info.neverCalledWith('ftcms-check cmsId=mock-id2 cmsVersionUsed=error source=mock-source'));
+					assert.isTrue(origamiService.mockApp.ft.log.info.neverCalledWith(`ftcms-check cmsId=${uuids.mock2} cmsVersionUsed=v2 source=mock-source`));
+					assert.isTrue(origamiService.mockApp.ft.log.info.calledWithExactly(`ftcms-check cmsId=${uuids.mock2} cmsVersionUsed=v1 source=mock-source`));
+					assert.isTrue(origamiService.mockApp.ft.log.info.neverCalledWith(`ftcms-check cmsId=${uuids.mock2} cmsVersionUsed=error source=mock-source`));
 				});
 
 			});
@@ -102,7 +120,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let nockScopeForFallback;
 
 				beforeEach(done => {
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id3';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock3}`;
 					log.info.resetHistory();
 
 					nockScopeForFallback = nock('http://test.example').persist();
@@ -110,11 +128,11 @@ describe('lib/middleware/get-cms-url', () => {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 					nockScopeForV1Images = nock('https://im.ft-static.com').persist();
-					nockScopeForV1Images.head('/content/images/mock-id3.img').reply(404, 'I am an svg file', {
+					nockScopeForV1Images.head(`/content/images/${uuids.mock3}.img`).reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 					nockScopeForV2Images = nock('https://prod-upp-image-read.ft.com').persist();
-					nockScopeForV2Images.head('/mock-id3').reply(404, 'I am an svg file', {
+					nockScopeForV2Images.head(`/${uuids.mock3}`).reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 
@@ -133,7 +151,7 @@ describe('lib/middleware/get-cms-url', () => {
 				let nockScopeForFallback;
 
 				beforeEach(done => {
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id4';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock4}`;
 					log.info.resetHistory();
 
 					nockScopeForFallback = nock('http://test.example').persist();
@@ -141,11 +159,11 @@ describe('lib/middleware/get-cms-url', () => {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 					nockScopeForV1Images = nock('https://im.ft-static.com').persist();
-					nockScopeForV1Images.head('/content/images/mock-id4.img').reply(404, 'I am an svg file', {
+					nockScopeForV1Images.head(`/content/images/${uuids.mock4}.img`).reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 					nockScopeForV2Images = nock('https://prod-upp-image-read.ft.com').persist();
-					nockScopeForV2Images.head('/mock-id4').reply(404, 'I am an svg file', {
+					nockScopeForV2Images.head(`/${uuids.mock4}`).reply(404, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 
@@ -157,27 +175,27 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a 404 error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Unable to get image mock-id4 from Content API v1 or v2');
+					assert.strictEqual(responseError.message, `Unable to get image ${uuids.mock4} from Content API v1 or v2`);
 					assert.strictEqual(responseError.status, 404);
 					assert.strictEqual(responseError.cacheMaxAge, '5m');
 				});
 
 				it('logs that the CMS ID was found in neither API', () => {
-					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id4 cmsVersionUsed=v2 source=mock-source');
-					assert.neverCalledWith(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id4 cmsVersionUsed=v1 source=mock-source');
-					assert.calledWithExactly(origamiService.mockApp.ft.log.info, 'ftcms-check cmsId=mock-id4 cmsVersionUsed=error source=mock-source');
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, `ftcms-check cmsId=${uuids.mock4} cmsVersionUsed=v2 source=mock-source`);
+					assert.neverCalledWith(origamiService.mockApp.ft.log.info, `ftcms-check cmsId=${uuids.mock4} cmsVersionUsed=v1 source=mock-source`);
+					assert.calledWithExactly(origamiService.mockApp.ft.log.info, `ftcms-check cmsId=${uuids.mock4} cmsVersionUsed=error source=mock-source`);
 				});
 
 			});
 
 			describe('when the ftcms URL has a querystring', () => {
-				const v2Uri = 'https://prod-upp-image-read.ft.com/mock-id5?foo=bar';
+				const v2Uri = `https://prod-upp-image-read.ft.com/${uuids.mock5}?foo=bar`;
 				let scope;
 
 				beforeEach(done => {
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id5?foo=bar';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock5}?foo=bar`;
 					scope = nock('https://prod-upp-image-read.ft.com').persist();
-					scope.head('/mock-id5?foo=bar').reply(200, 'I am an svg file', {
+					scope.head(`/${uuids.mock5}?foo=bar`).reply(200, 'I am an svg file', {
 						'Content-Type': 'image/svg+xml; charset=utf-8',
 					});
 
@@ -208,10 +226,10 @@ describe('lib/middleware/get-cms-url', () => {
 				let scope;
 
 				beforeEach(done => {
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id6';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock6}`;
 
 					scope = nock('https://prod-upp-image-read.ft.com').persist();
-					scope.head('/mock-id6').replyWithError(new Error('mock error'));
+					scope.head(`/${uuids.mock6}`).replyWithError(new Error('mock error'));
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
@@ -232,13 +250,13 @@ describe('lib/middleware/get-cms-url', () => {
 				let scope;
 
 				beforeEach(done => {
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id7';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock7}`;
 
 					// V2 errors
 					dnsError = new Error('mock error');
 					dnsError.code = 'ENOTFOUND';
 					scope = nock('https://prod-upp-image-read.ft.com').persist();
-					scope.head('/mock-id7').replyWithError(dnsError);
+					scope.head(`/${uuids.mock7}`).replyWithError(dnsError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
@@ -248,7 +266,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'DNS lookup failed for "https://prod-upp-image-read.ft.com/mock-id7"');
+					assert.strictEqual(responseError.message, `DNS lookup failed for "https://prod-upp-image-read.ft.com/${uuids.mock7}"`);
 				});
 
 			});
@@ -260,13 +278,13 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					origamiService.mockRequest.url = 'mock-url';
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id8';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock8}`;
 
 					// V2 errors
 					resetError = new Error('mock error');
 					resetError.code = 'ECONNRESET';
 					scope = nock('https://prod-upp-image-read.ft.com').persist();
-					scope.head('/mock-id8').replyWithError(resetError);
+					scope.head(`/${uuids.mock8}`).replyWithError(resetError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
@@ -276,7 +294,7 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Connection reset when requesting "https://prod-upp-image-read.ft.com/mock-id8"');
+					assert.strictEqual(responseError.message, `Connection reset when requesting "https://prod-upp-image-read.ft.com/${uuids.mock8}"`);
 				});
 
 			});
@@ -288,13 +306,13 @@ describe('lib/middleware/get-cms-url', () => {
 
 				beforeEach(done => {
 					origamiService.mockRequest.url = 'mock-url';
-					origamiService.mockRequest.params.imageUrl = 'ftcms:mock-id9';
+					origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock9}`;
 
 					// V2 errors
 					timeoutError = new Error('mock error');
 					timeoutError.code = 'ETIMEDOUT';
 					scope = nock('https://prod-upp-image-read.ft.com').persist();
-					scope.head('/mock-id9').replyWithError(timeoutError);
+					scope.head(`/${uuids.mock9}`).replyWithError(timeoutError);
 
 					middleware(origamiService.mockRequest, origamiService.mockResponse, error => {
 						responseError = error;
@@ -304,9 +322,32 @@ describe('lib/middleware/get-cms-url', () => {
 
 				it('calls `next` with a descriptive error', () => {
 					assert.instanceOf(responseError, Error);
-					assert.strictEqual(responseError.message, 'Request timed out when requesting "https://prod-upp-image-read.ft.com/mock-id9"');
+					assert.strictEqual(responseError.message, `Request timed out when requesting "https://prod-upp-image-read.ft.com/${uuids.mock9}"`);
 				});
 			});
+
+      describe('throws an error when UUID', () => {
+        it('is a random string with dashes', () => {
+          origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock10}`;
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${uuids.mock10} is invalid`);
+        });
+        it('is a random numbers with dashes', () => {
+          origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock11}`;
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${uuids.mock11} is invalid`);
+        
+        });
+        it('is a string with special character in it', () => {
+          origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock12}`;
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${uuids.mock12} is invalid`);
+        
+        });
+
+        it('has a random string after valid uuid', () => {
+          origamiService.mockRequest.params.imageUrl = `ftcms:${uuids.mock13}`;
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${uuids.mock13} is invalid`);
+        
+        });
+      });
 		});
 	});
 });
