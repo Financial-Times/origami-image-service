@@ -322,24 +322,24 @@ describe('lib/middleware/get-cms-url', () => {
         it('is a random string with dashes', () => {
           const invalidImageUuid = 'not-a-uuid';
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
-          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${invalidImageUuid} is invalid`);
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         });
         it('is a random numbers with dashes', () => {
           const invalidImageUuid = '11-3333-1221213-5553231341';
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
-          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${invalidImageUuid} is invalid`);
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         
         });
         it('is a string with special character in it', () => {
           const invalidImageUuid = generateUuid().replace(/./g, '%');
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
-          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${invalidImageUuid} is invalid`);
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         });
 
         it('has a random string after valid uuid', () => {
           const invalidImageUuid = `${generateUuid}moreText`;
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
-          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), `Image key ${invalidImageUuid} is invalid`);
+          assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         });
       });
 		});
