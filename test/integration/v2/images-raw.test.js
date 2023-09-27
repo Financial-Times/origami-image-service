@@ -3,6 +3,7 @@
 const assert = require('proclaim');
 const axios = require('../helpers/axios');
 const testImageUris = require('../helpers/test-image-uris');
+const {v4: generateUuid} = require('uuid');
 
 const usingExternalServer = Boolean(process.env.HOST);
 const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
@@ -421,7 +422,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 
 	describe('when a CMS image is not found', function() {
 		it('responds with a 404 status', async function() {
-			const response = await axios.get('/__origami/service/image/v2/images/raw/ftcms:notanid?source=origami-image-service');
+			const response = await axios.get(`/__origami/service/image/v2/images/raw/ftcms:${generateUuid()}?source=origami-image-service`);
 			assert.equal(response.status, 404);
 			assert.equal(response.headers['content-type'], 'text/html; charset=utf-8');
 			assert.match(response.headers['surrogate-key'], /origami-image-service/);
