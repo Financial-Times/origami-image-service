@@ -11,6 +11,44 @@ describe('lib/transformers/cloudinary', () => {
 		cloudinaryTransform = require('../../../../lib/transformers/cloudinary');
 	});
 
+	describe('Overlay functionality', () => {
+		beforeEach(() => {
+			ImageTransform = require('../../../../lib/image-transform');
+			cloudinaryTransform = require('../../../../lib/transformers/cloudinary');
+		});
+		it('should handle overlays correctly', () => {
+
+			let transform = new ImageTransform({ uri: 'http://example.com' });
+
+			transform.setOverlay('http://overlay.com/')
+			transform.setName('5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52')
+			const options = {
+				cloudinaryAccountName: 'testaccount',
+				cloudinaryApiKey: 'api-key',
+				cloudinaryApiSecret: 'api-secret'
+			};
+			const cloudinaryUrl = cloudinaryTransform(transform, options);
+
+			assert.equal(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/fl_layer_apply.no_overflow/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
+
+		});
+
+		it('should not include overlay transforms if overlay is not set', () => {
+			let transform = new ImageTransform({});
+			transform.setOverlay(null)
+			transform.setName('5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52')
+			const options = {
+				cloudinaryAccountName: 'testaccount',
+				cloudinaryApiKey: 'api-key',
+				cloudinaryApiSecret: 'api-secret'
+			};
+			const cloudinaryUrl = cloudinaryTransform(transform, options);
+
+			assert.equal(cloudinaryUrl, 'https://res.cloudinary.com/testaccount/image/upload/s--9OIPtX6Y--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
+
+		});
+	});
+
 	it('exports a function', () => {
 		assert.isFunction(cloudinaryTransform);
 	});
