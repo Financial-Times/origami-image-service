@@ -283,7 +283,7 @@ describe('lib/transformers/cloudinary', () => {
 			};
 			const cloudinaryUrl = cloudinaryTransform(transform, options);
 
-			assert.equal(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/c_crop,fl_relative,h_150,w_50/fl_layer_apply.no_overflow,g_north_west,x_30,y_40/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
+			assert.equal(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/c_crop,fl_relative,h_50,w_150/fl_layer_apply.no_overflow,g_north_west,x_30,y_40/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
 
 		});
 
