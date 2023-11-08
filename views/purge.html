@@ -3,20 +3,47 @@
 </h1>
 
 <p>
+	Purging images via the API is currently broken, please purge via the Fastly UI.
+</p>
+
+<h2>Purging via Fastly</h2>
+
+<p>Ensure you have sufficient access via Okta.</p>
+
+<p>
+	Ensure you have a Surrogate Key of the image you want to purge. This can be found by encoding the image URI or URL to base64 with <code>echo "<-- URI OR URL -->" | base64</code>
+</p>
+
+
+<p>
+	Once the base64 encoded key is obtained, you can purge the image from Fastly by using the following steps:
+</p>
+<ol>
+	<li>Log into Fastly via Okta.</li>
+	<li>Search for the www.ft.com service.</li>
+	<li>Click 'Purge' and then 'Purge Key' from the dropdown.</li>
+	<li>Paste in your encoded key and click 'Purge'.</li>
+	<li>You should receive confirmation that the purge was successful.</li>
+	<li>Check that the image has been cleared by visiting the URL. You may need to hard refresh your browser.</li>
+</ol>
+
+<h2>Purging via Image Service API</h2>
+
+<p>
 	To use these endpoints you need to set the header <code>FT-Origami-Api-Key</code> with your API key.
 </p>
 
-<h2 id="get-v2-images-purge">GET /v2/images/purge/<var>:uri</var></h2>
+<h3 id="get-v2-images-purge">GET /v2/images/purge/<var>:uri</var></h3>
 
 <p>Finds the correct HTTP URL equivalent of the <code>uri</code> being requested to purge and redirects to <code>/v2/purge/url?url=<var>:URL-to-purge</var></code> to initaite the purge request.</p>
 
-<h2 id="get-purge-url">GET /v2/purge/url?url=<var>:URL-to-purge</var><var>&transforms</var></h2>
+<h3 id="get-purge-url">GET /v2/purge/url?url=<var>:URL-to-purge</var><var>&transforms</var></h3>
 
 <p>
 	Purge the original image and all images based on the original image from Cloudinary and Fastly. The image can take up to one hour to purge from Cloudinary and up to two hours to purge from Fastly. If the <code>transforms</code> query parameter is also supplied in the request then all transforms of the original image will be purged from Fastly.
 </p>
 
-<h2 id="get-purge-key">GET /v2/purge/key?key=<var>:surrogate-key</var></h2>
+<h3 id="get-purge-key">GET /v2/purge/key?key=<var>:surrogate-key</var></h3>
 <p>
 	Purge from Fastly all resources which are tagged with the surrogate-key.
 	You can view the surrogate-keys by adding the header <code>FT-Debug: true</code> to a request.
