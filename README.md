@@ -1,35 +1,27 @@
-
-Origami Image Service
-=====================
+# Origami Image Service
 
 Optimises and resize images. See [the production service][production-url] for API information.
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)][license]
 
+## Table Of Contents
 
-Table Of Contents
------------------
+- [Requirements](#requirements)
+- [Running Locally](#running-locally)
+- [Configuration](#configuration)
+- [Adding Images](#adding-images)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Scheduled Tasks](#scheduled-tasks)
+- [Monitoring](#monitoring)
+- [Trouble-Shooting](#trouble-shooting)
+- [License](#license)
 
-  * [Requirements](#requirements)
-  * [Running Locally](#running-locally)
-  * [Configuration](#configuration)
-  * [Adding Images](#adding-images)
-  * [Testing](#testing)
-  * [Deployment](#deployment)
-  * [Scheduled Tasks](#scheduled-tasks)
-  * [Monitoring](#monitoring)
-  * [Trouble-Shooting](#trouble-shooting)
-  * [License](#license)
-
-
-Requirements
-------------
+## Requirements
 
 Running Origami Image Service requires [Node.js], [npm] and [git-lfs](https://git-lfs.github.com/).
 
-
-Running Locally
----------------
+## Running Locally
 
 Before we can run the application, we'll need to install dependencies:
 
@@ -45,52 +37,65 @@ make run-dev
 
 Now you can access the app over HTTP on port `8080`: [http://localhost:8080/](http://localhost:8080/)
 
+## Configuration
 
-Configuration
--------------
+We configure Origami Image Service using environment variables. In local development, configurations are set in a `.env` file. In production, these are set through Doppler project that will sync secrets to Heroku as well
 
-We configure Origami Image Service using environment variables. In development, configurations are set in a `.env` file. In production, these are set through Heroku config. Further documentation on the available options can be found in the [Origami Service documentation][service-options].
+### Add secrets locally
+
+Origami stores their secrets on Doppler to get them on your local development environment you will need to install the [Doppler CLI](https://docs.doppler.com/docs/install-cli), login in Doppler and run the following command to setup Doppler within the repo:
+
+```sh
+doppler setup
+```
+
+Setup will ask you to select the project you want to use, select origami-image-service-v2 and then select the local environment. Once setup is complete you can download the secrets to your local environment by running:
+
+```sh
+doppler secrets download --no-file --format env > .env
+```
+
+**NOTE:** You might need to request contributor access to the Doppler project from the Origami team.
 
 ### Required everywhere
 
-  * `CONTENT_API_KEY`: The API key for the FT UPP Content API.
-  * `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
-  * `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
-  * `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
-  * `CUSTOM_SCHEME_STORE`: The location of the images used in custom schemes. This should be set to the base path under which images live.
-  * `CUSTOM_SCHEME_CACHE_BUST`: A key used to manually cache-bust custom scheme images.
-  * `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
-  * `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
-  * `PORT`: The port to run the application on.
+- `CONTENT_API_KEY`: The API key for the FT UPP Content API.
+- `CLOUDINARY_ACCOUNT_NAME`: The name of the Cloudinary account to use in image transforms.
+- `CLOUDINARY_API_KEY`: The Cloudinary API key corresponding to `CLOUDINARY_ACCOUNT_NAME`.
+- `CLOUDINARY_API_SECRET`: The Cloudinary API secret corresponding to `CLOUDINARY_ACCOUNT_NAME`.
+- `CUSTOM_SCHEME_STORE`: The location of the images used in custom schemes. This should be set to the base path under which images live.
+- `CUSTOM_SCHEME_CACHE_BUST`: A key used to manually cache-bust custom scheme images.
+- `HOSTNAME`: The hostname to use for tinting SVGs. This defaults to the hostname given in the request. [See the trouble-shooting guide for more information](#svgs-dont-tint-locally).
+- `NODE_ENV`: The environment to run the application in. One of `production`, `development` (default), or `test` (for use in automated tests).
+- `PORT`: The port to run the application on.
 
 ### Required in Heroku
 
-  * `FASTLY_PURGE_API_KEY`: A Fastly API key which is used to purge URLs (when somebody POSTs to the `/purge` endpoint)
-  * `GRAPHITE_API_KEY`: The FT's internal Graphite API key
-  * `PURGE_API_KEY`: The API key to require when somebody POSTs to the `/purge` endpoint. This should be a non-memorable string, for example a UUID
-  * `REGION`: The region the application is running in. One of `QA`, `EU`, or `US`
-  * `RELEASE_LOG_ENVIRONMENT`: The Salesforce environment to include in release logs. One of `Test` or `Production`
-  * `SENTRY_DSN`: The Sentry URL to send error information to
+- `FASTLY_PURGE_API_KEY`: A Fastly API key which is used to purge URLs (when somebody POSTs to the `/purge` endpoint)
+- `GRAPHITE_API_KEY`: The FT's internal Graphite API key
+- `PURGE_API_KEY`: The API key to require when somebody POSTs to the `/purge` endpoint. This should be a non-memorable string, for example a UUID
+- `REGION`: The region the application is running in. One of `QA`, `EU`, or `US`
+- `RELEASE_LOG_ENVIRONMENT`: The Salesforce environment to include in release logs. One of `Test` or `Production`
+- `SENTRY_DSN`: The Sentry URL to send error information to
 
 **TODO:** The options below are required at the moment, but are duplicates of other options above. This will be addressed once all services are using Origami Makefile.
 
-  * `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered. This should be the same value as `FASTLY_PURGE_API_KEY`
-  * `FASTLY_SERVICE_ID`: The Fastly service to purge assets from
-  * `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered. This should be the same value as `PURGE_API_KEY`
+- `FASTLY_API_KEY`: The Fastly API key to use when purging assets. If not set, purge endpoints are not registered. This should be the same value as `FASTLY_PURGE_API_KEY`
+- `FASTLY_SERVICE_ID`: The Fastly service to purge assets from
+- `API_KEY`: The API key to use when purging assets. If not set, endpoints which require an API key are not registered. This should be the same value as `PURGE_API_KEY`
 
 ### Required locally
 
-  * `GRAFANA_API_KEY`: The API key to use when using Grafana push/pull
+- `GRAFANA_API_KEY`: The API key to use when using Grafana push/pull
 
 ### Headers
 
 The service can also be configured by sending HTTP headers, these would normally be set in your CDN config:
 
-  * `FT-Origami-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
-  * `FT-Origami-Api-Key`: The API key for the service, this is used when calling API endpoints which are restricted to FT Origami developers.
+- `FT-Origami-Service-Base-Path`: The base path for the service, this gets prepended to all paths in the HTML and ensures that redirects work when the CDN rewrites URLs.
+- `FT-Origami-Api-Key`: The API key for the service, this is used when calling API endpoints which are restricted to FT Origami developers.
 
-Adding Images
--------
+## Adding Images
 
 The Origami Image Service fetches and transforms images from external hosts, such as FT APIs or any given URL. It also hosts [a number of image sets](https://www.ft.com/__origami/service/image/v2/docs/image-sets) directly.
 
@@ -98,8 +103,7 @@ To add, edit, or remove an image in one of these image sets see the `image-sets`
 
 Removing an image from an image set is considered a major change. To remove an image a new major version of the Origami Image Service API must be released. Therefore it's typical to deprecate images first, and remove multiple deprecated images later as a batch. To manage this each image set directory has a `deprecated.json` file containing a list of images in the set which are deprecated and should be removed in the next major version of the Origami Image Service. Deprecated images are hidden on the Origami Image Service image sets page.
 
-Testing
--------
+## Testing
 
 The tests are split into unit tests and integration tests. To run tests on your machine you'll need to install [Node.js] and run `npm install`. Then you can run the following commands:
 
@@ -129,9 +133,7 @@ You can run the integration tests against a URL by setting a `HOST` environment 
 HOST="https://www.example.com" make test-integration
 ```
 
-
-Deployment
-----------
+## Deployment
 
 The production ([EU][heroku-production-eu]/[US][heroku-production-us]) and [QA][heroku-qa] applications run on [Heroku]. We deploy continuously to QA via [CI][ci], you should never need to deploy to QA manually. We use a [Heroku pipeline][heroku-pipeline] to promote QA deployments to production.
 
@@ -145,24 +147,20 @@ Alternatively you can use labels on pull requests to promote to production. If y
 
 Creating release manually from github will also promote to production.
 
-Scheduled Tasks
-----------
+## Scheduled Tasks
 
 The Origami Image Service uses a Heroku Schedule to run `scripts/delete-old-images-from-cloudinary.js` daily. This is setup only for the `origami-image-service-eu` app. It removes transformations for past images, reducing the number of images we store via Cloudinary.
 
-Monitoring
-----------
+## Monitoring
 
-  * [Grafana dashboard][grafana]: graph memory, load, and number of requests
-  * [Pingdom check (Production EU)][pingdom-eu]: checks that the EU production app is responding
-  * [Pingdom check (Production US)][pingdom-us]: checks that the US production app is responding
-  * [Sentry dashboard (Production)][sentry-production]: records application errors in the production app
-  * [Sentry dashboard (QA)][sentry-qa]: records application errors in the QA app
-  * [Splunk dashboard (Production)][splunk]: query application logs
+- [Grafana dashboard][grafana]: graph memory, load, and number of requests
+- [Pingdom check (Production EU)][pingdom-eu]: checks that the EU production app is responding
+- [Pingdom check (Production US)][pingdom-us]: checks that the US production app is responding
+- [Sentry dashboard (Production)][sentry-production]: records application errors in the production app
+- [Sentry dashboard (QA)][sentry-qa]: records application errors in the QA app
+- [Splunk dashboard (Production)][splunk]: query application logs
 
-
-Trouble-Shooting
-----------------
+## Trouble-Shooting
 
 We've outlined some common issues that can occur in the running of the Image Service:
 
@@ -175,6 +173,7 @@ When a png image is requested, and the requested image has no alpha channel (no 
 Please read the [purging documentation](https://www.ft.com/__origami/service/image/v2/docs/purge) on the website.
 
 ### I need to purge all images, is this possible?
+
 Please contact origami.support@ft.com - There is a way to purge all images, but this will incur a large cost.
 
 ### What do I do if memory usage is high?
@@ -201,6 +200,7 @@ make deploy
 ### How do I reduce Cloudinary storage use?
 
 Cloudinary stores images and their transformations (format, size, etc.). This is not always necessary as:
+
 1. Our CDN caches images, for up to a year depending on its origin.
 1. Images are less likely to be viewed after a period of time. Some images are replaced, and won't be accessed again.
 1. The image size apps request and the formats browsers support change – serving jpg is less common now.
@@ -211,20 +211,20 @@ To combat ever increasing storage requirements, a [scheduled task](#scheduled-ta
 
 When an SVG image is requested we rewrite the URL to go route back through the Image Service, this is to sanatize the SVG of any cross-site-scripting attack vectors and to tint the SVG if tinting has been requested. It looks something like this:
 
-  * User requests:<br/>
+- User requests:<br/>
   `http://imageservice/v2/images/raw/http://mysite/example.svg?tint=red`
-  * Image service rewrites to:<br/>
+- Image service rewrites to:<br/>
   `http://imageservice/v2/images/raw/http://imageservice/images/svgtint/http://mysite/example.svg%3Fcolor=red`
-  * Cloudinary receives the image URL:<br/>
+- Cloudinary receives the image URL:<br/>
   `http://imageservice/images/svgtint/http://mysite/example.svg?color=red`
 
 When you're running locally this won't work because Cloudinary cannot access your `localhost`. The flow would look like this:
 
-  * User requests:<br/>
+- User requests:<br/>
   `http://localhost/v2/images/raw/http://mysite/example.svg?tint=red`
-  * Image service rewrites to:<br/>
+- Image service rewrites to:<br/>
   `http://localhost/v2/images/raw/http://localhost/images/svgtint/http://mysite/example.svg%3Fcolor=red`
-  * Cloudinary receives the image URL:<br/>
+- Cloudinary receives the image URL:<br/>
   `http://localhost/images/svgtint/http://mysite/example.svg?color=red`
 
 So Cloudinary responds with a `404`, and you may see an error like `connect ECONNREFUSED 127.0.0.1:443`. You can get around this by manually specifying a hostname in your configuration. You'll need to tell the service to rely on the QA instance for SVG tinting. Add the following to your `.env` file:
@@ -233,13 +233,9 @@ So Cloudinary responds with a `404`, and you may see an error like `connect ECON
 HOSTNAME=origami-image-service-qa.herokuapp.com
 ```
 
-
-License
--------
+## License
 
 The Financial Times has published this software under the [MIT license][license].
-
-
 
 [grafana]: https://grafana.ft.com/dashboard/db/origami-image-service
 [heroku-pipeline]: https://dashboard.heroku.com/pipelines/9cd9033e-fa9d-42af-bfe9-b9d0aa6f4a50
