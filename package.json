@@ -22,7 +22,8 @@
   "main": "./lib/image-service.js",
   "scripts": {
     "start": "heroku-node-settings index.js",
-    "dev": "node --stack_trace_limit=100 -r trace -r clarify index.js"
+    "dev": "node --stack_trace_limit=100 -r trace -r clarify index.js",
+    "start-worker": "node scripts/worker.js"
   },
   "dependencies": {
     "@financial-times/health-check": "2.1.6",
