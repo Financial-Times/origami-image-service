@@ -15,9 +15,9 @@ const workers = process.env.WEB_CONCURRENCY || 2;
 // to be much lower.
 const maxJobsPerWorker = 50;
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
 function start() {
   // Connect to the named work queue
