@@ -33,11 +33,16 @@ throng({
 
 async function startWorker(id) {
 	console.log(`Started worker ${id}`);
-  const redisDb = await createClient({
-    url: process.env.REDIS_URL
-  })
-    .on('error', err => console.log('Redis Client Error', err))
-    .connect();
+  let redisDb;
+  if (process.env.LOCAL) {
+    redisDb = await createClient();
+  } else {
+    redisDb = await createClient({
+      url: process.env.REDIS_URL
+    });
+  }
+
+  redisDb.on('error', err => console.log('Redis Client Error', err)).connect();
   
   options.redisClient = redisDb;
   
