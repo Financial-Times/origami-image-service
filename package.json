@@ -47,6 +47,7 @@
     "mime-types": "^2.1.33",
     "path-exists": "^4.0.0",
     "probe-image-size": "^7.0.0",
+    "redis": "^4.6.11",
     "require-all": "3.0.0",
     "st": "^3.0.0",
     "statuses": "2.0.0",
