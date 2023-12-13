@@ -1049,6 +1049,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
 			});
+
 		});
 	});
 });
