@@ -38,5 +38,7 @@ module.exports = {
 	oldLiveBlogsDomainHttps: 'https://blogs.ft.com/tech-blog/files/2012/03/Screen-Shot-2012-03-01-at-11.25.02-PM-391x270.png',
 	valid: `${(process.env.CUSTOM_SCHEME_STORE || process.env.HOST || 'https://origami-image-service-dev.herokuapp.com')}/__origami/service/image/v2/images/raw/ftsocial-v1%3Atwitter%3Fsource%3Dorigami-image-service`,
 	notFound: 'http://google.com/404',
-	nonSvg: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img'
+	nonSvg: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
+  imgUrlsForHostnamesHTTPS: 'https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=1628&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  imgUrlsForHostnamesHTTP: 'http://random-picture.com/photo/2023/10/16/10/57/fountain-8318963_1280.jpg'
 };

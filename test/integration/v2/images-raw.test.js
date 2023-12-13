@@ -4,9 +4,23 @@ const assert = require('proclaim');
 const axios = require('../helpers/axios');
 const testImageUris = require('../helpers/test-image-uris');
 const {v4: generateUuid} = require('uuid');
+const {createClient} = require('redis');
+require('dotenv').config();
 
 const usingExternalServer = Boolean(process.env.HOST);
 const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
+let redisClient;
+
+async function connectToDatabase() {
+
+  if (process.env.LOCAL) {
+    redisClient = await createClient();
+  } else {
+    redisClient = await createClient({
+      url: process.env.REDIS_URL
+    });
+  }
+}
 
 describe('GET /__origami/service/image/v2/images/raw…', function() {
 
@@ -990,7 +1004,8 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				});
 			});
 
-			describe('http', function() {
+			describe('http', async function() {
+        await connectToDatabase();
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.http}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cDovL29yaWdhbWkta/);
@@ -998,9 +1013,16 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['timing-allow-origin'], '*');
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
-			});
-
-			describe('https', function() {
+        it('adds hostname in reddis database', async function() {
+          await redisClient.sendCommand(['DEL', 'hostnames']);
+          const imageUrl = testImageUris.imgUrlsForHostnamesHTTP;
+          await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`);
+          const dbReply = await redisClient.sendCommand(['SISMEMBER', 'hostnames', 'random-picture.com']).
+          assert.equal(dbReply, 1);
+        });
+      });
+			describe('https', async function() {
+        await connectToDatabase();
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.https}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cHM6Ly9vcmlnYW1pL/);
@@ -1008,6 +1030,13 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['timing-allow-origin'], '*');
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
+        it('adds hostname in reddis database', async function() {
+          await redisClient.sendCommand(['DEL', 'hostnames']);
+          const imageUrl = testImageUris.imgUrlsForHostnamesHTTPS;
+          await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`);
+          const dbReply = await redisClient.sendCommand(['SISMEMBER', 'hostnames', 'images.unsplash.com']).
+          assert.equal(dbReply, 1);
+        });
 			});
 
 			describe('protocolRelativeftcms', function() {
