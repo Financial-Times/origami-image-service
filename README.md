@@ -60,7 +60,7 @@ doppler setup
 Setup will ask you to select the project you want to use, select origami-image-service-v2 and then select the local environment. Once setup is complete you can download the secrets to your local environment by running:
 
 ```sh
-doppler secrets download --no-file --format env > .env
+doppler secrets download --no-file --format env-no-quotes > .env
 ```
 
 **NOTE:** You might need to request contributor access to the Doppler project from the Origami team.
