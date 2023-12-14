@@ -40,7 +40,11 @@ async function startWorker(id) {
 			redisDb = await createClient();
 		} else {
 			redisDb = await createClient({
-				url: process.env.REDIS_URL
+				url: process.env.REDIS_URL,
+				socket: {
+					tls: true,
+					rejectUnauthorized: false
+				}
 			});
 		}
 		
