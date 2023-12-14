@@ -29,10 +29,11 @@ Before we can run the application, we'll need to install dependencies:
 npm install
 ```
 
-You will also need to have redis server running locally. You will need docker running on your local machine and then run the following command:
+You will also need to have redis server running locally. You can download and run redis server using brew: 
 
 ```sh
-docker run -p 6379:6379 -it redis/redis-stack-server:latest
+brew install redis
+redis-server
 ```
 
 This will start a redis server on port 6379 which is the default port for redis. And our application will be able to connect to it automatically without specifying any configuration.

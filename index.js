@@ -33,20 +33,24 @@ throng({
 
 async function startWorker(id) {
 	console.log(`Started worker ${id}`);
-  let redisDb;
-  
-  if (process.env.REGION === 'LOCAL') {
-    redisDb = await createClient();
-  } else {
-    redisDb = await createClient({
-      url: process.env.REDIS_URL
-    });
-  }
-
-  redisDb.on('error', err => console.log('Redis Client Error', err)).connect();
-  
-  options.redisClient = redisDb;
-  
+	try {
+		let redisDb;
+		
+		if (process.env.REGION === 'LOCAL') {
+			redisDb = await createClient();
+		} else {
+			redisDb = await createClient({
+				url: process.env.REDIS_URL
+			});
+		}
+		
+		redisDb.on('error', err => console.log('Redis Client Error', err)).connect();
+		
+		options.redisClient = redisDb;
+	} catch (err) {
+		console.log('Redis Client Error', err);
+	}
+	
 	imageService(options).listen().catch(() => {
 		process.exit(1);
 	});
