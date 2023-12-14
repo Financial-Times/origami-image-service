@@ -12,14 +12,14 @@ const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
 let redisClient;
 
 async function connectToDatabase() {
-
-  if (process.env.LOCAL) {
+  if (process.env.REGION === 'LOCAL') {
     redisClient = await createClient();
   } else {
     redisClient = await createClient({
       url: process.env.REDIS_URL
     });
   }
+  redisClient.on('error', err => console.log('Redis Client Error', err)).connect();
 }
 
 describe('GET /__origami/service/image/v2/images/raw…', function() {
@@ -913,7 +913,8 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 			});
 		});
 
-		describe('adds key for specific image requested', function() {
+		describe('adds key for specific image requested', async function() {
+      await connectToDatabase();
 			onlyRunOnExternalServer('ftbrand', function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.ftbrand}?source=origami-image-service`);
@@ -1005,7 +1006,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 			});
 
 			describe('http', async function() {
-        await connectToDatabase();
+        // await connectToDatabase();
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.http}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cDovL29yaWdhbWkta/);
@@ -1022,7 +1023,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
         });
       });
 			describe('https', async function() {
-        await connectToDatabase();
+        // await connectToDatabase();
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.https}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cHM6Ly9vcmlnYW1pL/);

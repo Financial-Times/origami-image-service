@@ -34,7 +34,8 @@ throng({
 async function startWorker(id) {
 	console.log(`Started worker ${id}`);
   let redisDb;
-  if (process.env.LOCAL) {
+  
+  if (process.env.REGION === 'LOCAL') {
     redisDb = await createClient();
   } else {
     redisDb = await createClient({
