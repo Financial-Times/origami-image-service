@@ -35,17 +35,23 @@ async function startWorker(id) {
 	console.log(`Started worker ${id}`);
 	try {
 		let redisDb;
-		
+		const redisConfig = {
+			url: process.env.REDIS_URL,
+			socket: {
+				tls: true,
+				rejectUnauthorized: false
+			}
+		};
+
+		// FOR CI we don't set the REGION env variable and to test integration tests we don't want to have tls enabled
+		if (!process.env.REGION) {
+			delete redisConfig.socket;
+		}
+
 		if (process.env.REGION === 'LOCAL') {
 			redisDb = await createClient();
 		} else {
-			redisDb = await createClient({
-				url: process.env.REDIS_URL,
-				socket: {
-					tls: true,
-					rejectUnauthorized: false
-				}
-			});
+			redisDb = await createClient(redisConfig);
 		}
 		
 		redisDb.on('error', err => console.log('Redis Client Error', err)).connect();

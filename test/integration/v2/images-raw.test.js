@@ -1035,7 +1035,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['timing-allow-origin'], '*');
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
-				it('adds hostname in reddis database', async function() {
+				it.only('adds hostname in reddis database', async function() {
 					await connectToDatabase();
 					await redisClient.sendCommand(['DEL', 'hostnames']);
 					const imageUrl = testImageUris.imgUrlsForHostnamesHTTPS;

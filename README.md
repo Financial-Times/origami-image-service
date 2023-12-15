@@ -173,6 +173,10 @@ The Origami Image Service uses a Heroku Schedule to run `scripts/delete-old-imag
 
 We've outlined some common issues that can occur in the running of the Image Service:
 
+### My Integration Tests are failing or running too long
+
+We implemented redis caching to track image hostnames, but Heroku will change database URLs from time to time and you might need to update `REDIS_URL` in doppler in `C` config to run integration tests successfully.
+
 ### Requesting a PNG but being returned a JPG, why is that?
 
 When a png image is requested, and the requested image has no alpha channel (no transparency in the image), a jpg is instead returned because it will have a smaller filesize.
