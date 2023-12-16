@@ -36,3 +36,5 @@ jobs:
           node-version: 18.x
       - run: npm ci
       - run: HOST="https://origami-image-service-qa.herokuapp.com" make test-integration
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
