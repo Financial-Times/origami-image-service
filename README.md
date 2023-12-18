@@ -29,7 +29,16 @@ Before we can run the application, we'll need to install dependencies:
 npm install
 ```
 
-Run the application in development mode with
+You will also need to have redis server running locally. You can download and run redis server using brew: 
+
+```sh
+brew install redis
+redis-server
+```
+
+This will start a redis server on port 6379 which is the default port for redis. And our application will be able to connect to it automatically without specifying any configuration.
+
+After spinning up Redis server run the application in development mode with
 
 ```sh
 make run-dev
@@ -52,7 +61,7 @@ doppler setup
 Setup will ask you to select the project you want to use, select origami-image-service-v2 and then select the local environment. Once setup is complete you can download the secrets to your local environment by running:
 
 ```sh
-doppler secrets download --no-file --format env > .env
+doppler secrets download --no-file --format env-no-quotes > .env
 ```
 
 **NOTE:** You might need to request contributor access to the Doppler project from the Origami team.
@@ -163,6 +172,10 @@ The Origami Image Service uses a Heroku Schedule to run `scripts/delete-old-imag
 ## Trouble-Shooting
 
 We've outlined some common issues that can occur in the running of the Image Service:
+
+### My Integration Tests are failing or running too long
+
+We implemented redis caching to track image hostnames, but Heroku will change database URLs from time to time and you might need to update `REDIS_URL` in doppler in `CI` config to run integration tests successfully.
 
 ### Requesting a PNG but being returned a JPG, why is that?
 
