@@ -4,8 +4,7 @@ require('dotenv').config();
 
 const imageService = require('./lib/image-service');
 const throng = require('throng');
-const {createClient} = require('redis');
-
+const {getRedisClient} = require('./lib/redis-client');
 const options = {
 	contentApiKey: process.env.CONTENT_API_KEY,
 	cloudinaryAccountName: process.env.CLOUDINARY_ACCOUNT_NAME,
@@ -34,29 +33,7 @@ throng({
 async function startWorker(id) {
 	console.log(`Started worker ${id}`);
 	try {
-		let redisDb;
-		const redisConfig = {
-			url: process.env.REDIS_URL,
-			socket: {
-				tls: true,
-				rejectUnauthorized: false
-			}
-		};
-
-		// FOR CI we don't set the REGION env variable and to test integration tests we don't want to have tls enabled
-		if (!process.env.REGION) {
-			delete redisConfig.socket;
-		}
-
-		if (process.env.REGION === 'LOCAL') {
-			redisDb = await createClient();
-		} else {
-			redisDb = await createClient(redisConfig);
-		}
-		
-		redisDb.on('error', err => console.log('Redis Client Error', err)).connect();
-		
-		options.redisClient = redisDb;
+		options.redisClient = await getRedisClient();
 	} catch (err) {
 		console.log('Redis Client Error', err);
 	}
