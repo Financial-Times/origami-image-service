@@ -7,7 +7,7 @@ const {v4: generateUuid} = require('uuid');
 
 const usingExternalServer = Boolean(process.env.HOST);
 const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
-const {getRedisClient} = require('../../../lib/redis-client');
+const redisClient = require('../../../lib/redis-client');
 
 describe('GET /__origami/service/image/v2/images/raw…', function() {
 
@@ -990,8 +990,8 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
 			});
-
-			describe('http', async function() {
+			
+			describe.only('http', async function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.http}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cDovL29yaWdhbWkta/);
@@ -999,42 +999,45 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['timing-allow-origin'], '*');
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
-				it.only('adds hostname in reddis database', async function() {
-					const redisClient = await getRedisClient();
-					await redisClient.sendCommand(['DEL', 'hostnames']);
-					const imageUrl = testImageUris.imgUrlsForHostnamesHTTP;
-					const url = new URL(imageUrl);
-					const hostName = url.hostname;
-					await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`);
-					const reply = await redisClient.sendCommand(['SISMEMBER', 'hostnames', hostName]);
-					assert.equal(reply, 1);
-					redisClient.quit();
-				});
 			});
-			describe('https', async function() {
-				it.only('adds correct surrogate keys', async function() {
+			
+			describe.only('https', async function() {
+				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.https}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cHM6Ly9vcmlnYW1pL/);
 					assert.match(response.headers['surrogate-key'], /origami-image-service/);
 					assert.equal(response.headers['timing-allow-origin'], '*');
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
-				it.only('adds hostname in reddis database', async function() {
-					const redisClient = await getRedisClient();
-					console.log('1', await redisClient.sendCommand(['SMEMBERS', 'hostnames']));
-					const del = await redisClient.sendCommand(['DEL', 'hostnames']);
-					console.log('del', del);
+			});
+
+			describe.only('http and https', async function() {
+				beforeEach(async () => {
+					await redisClient.del('hostnames');
+				});
+				after(() => {
+					redisClient.disconnect();
+				});
+
+				it('adds HTPP hostname in reddis database', async function() {
+					const imageUrl = testImageUris.imgUrlsForHostnamesHTTP;
+					const url = new URL(imageUrl);
+					const hostName = url.hostname;
+					await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`);
+					const reply = await redisClient.sismember('hostnames', hostName);
+					assert.equal(reply, 1);
+				});
+
+				it('adds HTTPS hostname in reddis database', async function() {
 					const imageUrl = testImageUris.imgUrlsForHostnamesHTTPS;
 					const url = new URL(imageUrl);
 					const hostName = url.hostname;
 					await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`);
-					console.log('2',await redisClient.sendCommand(['SMEMBERS', 'hostnames']));
-					const reply = await redisClient.sendCommand(['SISMEMBER', 'hostnames',hostName]);
+					const reply = await redisClient.sismember('hostnames', hostName);
 					assert.equal(reply, 1);
-					redisClient.quit();
 				});
 			});
-
+			
 			describe('protocolRelativeftcms', function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.protocolRelativeftcms}?source=origami-image-service`);

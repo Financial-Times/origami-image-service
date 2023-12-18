@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const imageService = require('./lib/image-service');
 const throng = require('throng');
-const {getRedisClient} = require('./lib/redis-client');
+const redisClient = require('./lib/redis-client');
 const options = {
 	contentApiKey: process.env.CONTENT_API_KEY,
 	cloudinaryAccountName: process.env.CLOUDINARY_ACCOUNT_NAME,
@@ -33,7 +33,7 @@ throng({
 async function startWorker(id) {
 	console.log(`Started worker ${id}`);
 	try {
-		options.redisClient = await getRedisClient();
+		options.redisClient = redisClient;
 	} catch (err) {
 		console.log('Redis Client Error', err);
 	}
