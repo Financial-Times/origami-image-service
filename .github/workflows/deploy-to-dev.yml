@@ -36,4 +36,3 @@ jobs:
       - run: HOST="https://origami-image-service-dev.herokuapp.com" make test-integration
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-

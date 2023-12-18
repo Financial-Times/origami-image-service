@@ -175,7 +175,7 @@ We've outlined some common issues that can occur in the running of the Image Ser
 
 ### My Integration Tests are failing or running too long
 
-We implemented redis caching to track image hostnames, but Heroku will change database URLs from time to time and you might need to update `REDIS_URL` in doppler in `C` config to run integration tests successfully.
+We implemented redis caching to track image hostnames, but Heroku will change database URLs from time to time and you might need to update `REDIS_URL` in doppler in `CI` config to run integration tests successfully.
 
 ### Requesting a PNG but being returned a JPG, why is that?
 

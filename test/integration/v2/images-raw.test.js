@@ -991,7 +991,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				});
 			});
 			
-			describe.only('http', async function() {
+			describe('http', async function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.http}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cDovL29yaWdhbWkta/);
@@ -1001,7 +1001,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				});
 			});
 			
-			describe.only('https', async function() {
+			describe('https', async function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.https}?source=origami-image-service`);
 					assert.match(response.headers['surrogate-key'], /aHR0cHM6Ly9vcmlnYW1pL/);
@@ -1011,8 +1011,8 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				});
 			});
 
-			describe.only('http and https', async function() {
-				beforeEach(async () => {
+			describe('http and https', async function() {
+				before(async () => {
 					await redisClient.del('hostnames');
 				});
 				after(() => {
@@ -1077,7 +1077,6 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
 			});
-
 		});
 	});
 });
