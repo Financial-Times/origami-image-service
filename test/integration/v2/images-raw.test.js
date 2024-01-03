@@ -11,6 +11,22 @@ const redisClient = require('../../../lib/redis-client');
 
 describe('GET /__origami/service/image/v2/images/raw…', function() {
 
+	describe('An image from a CDN with bot protection, which checks the user agent header', function() {
+		// http https://i.prcdn.co/img?cid=V99C 'User-Agent: \r' --headers
+		// HTTP/1.1 403 Forbidden
+		//
+		// http https://i.prcdn.co/img?cid=V99C 'User-Agent: \n' --headers
+		// HTTP/1.1 200 Success
+		it('responds with a 200 status', async function() {
+			const response = await axios.get(`/__origami/service/image/v2/images/raw/https%3A%2F%2Fi.prcdn.co%2Fimg%3Fcid%3DV99C?source=origami-image-service`);
+			assert.equal(response.status, 200);
+			assert.equal(response.headers['content-type'], 'image/jpeg');
+			assert.match(response.headers['surrogate-key'], /origami-image-service/);
+			assert.equal(response.headers['timing-allow-origin'], '*');
+			assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
+		});
+	});
+
 	describe('/http://blogs.r.ftdata.co.uk', function() {
 		it('responds with a 200 status', async function() {
 			const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.oldLiveBlogsDomainHttp}?source=origami-image-service`);
@@ -990,7 +1006,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
 			});
-			
+
 			describe('http', async function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.http}?source=origami-image-service`);
@@ -1000,7 +1016,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(response.headers['ft-suppress-friendly-error'], 'true');
 				});
 			});
-			
+
 			describe('https', async function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.https}?source=origami-image-service`);
@@ -1037,7 +1053,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					assert.equal(reply, 1);
 				});
 			});
-			
+
 			describe('protocolRelativeftcms', function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.protocolRelativeftcms}?source=origami-image-service`);
