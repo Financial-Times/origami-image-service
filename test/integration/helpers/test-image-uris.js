@@ -40,5 +40,6 @@ module.exports = {
 	notFound: 'http://google.com/404',
 	nonSvg: 'https://im.ft-static.com/content/images/a60ae24b-b87f-439c-bf1b-6e54946b4cf2.img',
 	imgUrlsForHostnamesHTTPS: 'https://images.unsplash.com/photo-1683009427598-9c21a169f98f',
-	imgUrlsForHostnamesHTTP: 'http://free-images.com/lg/65c4/lilac_syringa_ornamental_shrub.jpg'
+	imgUrlsForHostnamesHTTP: 'http://free-images.com/lg/65c4/lilac_syringa_ornamental_shrub.jpg',
+	imgUrlsFromABlockedHostname: 'https://email-platform-ftcom-meme.s3.amazonaws.com/images/example.jpeg'
 };

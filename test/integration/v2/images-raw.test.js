@@ -1064,6 +1064,13 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 				});
 			});
 
+			describe('imgUrlsFromABlockedHostname', function() {
+				it('returns 403', async function() {
+					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.imgUrlsFromABlockedHostname}?source=origami-image-service`);
+					assert.equal(response.status, 403);
+				});
+			});
+
 			describe('protocolRelative', function() {
 				it('adds correct surrogate keys', async function() {
 					const response = await axios.get(`/__origami/service/image/v2/images/raw/${testImageUris.protocolRelative}?source=origami-image-service`);
