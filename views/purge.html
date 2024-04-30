@@ -8,15 +8,19 @@
 
 <h2>Purging via Fastly</h2>
 
-<p>Ensure you have sufficient access via Okta.</p>
+<p>[Ensure you have sufficient access](https://tech.in.ft.com/tech-topics/content-delivery/fastly#how-do-i-get-access) via Okta.</p>
 
 <p>
-	Ensure you have a Surrogate Key of the image you want to purge. This can be found by encoding the image URI or URL to base64 with <code>echo "<-- URI OR URL -->" | base64</code>
+	Ensure you have a Surrogate Key of the image you want to purge. This can be found either by:
 </p>
 
+<ul>
+	<li>Encoding the source image URI or URL to base64 with <code>echo "<-- URI OR URL -->" | base64</code>; or</li>
+	<li>Making a request to the Image Service url with the <code>Fastly-Debug: true</code> header set. This will return a <code>surrogate-key</code> response header which contains a list of applicable keys. Select the one which represents your source url with base64 encoding.</li>
+</ul>
 
 <p>
-	Once the base64 encoded key is obtained, you can purge the image from Fastly by using the following steps:
+	Once you have the base64 encoded key, you can purge the image from Fastly by using the following steps:
 </p>
 <ol>
 	<li>Log into Fastly via Okta.</li>
