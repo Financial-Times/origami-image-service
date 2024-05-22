@@ -29,7 +29,7 @@ Before we can run the application, we'll need to install dependencies:
 npm install
 ```
 
-You will also need to have redis server running locally. You can download and run redis server using brew: 
+You will also need to have redis server running locally. You can download and run redis server using brew:
 
 ```sh
 brew install redis
@@ -86,6 +86,13 @@ doppler secrets download --no-file --format env-no-quotes > .env
 - `REGION`: The region the application is running in. One of `QA`, `EU`, or `US`
 - `RELEASE_LOG_ENVIRONMENT`: The Salesforce environment to include in release logs. One of `Test` or `Production`
 - `SENTRY_DSN`: The Sentry URL to send error information to
+
+Open [Telemetry API configuration](https://tech.in.ft.com/tech-topics/observability/opentelemetry/heroku):
+- `OTEL_EXPORTER_OTLP_API_KEY`
+- `OTEL_EXPORTER_OTLP_COMPRESSION`
+- `OTEL_EXPORTER_OTLP_METRICS_ENDPOINT`
+- `OTEL_NODE_RESOURCE_DETECTORS`
+- `OTEL_SERVICE_NAME`
 
 **TODO:** The options below are required at the moment, but are duplicates of other options above. This will be addressed once all services are using Origami Makefile.
 

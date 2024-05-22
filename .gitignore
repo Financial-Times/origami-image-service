@@ -6,3 +6,5 @@ npm-debug.log
 ws-*
 .nyc_output
 .DS_Store
+.idea
+.vscode
