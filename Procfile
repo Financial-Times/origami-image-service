@@ -1,1 +1,1 @@
-web: npm start -- --require ./opentelemetry.js
+web: npm start
