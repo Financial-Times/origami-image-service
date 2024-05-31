@@ -21,7 +21,6 @@ const {
 const {
 	SEMRESATTRS_CLOUD_PROVIDER,
 	SEMRESATTRS_DEPLOYMENT_ENVIRONMENT,
-	SEMRESATTRS_SERVICE_INSTANCE_ID,
 	SEMRESATTRS_SERVICE_VERSION,
 } = require('@opentelemetry/semantic-conventions');
 
@@ -32,7 +31,6 @@ const resource = new Resource({
 	['heroku.release.creation_timestamp']: process.env.HEROKU_RELEASE_CREATED_AT,
 	[SEMRESATTRS_CLOUD_PROVIDER]: 'heroku',
 	[SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV,
-	[SEMRESATTRS_SERVICE_INSTANCE_ID]: process.env.HEROKU_DYNO_ID,
 	[SEMRESATTRS_SERVICE_VERSION]: process.env.HEROKU_RELEASE_VERSION,
 });
 
