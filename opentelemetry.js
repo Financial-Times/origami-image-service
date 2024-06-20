@@ -29,6 +29,7 @@ const resource = new Resource({
 	['heroku.app.id']: process.env.HEROKU_APP_ID,
 	['heroku.release.commit']: process.env.HEROKU_SLUG_COMMIT,
 	['heroku.release.creation_timestamp']: process.env.HEROKU_RELEASE_CREATED_AT,
+	['heroku.dyno.name']: process.env.DYNO,
 	[SEMRESATTRS_CLOUD_PROVIDER]: 'heroku',
 	[SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV,
 	[SEMRESATTRS_SERVICE_VERSION]: process.env.HEROKU_RELEASE_VERSION,
