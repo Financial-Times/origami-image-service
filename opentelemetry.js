@@ -1,5 +1,5 @@
 'use strict';
-console.log('starting metrics');
+
 const {NodeSDK} = require('@opentelemetry/sdk-node');
 const {NoopSpanProcessor} = require('@opentelemetry/sdk-trace-base');
 const {PeriodicExportingMetricReader} = require('@opentelemetry/sdk-metrics');
