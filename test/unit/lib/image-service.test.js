@@ -8,7 +8,6 @@ const sinon = require('sinon');
 describe('lib/image-service', () => {
 	let about;
 	let basePath;
-	let CloudinaryMetrics;
 	let healthChecks;
 	let httpProxy;
 	let imageService;
@@ -26,8 +25,6 @@ describe('lib/image-service', () => {
 		healthChecks = require('../mock/health-checks.mock');
 		mockery.registerMock('./health-checks', healthChecks);
 
-		CloudinaryMetrics = sinon.stub();
-		mockery.registerMock('./cloudinary-metrics', CloudinaryMetrics);
 
 		httpProxy = require('../mock/http-proxy.mock');
 		mockery.registerMock('http-proxy', httpProxy);
