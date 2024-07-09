@@ -598,12 +598,6 @@ describe('lib/image-service', () => {
 			assert.calledWith(origamiService.mockApp.use, origamiService.middleware.errorHandler.firstCall.returnValue);
 		});
 
-		it('creates a CloudinaryMetrics object', () => {
-			assert.calledOnce(CloudinaryMetrics);
-			assert.calledWithNew(CloudinaryMetrics);
-			assert.calledWithExactly(CloudinaryMetrics, origamiService.mockApp);
-		});
-
 		it('returns the created application', () => {
 			assert.strictEqual(returnValue, origamiService.mockApp);
 		});

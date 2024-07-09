@@ -8,7 +8,6 @@ const {v4: generateUuid} = require('uuid');
 const usingExternalServer = Boolean(process.env.HOST);
 const onlyRunOnExternalServer = usingExternalServer ? describe : describe.skip;
 const redisClient = require('../../../lib/redis-client');
-
 describe('GET /__origami/service/image/v2/images/raw…', function() {
 
 	describe('An image from a CDN with bot protection, which checks the user agent header', function() {
@@ -1039,8 +1038,12 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					const imageUrl = testImageUris.imgUrlsForHostnamesHTTP;
 					const url = new URL(imageUrl);
 					const hostName = url.hostname;
-					await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`);
+					console.log(hostName);
+					await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`, {timeout: 30000});
 					const reply = await redisClient.sismember('hostnames', hostName);
+					const members = await redisClient.smembers('hostnames');
+					console.log(members);
+					console.log(reply);
 					assert.equal(reply, 1);
 				});
 
