@@ -14,9 +14,6 @@ const mockApp = module.exports.mockApp = {
 	locals: {},
 	ft: {
 		log,
-		metrics: {
-			count: sinon.stub()
-		},
 		options: {}
 	},
 	set: sinon.stub(),
