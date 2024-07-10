@@ -1038,12 +1038,8 @@ describe('GET /__origami/service/image/v2/images/raw…', function() {
 					const imageUrl = testImageUris.imgUrlsForHostnamesHTTP;
 					const url = new URL(imageUrl);
 					const hostName = url.hostname;
-					console.log(hostName);
 					await axios.get(`/__origami/service/image/v2/images/raw/${imageUrl}?source=origami-image-service`, {timeout: 30000});
 					const reply = await redisClient.sismember('hostnames', hostName);
-					const members = await redisClient.smembers('hostnames');
-					console.log(members);
-					console.log(reply);
 					assert.equal(reply, 1);
 				});
 
