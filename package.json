@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"@financial-times/health-check": "2.1.6",
-		"@financial-times/origami-service": "6.0.0",
+		"@financial-times/origami-service": "7.0.0",
 		"@financial-times/origami-service-makefile": "7.0.3",
 		"@financial-times/source-param-middleware": "2.0.0",
 		"@opentelemetry/api": "^1.8.0",
