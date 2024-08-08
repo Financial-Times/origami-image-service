@@ -71,7 +71,7 @@
 		"clarify": "^2.1.0",
 		"color-contrast": "^1.0.0",
 		"denodeify": "1.2.1",
-		"eslint": "7.25.0",
+		"eslint": "9.8.0",
 		"husky": "^8.0.3",
 		"mocha": "10.2.0",
 		"mocha-github-actions-reporter": "^0.2.3",
