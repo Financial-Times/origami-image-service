@@ -46,7 +46,7 @@
 		"cloudinary": "1.40.0",
 		"colornames": "1.1.1",
 		"date-fns": "2.15.0",
-		"dompurify": "^2.4.7",
+		"dompurify": "^3.1.6",
 		"dotenv": "8.2.0",
 		"fastly-purge": "1.0.1",
 		"file-type": "^16.5.4",
