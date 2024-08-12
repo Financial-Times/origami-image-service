@@ -11,7 +11,7 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_AUTH_TOKEN }}
           heroku_app_name: origami-image-service-dev
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          team: ft-origami
+          team: financial-times
 
   create-change-log:
     needs: [deploy-dev]
