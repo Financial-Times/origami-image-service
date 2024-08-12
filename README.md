@@ -23,7 +23,7 @@ Running Origami Image Service requires [Node.js], [npm] and [git-lfs](https://gi
 
 ## Running Locally
 
-Before we can run the application, we'll need to install dependencies:
+Before we can run the application, we'll need to install dependencies: (If you have Volta installed it will install the the correct Node version also)
 
 ```sh
 npm install
@@ -88,6 +88,7 @@ doppler secrets download --no-file --format env-no-quotes > .env
 - `SENTRY_DSN`: The Sentry URL to send error information to
 
 Open [Telemetry API configuration](https://tech.in.ft.com/tech-topics/observability/opentelemetry/heroku):
+
 - `OTEL_EXPORTER_OTLP_API_KEY`
 - `OTEL_EXPORTER_OTLP_COMPRESSION`
 - `OTEL_EXPORTER_OTLP_METRICS_ENDPOINT`
