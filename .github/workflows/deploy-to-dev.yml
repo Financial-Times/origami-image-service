@@ -6,10 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.13.15
         with:
-          fetch-depth: 0
-      - name: Deploy to Heroku
-        run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git origin/$GITHUB_HEAD_REF:refs/heads/main --force --no-verify
+          heroku_api_key: ${{ secrets.HEROKU_AUTH_TOKEN }}
+          heroku_app_name: origami-image-service-dev
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          team: ft-origami
 
   create-change-log:
     needs: [deploy-dev]
@@ -20,9 +22,9 @@ jobs:
         name: Create new change log
         with:
           change-api-key: ${{ secrets.CHANGE_API_KEY }}
-          system-code: "origami-image-service-v2"
+          system-code: 'origami-image-service-v2'
           environment: dev
-          slack-channels: "ft-changes,origami-deploys"
+          slack-channels: 'ft-changes,origami-deploys'
 
   integration-tests:
     needs: [deploy-dev]
