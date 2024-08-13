@@ -55,7 +55,12 @@ const sdk = new NodeSDK({
 
 	instrumentations: [
 		// Enable automatic instrumentation, see https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node.
-		getNodeAutoInstrumentations(),
+		getNodeAutoInstrumentations({
+			// Ignore the high volume requests to /__gtg and /__health
+			'@opentelemetry/instrumentation-http': {
+				ignoreIncomingRequestHook: (request) => request.url.pathname.startsWith('/__'),
+			},
+		}),
 
 		// Collect Node.js runtime metrics, see https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/instrumentation-runtime-node.
 		new RuntimeNodeInstrumentation(),
