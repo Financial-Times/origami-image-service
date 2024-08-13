@@ -60,8 +60,8 @@ const sdk = new NodeSDK({
 				// Ignore the high volume requests to /__gtg and /__health
 				ignoreIncomingRequestHook: (request) => [
 					'/__gtg',
-					'/__health'
-				].some(path => request.url.pathname == path),
+					'/__health',
+				].some(route => request.url.pathname === route),
 
 				// Ignore client requests to unknown third-parties (avoids too many metric active series in this image proxy)
 				ignoreOutgoingRequestHook: (request) => [
