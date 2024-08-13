@@ -88,6 +88,7 @@ doppler secrets download --no-file --format env-no-quotes > .env
 - `SENTRY_DSN`: The Sentry URL to send error information to
 
 Open [Telemetry API configuration](https://tech.in.ft.com/tech-topics/observability/opentelemetry/heroku):
+
 - `OTEL_EXPORTER_OTLP_API_KEY`
 - `OTEL_EXPORTER_OTLP_COMPRESSION`
 - `OTEL_EXPORTER_OTLP_METRICS_ENDPOINT`
@@ -162,6 +163,27 @@ make promote
 Alternatively you can use labels on pull requests to promote to production. If you add the label `release:major`, `release:minor` or `release:patch` to a pull request, it will be promoted to production when it is merged. This is useful for small changes, or if you don't have access to the Heroku pipeline. But if changes are large, or you want to test them on QA first, you should merge PR without a label and test on QA.
 
 Creating release manually from github will also promote to production.
+
+## Dependency management (Dependabot)
+
+This repository uses Dependabot for automated dependency management. Dependabot regularly checks for outdated dependencies in the project and automatically creates pull requests to update them. This helps ensure that the project stays up-to-date with the latest versions, improving security and functionality.
+
+By leveraging Dependabot, we can:
+
+- Automatically receive notifications for new versions of dependencies.
+- Keep our dependencies secure and up-to-date.
+- Reduce the manual effort required to manage dependency updates.
+
+How to manage open Dependabot PRs?
+
+- Most of the time the PRs that Dependabot raises will be automerged if it meets all the status checks, if there are open PRs they require more investigation. Also, if there are multiple PRs raised by Dependabot at once, there will be multiple requests for PRs to be deployed on `origami-image-service-dev` Heroku app.
+
+1. Identify a PR you want to tackle and re-run the status checks. If they all pass it will be automatically merged and deployed to [QA][heroku-qa] app
+
+   - If this fails on one of the status checks: Review the changes proposed by Dependabot to ensure they are compatible with the project. This involves checking out the branch and running locally and fixing where appropiate.
+
+2. Review the [QA][heroku-qa] app to check the app is running normally
+3. Promote to production
 
 ## Scheduled Tasks
 
