@@ -22,7 +22,6 @@ const {
 	SEMRESATTRS_CLOUD_PROVIDER,
 	SEMRESATTRS_DEPLOYMENT_ENVIRONMENT,
 	SEMRESATTRS_SERVICE_VERSION,
-	SEMRESATTRS_NET_PEER_NAME,
 } = require('@opentelemetry/semantic-conventions');
 
 // Set the resource attributes for this Heroku app.
