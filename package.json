@@ -26,7 +26,7 @@
 		"precommit": "prettier --write"
 	},
 	"dependencies": {
-		"@financial-times/health-check": "2.1.6",
+		"@financial-times/health-check": "4.0.0",
 		"@financial-times/origami-service": "7.0.0",
 		"@financial-times/origami-service-makefile": "7.0.3",
 		"@financial-times/source-param-middleware": "2.0.0",
@@ -83,7 +83,7 @@
 		"prettier": "^3.1.1",
 		"proclaim": "3.6.0",
 		"sinon": "10.0.1",
-		"start-server-and-test": "^1.14.0",
+		"start-server-and-test": "^2.0.5",
 		"supertest": "6.1.3",
 		"trace": "^3.1.1"
 	},
