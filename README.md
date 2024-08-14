@@ -88,6 +88,7 @@ doppler secrets download --no-file --format env-no-quotes > .env
 - `SENTRY_DSN`: The Sentry URL to send error information to
 
 Open [Telemetry API configuration](https://tech.in.ft.com/tech-topics/observability/opentelemetry/heroku):
+
 - `OTEL_EXPORTER_OTLP_API_KEY`
 - `OTEL_EXPORTER_OTLP_COMPRESSION`
 - `OTEL_EXPORTER_OTLP_METRICS_ENDPOINT`
