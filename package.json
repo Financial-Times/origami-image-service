@@ -24,7 +24,7 @@
 		"lint": "node_modules/.bin/eslint \"**/*.js\"",
     	"lint:fix": "npm run lint -- --fix",
 		"start": "heroku-node-settings --require ./opentelemetry.js index.js",
-		"dev": "doppler run -c local -- node --stack_trace_limit=100 -r trace -r clarify index.js",
+		"dev": "node --stack_trace_limit=100 -r trace -r clarify index.js",
 		"precommit": "prettier --write"
 	},
 	"dependencies": {
