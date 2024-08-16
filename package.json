@@ -21,6 +21,8 @@
 	},
 	"main": "./lib/image-service.js",
 	"scripts": {
+		"lint": "node_modules/.bin/eslint \"**/*.js\"",
+    	"lint:fix": "npm run lint -- --fix",
 		"start": "heroku-node-settings --require ./opentelemetry.js index.js",
 		"dev": "node --stack_trace_limit=100 -r trace -r clarify index.js",
 		"precommit": "prettier --write"
@@ -71,7 +73,7 @@
 		"clarify": "^2.1.0",
 		"color-contrast": "^1.0.0",
 		"denodeify": "1.2.1",
-		"eslint": "7.25.0",
+		"eslint": "^9.9.0",
 		"husky": "^8.0.3",
 		"mocha": "10.2.0",
 		"mocha-github-actions-reporter": "^0.2.3",

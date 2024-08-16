@@ -1,4 +1,4 @@
-'use strict';
+
 
 const assert = require('proclaim');
 const make = require('../../../lib/make-text-for-transform');

@@ -1,4 +1,4 @@
-'use strict';
+
 
 const {NodeSDK} = require('@opentelemetry/sdk-node');
 const {NoopSpanProcessor} = require('@opentelemetry/sdk-trace-base');

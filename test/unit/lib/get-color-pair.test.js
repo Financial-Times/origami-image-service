@@ -1,4 +1,4 @@
-'use strict';
+
 
 const assert = require('proclaim');
 const getColorPair = require('../../../lib/get-color-pair');
