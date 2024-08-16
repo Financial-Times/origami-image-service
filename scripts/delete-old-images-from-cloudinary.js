@@ -1,4 +1,4 @@
-'use strict';
+
 
 require('dotenv').config();
 require('make-promises-safe'); // installs an 'unhandledRejection' handler

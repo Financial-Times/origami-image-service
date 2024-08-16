@@ -1,4 +1,4 @@
-'use strict';
+
 
 const assert = require('proclaim');
 const axios = require('../helpers/axios');
@@ -16,7 +16,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function () {
 		// HTTP/1.1 200 Success
 		it('responds with a 200 status', async function () {
 			const response = await axios.get(
-				`/__origami/service/image/v2/images/raw/https%3A%2F%2Fi.prcdn.co%2Fimg%3Fcid%3DV99C?source=origami-image-service`
+				'/__origami/service/image/v2/images/raw/https%3A%2F%2Fi.prcdn.co%2Fimg%3Fcid%3DV99C?source=origami-image-service'
 			);
 			assert.equal(response.status, 200);
 			assert.equal(response.headers['content-type'], 'image/jpeg');
@@ -656,7 +656,7 @@ describe('GET /__origami/service/image/v2/images/raw…', function () {
 		});
 	});
 
-	describe("when the 'format' query parameter is 'auto'", () => {
+	describe('when the \'format\' query parameter is \'auto\'', () => {
 		const firefoxUA =
 			'Mozilla/5.0 (Android 4.4; Tablet; rv:41.0) Gecko/41.0 Firefox/41.0';
 		const chromeUA =

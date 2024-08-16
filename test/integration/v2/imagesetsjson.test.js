@@ -1,4 +1,4 @@
-'use strict';
+
 
 const assert = require('proclaim');
 const axios = require('../helpers/axios');

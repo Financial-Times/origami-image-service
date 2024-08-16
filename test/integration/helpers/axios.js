@@ -1,4 +1,4 @@
-'use strict';
+
 
 const process = require('process');
 const axios = require('axios').default;
