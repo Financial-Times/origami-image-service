@@ -57,11 +57,8 @@ const sdk = new NodeSDK({
 		// Enable automatic instrumentation, see https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node.
 		getNodeAutoInstrumentations({
 			'@opentelemetry/instrumentation-http': {
-				// Ignore the high volume requests to /__gtg and /__health
-				ignoreIncomingRequestHook: (request) => [
-					'/__gtg',
-					'/__health',
-				].some(route => request.url.pathname === route),
+				// Ignore the high volume requests to /__gtg
+				ignoreIncomingRequestHook: (request) => request.method?.toUpperCase() === 'HEAD',
 
 				// Ignore client requests to unknown third-parties (avoids too many metric active series in this image proxy)
 				ignoreOutgoingRequestHook: (request) => [
