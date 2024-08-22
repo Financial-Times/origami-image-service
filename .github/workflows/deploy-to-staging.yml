@@ -8,10 +8,10 @@ jobs:
   deploy-to-staging:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-qa.git HEAD:refs/heads/main --force --no-verify
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-qa.git HEAD:refs/heads/main --force --no-verify
 
   create-change-log:
     needs: [deploy-to-staging]
@@ -22,9 +22,9 @@ jobs:
         name: Create new change log
         with:
           change-api-key: ${{ secrets.CHANGE_API_KEY }}
-          system-code: "origami-image-service-v2"
+          system-code: 'origami-image-service-v2'
           environment: test
-          slack-channels: "ft-changes,origami-deploys"
+          slack-channels: 'ft-changes,origami-deploys'
 
   integration-tests:
     needs: [deploy-to-staging]
@@ -36,5 +36,3 @@ jobs:
           node-version: 18.x
       - run: npm ci
       - run: HOST="https://origami-image-service-qa.herokuapp.com" make test-integration
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
