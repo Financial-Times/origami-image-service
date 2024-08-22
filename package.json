@@ -22,7 +22,7 @@
 	"main": "./lib/image-service.js",
 	"scripts": {
 		"lint": "node_modules/.bin/eslint \"**/*.js\"",
-    	"lint:fix": "npm run lint -- --fix",
+		"lint:fix": "npm run lint -- --fix",
 		"start": "heroku-node-settings --require ./opentelemetry.js index.js",
 		"dev": "node --stack_trace_limit=100 -r trace -r clarify index.js",
 		"precommit": "prettier --write"
@@ -55,7 +55,6 @@
 		"heroku-node-settings": "1.1.0",
 		"http-errors": "1.8.0",
 		"http-proxy": "1.18.1",
-		"ioredis": "^5.3.2",
 		"jsdom": "24.1.1",
 		"make-promises-safe": "^5.1.0",
 		"mime-types": "^2.1.33",
