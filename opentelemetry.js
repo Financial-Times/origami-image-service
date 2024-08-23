@@ -1,18 +1,18 @@
 
 
-const {NodeSDK} = require('@opentelemetry/sdk-node');
-const {NoopSpanProcessor} = require('@opentelemetry/sdk-trace-base');
-const {PeriodicExportingMetricReader} = require('@opentelemetry/sdk-metrics');
+const { NodeSDK } = require('@opentelemetry/sdk-node');
+const { NoopSpanProcessor } = require('@opentelemetry/sdk-trace-base');
+const { PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const {
 	getNodeAutoInstrumentations,
 } = require('@opentelemetry/auto-instrumentations-node');
 const {
 	OTLPMetricExporter,
 } = require('@opentelemetry/exporter-metrics-otlp-proto');
-const {Resource} = require('@opentelemetry/resources');
+const { Resource } = require('@opentelemetry/resources');
 
 // Instrumentation that is not included by @opentelemetry/auto-instrumentations-node.
-const {HostMetrics} = require('@opentelemetry/host-metrics');
+const { HostMetrics } = require('@opentelemetry/host-metrics');
 const {
 	RuntimeNodeInstrumentation,
 } = require('@opentelemetry/instrumentation-runtime-node');
@@ -55,7 +55,20 @@ const sdk = new NodeSDK({
 
 	instrumentations: [
 		// Enable automatic instrumentation, see https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node.
-		getNodeAutoInstrumentations(),
+		getNodeAutoInstrumentations({
+			'@opentelemetry/instrumentation-http': {
+				// Ignore the high volume requests to /__gtg
+				ignoreIncomingRequestHook: (request) => request.method?.toUpperCase() === 'HEAD',
+
+				// Ignore client requests to unknown third-parties (avoids too many metric active series in this image proxy)
+				ignoreOutgoingRequestHook: (request) => [
+					'amazonaws.com',
+					'cloudinary.com',
+					'ft.com',
+					'herokuapp.com',
+				].every(domain => !request.host.endsWith(domain))
+			},
+		}),
 
 		// Collect Node.js runtime metrics, see https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/instrumentation-runtime-node.
 		new RuntimeNodeInstrumentation(),

@@ -20,9 +20,9 @@ jobs:
         name: Create new change log
         with:
           change-api-key: ${{ secrets.CHANGE_API_KEY }}
-          system-code: "origami-image-service-v2"
+          system-code: 'origami-image-service-v2'
           environment: dev
-          slack-channels: "ft-changes,origami-deploys"
+          slack-channels: 'ft-changes,origami-deploys'
 
   integration-tests:
     needs: [deploy-dev]
@@ -34,5 +34,3 @@ jobs:
           node-version: 18.x
       - run: npm ci
       - run: HOST="https://origami-image-service-dev.herokuapp.com" make test-integration
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
