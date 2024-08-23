@@ -33,7 +33,7 @@ describe('lib/transformers/cloudinary', () => {
 		});
 
 		it('returns a Cloudinary upload URL', () => {
-			assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+			assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 		});
 
 		describe('when `transform` has a `width` property', () => {
@@ -44,7 +44,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72,w_123/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72,w_123/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -57,7 +57,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,h_123,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,h_123,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -70,7 +70,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,dpr_2,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,dpr_2,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -83,7 +83,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fit,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fit,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -96,7 +96,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -109,7 +109,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_scale,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_scale,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -122,7 +122,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_limit,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_limit,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -135,7 +135,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,g_auto:faces,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,g_auto:faces,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -148,7 +148,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,g_auto:no_faces,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,g_auto:no_faces,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -161,7 +161,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_png,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_png,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -174,7 +174,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_30/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_30/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -187,7 +187,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/b_rgb:ff0000,c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/b_rgb:ff0000,c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -200,7 +200,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,e_tint:100:ff0000,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,e_tint:100:ff0000,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -213,7 +213,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,e_tint:100:ff0000:00ff00,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,e_tint:100:ff0000:00ff00,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -226,7 +226,7 @@ describe('lib/transformers/cloudinary', () => {
 			});
 
 			it('returns the expected Cloudinary upload URL', () => {
-				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive.immutable_cache,q_72/http://example.com/$'));
+				assert.match(cloudinaryUrl, new RegExp('^https://res.cloudinary.com/testaccount/image/upload/s--[^/]+--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive.immutable_cache,q_72/http://example.com/[?]_a=[^/]+$'));
 			});
 
 		});
@@ -260,7 +260,7 @@ describe('lib/transformers/cloudinary', () => {
 			};
 			const cloudinaryUrl = cloudinaryTransform(transform, options);
 
-			assert.equal(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/c_scale,fl_relative/fl_layer_apply.no_overflow,x_0,y_0/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
+			assert.equal(cloudinaryUrl, 'https://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/c_scale,fl_relative/fl_layer_apply.no_overflow,x_0,y_0/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52?_a=BAMAGSXu0');
 
 		});
 
@@ -283,7 +283,7 @@ describe('lib/transformers/cloudinary', () => {
 			};
 			const cloudinaryUrl = cloudinaryTransform(transform, options);
 
-			assert.equal(cloudinaryUrl, 'http://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/c_crop,fl_relative,h_50,w_150/fl_layer_apply.no_overflow,g_north_west,x_30,y_40/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
+			assert.equal(cloudinaryUrl, 'https://res.cloudinary.com/testaccount/image/upload/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/l_fetch:aHR0cDovL292ZXJsYXkuY29tLw/c_crop,fl_relative,h_50,w_150/fl_layer_apply.no_overflow,g_north_west,x_30,y_40/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52?_a=BAMAGSXu0');
 
 		});
 
@@ -298,7 +298,7 @@ describe('lib/transformers/cloudinary', () => {
 			};
 			const cloudinaryUrl = cloudinaryTransform(transform, options);
 
-			assert.equal(cloudinaryUrl, 'https://res.cloudinary.com/testaccount/image/upload/s--9OIPtX6Y--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52');
+			assert.equal(cloudinaryUrl, 'https://res.cloudinary.com/testaccount/image/upload/s--9OIPtX6Y--/c_fill,f_auto,fl_lossy.any_format.force_strip.progressive,q_72/5032c0754b4756b34aabc2383dbf5eef5e8d73ab5d10b74c9ee067b1879efd52?_a=BAMAGSXu0');
 
 		});
 	});
