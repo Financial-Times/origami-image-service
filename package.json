@@ -45,7 +45,7 @@
 		"@sentry/node": "^5.30.0",
 		"axios": "1.7.4",
 		"base-64": "0.1.0",
-		"cloudinary": "1.40.0",
+		"cloudinary": "2.4.0",
 		"colornames": "1.1.1",
 		"date-fns": "2.15.0",
 		"dompurify": "^3.1.6",
