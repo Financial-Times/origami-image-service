@@ -63,7 +63,7 @@
 		"require-all": "3.0.0",
 		"st": "^3.0.0",
 		"statuses": "2.0.1",
-		"svg-tint-stream": "1.0.1",
+		"svg-tint-stream": "1.0.4",
 		"throng": "4.0.0",
 		"utf8": "3.0.0",
 		"uuid": "^10.0.0"
