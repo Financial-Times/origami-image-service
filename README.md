@@ -283,3 +283,5 @@ The Financial Times has published this software under the [MIT license][license]
 [sentry-qa]: https://sentry.io/nextftcom/origami-image-service-qa/
 [service-options]: https://github.com/Financial-Times/origami-service#options
 [splunk]: https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice
+
+This could be removed, its for test.
