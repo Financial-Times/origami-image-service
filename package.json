@@ -58,7 +58,7 @@
 		"jsdom": "25.0.0",
 		"make-promises-safe": "^5.1.0",
 		"mime-types": "^2.1.33",
-		"path-exists": "^4.0.0",
+		"path-exists": "^5.0.0",
 		"probe-image-size": "^7.0.0",
 		"require-all": "3.0.0",
 		"st": "^3.0.0",
