@@ -1,9 +1,7 @@
-
-
 require('dotenv').config();
 
 const imageService = require('./lib/image-service');
-const throng = require('throng');
+const manageWorkers = require('./lib/manage-workers');
 
 const options = {
 	contentApiKey: process.env.CONTENT_API_KEY,
@@ -21,17 +19,19 @@ const options = {
 	workers: process.env.WEB_CONCURRENCY || 1,
 	apiKey: process.env.API_KEY,
 	fastlyApiKey: process.env.FASTLY_API_KEY,
-	fastlyServiceId: process.env.FASTLY_SERVICE_ID
+	fastlyServiceId: process.env.FASTLY_SERVICE_ID,
 };
 
-throng({
+manageWorkers({
 	workers: options.workers,
-	start: startWorker
+	start: startWorker,
 });
 
 function startWorker(id) {
 	console.log(`Started worker ${id}`);
-	imageService(options).listen().catch(() => {
-		process.exit(1);
-	});
+	imageService(options)
+		.listen()
+		.catch(() => {
+			process.exit(1);
+		});
 }
