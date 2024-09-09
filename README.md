@@ -183,12 +183,21 @@ The Origami Image Service uses a Heroku Schedule to run `scripts/delete-old-imag
 
 ## Monitoring
 
-- [Grafana dashboard][grafana]: graph memory, load, and number of requests
 - [Pingdom check (Production EU)][pingdom-eu]: checks that the EU production app is responding
 - [Pingdom check (Production US)][pingdom-us]: checks that the US production app is responding
 - [Sentry dashboard (Production)][sentry-production]: records application errors in the production app
 - [Sentry dashboard (QA)][sentry-qa]: records application errors in the QA app
-- [Splunk dashboard (Production)][splunk]: query application logs
+- [Grafana dashboard][grafana]: metrics from the Heroku apps
+	- graph memory
+	- request numbers
+	- 40x & 50x responses
+	- cloudinary credits
+	- alerts
+- [Splunk dashboard (Production)][splunk]: metrics from the `restricted_ftdotcom` splunk index
+	- http response codes
+	- erroring URLs
+	- requesting hosts
+	- requesting sources
 
 ## Trouble-Shooting
 
