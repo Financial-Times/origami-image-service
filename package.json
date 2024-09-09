@@ -43,7 +43,7 @@
 		"@opentelemetry/sdk-trace-base": "^1.26.0",
 		"@opentelemetry/semantic-conventions": "^1.24.1",
 		"@sentry/node": "^8.28.0",
-		"axios": "1.7.4",
+		"axios": "1.7.7",
 		"base-64": "1.0.0",
 		"cloudinary": "2.4.0",
 		"colornames": "1.1.1",
