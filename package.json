@@ -51,7 +51,7 @@
 		"dompurify": "^3.1.6",
 		"dotenv": "16.4.5",
 		"fastly-purge": "1.0.1",
-		"file-type": "^16.5.4",
+		"file-type": "^19.5.0",
 		"heroku-node-settings": "1.1.0",
 		"http-errors": "1.8.0",
 		"http-proxy": "1.18.1",
