@@ -76,16 +76,6 @@
 			"description": "README"
 		},
 		{
-			"url": "https://sentry.io/nextftcom/origami-image-service-producti/",
-			"category": "monitoring",
-			"description": "Sentry dashboard (Production)"
-		},
-		{
-			"url": "https://sentry.io/nextftcom/origami-image-service-qa/",
-			"category": "monitoring",
-			"description": "Sentry dashboard (QA)"
-		},
-		{
 			"url": "https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice",
 			"category": "monitoring",
 			"description": "Splunk dashboard (Production)"
