@@ -77,7 +77,6 @@ doppler secrets download --no-file --format env-no-quotes > .env
 - `PURGE_API_KEY`: The API key to require when somebody POSTs to the `/purge` endpoint. This should be a non-memorable string, for example a UUID
 - `REGION`: The region the application is running in. One of `QA`, `EU`, or `US`
 - `RELEASE_LOG_ENVIRONMENT`: The Salesforce environment to include in release logs. One of `Test` or `Production`
-- `SENTRY_DSN`: The Sentry URL to send error information to
 
 Open [Telemetry API configuration](https://tech.in.ft.com/tech-topics/observability/opentelemetry/heroku):
 
@@ -185,8 +184,6 @@ The Origami Image Service uses a Heroku Schedule to run `scripts/delete-old-imag
 
 - [Pingdom check (Production EU)][pingdom-eu]: checks that the EU production app is responding
 - [Pingdom check (Production US)][pingdom-us]: checks that the US production app is responding
-- [Sentry dashboard (Production)][sentry-production]: records application errors in the production app
-- [Sentry dashboard (QA)][sentry-qa]: records application errors in the QA app
 - [Grafana dashboard][grafana]: metrics from the Heroku apps
 	- graph memory
 	- request numbers
@@ -288,7 +285,5 @@ The Financial Times has published this software under the [MIT license][license]
 [pingdom-eu]: https://my.pingdom.com/newchecks/checks#check=2301115
 [pingdom-us]: https://my.pingdom.com/newchecks/checks#check=2301117
 [production-url]: https://www.ft.com/__origami/service/image/v2
-[sentry-production]: https://sentry.io/nextftcom/origami-image-service-producti/
-[sentry-qa]: https://sentry.io/nextftcom/origami-image-service-qa/
 [service-options]: https://github.com/Financial-Times/origami-service#options
 [splunk]: https://financialtimes.splunkcloud.com/en-US/app/search/origamiimageservice
