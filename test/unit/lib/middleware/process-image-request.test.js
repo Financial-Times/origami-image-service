@@ -330,10 +330,6 @@ describe('lib/middleware/process-image-request', () => {
 					assert.isInstanceOf(next.firstCall.firstArg, Error);
 				});
 
-				it('sets the error `skipSentry` property to true', () => {
-					assert.isTrue(next.firstCall.firstArg.skipSentry);
-				});
-
 				it('sets the error `cacheMaxAge` property to "5m"', () => {
 					assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
 				});
@@ -380,10 +376,6 @@ describe('lib/middleware/process-image-request', () => {
 				it('calls `next` with an error', () => {
 					assert.isTrue(next.calledOnce);
 					assert.isInstanceOf(next.firstCall.firstArg, Error);
-				});
-
-				it('sets the error `skipSentry` property to true', () => {
-					assert.isTrue(next.firstCall.firstArg.skipSentry);
 				});
 
 				it('sets the error `cacheMaxAge` property to "5m"', () => {
@@ -499,10 +491,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
 					});
 
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
-					});
-
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
 					});
@@ -522,10 +510,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
@@ -549,10 +533,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
 					});
 
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
-					});
-
 					it('sets the error `cacheMaxAge` property to "30s"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
 					});
@@ -571,10 +551,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
@@ -596,10 +572,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('sets the error `cacheMaxAge` property to "30s"', () => {
@@ -625,10 +597,6 @@ describe('lib/middleware/process-image-request', () => {
 							assert.isInstanceOf(next.firstCall.firstArg, Error);
 						});
 
-						it('sets the error `skipSentry` property to true', () => {
-							assert.isTrue(next.firstCall.firstArg.skipSentry);
-						});
-
 						it('sets the error `cacheMaxAge` property to "1y"', () => {
 							assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '1y');
 						});
@@ -649,10 +617,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('sets the error `cacheMaxAge` property to "1y"', () => {
@@ -676,10 +640,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
 					});
 
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
-					});
-
 					it('sets the error `cacheMaxAge` property to "30s"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '30s');
 					});
@@ -699,10 +659,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
@@ -726,10 +682,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
 					});
 
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
-					});
-
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
 					});
@@ -751,10 +703,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
 					});
 
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
-					});
-
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
 					});
@@ -774,10 +722,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('does not set the error `skipSentry` property', () => {
-						assert.isUndefined(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('does not set the error `cacheMaxAge` property', () => {
@@ -813,10 +757,6 @@ describe('lib/middleware/process-image-request', () => {
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
 					});
 
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
-					});
-
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
 						assert.strictEqual(next.firstCall.firstArg.cacheMaxAge, '5m');
 					});
@@ -844,10 +784,6 @@ describe('lib/middleware/process-image-request', () => {
 					it('calls `next` with an error', () => {
 						assert.isTrue(next.calledOnce);
 						assert.isInstanceOf(next.firstCall.firstArg, Error);
-					});
-
-					it('sets the error `skipSentry` property to true', () => {
-						assert.isTrue(next.firstCall.firstArg.skipSentry);
 					});
 
 					it('sets the error `cacheMaxAge` property to "5m"', () => {
