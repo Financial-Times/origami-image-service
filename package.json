@@ -46,7 +46,7 @@
 		"base-64": "1.0.0",
 		"cloudinary": "2.5.0",
 		"colornames": "1.1.1",
-		"date-fns": "3.6.0",
+		"date-fns": "4.0.0",
 		"dompurify": "^3.1.6",
 		"dotenv": "16.4.5",
 		"fastly-purge": "1.0.1",
