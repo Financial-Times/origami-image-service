@@ -54,7 +54,7 @@
 		"heroku-node-settings": "1.1.0",
 		"http-errors": "1.8.0",
 		"http-proxy": "1.18.1",
-		"jsdom": "25.0.0",
+		"jsdom": "25.0.1",
 		"make-promises-safe": "^5.1.0",
 		"mime-types": "^2.1.33",
 		"path-exists": "^5.0.0",
