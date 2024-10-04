@@ -40,20 +40,23 @@ Now you can access the app over HTTP on port `8080`: [http://localhost:8080/](ht
 
 ## Configuration
 
-We configure Origami Image Service using environment variables. In local development, configurations are set in a `.env` file. In production, these are set through Doppler project that will sync secrets to Heroku as well
+The Origami Image Service is configured using environment variables.
+
+- In local development, the configuration is managed using the doppler run -c dev command in the package.json script section.
+- In production, the secrets are synced to Heroku through the Doppler project.
 
 ### Add secrets locally
-
-Origami stores their secrets on Doppler to get them on your local development environment you will need to install the [Doppler CLI](https://docs.doppler.com/docs/install-cli), login in Doppler and run the following command to setup Doppler within the repo:
-
+Origami stores its secrets in Doppler. To access these secrets in your local development environment, follow the steps below:
+1. Install the Doppler CLI.
+2. Log in to Doppler and set up the repository by running the following command:
 ```sh
 doppler setup
 ```
 
-Setup will ask you to select the project you want to use, select origami-image-service-v2 and then select the local environment. Once setup is complete you can download the secrets to your local environment by running:
+3. After the setup is complete, start the service in development mode by running:
 
 ```sh
-doppler secrets download --no-file --format env-no-quotes > .env
+make run-dev
 ```
 
 **NOTE:** You might need to request contributor access to the Doppler project from the Origami team.

@@ -23,7 +23,7 @@
 	"scripts": {
 		"lint": "node_modules/.bin/eslint \"**/*.js\"",
 		"lint:fix": "npm run lint -- --fix",
-		"start": "doppler run -c dev -- node index.js",
+		"start": "node index.js",
 		"dev": "doppler run -c dev -- node --stack_trace_limit=100 --enable-source-maps index.js",
 		"precommit": "prettier --write"
 	},
