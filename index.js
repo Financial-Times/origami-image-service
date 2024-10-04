@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const imageService = require('./lib/image-service');
 const manageWorkers = require('./lib/manage-workers');
 
