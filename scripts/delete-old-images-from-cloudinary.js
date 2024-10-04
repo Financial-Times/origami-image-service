@@ -1,7 +1,4 @@
-
-
 require('dotenv').config();
-require('make-promises-safe'); // installs an 'unhandledRejection' handler
 
 const cloudinary = require('cloudinary').v2;
 cloudinary.config({
@@ -18,15 +15,21 @@ cloudinary.config({
 async function* getImagesUploaded30DaysAgo() {
 	let next_cursor;
 	do {
-		const result = await cloudinary.search
-			.expression('created_at:[31d TO 30d]')
-			.sort_by('created_at', 'asc')
-			.next_cursor(next_cursor)
-			.max_results(100)
-			.execute();
-		next_cursor = result.next_cursor;
-		const imageIDs = result.resources.map(resource => resource.public_id);
-		yield imageIDs;
+		try {
+			const result = await cloudinary.search
+				.expression('created_at:[31d TO 30d]')
+				.sort_by('created_at', 'asc')
+				.next_cursor(next_cursor)
+				.max_results(100)
+				.execute();
+			next_cursor = result.next_cursor;
+			const imageIDs = result.resources.map(resource => resource.public_id);
+			yield imageIDs;
+		} catch (error) {
+			console.error('Error fetching images:', error);
+			// Return early to stop further processing if there's an error
+			return;
+		}
 	} while (next_cursor);
 }
 
@@ -37,22 +40,21 @@ async function* getImagesUploaded30DaysAgo() {
  * @returns {Promise<number>} The total amount of images that were deleted, this includes images which were derived (such as webp conversions or different quality versions).
  */
 async function deleteImages(images) {
-	return new Promise((resolve, reject) => {
-		cloudinary.api.delete_resources(images, {
+	try {
+		const result = await cloudinary.api.delete_resources(images, {
 			keep_original: true
-		}, function (error, result) {
-			if (error) {
-				reject(error);
-			} else {
-				let amountOfImagesDeleted = 0;
-				for (const deleteCounts of Object.values(result.deleted_counts)) {
-					amountOfImagesDeleted += deleteCounts.original;
-					amountOfImagesDeleted += deleteCounts.derived;
-				}
-				resolve(amountOfImagesDeleted);
-			}
 		});
-	});
+
+		let amountOfImagesDeleted = 0;
+		for (const deleteCounts of Object.values(result.deleted_counts)) {
+			amountOfImagesDeleted += deleteCounts.original;
+			amountOfImagesDeleted += deleteCounts.derived;
+		}
+		return amountOfImagesDeleted;
+	} catch (error) {
+		console.error('Error deleting images:', error);
+		return 0; // continue processing
+	}
 }
 
 async function main() {
@@ -70,12 +72,10 @@ async function main() {
 		console.log(`delete-old-images-from-cloudinary: ${totalAmountOfImagesDeleted} Images Deleted In Total`);
 		console.log('delete-old-images-from-cloudinary: Finish');
 	} catch (e) {
-		console.log(e);
+		console.log('Error in main process:', e);
 	}
 }
 
-try {
-	main();
-} catch (e) {
-	console.log(e);
-}
+main().catch(e => {
+	console.error('Unhandled error in main:', e);
+});
