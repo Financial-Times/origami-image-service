@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('./opentelemetry');
 
 const imageService = require('./lib/image-service');
 const manageWorkers = require('./lib/manage-workers');
