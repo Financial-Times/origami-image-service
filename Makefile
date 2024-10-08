@@ -14,7 +14,7 @@ export PATH := $(PATH):$(NPM_BIN)
 # Run the service using nodemon, restarting when
 # local files change
 run-dev:
-	@nodemon --ext html,js,json --exec "npm run dev"
+	@npm run dev
 
 # Run the unit tests using mocha
 test-unit:
