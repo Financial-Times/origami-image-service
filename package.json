@@ -54,7 +54,6 @@
 		"http-proxy": "1.18.1",
 		"jsdom": "25.0.1",
 		"mime-types": "^2.1.33",
-		"path-exists": "^5.0.0",
 		"probe-image-size": "^7.0.0",
 		"require-all": "3.0.0",
 		"st": "^3.0.0",
