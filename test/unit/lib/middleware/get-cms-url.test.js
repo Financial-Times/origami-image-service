@@ -2,7 +2,7 @@
 
 const assert = require('proclaim');
 const nock = require('nock');
-const {v4: generateUuid} = require('uuid');
+const { randomUUID } = require('crypto');
 
 describe('lib/middleware/get-cms-url', () => {
 	let origamiService;
@@ -39,7 +39,7 @@ describe('lib/middleware/get-cms-url', () => {
 		});
 
 		describe('middleware(request, response, next)', () => {
-      const imageUuid = generateUuid();
+      const imageUuid = randomUUID();
       let scope;
       const v2Uri = `https://prod-upp-image-read.ft.com/${imageUuid}`;
 
@@ -66,7 +66,7 @@ describe('lib/middleware/get-cms-url', () => {
       });
 
 			describe('when the v2 API cannot find the image', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				const v1Uri = `https://im.ft-static.com/content/images/${imageUuid}.img`;
 				let nockScopeForV1Images;
 				let nockScopeForV2Images;
@@ -100,7 +100,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when neither the v1 or v2 API can find the image', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				let nockScopeForV1Images;
 				let nockScopeForV2Images;
 				let nockScopeForFallback;
@@ -131,7 +131,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when neither the v1, v2 API can find the image and the original image url does not exist', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				let responseError;
 				let nockScopeForV1Images;
 				let nockScopeForV2Images;
@@ -176,7 +176,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the ftcms URL has a querystring', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				const v2Uri = `https://prod-upp-image-read.ft.com/${imageUuid}?foo=bar`;
 				let scope;
 
@@ -210,7 +210,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the request errors', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				let responseError;
 				let scope;
 
@@ -234,7 +234,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the request fails a DNS lookup', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				let dnsError;
 				let responseError;
 				let scope;
@@ -262,7 +262,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the request connection resets', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				let resetError;
 				let responseError;
 				let scope;
@@ -291,7 +291,7 @@ describe('lib/middleware/get-cms-url', () => {
 			});
 
 			describe('when the request times out', () => {
-        const imageUuid = generateUuid();
+        const imageUuid = randomUUID();
 				let responseError;
 				let timeoutError;
 				let scope;
@@ -331,13 +331,13 @@ describe('lib/middleware/get-cms-url', () => {
         
         });
         it('is a string with special character in it', () => {
-          const invalidImageUuid = generateUuid().replace(/./g, '%');
+          const invalidImageUuid = randomUUID().replace(/./g, '%');
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
           assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         });
 
         it('has a random string after valid uuid', () => {
-          const invalidImageUuid = `${generateUuid}moreText`;
+          const invalidImageUuid = `${randomUUID()}moreText`;
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
           assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         });
