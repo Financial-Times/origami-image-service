@@ -337,7 +337,7 @@ describe('lib/middleware/get-cms-url', () => {
         });
 
         it('has a random string after valid uuid', () => {
-          const invalidImageUuid = `${randomUUID}moreText`;
+          const invalidImageUuid = `${randomUUID()}moreText`;
           origamiService.mockRequest.params.imageUrl = `ftcms:${invalidImageUuid}`;
           assert.throws(() => middleware(origamiService.mockRequest, origamiService.mockResponse), 'Image key is invalid');
         });
