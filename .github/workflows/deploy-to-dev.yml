@@ -6,10 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - run: git fetch --prune --unshallow
       - name: Deploy to Heroku
-        run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git origin/$GITHUB_HEAD_REF:refs/heads/main --force --no-verify
+        run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git HEAD:refs/heads/main --force
 
   create-change-log:
     needs: [deploy-dev]
@@ -28,32 +27,32 @@ jobs:
     needs: [deploy-dev]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-    - run: git config --global url."https://${{ secrets.ORIGAMI_GITHUB_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
-    - uses: actions/setup-node@v2.1.5
-      with:
-        node-version: 20.x
-    - run: npm ci
-    - run: make verify
-    - run: make test-unit-coverage
-      env:
-        CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
-        CLOUDINARY_ACCOUNT_NAME: ${{ secrets.CLOUDINARY_ACCOUNT_NAME }}
-        CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
-        CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
-        CUSTOM_SCHEME_STORE: ${{ secrets.CUSTOM_SCHEME_STORE }}
-        API_KEY: ${{ secrets.API_KEY }}
-        FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
-        FASTLY_SERVICE_ID: ${{ secrets.FASTLY_SERVICE_ID }}
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - run: git config --global url."https://${{ secrets.ORIGAMI_GITHUB_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
+      - uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 20.x
+      - run: npm ci
+      - run: make verify
+      - run: make test-unit-coverage
+        env:
+          CONTENT_API_KEY: ${{ secrets.CONTENT_API_KEY }}
+          CLOUDINARY_ACCOUNT_NAME: ${{ secrets.CLOUDINARY_ACCOUNT_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          CUSTOM_SCHEME_STORE: ${{ secrets.CUSTOM_SCHEME_STORE }}
+          API_KEY: ${{ secrets.API_KEY }}
+          FASTLY_API_KEY: ${{ secrets.FASTLY_API_KEY }}
+          FASTLY_SERVICE_ID: ${{ secrets.FASTLY_SERVICE_ID }}
 
   integration-tests:
-    needs: [deploy-dev,test]
+    needs: [deploy-dev, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.1.4
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: 20.x
       - run: npm ci
