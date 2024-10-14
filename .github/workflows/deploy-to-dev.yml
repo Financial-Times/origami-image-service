@@ -8,6 +8,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.ORIGAMI_GITHUB_TOKEN }}
       - name: Deploy to Heroku
         run: git push https://heroku:${{ secrets.HEROKU_AUTH_TOKEN }}@git.heroku.com/origami-image-service-dev.git origin/$GITHUB_HEAD_REF:refs/heads/main --force --no-verify
 
